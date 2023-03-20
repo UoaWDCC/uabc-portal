@@ -5,3 +5,7 @@ Project initiated by WDCC in 2023.
 
 - Nene Matsuki (Project Manager)
 - Michael Howell (Tech Lead)
+
+## Team Membersh
+
+- Harshal Damania (UX/UI Designer)
