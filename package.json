@@ -1,0 +1,9 @@
+{
+  "name": "uabc-portal",
+  "version": "0.1.0",
+  "repository": "git@github.com:UoaWDCC/uabc-portal.git",
+  "private": "true",
+  "workspaces": [
+    "packages/*"
+  ]
+}
