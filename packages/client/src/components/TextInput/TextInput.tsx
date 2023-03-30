@@ -6,7 +6,7 @@ import TextInputProps from "./TextInputProps"
 const TextInput = (props: TextInputProps) => {
     return (
         <fieldset style={{border: "solid", borderRadius: "5px", padding: "0px 10px"}}>
-            <legend style={{fontSize: "10px", left: "20px"}}>{props.label}</legend>
+            <legend style={{fontSize: "10px"}}>{props.label}</legend>
             <input
                 type="text"
                 defaultValue={props.value}
