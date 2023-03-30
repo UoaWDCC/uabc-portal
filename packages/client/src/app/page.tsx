@@ -9,7 +9,7 @@ export default function HomePage() {
     <div>
       <p>Welcome to UABC Booking Portal.</p>
       <TextInput
-        value={"Default"}
+        value={value}
         placeholder={"Placeholder"}
         label={"Text Input"}
         onChange={setValue}
