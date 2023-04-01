@@ -1,6 +1,5 @@
 import TextInputProps from "./TextInputProps"
 
-// TODO: fix border colour issue when focused 
 // TODO: ask about placeholder label
 
 const TextInput = (props: TextInputProps) => {
@@ -13,7 +12,7 @@ const TextInput = (props: TextInputProps) => {
                 defaultValue={props.value}
                 placeholder={props.placeholder}
                 onChange={(e) => props.onChange(e.target.value)}
-                className="border border-blue-600 active:border-blue-600 w-full rounded-md p-2"
+                className="ring-2 ring-blue-300 border-none outline-none focus:ring-blue-600 w-full rounded-md p-2"
             />
         </div>
     )
