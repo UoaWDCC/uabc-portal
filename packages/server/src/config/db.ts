@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
-const db =
-    "mongodb+srv://anpeteran:%21%40%23peter@cluster0.ikez69m.mongodb.net/?retryWrites=true&w=majority";
+const db = process.env.MONGODBURI;
 
 export const connectDB = async () => {
     try {
