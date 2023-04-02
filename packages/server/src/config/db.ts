@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const db = process.env.MONGODBURI;
+const db = process.env.MONGODB_URI;
 
 export const connectDB = async () => {
     try {
@@ -8,7 +8,7 @@ export const connectDB = async () => {
             await mongoose.connect(db);
             console.log("MongoDB is Connected...");
         } else {
-            throw new Error("Please provide MONGODBURI in .env file");
+            throw new Error("Please provide MONGODB_URI in the .env file");
         }
     } catch (err) {
         console.error((err as Error).message);

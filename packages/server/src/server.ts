@@ -1,9 +1,6 @@
 import { app } from "./app";
 import { connectDB } from "./config/db";
-import { Booking } from "./models/Booking";
-
-// @TODO: Delete this in production
-// console.log(Booking);
+import { Booking } from "./booking/booking";
 
 const port = process.env.PORT || 3001;
 
