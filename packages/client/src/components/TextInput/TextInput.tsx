@@ -1,18 +1,31 @@
 import TextInputProps from "./TextInputProps"
-
-// TODO: ask about placeholder label
+import { useState } from "react";
 
 const TextInput = (props: TextInputProps) => {
+    const [active, setActive] = useState(false)
+
+    const borderColour =  active ? "blue-500" : "blue-400"
+
     return (
         <div className="mx-8 my-4 relative">
-            <label htmlFor="input" className="absolute top-[-0.75rem] left-3 bg-white text-sm px-2">{props.label}</label>
+            <label
+                htmlFor="input"
+                className={
+                    active || props.value != "" ?
+                    `absolute top-[-0.75rem] left-3 bg-white text-sm px-2 text-${borderColour} transition-all` :
+                    "absolute left-3 top-1.5 text-gray-500 cursor-text transition-all"
+                }
+            >
+                {props.label}
+            </label>
             <input
                 id="input"
                 type="text"
                 defaultValue={props.value}
-                placeholder={props.placeholder}
                 onChange={(e) => props.onChange(e.target.value)}
-                className="ring-2 ring-blue-300 border-none outline-none focus:ring-blue-600 w-full rounded-md p-2"
+                onFocus={() => setActive(true)}
+                onBlur={() => setActive(false)}
+                className={`ring-2 ring-${borderColour} focus:ring-${borderColour} border-none outline-none w-full rounded-md p-2`}
             />
         </div>
     )
