@@ -15,4 +15,4 @@ Project initiated by WDCC in 2023.
 - Aditya Tendulka (Developer)
 - David Zhu (Developer)
 - Amisha Singh (Developer)
-- Angela Gui (Developer)
+- Angela Guo (Developer)
