@@ -9,9 +9,8 @@ export default function HomePage() {
     <div>
       <p>Welcome to UABC Booking Portal.</p>
       <TextInput
+        label="Label"
         value={value}
-        placeholder={"Placeholder"}
-        label={"Text Input"}
         onChange={setValue}
       />
       <p>{value}</p>
