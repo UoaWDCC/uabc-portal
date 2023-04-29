@@ -1,3 +1,7 @@
+/***
+ * @author Michael Howell <mh.michaelhowell@gmail.com>
+ */
+
 import {
     Controller,
     Get,

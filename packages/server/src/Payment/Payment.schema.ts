@@ -1,3 +1,7 @@
+/***
+ * @author Michael Howell <mh.michaelhowell@gmail.com>
+ */
+
 import { Schema, model } from "mongoose";
 
 export const paymentSchema = new Schema({

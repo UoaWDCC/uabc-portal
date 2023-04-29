@@ -1,4 +1,6 @@
-import { paymentSchema } from "./Payment.schema";
+/***
+ * @author Michael Howell <mh.michaelhowell@gmail.com>
+ */
 
 export class Payment {
 
