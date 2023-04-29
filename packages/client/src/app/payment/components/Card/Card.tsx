@@ -1,4 +1,6 @@
-// Author: aguo921 (Angela Guo)
+/**
+ * @author Angela Guo <aguo921@aucklanduni.ac.nz>
+ */
 
 // TODO: Make shadow surround entire div
 

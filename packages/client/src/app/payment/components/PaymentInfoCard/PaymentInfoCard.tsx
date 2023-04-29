@@ -1,4 +1,6 @@
-// Author: aguo921 (Angela Guo)
+/**
+ * @author Angela Guo <aguo921@aucklanduni.ac.nz>
+ */
 
 import Card from '../Card/Card';
 import PaymentInfoCardProps from './PaymentInfoCardProps';
