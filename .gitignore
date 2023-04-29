@@ -1,7 +1,3 @@
 **/node_modules
 
 build/
-
-.env
-
-yarn-error.log
