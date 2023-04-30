@@ -12,7 +12,7 @@ const Button = ({ label, onClick }: ButtonInputProps) => {
       className="w-72 h-14 bg-blue-600 rounded text-white font-semibold"
       onClick={onClick}
     >
-      {label}
+      {label.toUpperCase()}
     </button>
   );
 };
