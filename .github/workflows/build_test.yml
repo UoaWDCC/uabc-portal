@@ -13,9 +13,19 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "18.x"
-
-      - name: yarn install, build, and test
+          
+      - name: yarn install
         run: |
           yarn install
-          yarn build
-          yarn test --if-present
+
+      - name: server build and test
+        run: |
+          yarn install
+          yarn workspace server build
+          yarn workspace server test --if-present
+
+      - name: client build and test
+        run: |
+          yarn install
+          yarn workspace client build
+          yarn workspace client test --if-present
