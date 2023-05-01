@@ -1,6 +1,8 @@
+import { ObjectId } from "mongodb";
 import { Payment, PaymentMethod } from "./Payment.model";
 import { DBPayment, paymentSchema } from "./Payment.schema";
 import { InferSchemaType } from 'mongoose';
+import { log } from "console";
 
 
 export class PaymentRepo {
@@ -27,6 +29,17 @@ export class PaymentRepo {
         return PaymentRepo.DboToPayment(getPayment);
     }
 
+    /**
+     * Finds a payment in the databse that matches the provided id and updates it with the provided data or returns null if none exists
+     */
+    async update(payment: Payment) {
+        const updatedPayment = await DBPayment.findByIdAndUpdate(payment.id, PaymentRepo.paymentToDbo(payment))
+        if (!updatedPayment) {
+            return null
+        }
+
+        return payment
+    }
     /**
      * Takes a Payment object and returns an primitive object representing the databse schema for payments
      */

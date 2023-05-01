@@ -7,6 +7,7 @@ import {
     Get,
     Path,
     Post,
+    Put,
     Route,
     SuccessResponse,
 } from "tsoa";
@@ -29,5 +30,14 @@ export class PaymentController extends Controller {
         await new PaymentRepo().add(new Payment(15.00, "someUser", "someBooking", PaymentMethod.DIRECT, 129))
         this.setStatus(201); // set return status 201
         return;
+    };
+
+    @Put()
+    public async updatePayment(): Promise<void> {
+        await new PaymentRepo().update(new Payment(15.00, "anotherUser", "anotherBooking", PaymentMethod.DIRECT, 129, "644f6fe4b11b35a7d435f9d2"))
+        this.setStatus(201); // set return status 201
+        return
+
+
     }
 }
