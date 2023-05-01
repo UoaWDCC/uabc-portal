@@ -5,7 +5,7 @@
 import { Schema, model } from "mongoose";
 
 export interface IPayment {
-    _id: string
+    _id?: string
     amount: number
     userId: string
     bookingId: string
@@ -14,10 +14,6 @@ export interface IPayment {
 }
 
 export const paymentSchema = new Schema<IPayment>({
-    _id: {
-        type: String,
-        require: true
-    },
     amount: {
         type: Number,
         require: true
