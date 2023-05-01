@@ -4,8 +4,8 @@ const db = process.env.MONGODB_URI;
 
 export const connectDB = async () => {
     try {
-        if (true) {
-            await mongoose.connect("mongodb+srv://mhow865:ZH5UcJcTnp9XXsR0@uabc-dev.iwltwgj.mongodb.net/?retryWrites=true&w=majority");
+        if (db) {
+            await mongoose.connect(db);
             console.log("MongoDB is Connected...");
         } else {
             throw new Error("Please provide MONGODB_URI in the .env file");
