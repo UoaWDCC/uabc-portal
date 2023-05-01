@@ -1,12 +1,14 @@
 import { Payment, PaymentMethod } from "./Payment.model";
-import { DBPayment } from "./Payment.schema";
+import { DBPayment, paymentSchema } from "./Payment.schema";
+import { InferSchemaType } from 'mongoose';
 
 
 export class PaymentRepo {
 
-    async add(payment: Payment) {
-        const savedPayment = await DBPayment.create(payment.toDBO())
-        return new Payment(savedPayment.amount!, savedPayment.userId!, savedPayment.bookingId!, PaymentMethod[savedPayment.method! as keyof typeof PaymentMethod], savedPayment.time!)
+    async add(payment: Payment): Promise<Payment> {
+        const savedPayment = await DBPayment.create(PaymentRepo.paymentToDbo(payment))
+        payment.id = savedPayment._id.toString()
+        return payment
     }
 
     async get(id: string): Promise<Payment | null> {
@@ -16,7 +18,23 @@ export class PaymentRepo {
             return null
         }
 
-        return new Payment(getPayment.amount!, getPayment.userId!, getPayment.bookingId!, PaymentMethod[getPayment.method! as keyof typeof PaymentMethod], getPayment.time!, getPayment._id.toString())
+        return PaymentRepo.DboToPayment(getPayment);
+    }
+
+    
+    static paymentToDbo(payment: Payment) {
+        return {
+            _id: payment.id,
+            amount: payment.amount,
+            userId: payment.userId,
+            bookingId: payment.bookingId,
+            method: payment.method.valueOf(),
+            time: payment.time,
+        }
+    }
+
+    static DboToPayment(dbo: InferSchemaType<typeof paymentSchema>): Payment {
+        return new Payment(dbo.amount, dbo.userId, dbo.bookingId, PaymentMethod[dbo.method as keyof typeof PaymentMethod], dbo.time, dbo._id)
     }
 
 }

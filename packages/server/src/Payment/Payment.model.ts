@@ -3,7 +3,6 @@
  */
 
 export class Payment {
-
     constructor(
         public amount: number,
         public userId: string,
@@ -12,18 +11,6 @@ export class Payment {
         public time: number,
         public id?: string,
     ) {}
-
-    toDBO() {
-        return {
-            _id: this.id,
-            amount: this.amount,
-            userId: this.userId,
-            bookingId: this.bookingId,
-            method: this.method.valueOf(),
-            time: this.time,
-        }
-    }
-
 }
 
 export enum PaymentMethod {
