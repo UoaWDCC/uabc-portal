@@ -5,13 +5,19 @@ import { InferSchemaType } from 'mongoose';
 
 export class PaymentRepo {
 
+    /**
+     * Adds a Payment to the database
+     */
     async add(payment: Payment): Promise<Payment> {
         const savedPayment = await DBPayment.create(PaymentRepo.paymentToDbo(payment))
         payment.id = savedPayment._id.toString()
         return payment
     }
 
-    async get(id: string): Promise<Payment | null> {
+    /**
+     * Finds a payment in the database that matches the provided id or returns null if none exists
+     */
+    async getById(id: string): Promise<Payment | null> {
         const getPayment = await DBPayment.findById(id)
 
         if (!getPayment) {
@@ -21,8 +27,10 @@ export class PaymentRepo {
         return PaymentRepo.DboToPayment(getPayment);
     }
 
-    
-    static paymentToDbo(payment: Payment) {
+    /**
+     * Takes a Payment object and returns an primitive object representing the databse schema for payments
+     */
+    static paymentToDbo(payment: Payment): InferSchemaType<typeof paymentSchema> {
         return {
             _id: payment.id,
             amount: payment.amount,
@@ -33,6 +41,9 @@ export class PaymentRepo {
         }
     }
 
+    /**
+     * Takes a primitive object representing the database schema for a payment and returns a Payment object
+     */
     static DboToPayment(dbo: InferSchemaType<typeof paymentSchema>): Payment {
         return new Payment(dbo.amount, dbo.userId, dbo.bookingId, PaymentMethod[dbo.method as keyof typeof PaymentMethod], dbo.time, dbo._id)
     }

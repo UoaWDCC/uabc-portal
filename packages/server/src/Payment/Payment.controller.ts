@@ -19,7 +19,7 @@ export class PaymentController extends Controller {
     public async getPayment(
         @Path() paymentId: string,
     ): Promise<Payment | null> {
-        return await new PaymentRepo().get(paymentId)
+        return await new PaymentRepo().getById(paymentId)
     }
 
     @SuccessResponse("201", "Created") // Custom success response
