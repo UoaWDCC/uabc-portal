@@ -1,3 +1,7 @@
+/**
+ * @author David Zhu <dzhu292@aucklanduni.ac.nz>
+ */
+
 export class Session {
     constructor(
         public id: number, 
