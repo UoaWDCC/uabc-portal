@@ -8,7 +8,7 @@
  */
 export class Session {
     constructor(
-        public id: number, 
+        public id: string, 
         public location: string, 
         public dateTime: Date, 
         public maxUsers: number, 

@@ -5,7 +5,7 @@
 import { Schema, model } from 'mongoose';
 
 export interface ISession {
-  id: number;
+  id: string;
   location: string;
   dateTime: Date;
   maxUsers: number;
@@ -14,7 +14,7 @@ export interface ISession {
 }
 
 export const sessionSchema = new Schema<ISession>({
-  id: { type: Number, required: true },
+  id: { type: String, required: true },
   location: { type: String, required: true },
   dateTime:  { type: Date, required: true },
   maxUsers:  { type: Number, required: true },
