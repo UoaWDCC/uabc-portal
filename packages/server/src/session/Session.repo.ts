@@ -2,10 +2,11 @@
  * @author David Zhu <dzhu292@aucklanduni.ac.nz>
  */
 
-import { Session} from "./Session.model";
+import { Session } from "./Session.model";
 import { DBSession, sessionSchema } from "./Session.schema";
 import { InferSchemaType } from 'mongoose';
 
+const ObjectId = require('mongodb').ObjectID
 
 export class SessionRepo {
 
@@ -32,8 +33,8 @@ export class SessionRepo {
     /**
      * Finds a payment in the database that matches the provided id and updates it with the provided data or returns null if none exists
      */
-    async update(id: string, session: Session): Promise<Session|null> {
-        const dbo = await DBSession.findByIdAndUpdate(id, SessionRepo.sessionToDbo(session));
+    async update(session: Session): Promise<Session|null> {
+        const dbo = await DBSession.findByIdAndUpdate(session.id, SessionRepo.sessionToDbo(session));
         if (dbo === null) {
             return null;
         }
@@ -45,12 +46,12 @@ export class SessionRepo {
      */
     static sessionToDbo(session: Session): InferSchemaType<typeof sessionSchema> {
         return {
-            id: session.id,
+            _id: session.id,
             location: session.location,
             dateTime: session.dateTime,
             maxUsers: session.maxUsers,
             bookingOpen: session.bookingOpen,
-            bookingClose: session.bookingClose
+            bookingClose: session.bookingClose,
         }
     }
 
@@ -59,12 +60,12 @@ export class SessionRepo {
      */
     static DboToSession(dbo: InferSchemaType<typeof sessionSchema>): Session {
         return new Session(
-            dbo.id, 
             dbo.location, 
             dbo.dateTime, 
             dbo.maxUsers, 
             dbo.bookingOpen, 
-            dbo.bookingClose
+            dbo.bookingClose,
+            dbo._id
         )
     }
 }

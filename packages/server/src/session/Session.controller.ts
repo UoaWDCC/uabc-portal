@@ -8,8 +8,7 @@ import {
     Get,
     Path,
     Post,
-    Patch,
-    Query,
+    Put,
     Route,
     SuccessResponse,
   } from "tsoa";
@@ -25,23 +24,23 @@ export class SessionController extends Controller {
         return await new SessionRepo().getById(sessionId);
     }
 
-    @SuccessResponse("201", "Created") // Custom success response
+    @SuccessResponse("201", "Created") 
     @Post()
     public async createSession (
-        @Body() request: Session
+        @Body() request: Session //to be changed
     ) : Promise<void> {
         this.setStatus(201);
         await new SessionRepo().addSession(request);
-        return;
+        return; 
     }
 
-    @SuccessResponse("201", "Updated") // Custom success response
-    @Patch()
+    @SuccessResponse("201", "Updated") 
+    @Put()
     public async updateSession (
         @Body() request: Session
     ) : Promise<void> {
         this.setStatus(201);
-        await new SessionRepo().update(request.id, request);
+        await new SessionRepo().update(request);
         return;
     }
 }

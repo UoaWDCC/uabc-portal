@@ -2,10 +2,10 @@
  * @author David Zhu <dzhu292@aucklanduni.ac.nz>
  */
 
-import { Schema, model } from 'mongoose';
+import { Schema, model} from 'mongoose';
 
 export interface ISession {
-  id: string;
+  _id?: string;
   location: string;
   dateTime: Date;
   maxUsers: number;
@@ -14,7 +14,6 @@ export interface ISession {
 }
 
 export const sessionSchema = new Schema<ISession>({
-  id: { type: String, required: true },
   location: { type: String, required: true },
   dateTime:  { type: Date, required: true },
   maxUsers:  { type: Number, required: true },
