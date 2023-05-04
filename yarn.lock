@@ -1332,7 +1332,7 @@ etag@~1.8.1:
 
 express@^4.18.2:
   version "4.18.2"
-  resolved "https://registry.npmjs.org/express/-/express-4.18.2.tgz"
+  resolved "https://registry.yarnpkg.com/express/-/express-4.18.2.tgz#3fabe08296e930c796c19e3c516979386ba9fd59"
   integrity sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==
   dependencies:
     accepts "~1.3.8"
@@ -3087,7 +3087,7 @@ tslib@^2.1.0, tslib@^2.4.0, tslib@^2.5.0:
 
 tsoa@^5.1.1:
   version "5.1.1"
-  resolved "https://registry.npmjs.org/tsoa/-/tsoa-5.1.1.tgz"
+  resolved "https://registry.yarnpkg.com/tsoa/-/tsoa-5.1.1.tgz#9a26054ed7723fd2ae3b28194b815fc1f5b0a49e"
   integrity sha512-U6+5CyD3+u9Dtza0fBnv4+lgmbZEskYljzRpKf3edGCAGtMKD2rfjtDw9jUdTfWb1FEDvsnR3pRvsSGBXaOdsA==
   dependencies:
     "@tsoa/cli" "^5.1.1"
