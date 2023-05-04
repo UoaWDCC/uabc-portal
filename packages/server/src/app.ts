@@ -1,3 +1,5 @@
+import * as dotenv from 'dotenv'
+dotenv.config()
 import express, {json, urlencoded} from "express";
 import { RegisterRoutes } from "../build/routes";
 
