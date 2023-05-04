@@ -2,8 +2,6 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-// TODO: Make shadow surround entire div
-
 import HeadingProps from "./HeadingProps";
 
 const Heading = (props: HeadingProps) => {
