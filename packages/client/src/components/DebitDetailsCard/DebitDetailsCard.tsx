@@ -11,7 +11,7 @@ const DebitDetailsCard = (props: DebitDetailsCardProps) => {
     const body = props.text.map((text) => 
         <p className="font-normal text-gray-500">{text}</p>);
     if (typeof(props.sessionId) != "undefined") {
-        body.push(<br/>, 
+        body.push( 
         <p className="font-normal text-gray-500 inline">SessionID: </p>, // TODO: try not to use this
         <p className="font-bold text-gray-500 inline">{props.sessionId}</p>)
     }
