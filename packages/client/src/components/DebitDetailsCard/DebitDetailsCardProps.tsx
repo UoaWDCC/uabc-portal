@@ -5,8 +5,8 @@
  type DebitDetailsCardProps = {
     title: string,
     text: string[],
-    sessionId: string | null
-    copy: boolean
+    sessionId?: string,
+    copy?: boolean,
     onClick: () => void
  }
 
