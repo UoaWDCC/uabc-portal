@@ -16,7 +16,7 @@ export default function DirectDebitPage () {
     let accountNumber:string = "xx-xxxx-xxxx-xxx"
 
     return (
-        <div className="h-[90vh] flex flex-col p-2">
+        <div className="h-[90vh] flex flex-col p-40"> {/* 90vh accounts for address bar on ios and etc */}
 
                 <Heading>Direct Debit</Heading>
                 <PaymentInfoCard amount={15} />
@@ -27,14 +27,20 @@ export default function DirectDebitPage () {
                     title="Account Number:"
                     text={[accountNumber]}
                     copy={true}
-                    onClick={async () => {navigator.clipboard.writeText(accountNumber)}}
+                    onClick={() => {
+                        navigator.clipboard.writeText(accountNumber)
+                        alert('Copied to clipboard')
+                    }}
                 />
                 <DebitDetailsCard
                     title="Reference:"
                     text={[firstName+" "+lastName]}
                     sessionId={sessionId}
                     copy={true}
-                    onClick={() => {navigator.clipboard.writeText(sessionId)}}
+                    onClick={() => {
+                        navigator.clipboard.writeText(sessionId)
+                        alert('Copied to clipboard')
+                    }}
                 />
 
                 <div className="flex justify-center">
