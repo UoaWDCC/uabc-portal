@@ -13,9 +13,10 @@ export default function DirectDebitPage () {
     let firstName:string = "John"
     let lastName:string = "Smith"
     let sessionId:string = "rn3498"
+    let accountNumber:string = "xx-xxxx-xxxx-xxx"
 
     return (
-        <div className="h-[90vh] flex flex-col p-2"> {/* set height to 90vh to negate address bar */}
+        <div className="h-[90vh] flex flex-col p-2">
 
                 <Heading>Direct Debit</Heading>
                 <PaymentInfoCard amount={15} />
@@ -23,16 +24,17 @@ export default function DirectDebitPage () {
             <div className="pb-7 mt-auto">
                 <p className="font-medium text-center">Direct Debit</p>
                 <DebitDetailsCard
-                    onClick={() => alert('Direct debit')}
                     title="Account Number:"
-                    text={["xx-xxxx-xxxx-xxx"]}
+                    text={[accountNumber]}
                     copy={true}
+                    onClick={async () => {navigator.clipboard.writeText(accountNumber)}}
                 />
                 <DebitDetailsCard
-                    onClick={() => alert('Pay now')}
                     title="Reference:"
                     text={[firstName+" "+lastName]}
                     sessionId={sessionId}
+                    copy={true}
+                    onClick={() => {navigator.clipboard.writeText(sessionId)}}
                 />
 
                 <div className="flex justify-center">

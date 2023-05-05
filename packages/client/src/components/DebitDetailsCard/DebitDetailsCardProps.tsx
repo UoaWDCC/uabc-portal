@@ -7,7 +7,7 @@
     text: string[],
     sessionId?: string,
     copy?: boolean,
-    onClick: () => void
+    onClick?: () => void,
  }
 
  export default DebitDetailsCardProps
