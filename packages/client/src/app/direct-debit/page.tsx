@@ -16,7 +16,7 @@ export default function DirectDebitPage () {
     let accountNumber:string = "xx-xxxx-xxxx-xxx"
 
     return (
-        <div className="h-[90vh] flex flex-col p-40"> {/* 90vh accounts for address bar on ios and etc */}
+        <div className="h-[90vh] flex flex-col p-2"> {/* 90vh accounts for address bar on ios and etc */}
 
                 <Heading>Direct Debit</Heading>
                 <PaymentInfoCard amount={15} />
