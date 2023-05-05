@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { User, UserModel } from "./user";
+import { User, UserModel } from "./User.model";
 
 // A post request should not contain an id.
 export class UsersService {

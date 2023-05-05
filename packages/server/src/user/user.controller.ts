@@ -11,7 +11,7 @@ import {
     Route,
     SuccessResponse,
   } from "tsoa";
-  import { User } from "./user";
+  import { User } from "./User.model";
   import { UsersService } from "./user.service";
   
   @Route("users")
