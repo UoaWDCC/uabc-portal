@@ -10,8 +10,7 @@ import SessionInfoCard from "@/components/SessionInfoCard/SessionInfoCard";
 export default function ConfirmationPage() {
   return (
     <div>
-        {/* TODO: Make the bottom rounded */}
-        <div className="bg-blue-100 p-8">
+        <div className="bg-blue-100 p-8" style={{borderRadius: '0 0 50% 50%'}}>
             <p className="text-5xl font-bold text-center text-blue-600">UABC</p>
         </div>
         
