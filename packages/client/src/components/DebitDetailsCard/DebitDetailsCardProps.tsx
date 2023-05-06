@@ -6,7 +6,7 @@
     title: string,
     text: string[],
     sessionId?: string,
-    copy?: boolean,
+    copy?: boolean, // TODO: redundant
     onClick?: () => void,
  }
 

@@ -10,10 +10,10 @@ import DebitDetailsCard from "@/components/DebitDetailsCard/DebitDetailsCard";
 import Button from "@/components/Button/Button";
 
 export default function DirectDebitPage () {
-    let firstName:string = "John"
-    let lastName:string = "Smith"
-    let sessionId:string = "rn3498"
-    let accountNumber:string = "xx-xxxx-xxxx-xxx"
+    const firstName:string = "John"
+    const lastName:string = "Smith"
+    const sessionId:string = "rn3498"
+    const accountNumber:string = "xx-xxxx-xxxx-xxx"
 
     return (
         <div className="h-[90vh] flex flex-col p-2"> {/* 90vh accounts for address bar on ios and etc */}
@@ -29,7 +29,6 @@ export default function DirectDebitPage () {
                     copy={true}
                     onClick={() => {
                         navigator.clipboard.writeText(accountNumber)
-                        alert('Copied to clipboard')
                     }}
                 />
                 <DebitDetailsCard
@@ -37,10 +36,7 @@ export default function DirectDebitPage () {
                     text={[firstName+" "+lastName]}
                     sessionId={sessionId}
                     copy={true}
-                    onClick={() => {
-                        navigator.clipboard.writeText(sessionId)
-                        alert('Copied to clipboard')
-                    }}
+                    onClick={() => {navigator.clipboard.writeText(sessionId)}}
                 />
 
                 <div className="flex justify-center">
