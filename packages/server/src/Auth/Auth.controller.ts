@@ -14,7 +14,7 @@ import {
 } from "tsoa";
 import { AuthRepo } from "./Auth.repo";
 
-interface LoginParams {
+interface AuthParams {
     email: string;
     password: string;
 }
@@ -22,7 +22,7 @@ interface LoginParams {
 @Route("auth")
 export class AuthController extends Controller {
     @Post("login")
-    public async login(@Body() requestBody: LoginParams) {
+    public async login(@Body() requestBody: AuthParams) {
         return await new AuthRepo().login(
             requestBody.email,
             requestBody.password
@@ -30,7 +30,7 @@ export class AuthController extends Controller {
     }
 
     @Post("signup")
-    public async signup(@Body() requestBody: LoginParams) {
+    public async signup(@Body() requestBody: AuthParams) {
         return await new AuthRepo().signUp(
             requestBody.email,
             requestBody.password
