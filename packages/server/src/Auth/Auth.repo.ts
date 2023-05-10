@@ -34,6 +34,9 @@ export class AuthRepo {
             });
     }
 
+    /**
+     * Sign Up user with email password
+     */
     async signUp(email: string, password: string) {
         return createUserWithEmailAndPassword(this.auth, email, password)
             .then((userCredential) => {
