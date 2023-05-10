@@ -16,7 +16,7 @@ export class User {
     public universityID?: UniversityID
 
 
-  ) { }
+  ) {}
 }
 
 export enum University {
