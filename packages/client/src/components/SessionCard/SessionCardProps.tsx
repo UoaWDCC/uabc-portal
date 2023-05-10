@@ -2,17 +2,14 @@
  * @author Moeka Nakane <mnak534@aucklanduni.ac.nz>
  */
 
+import { SessionCardStatus } from "./SessionCardStatusEnum"
+
 type SessionCardProps = {
     //props here
     startdate: Date,
     enddate: Date
     location: string,
-    
-    status: string, //(stuts enum) later
-
-    onSelect: () => void,
-    onDisable: () => void,
-    onUnavailable: () => void
+    status: SessionCardStatus
 }
 
 export default SessionCardProps
