@@ -3,9 +3,9 @@
  */
 
 import Card from '../Card/Card';
-import SessionInfoCardProps from './SessionInfoCardProps';
+import ConfirmedSessionCardProps from './ConfirmedSessionCardProps';
 
-const SessionInfoCard = (props: SessionInfoCardProps) => {
+const ConfirmedSessionCard = (props: ConfirmedSessionCardProps) => {
 
     return (
         <Card className="bg-blue-500 text-blue-100 p-5">
@@ -17,4 +17,4 @@ const SessionInfoCard = (props: SessionInfoCardProps) => {
     )
 }
 
-export default SessionInfoCard
+export default ConfirmedSessionCard

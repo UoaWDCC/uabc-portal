@@ -2,7 +2,7 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-type SessionInfoCardProps = {
+type ConfirmedSessionCardProps = {
     weekDay: string,
     locationName: string,
     address: string,
@@ -10,4 +10,4 @@ type SessionInfoCardProps = {
     endTime: string
 }
 
-export default SessionInfoCardProps
+export default ConfirmedSessionCardProps
