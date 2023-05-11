@@ -23,21 +23,10 @@ export default function DirectDebitPage() {
   const accountNumber: string = "xx-xxxx-xxxx-xxx";
 
   return (
-    <div className="h-[90vh] flex flex-col p-2">
-      {" "}
-      {/* 90vh accounts for address bar on ios and etc */}
+    <div className="h-[100dvh] flex flex-col p-2">
       <Heading>Direct Debit</Heading>
       <PaymentInfoCard amount={15} />
-      <div className="pb-7 mt-auto">
-        <p className="font-medium text-center">Direct Debit</p>
-        <DebitDetailsCard
-          title="Account Number:"
-          text={[accountNumber]}
-          copy={true}
-          onClick={() => {
-            navigator.clipboard.writeText(accountNumber);
-          }}
-        />
+      <div className="pb-7 mt-auto grow flex flex-col-reverse">
         <DebitDetailsCard
           title="Reference:"
           text={[firstName + " " + lastName]}
@@ -47,10 +36,17 @@ export default function DirectDebitPage() {
             navigator.clipboard.writeText(sessionId);
           }}
         />
-
-        <div className="flex justify-center">
-          <Button label="done" onClick={() => alert("DONE")} />
-        </div>
+        <DebitDetailsCard
+          title="Account Number:"
+          text={[accountNumber]}
+          copy={true}
+          onClick={() => {
+            navigator.clipboard.writeText(accountNumber);
+          }}
+        />
+      </div>
+      <div className="flex justify-center mt-5">
+        <Button label="done" widthFull={true} onClick={() => alert("DONE")} />
       </div>
     </div>
   );
