@@ -19,8 +19,18 @@ export default function DirectDebitPage() {
     <div className="h-[100dvh] flex flex-col p-5">
       <Heading>Direct Debit</Heading>
       <PaymentInfoCard amount={15} />
-      <p className="font-medium text-center py-5">Direct Debit</p>
-      <div className="mt-auto grow flex flex-col-reverse overflow-y-auto gap-5">
+      <p className="mt-auto font-medium text-center flex flex-col-reverse grow py-3">
+        Direct Debit
+      </p>
+      <div className="flex flex-col overflow-y-auto gap-5">
+        <DebitDetailsCard
+          title="Account Number:"
+          text={[accountNumber]}
+          copy={true}
+          onClick={() => {
+            navigator.clipboard.writeText(accountNumber);
+          }}
+        />
         <DebitDetailsCard
           title="Reference:"
           text={[firstName + " " + lastName]}
@@ -28,14 +38,6 @@ export default function DirectDebitPage() {
           copy={true}
           onClick={() => {
             navigator.clipboard.writeText(sessionId);
-          }}
-        />
-        <DebitDetailsCard
-          title="Account Number:"
-          text={[accountNumber]}
-          copy={true}
-          onClick={() => {
-            navigator.clipboard.writeText(accountNumber);
           }}
         />
       </div>
