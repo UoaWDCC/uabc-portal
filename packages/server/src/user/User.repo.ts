@@ -40,17 +40,6 @@ export class UserRepo {
   }
 
 
-  //to be completed
-  async getFutureUsers() {
-    //function to go here
-    return;
-  }
-
-  async getPastUsers() {
-    //function to go here
-    return;
-  }
-
   static UserToDbo(user: User): InferSchemaType<typeof userSchema> {
     return {
       userId: user.userId,
