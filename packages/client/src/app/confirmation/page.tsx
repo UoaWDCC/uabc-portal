@@ -27,6 +27,8 @@ const sessions = [
   },
 ];
 
+const confirmed = true;
+
 export default function ConfirmationPage() {
   return (
     <div className="flex flex-col h-[100dvh]">
@@ -38,7 +40,7 @@ export default function ConfirmationPage() {
       </div>
 
       <div className="grow flex justify-center items-center my-10 mx-20">
-        <ConfirmationIcon confirmed={true} />
+        <ConfirmationIcon confirmed={confirmed} />
       </div>
 
       <div className="bg-blue-600 overflow-hidden flex flex-col">
