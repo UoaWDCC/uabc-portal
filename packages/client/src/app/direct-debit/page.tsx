@@ -22,7 +22,7 @@ export default function DirectDebitPage() {
       <p className="mt-auto font-medium text-center flex flex-col-reverse grow pt-3">
         Direct Debit
       </p>
-      <div className="my-0 mx-auto flex flex-col overflow-y-auto grow w-full gap-4 bg-bottom py-3 scroll-fade">
+      <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom py-3 scroll-fade">
         <DebitDetailsCard
           title="Account Number:"
           text={[accountNumber]}
