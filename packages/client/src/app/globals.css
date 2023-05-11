@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ttop {
+    mask-image: linear-gradient(to top, black calc(100% - 40px), transparent 100%);
+  }
+
+.midfade {
+    mask-image: linear-gradient(to bottom, transparent 0%, black 40px, black calc(100% - 60px), transparent 100%);
+}
+
+.bbot {
+    mask-image: linear-gradient(to bottom, black calc(100% - 40px), transparent 100%);
+}
