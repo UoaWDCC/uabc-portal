@@ -7,10 +7,7 @@ import CardProps from "./CardProps";
 
 const Card = (props: PropsWithChildren<CardProps>) => {
   return (
-    <div
-      onClick={props.onClick}
-      className={`rounded-md m-5 ` + props.className}
-    >
+    <div onClick={props.onClick} className={`rounded-md ` + props.className}>
       {props.children}
     </div>
   );

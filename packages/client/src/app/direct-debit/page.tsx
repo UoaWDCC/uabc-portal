@@ -16,10 +16,11 @@ export default function DirectDebitPage() {
   const accountNumber: string = "xx-xxxx-xxxx-xxx";
 
   return (
-    <div className="h-[100dvh] flex flex-col p-2">
+    <div className="h-[100dvh] flex flex-col p-5">
       <Heading>Direct Debit</Heading>
       <PaymentInfoCard amount={15} />
-      <div className="pb-7 mt-auto grow flex flex-col-reverse">
+      <p className="font-medium text-center py-5">Direct Debit</p>
+      <div className="mt-auto grow flex flex-col-reverse overflow-y-auto gap-5">
         <DebitDetailsCard
           title="Reference:"
           text={[firstName + " " + lastName]}
@@ -37,10 +38,9 @@ export default function DirectDebitPage() {
             navigator.clipboard.writeText(accountNumber);
           }}
         />
-        <p className="font-medium text-center">Direct Debit</p>
       </div>
-      <div className="flex justify-center">
-        <Button label="done" onClick={() => alert("DONE")} />
+      <div className="flex justify-center mt-5">
+        <Button label="done" widthFull={true} onClick={() => alert("DONE")} />
       </div>
     </div>
   );

@@ -6,13 +6,16 @@ import React from "react";
  * @returns styled html button component
  * @author Lia Arroyo <liayzabel@gmail.com>
  */
-const Button = ({ label, onClick }: ButtonInputProps) => {
+const Button = (props: ButtonInputProps) => {
+  //@TODO
   return (
     <button
-      className="w-72 h-14 bg-blue-600 rounded text-white font-semibold"
-      onClick={onClick}
+      className={`w-full h-14 rounded text-white font-semibold 
+        ${props.disabled ? "bg-[#BFBFBF]" : "bg-[#3767af]"} 
+        ${props.widthFull ? "w-full" : "w-72"}`}
+      onClick={props.onClick}
     >
-      {label.toUpperCase()}
+      {props.label.toUpperCase()}
     </button>
   );
 };
