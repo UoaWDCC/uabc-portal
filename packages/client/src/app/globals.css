@@ -6,7 +6,7 @@
     mask-image: linear-gradient(to top, black calc(100% - 40px), transparent 100%);
   }
 
-.midfade {
+.mmid {
     mask-image: linear-gradient(to bottom, transparent 0%, black 40px, black calc(100% - 60px), transparent 100%);
 }
 
