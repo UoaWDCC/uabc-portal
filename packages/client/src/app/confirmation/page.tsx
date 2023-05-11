@@ -10,6 +10,7 @@ import ConfirmationBannerSVG from "public/images/ConfirmationBannerSVG.svg";
 
 const sessions = [
   {
+    id: 0,
     weekDay: "Wednesday",
     locationName: "Auckland Badminton Association",
     address: "99 Gillies Avenue, Epsom",
@@ -17,6 +18,7 @@ const sessions = [
     endTime: "7:00PM",
   },
   {
+    id: 1,
     weekDay: "Friday",
     locationName: "UoA Rec Center",
     address: "7 Wynyard Street, Auckland City",
@@ -47,6 +49,7 @@ export default function ConfirmationPage() {
           {sessions.map((session) => {
             return (
               <ConfirmedSessionCard
+                key={session.id}
                 weekDay={session.weekDay}
                 locationName={session.locationName}
                 address={session.address}
