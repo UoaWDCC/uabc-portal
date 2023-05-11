@@ -2,14 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.ttop {
-    mask-image: linear-gradient(to top, black calc(100% - 40px), transparent 100%);
-  }
 
-.mmid {
-    mask-image: linear-gradient(to bottom, transparent 0%, black 40px, black calc(100% - 60px), transparent 100%);
-}
-
-.bbot {
-    mask-image: linear-gradient(to bottom, black calc(100% - 40px), transparent 100%);
+.scroll-fade {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, transparent 18px, transparent calc(100% - 15px), rgba(255, 255, 255, 1) 100%); 
 }

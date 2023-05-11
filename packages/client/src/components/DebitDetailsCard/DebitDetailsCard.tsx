@@ -8,7 +8,7 @@ import { MdContentCopy } from "react-icons/md";
 
 const DebitDetailsCard = (props: DebitDetailsCardProps) => {
   return (
-    <Card className="bg-gray-200 p-5 mt-0 pt-50 relative">
+    <Card className="bg-gray-200 p-5 mt-0 pt-50 relative -z-10">
       <p className="font-medium text-xl top-5">{props.title}</p>
 
       {props.text.map((text, index) => {
