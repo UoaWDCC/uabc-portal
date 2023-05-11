@@ -1,4 +1,6 @@
-
+/**
+ * @author Aditya Tendulkar <aten037@aucklanduni.ac.nz>
+ */
 
 export class User {
   constructor(

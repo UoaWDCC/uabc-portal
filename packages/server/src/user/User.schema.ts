@@ -1,3 +1,7 @@
+/**
+ * @author Aditya Tendulkar <aten037@aucklanduni.ac.nz>
+ */
+
 import { Schema, model } from "mongoose";
 import { University,UniversityID, Difficulty } from "./User.model";
 
