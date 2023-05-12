@@ -8,6 +8,7 @@ import { MdContentCopy } from "react-icons/md";
 
 const DebitDetailsCard = (props: DebitDetailsCardProps) => {
   return (
+    // TODO: Change colours to official ones
     <Card className="bg-[#DCE1E9] p-5 relative">
       <p className="font-medium text-xl top-5">{props.title}</p>
 
@@ -30,7 +31,7 @@ const DebitDetailsCard = (props: DebitDetailsCardProps) => {
       {props.copy && (
         <button
           onPointerDown={props.onClick}
-          className="absolute right-4 top-1/2 translate-y-[-50%] p-2 rounded-lg active:bg-gray-300"
+          className="absolute right-4 top-1/2 translate-y-[-50%] p-2 rounded-lg"
         >
           <MdContentCopy className="text-3xl" />
         </button>

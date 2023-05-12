@@ -8,7 +8,6 @@ import Heading from "@/components/Heading/Heading";
 import PaymentInfoCard from "@/components/PaymentInfoCard/PaymentInfoCard";
 import DebitDetailsCard from "@/components/DebitDetailsCard/DebitDetailsCard";
 import Button from "@/components/Button/Button";
-import useScrollWithShadow from "@/hooks/useScrollWithShadow";
 
 export default function DirectDebitPage() {
   const firstName: string = "John";
@@ -17,6 +16,8 @@ export default function DirectDebitPage() {
   const accountNumber: string = "xx-xxxx-xxxx-xxx";
 
   return (
+    // TODO: Add functionality for DONE button
+    // TODO: Link name, payment components to backend
     <div className="h-[100dvh] flex flex-col p-10">
       <div className="pb-10 -translate-x-3">
         <Heading>Payment</Heading>
