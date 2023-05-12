@@ -16,8 +16,6 @@ export default function DirectDebitPage() {
   const sessionId: string = "rn3498";
   const accountNumber: string = "xx-xxxx-xxxx-xxx";
 
-  const { boxShadow, onScrollHandler } = useScrollWithShadow();
-
   return (
     // TODO: Add functionality for DONE button
     // TODO: Link name, payment components to backend
@@ -29,7 +27,7 @@ export default function DirectDebitPage() {
       <p className="mt-auto font-medium text-center flex flex-col-reverse grow pt-3">
         Direct Debit
       </p>
-      <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom py-4 scroll-fade">
+      <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom pt-4 pb-6 scroll-fade">
         <DebitDetailsCard
           title="Account Number:"
           text={[accountNumber]}
