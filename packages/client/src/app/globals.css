@@ -4,5 +4,5 @@
 
 
 .scroll-fade {
-    background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, transparent 18px, transparent calc(100% - 15px), rgba(255, 255, 255, 1) 100%); 
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, transparent 16px, transparent calc(100% - 17px), rgba(255, 255, 255, 1) 100%); 
 }
