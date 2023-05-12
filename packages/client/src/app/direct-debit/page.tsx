@@ -14,37 +14,37 @@ export default function DirectDebitPage() {
   const lastName: string = "Smith";
   const sessionId: string = "rn3498";
   const accountNumber: string = "xx-xxxx-xxxx-xxx";
-import "scroll-shadow-element";
-
-export default function DirectDebitPage() {
-  const firstName: string = "John";
-  const lastName: string = "Smith";
-  const sessionId: string = "rn3498";
-  const accountNumber: string = "xx-xxxx-xxxx-xxx";
 
   return (
     <div className="h-[100dvh] flex flex-col p-2">
       <Heading>Direct Debit</Heading>
       <PaymentInfoCard amount={15} />
-      <div className="pb-7 mt-auto grow flex flex-col-reverse">
-        <DebitDetailsCard
-          title="Reference:"
-          text={[firstName + " " + lastName]}
-          sessionId={sessionId}
-          copy={true}
-          onClick={() => {
-            navigator.clipboard.writeText(sessionId);
-          }}
-        />
-        <DebitDetailsCard
-          title="Account Number:"
-          text={[accountNumber]}
-          copy={true}
-          onClick={() => {
-            navigator.clipboard.writeText(accountNumber);
-          }}
-        />
-      </div>
+      <p className="mt-auto font-medium text-center flex flex-col-reverse grow pt-3">
+        Direct Debit
+      </p>
+      <scroll-shadow>
+        <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom py-3 h-44 bg-gray-100 px-4">
+          <DebitDetailsCard
+            title="Account Number:"
+            text={[accountNumber]}
+            copy={true}
+            onClick={() => {
+              navigator.clipboard.writeText(accountNumber);
+            }}
+          />
+
+          <DebitDetailsCard
+            title="Reference:"
+            text={[firstName + " " + lastName]}
+            sessionId={sessionId}
+            copy={true}
+            onClick={() => {
+              navigator.clipboard.writeText(sessionId);
+            }}
+          />
+        </div>
+      </scroll-shadow>
+
       <div className="flex justify-center mt-5">
         <Button label="done" widthFull={true} onClick={() => alert("DONE")} />
       </div>
