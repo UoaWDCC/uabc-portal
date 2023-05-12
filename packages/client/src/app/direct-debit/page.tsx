@@ -8,12 +8,15 @@ import Heading from "@/components/Heading/Heading";
 import PaymentInfoCard from "@/components/PaymentInfoCard/PaymentInfoCard";
 import DebitDetailsCard from "@/components/DebitDetailsCard/DebitDetailsCard";
 import Button from "@/components/Button/Button";
+import useScrollWithShadow from "@/hooks/useScrollWithShadow";
 
 export default function DirectDebitPage() {
   const firstName: string = "John";
   const lastName: string = "Smith";
   const sessionId: string = "rn3498";
   const accountNumber: string = "xx-xxxx-xxxx-xxx";
+
+  const { boxShadow, onScrollHandler } = useScrollWithShadow();
 
   return (
     <div className="h-[100dvh] flex flex-col p-5">
