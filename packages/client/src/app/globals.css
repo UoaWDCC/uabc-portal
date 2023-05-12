@@ -2,7 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-.scroll-fade {
-    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 18px, black calc(100% - 15px), transparent 100%); 
-    mask-image: linear-gradient(to top, transparent 0%, black 18px, black calc(100% - 15px), transparent 100%); 
+scroll-shadow {
+  display: inline-block;
+  --scroll-shadow-size: 14;
+  --scroll-shadow-top: radial-gradient(farthest-side at 50% 0%, #ffffff, #0000);
+  --scroll-shadow-bottom: radial-gradient(
+    farthest-side at 50% 100%,
+    #ffffff,
+    #0000
+  );
+  --scroll-shadow-left: radial-gradient(farthest-side at 0%, #ffffff, #0000);
+  --scroll-shadow-right: radial-gradient(farthest-side at 100%, #ffffff, #0000);
 }
