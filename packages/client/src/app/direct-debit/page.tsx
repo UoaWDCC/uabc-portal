@@ -8,7 +8,6 @@ import Heading from "@/components/Heading/Heading";
 import PaymentInfoCard from "@/components/PaymentInfoCard/PaymentInfoCard";
 import DebitDetailsCard from "@/components/DebitDetailsCard/DebitDetailsCard";
 import Button from "@/components/Button/Button";
-import useScrollWithShadow from "@/hooks/useScrollWithShadow";
 
 export default function DirectDebitPage() {
   const firstName: string = "John";
