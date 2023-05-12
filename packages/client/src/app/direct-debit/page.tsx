@@ -16,20 +16,16 @@ export default function DirectDebitPage() {
   const sessionId: string = "rn3498";
   const accountNumber: string = "xx-xxxx-xxxx-xxx";
 
-  const { boxShadow, onScrollHandler } = useScrollWithShadow();
-
   return (
-    <div className="h-[100dvh] flex flex-col p-5">
-      <Heading>Direct Debit</Heading>
+    <div className="h-[100dvh] flex flex-col p-10">
+      <div className="pb-10 -translate-x-3">
+        <Heading>Payment</Heading>
+      </div>
       <PaymentInfoCard amount={15} />
       <p className="mt-auto font-medium text-center flex flex-col-reverse grow pt-3">
         Direct Debit
       </p>
-      <div
-        className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom py-3"
-        onScroll={onScrollHandler}
-        style={{ boxShadow }}
-      >
+      <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom pt-4 pb-6 scroll-fade">
         <DebitDetailsCard
           title="Account Number:"
           text={[accountNumber]}
@@ -51,7 +47,7 @@ export default function DirectDebitPage() {
       </div>
 
       <div className="flex justify-center mt-5">
-        <Button label="done" widthFull={true} onClick={() => null} />
+        <Button label="done" widthFull={true} onClick={() => alert("DONE")} />
       </div>
     </div>
   );
