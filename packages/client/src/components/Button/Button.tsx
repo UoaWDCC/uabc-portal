@@ -10,7 +10,7 @@ const Button = (props: ButtonInputProps) => {
   // TODO: proper colours
   return (
     <button
-      className={`w-full h-14 rounded text-white font-semibold active:bg-[#264a7f]
+      className={`w-full h-14 rounded text-white font-semibold active:bg-[#264a7f] 
         ${props.disabled ? "bg-[#BFBFBF] " : "bg-[#3767af]"} 
         ${props.widthFull ? "w-full" : "w-72"}`}
       onClick={props.onClick}
