@@ -9,6 +9,8 @@ import PaymentInfoCard from "@/components/PaymentInfoCard/PaymentInfoCard";
 import DebitDetailsCard from "@/components/DebitDetailsCard/DebitDetailsCard";
 import Button from "@/components/Button/Button";
 
+import "scroll-shadow-element";
+
 export default function DirectDebitPage() {
   const firstName: string = "John";
   const lastName: string = "Smith";
@@ -26,26 +28,28 @@ export default function DirectDebitPage() {
       <p className="mt-auto font-medium text-center flex flex-col-reverse grow pt-3">
         Direct Debit
       </p>
-      <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom pt-4 pb-6 scroll-fade">
-        <DebitDetailsCard
-          title="Account Number:"
-          text={[accountNumber]}
-          copy={true}
-          onClick={() => {
-            navigator.clipboard.writeText(accountNumber);
-          }}
-        />
+      <scroll-shadow>
+        <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom py-3 h-44 bg-gray-100 px-4">
+          <DebitDetailsCard
+            title="Account Number:"
+            text={[accountNumber]}
+            copy={true}
+            onClick={() => {
+              navigator.clipboard.writeText(accountNumber);
+            }}
+          />
 
-        <DebitDetailsCard
-          title="Reference:"
-          text={[firstName + " " + lastName]}
-          sessionId={sessionId}
-          copy={true}
-          onClick={() => {
-            navigator.clipboard.writeText(sessionId);
-          }}
-        />
-      </div>
+          <DebitDetailsCard
+            title="Reference:"
+            text={[firstName + " " + lastName]}
+            sessionId={sessionId}
+            copy={true}
+            onClick={() => {
+              navigator.clipboard.writeText(sessionId);
+            }}
+          />
+        </div>
+      </scroll-shadow>
 
       <div className="flex justify-center mt-5">
         <Button label="done" widthFull={true} onClick={() => alert("DONE")} />
