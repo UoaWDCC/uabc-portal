@@ -10,10 +10,10 @@ const Button = (props: ButtonInputProps) => {
   // TODO: proper colours
   return (
     <button
-      className={`w-full h-14 rounded text-white font-semibold active:bg-[#264a7f] 
-        ${props.disabled ? "bg-[#BFBFBF] " : "bg-[#3767af]"} 
+      className={`h-14 rounded text-white font-semibold text-sm bg-[#3767af] active:bg-[#264a7f] disabled:bg-[#BFBFBF]
         ${props.widthFull ? "w-full" : "w-72"}`}
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       {props.label.toUpperCase()}
     </button>
