@@ -11,38 +11,31 @@ import { SessionCardStatus } from "@/components/SessionCard/SessionCardStatusEnu
 
 export default function SessionPage() {
 
-    const selectedSession:SessionCardProps = {
-        startdate: new Date('2023-05-10T10:30:00'), 
-        enddate: new Date('2023-05-10T11:30:00'),
-        location: "Auckland Badminton Association",
-        status: SessionCardStatus.SELECTED
-    }; 
+    const sessions: SessionCardProps[] = [
+        {
+            startdate: new Date('2023-05-10T10:30:00'), 
+            enddate: new Date('2023-05-10T11:30:00'),
+            location: "Auckland Badminton Association",
+            status: SessionCardStatus.DEFAULT
+        },
+        {
+            startdate: new Date('2023-05-10T10:30:00'), 
+            enddate: new Date('2023-05-10T11:30:00'),
+            location: "Auckland Badminton Association",
+            status: SessionCardStatus.DEFAULT
+        }
+    ];
 
     return (
         <div>
-            <SessionCard 
-                startdate={new Date('2023-05-10T10:30:00')} 
-                enddate={new Date('2023-05-10T11:30:00')}
-                location={"Auckland Badminton Association"} 
-                status={SessionCardStatus.DEFAULT} 
-            />
-            {/* <SessionCard 
-                startdate={new Date('2023-05-10T10:30:00')} 
-                enddate={new Date('2023-05-10T11:30:00')}
-                location={"Auckland Badminton Association"} 
-                status={SessionCardStatus.DISABLED} 
-            /> */}
-            {SessionCard(selectedSession)}
-            {/* <SessionCard 
-                startdate={new Date('2023-05-10T10:30:00')} 
-                enddate={new Date('2023-05-10T11:30:00')}
-                location={"Auckland Badminton Association"} 
-                status={SessionCardStatus.UNAVAILABLE} 
-            /> */}
-            <ExpandedSessionCard 
+            {sessions.map((sessionProps, index) => (
+                <SessionCard key={index} {...sessionProps} />
+            ))}
+
+            {/* <ExpandedSessionCard 
                 selectedSessionProps={selectedSession}
                 address={"99 Gillies Avenue, Epson"} 
-            />
+            /> */}
         </div>
 
     )

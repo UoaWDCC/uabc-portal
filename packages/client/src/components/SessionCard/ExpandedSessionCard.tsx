@@ -2,7 +2,6 @@
  * @author Moeka Nakane <mnak534@aucklanduni.ac.nz>
  */
 
-import Button from "../Button/Button";
 import Card from "../Card/Card"
 import CheckMark from "./CheckMark";
 import ExpandedSessionCardProps from "./ExpandedSessionCardProps"

@@ -2,6 +2,7 @@
  * @author Moeka Nakane <mnak534@aucklanduni.ac.nz>
  */
 
+import { useState } from 'react';
 import Card from '../Card/Card';
 import CheckMark from './CheckMark';
 import SessionCardProps from './SessionCardProps';
@@ -10,6 +11,8 @@ import { SessionCardStatus } from './SessionCardStatusEnum';
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
 const SessionCard = (props: SessionCardProps) => {
+
+    const [status, setStatus] = useState(props.status);
 
     const dayOfWeek = weekday[props.startdate.getDay()];
     const start_time = props.startdate.toLocaleTimeString([], {timeStyle: 'short'}).toUpperCase();
@@ -46,10 +49,14 @@ const SessionCard = (props: SessionCardProps) => {
             timeClassName += "text-gray-500";
     }
 
+    const toggleStatus = () => {
+        setStatus(status == SessionCardStatus.SELECTED ? SessionCardStatus.DEFAULT : SessionCardStatus.SELECTED);
+    };
+
     return (
-        <Card className={cardClassName}>
+        <Card className={cardClassName} onClick={toggleStatus}>
             <p className={dayOfWeekClassName}>{dayOfWeek}</p>
-            {props.status == SessionCardStatus.SELECTED ?
+            {status == SessionCardStatus.SELECTED ?
                 <CheckMark/> : <></>
             }
             <p className={locationClassName}>{props.location}</p>
