@@ -6,8 +6,9 @@ import { SessionCardStatus } from "./SessionCardStatusEnum"
 
 type SessionCardProps = {
     //props here
-    startdate: Date,
-    enddate: Date
+    dayOfWeek: string,
+    startTime: string,
+    endTime: string,
     location: string,
     status: SessionCardStatus
 }
