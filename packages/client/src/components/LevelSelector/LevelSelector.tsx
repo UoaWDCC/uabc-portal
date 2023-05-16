@@ -5,23 +5,28 @@
 import SegmentedController from "../SegmentedController/SegmentedController";
 import LevelSelectorProps from "./LevelSelectorProps";
 
-// TODO: handle click outside
-
 const levels = ["beginner", "intermediate", "advanced"];
 
 const LevelSelector = (props: LevelSelectorProps) => {
   return (
-    <dialog
-      open={props.open}
-      className="w-full bg-gray-200 absolute bottom-0 py-6"
+    <div
+      className={`top-0 p-0 absolute flex flex-col ${
+        props.open ? "w-screen h-screen" : "w-0 h-0 overflow-hidden"
+      }`}
     >
-      <p className="font-bold text-center mb-5">Please select a play level</p>
-      <SegmentedController
-        segments={levels}
-        callback={(value: string) => props.onSelect(value)}
-        defaultIndex={1}
+      <div
+        onClick={props.onClose}
+        className="bg-black z-10 flex flex-grow opacity-50"
       />
-    </dialog>
+      <div className="w-full bg-gray-200 py-6 flex flex-col">
+        <p className="font-bold text-center mb-5">Please select a play level</p>
+        <SegmentedController
+          segments={levels}
+          callback={props.onSelect}
+          defaultIndex={1}
+        />
+      </div>
+    </div>
   );
 };
 
