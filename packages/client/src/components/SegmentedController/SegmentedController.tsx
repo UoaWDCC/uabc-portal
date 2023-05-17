@@ -5,33 +5,34 @@
 import { useState } from "react";
 import SegmentedControllerProps from "./SegmentedControllerProps";
 
+// TODO: Animation when switching
+
 const SegmentedController = (props: SegmentedControllerProps) => {
-  const [activeIndex, setActiveIndex] = useState(
-    props.defaultIndex ? props.defaultIndex : 0
+  const [activeValue, setActiveValue] = useState(
+    props.defaultValue ? props.defaultValue : props.segments[0]
   );
-  const onSelect = (value: string, index: number) => {
-    setActiveIndex(index);
+  const onSelect = (value: string) => {
+    setActiveValue(value);
     props.callback(value);
   };
   return (
     <div className="flex">
-      <div className="inline-flex bg-white rounded-md m-auto shadow-lg">
-        {props.segments.map((item, i) => (
-          <div key={item} className={`text-center`}>
-            <button
-              onClick={() => onSelect(item, i)}
-              className={`rounded-md transition-all duration-300 px-2 py-5 m-2 ${
-                i == activeIndex ? "bg-blue-500" : "bg-none"
+      <div className="inline-flex bg-white rounded-md m-auto shadow-lg p-1">
+        {props.segments.map((item) => (
+          <div
+            key={item}
+            onClick={() => onSelect(item)}
+            className={`text-center rounded-md px-3 py-4 m-1 ${
+              item == activeValue ? "bg-blue-500" : "bg-none"
+            }`}
+          >
+            <p
+              className={`text-xs font-semibold ${
+                item == activeValue ? "text-white" : "text-gray-500"
               }`}
             >
-              <p
-                className={`text-xs font-semibold ${
-                  i == activeIndex ? "text-white" : "text-gray-500"
-                }`}
-              >
-                {item.toUpperCase()}
-              </p>
-            </button>
+              {item.toUpperCase()}
+            </p>
           </div>
         ))}
       </div>
