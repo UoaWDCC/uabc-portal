@@ -5,7 +5,7 @@
 type LevelSelectorProps = {
   open: boolean;
   onClose: () => void;
-  level: string;
+  defaultLevel: string;
   onSelect: (level: string) => void;
 };
 

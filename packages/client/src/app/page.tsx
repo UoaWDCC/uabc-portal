@@ -4,10 +4,12 @@ import LevelSelector from "@/components/LevelSelector/LevelSelector";
 import TextInput from "@/components/TextInput/TextInput";
 import { useState } from "react";
 
+const defaultLevel = "intermediate";
+
 export default function HomePage() {
   const [value, setValue] = useState("");
   const [open, setOpen] = useState(false);
-  const [level, setLevel] = useState("Intermediate");
+  const [level, setLevel] = useState(defaultLevel);
 
   return (
     <div>
@@ -18,7 +20,7 @@ export default function HomePage() {
       <LevelSelector
         open={open}
         onClose={() => setOpen(false)}
-        level={level}
+        defaultLevel={defaultLevel}
         onSelect={setLevel}
       />
       <p>Level: {level}</p>

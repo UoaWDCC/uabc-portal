@@ -16,14 +16,14 @@ const LevelSelector = (props: LevelSelectorProps) => {
     >
       <div
         onClick={props.onClose}
-        className="bg-black z-10 flex flex-grow opacity-50"
+        className="bg-black w-full z-50 flex flex-grow opacity-60"
       />
       <div className="w-full bg-gray-200 py-6 flex flex-col">
         <p className="font-bold text-center mb-5">Please select a play level</p>
         <SegmentedController
           segments={levels}
           callback={props.onSelect}
-          defaultIndex={1}
+          defaultValue={props.defaultLevel}
         />
       </div>
     </div>
