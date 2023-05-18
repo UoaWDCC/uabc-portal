@@ -18,9 +18,9 @@ export default function HomePage() {
       <p>Text input value: {value}</p>
       <button onClick={() => setOpen(true)}>Open level selector</button>
       <LevelSelector
-        open={open}
+        isOpened={open}
         onClose={() => setOpen(false)}
-        defaultLevel={defaultLevel}
+        default={defaultLevel}
         onSelect={setLevel}
       />
       <p>Level: {level}</p>

@@ -5,7 +5,7 @@
 type SegmentedControllerProps = {
   segments: string[];
   callback: (value: string) => void;
-  defaultValue?: string;
+  default?: string;
 };
 
 export default SegmentedControllerProps;

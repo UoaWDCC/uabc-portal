@@ -8,11 +8,10 @@ import SegmentedControllerProps from "./SegmentedControllerProps";
 // TODO: Animation when switching
 
 const SegmentedController = (props: SegmentedControllerProps) => {
-  const [activeValue, setActiveValue] = useState(
-    props.defaultValue ? props.defaultValue : props.segments[0]
-  );
+  const [active, setActive] = useState(props.default);
+
   const onSelect = (value: string) => {
-    setActiveValue(value);
+    setActive(value);
     props.callback(value);
   };
   return (
@@ -23,12 +22,12 @@ const SegmentedController = (props: SegmentedControllerProps) => {
             key={item}
             onClick={() => onSelect(item)}
             className={`text-center rounded-md px-3 py-4 m-1 ${
-              item == activeValue ? "bg-blue-500" : "bg-none"
+              item == active ? "bg-blue-500" : "bg-none"
             }`}
           >
             <p
               className={`text-xs font-semibold ${
-                item == activeValue ? "text-white" : "text-gray-500"
+                item == active ? "text-white" : "text-gray-500"
               }`}
             >
               {item.toUpperCase()}
