@@ -8,6 +8,7 @@ import Heading from "@/components/Heading/Heading";
 import Button from "@/components/Button/Button";
 import DebitDetailsCard from "@/components/DebitDetailsCard/DebitDetailsCard";
 import { useState } from "react";
+import { CgProfile } from "react-icons/cg";
 
 export default function SelectSessionPage() {
   const remainingSessions: number = 11;
@@ -17,8 +18,13 @@ export default function SelectSessionPage() {
 
   return (
     <div className="h-[100dvh] flex flex-col">
-      <div className="pt-10 pb-5 pl-7">
+      <div className="pt-10 pb-5 pl-7 flex">
         <Heading>Sessions</Heading>
+        <CgProfile
+          className="ml-auto mr-4"
+          size={30}
+          onClick={() => alert("profile")}
+        ></CgProfile>
       </div>
       <div
         className={`bg-[#EAEEF3] min-h-[66px] flex ${
@@ -30,8 +36,8 @@ export default function SelectSessionPage() {
         </p>
         {isMember && (
           <p className="text-xs flex flex-row-reverse grow items-center">
-            Prepaid sessions <br />
-            remaining
+            Prepaid Sessions <br />
+            Remaining
           </p>
         )}
         {isMember && (
@@ -68,7 +74,7 @@ export default function SelectSessionPage() {
         <Button
           label="next"
           disabled={sessionsSelected == 2 ? false : true}
-          onClick={() => setSessionsSelected(sessionsSelected + 1)}
+          onClick={() => alert("NEXT")}
         />
       </div>
     </div>
