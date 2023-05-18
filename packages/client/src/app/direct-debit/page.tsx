@@ -25,11 +25,11 @@ export default function DirectDebitPage() {
         <Heading>Payment</Heading>
       </div>
       <PaymentInfoCard amount={15} />
-      <p className="mt-auto font-medium text-center flex flex-col-reverse grow pt-3">
+      <p className="mt-auto font-medium text-center flex flex-col-reverse grow p-3">
         Direct Debit
       </p>
       <scroll-shadow>
-        <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom py-3 h-44 bg-gray-100 px-4">
+        <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom h-44 px-4">
           <DebitDetailsCard
             title="Account Number:"
             text={[accountNumber]}
@@ -51,7 +51,7 @@ export default function DirectDebitPage() {
         </div>
       </scroll-shadow>
 
-      <div className="flex justify-center mt-5">
+      <div className="flex justify-center mt-8">
         <Button label="done" widthFull={true} onClick={() => alert("DONE")} />
       </div>
     </div>

@@ -4,13 +4,7 @@
 
 scroll-shadow {
   display: inline-block;
-  --scroll-shadow-size: 14;
-  --scroll-shadow-top: radial-gradient(farthest-side at 50% 0%, #ffffff, #0000);
-  --scroll-shadow-bottom: radial-gradient(
-    farthest-side at 50% 100%,
-    #ffffff,
-    #0000
-  );
-  --scroll-shadow-left: radial-gradient(farthest-side at 0%, #ffffff, #0000);
-  --scroll-shadow-right: radial-gradient(farthest-side at 100%, #ffffff, #0000);
+  --scroll-shadow-size: 18;
+  --scroll-shadow-top: linear-gradient(to top, transparent 0%, white 18px);
+  --scroll-shadow-bottom: linear-gradient(to bottom, transparent 0%, white 18px);
 }
