@@ -18,7 +18,7 @@ export class Booking {
 /**
  * Different types of booking status.
  */
-// TODO: update with actual values.
 export enum BookingStatus {
-  AVAILABLE = "AVAILABLE",
+  CONFIRMED = "CONFIRMED",
+  UNCONFIRMED = "UNCONFIRMED",
 }
