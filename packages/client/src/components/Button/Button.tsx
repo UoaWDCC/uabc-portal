@@ -9,7 +9,7 @@ import React from "react";
 const Button = ({ label, onClick }: ButtonInputProps) => {
   return (
     <button
-      className="min-w-full p-4 bg-blue rounded text-white font-semibold"
+      className="w-full p-4 bg-blue-500 rounded text-white font-semibold"
       onClick={onClick}
     >
       {label.toUpperCase()}
