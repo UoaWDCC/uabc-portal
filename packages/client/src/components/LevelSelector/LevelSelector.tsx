@@ -2,13 +2,22 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
+import { useRef } from "react";
 import Modal from "../Modal/Modal";
 import SegmentedController from "../SegmentedController/SegmentedController";
 import LevelSelectorProps from "./LevelSelectorProps";
-
-const levels = ["beginner", "intermediate", "advanced"];
+import React from "react";
 
 const LevelSelector = (props: LevelSelectorProps) => {
+  const levels = [
+    { value: "beginner", ref: useRef() },
+    { value: "intermediate", ref: useRef() },
+    { value: "advanced", ref: useRef() },
+  ];
+
+  // TODO: Consider case when default value not in levels
+  const defaultIndex = levels.map((item) => item.value).indexOf(props.default);
+
   return (
     <Modal isOpened={props.isOpened} onClose={props.onClose}>
       <div className="bg-gray-200 py-6 flex flex-col w-full">
@@ -16,7 +25,8 @@ const LevelSelector = (props: LevelSelectorProps) => {
         <SegmentedController
           segments={levels}
           callback={props.onSelect}
-          default={props.default}
+          defaultIndex={defaultIndex}
+          controlRef={useRef()}
         />
       </div>
     </Modal>

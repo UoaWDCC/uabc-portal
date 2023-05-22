@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* TODO: Implement in tailwind */
+.controls::before {
+    width: var(--highlight-width);
+    transform: translateX(var(--highlight-x-pos));
+}
