@@ -6,6 +6,7 @@ type TextInputProps = {
   label?: string;
   value: string;
   type: string;
+  isError: boolean;
   onChange: (value: string) => void;
 };
 
