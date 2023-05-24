@@ -12,7 +12,7 @@ const Modal = (props: ModalProps) => {
       }`}
     >
       <div onClick={props.onClose} className="bg-black flex-grow opacity-60" />
-      <div>{props.children}</div>
+      {props.children}
     </div>
   );
 };
