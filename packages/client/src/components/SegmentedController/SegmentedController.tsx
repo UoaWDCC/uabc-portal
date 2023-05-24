@@ -8,10 +8,10 @@ import SegmentedControllerProps from "./SegmentedControllerProps";
 // TODO: Remove animation on mount
 
 const SegmentedController = (props: SegmentedControllerProps) => {
-  const [activeIndex, setActiveIndex] = useState(props.defaultIndex);
+  const [activeIndex, setActiveIndex] = useState(props.defaultIndex ?? 0);
 
   useEffect(() => {
-    const activeSegmentRef = props.segments[activeIndex ? activeIndex : 0].ref;
+    const activeSegmentRef = props.segments[activeIndex].ref;
     const { offsetWidth, offsetLeft } = activeSegmentRef.current;
     const { style } = props.controlRef.current;
 
@@ -23,10 +23,14 @@ const SegmentedController = (props: SegmentedControllerProps) => {
     setActiveIndex(i);
     props.callback(value);
   };
+
+  const highlightStyles =
+    "before:absolute before:top-2 before:bottom-2 before:left-0 before:z-0 before:bg-blue-500 before:rounded-md before:transition-transform";
   return (
     <div className="flex" ref={props.controlRef}>
       <div
-        className={`controls justify-between inline-flex bg-white rounded-md m-auto shadow-lg p-2 relative before:absolute before:top-2 before:bottom-2 before:left-0 before:z-0 before:bg-blue-500 before:rounded-md before:transition-transform`}
+        className={`justify-between inline-flex bg-white rounded-md m-auto shadow-lg p-2 relative ${highlightStyles}`}
+        style={{}}
       >
         {props.segments.map((item, i) => (
           <div

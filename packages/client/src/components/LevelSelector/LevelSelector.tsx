@@ -15,7 +15,6 @@ const LevelSelector = (props: LevelSelectorProps) => {
     { value: "advanced", ref: useRef() },
   ];
 
-  // TODO: Consider case when default value not in levels
   const defaultIndex = levels.map((item) => item.value).indexOf(props.default);
 
   return (
@@ -25,7 +24,7 @@ const LevelSelector = (props: LevelSelectorProps) => {
         <SegmentedController
           segments={levels}
           callback={props.onSelect}
-          defaultIndex={defaultIndex}
+          defaultIndex={defaultIndex != -1 ? defaultIndex : undefined}
           controlRef={useRef()}
         />
       </div>
