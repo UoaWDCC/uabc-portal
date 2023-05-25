@@ -29,7 +29,7 @@ export default function DirectDebitPage() {
         Direct Debit
       </p>
       <scroll-shadow>
-        <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom h-44 px-4">
+        <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom h-[calc(100dvh-460px)] max-h-[248px]">
           <DebitDetailsCard
             title="Account Number:"
             text={[accountNumber]}
