@@ -32,7 +32,7 @@ export class UserRepo {
    * Finds a payment in the database that matches the provided id and updates it with the provided data or returns null if none exists
    */
   async update(user: User): Promise<User | null> {
-    const dbo = await DBUser.findByIdAndUpdate(user.userId, UserRepo.UserToDbo(user));
+    const dbo = await DBUser.findByIdAndUpdate(user.id, UserRepo.UserToDbo(user));
     if (dbo === null) {
       return null;
     }
@@ -42,7 +42,7 @@ export class UserRepo {
 
   static UserToDbo(user: User): InferSchemaType<typeof userSchema> {
     return {
-      userId: user.userId,
+      _id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
@@ -59,7 +59,6 @@ export class UserRepo {
    */
   static DboToUser(dbo: InferSchemaType<typeof userSchema>): User {
     return new User(
-      dbo.userId,
       dbo.firstName,
       dbo.lastName,
       dbo.email,
@@ -67,7 +66,8 @@ export class UserRepo {
       dbo.sessionsRemaining,
       dbo.previousDifficulty,
       dbo.university,
-      dbo.universityID
+      dbo.universityID,
+      dbo._id
     )
   }
 }

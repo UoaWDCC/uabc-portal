@@ -6,7 +6,7 @@ import { Schema, model } from "mongoose";
 import { University,UniversityID, Difficulty } from "./User.model";
 
 export interface IUser {
-    userId: string,
+    _id?: string
     firstName: string,
     lastName: string,
     email: string,
@@ -14,17 +14,13 @@ export interface IUser {
     isMember: Boolean,
     sessionsRemaining: Number,
 
-    previousDifficulty: Difficulty,
+    previousDifficulty: string,
 
-    university?: University,
-    universityID?: UniversityID
+    university?: string,
+    universityID?: string
 }
 
 export const userSchema = new Schema<IUser>({
-    userId: {
-        type: String,
-        require: true
-    },
     firstName: {
         type: String,
         require: true
@@ -46,10 +42,10 @@ export const userSchema = new Schema<IUser>({
         require: true
     },
     university: {
-        type: University,
+        type: String,
     },
     universityID: {
-        type: UniversityID,
+        type: String,
     },
 });
 

@@ -4,7 +4,6 @@
 
 export class User {
   constructor(
-    public userId: string,
     public firstName: string,
     public lastName: string,
     public email: string,
@@ -15,9 +14,8 @@ export class User {
     public previousDifficulty: Difficulty,
 
     public university?: University,
-    public universityID?: UniversityID
-
-
+    public universityID?: UniversityID,
+    public id?: string,
   ) {}
 }
 
