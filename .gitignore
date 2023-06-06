@@ -2,4 +2,6 @@
 
 build/
 
+.idea/
+
 .env
