@@ -1,4 +1,5 @@
 import React from "react";
+import { MdDisabledByDefault } from "react-icons/md";
 
 /**
  * @param label button text
@@ -10,10 +11,11 @@ const Button = (props: ButtonInputProps) => {
   //@TODO
   return (
     <button
-      className={`w-full h-14 rounded text-white font-semibold 
+      className={`h-14 rounded text-white font-semibold 
         ${props.disabled ? "bg-[#BFBFBF]" : "bg-[#3767af]"} 
         ${props.widthFull ? "w-full" : "w-72"}`}
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       {props.label.toUpperCase()}
     </button>

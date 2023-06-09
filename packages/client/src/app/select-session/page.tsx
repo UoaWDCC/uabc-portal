@@ -93,7 +93,6 @@ export default function SelectSessionPage() {
         return false;
       }
     }).length;
-
     setSessionsSelected(numberActive);
   }, [session]);
 
