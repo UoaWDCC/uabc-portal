@@ -12,3 +12,5 @@ const Card = (props: PropsWithChildren<CardProps>) => {
     </div>
   );
 };
+
+export default Card;
