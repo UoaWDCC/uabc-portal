@@ -6,22 +6,19 @@
 
 import Heading from "@/components/Heading/Heading";
 import Button from "@/components/Button/Button";
-import DebitDetailsCard from "@/components/DebitDetailsCard/DebitDetailsCard";
 import { useEffect, useState, useRef } from "react";
 import { CgProfile } from "react-icons/cg";
 import { AiFillCaretDown } from "react-icons/ai";
 
 import "scroll-shadow-element";
-import ConfirmedSessionCard from "@/components/ConfirmedSessionCard/ConfirmedSessionCard";
 import SessionCard from "@/components/SessionCard/SessionCard";
 import { SessionCardStatus } from "@/components/SessionCard/SessionCardStatusEnum";
 import SessionCardProps from "@/components/SessionCard/SessionCardProps";
-import { Session } from "inspector";
 
 export default function SelectSessionPage() {
-  const remainingSessions: number = 11;
-  const isMember: boolean = true;
-  const firstName: string = "David";
+  const remainingSessions = 11;
+  const isMember = true;
+  const firstName = "David";
   const sessions: SessionCardProps[] = [
     {
       startDate: new Date("2023-05-10T10:30:00"),
@@ -64,6 +61,9 @@ export default function SelectSessionPage() {
   const [scrollIndicator, setScrollIndicator] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
 
+  /**Changes the status of the card on click conditionally
+   * If number of cards active exceeds the allowed amount, plays error animation
+   */
   function sessionClick(e: any, index: number) {
     if (e.target.checked && sessionsSelected === maxSessions) {
       e.currentTarget.checked = false;
@@ -81,10 +81,10 @@ export default function SelectSessionPage() {
         ? SessionCardStatus.SELECTED
         : SessionCardStatus.DEFAULT;
       setSession(tempArray);
-      // TODO: replace with proper types
     }
   }
 
+  /**On status change, changes the counter of number of sessions selected*/
   useEffect(() => {
     const numberActive = session.filter((card: SessionCardProps) => {
       if (card.status === SessionCardStatus.SELECTED) {
@@ -96,6 +96,7 @@ export default function SelectSessionPage() {
     setSessionsSelected(numberActive);
   }, [session]);
 
+  /**Doesn't show bouncing arrow on load if there is no overflow */
   useEffect(() => {
     setTimeout(() => {
       if (ref.current && ref.current.scrollHeight > ref.current.clientHeight) {
