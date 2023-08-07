@@ -2,41 +2,29 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SegmentedControllerProps from "./SegmentedControllerProps";
-
-// TODO: Remove animation on mount
 
 const SegmentedController = (props: SegmentedControllerProps) => {
   const [activeIndex, setActiveIndex] = useState(props.defaultIndex ?? 0);
-
-  useEffect(() => {
-    const activeSegmentRef = props.segments[activeIndex].ref;
-    const { offsetWidth, offsetLeft } = activeSegmentRef.current;
-    const { style } = props.controlRef.current;
-
-    style.setProperty("--highlight-width", `${offsetWidth}px`);
-    style.setProperty("--highlight-x-pos", `${offsetLeft}px`);
-  }, [activeIndex, props.callback, props.segments]);
 
   const onInputChange = (value: string, i: number) => {
     setActiveIndex(i);
     props.callback(value);
   };
 
-  const highlightStyles =
-    "before:absolute before:top-2 before:bottom-2 before:left-0 before:z-0 before:bg-blue-500 before:rounded-md before:transition-transform";
   return (
-    <div className="flex" ref={props.controlRef}>
+    <div className="flex">
       <div
-        className={`justify-between inline-flex bg-white rounded-md m-auto shadow-lg p-2 relative ${highlightStyles}`}
+        className={`justify-between inline-flex bg-white rounded-md m-auto shadow-lg p-2`}
         style={{}}
       >
         {props.segments.map((item, i) => (
           <div
-            ref={item.ref}
             key={item.value}
-            className="text-center relative z-1 rounded-md"
+            className={`text-center relative z-1 rounded-md ${
+              i == activeIndex ? "absolute left-0 z-0 bg-blue-500" : ""
+            }`}
           >
             <input
               type="radio"
