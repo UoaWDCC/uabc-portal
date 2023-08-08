@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb+srv://mykhol:Phiozuzse100%21@uabc-dev.iwltwgj.mongodb.net/test?retryWrites=true&w=majority"
+}
+
+model dbpayments {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int    @map("__v")
+  amount    Int
+  bookingId String
+  method    String
+  time      Int
+  userId    String
+}
+
+model dbsessions {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  v            Int?   @map("__v")
+  bookingClose String
+  bookingOpen  String
+  dateTime     String
+  location     String
+  maxUsers     Int
+}
