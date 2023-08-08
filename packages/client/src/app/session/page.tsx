@@ -11,20 +11,20 @@ import { useEffect } from "react";
 
 export default function SessionPage() {
 
-    const { query } = useSessions();
+    const { data } = useGetSessions();
 
     useEffect(() => {
-        console.log(query.data)
-    }, [query.data])
+        console.log(data)
+    }, [data])
 
 
     fetch("/api/session")
 
 
-    return query.data ? (
+    return data ? (
         <div>
             {
-                query.data.map((session) => {
+                data.map((session) => {
                     return (
                         <SessionCard
                             startdate={new Date(session.bookingOpen)}
