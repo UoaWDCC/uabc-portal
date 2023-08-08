@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = "mongodb+srv://mykhol:Phiozuzse100%21@uabc-dev.iwltwgj.mongodb.net/test?retryWrites=true&w=majority"
+  url      = env("DATABASE_URL")
 }
 
 model dbpayments {
