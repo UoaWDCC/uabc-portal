@@ -17,10 +17,6 @@ export default function SessionPage() {
         console.log(data)
     }, [data])
 
-
-    fetch("/api/session")
-
-
     return data ? (
         <div>
             {
