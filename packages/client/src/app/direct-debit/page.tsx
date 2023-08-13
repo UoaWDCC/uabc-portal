@@ -8,8 +8,8 @@ import Heading from "@/components/Heading/Heading";
 import PaymentInfoCard from "@/components/PaymentInfoCard/PaymentInfoCard";
 import DebitDetailsCard from "@/components/DebitDetailsCard/DebitDetailsCard";
 import Button from "@/components/Button/Button";
+import ScrollShadow from "@/components/ScrollShadow";
 
-import "scroll-shadow-element";
 
 export default function DirectDebitPage() {
   const firstName: string = "John";
@@ -28,7 +28,7 @@ export default function DirectDebitPage() {
       <p className="mt-auto font-medium text-center flex flex-col-reverse grow p-3">
         Direct Debit
       </p>
-      <scroll-shadow>
+      <ScrollShadow>
         <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom h-[calc(100dvh-460px)] max-h-[248px]">
           <DebitDetailsCard
             title="Account Number:"
@@ -49,7 +49,7 @@ export default function DirectDebitPage() {
             }}
           />
         </div>
-      </scroll-shadow>
+      </ScrollShadow>
 
       <div className="flex justify-center mt-8">
         <Button label="done" widthFull={true} onClick={() => alert("DONE")} />
