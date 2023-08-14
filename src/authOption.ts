@@ -16,14 +16,6 @@ export const authOption: AuthOptions = {
         }),
     ],
     session: {
-        strategy: "database"
+        strategy: "jwt"
     },
-    callbacks: {
-        async session({ session, token, user }) {
-            // Find the sessionToken related to the user from the sessions table and attach it to the provided session data
-            const storedSession = await prisma.session.findFirst({ where: {userId: user.id}});
-            session.sessionToken = storedSession?.sessionToken;
-            return session;
-        }
-    }
 }
