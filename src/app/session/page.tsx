@@ -21,6 +21,7 @@ export default function SessionPage() {
       {data.map((session) => {
         return (
           <SessionCard
+            key={session.id}
             startdate={new Date(session.bookingOpen)}
             enddate={new Date(session.bookingClose)}
             location={session.location}
