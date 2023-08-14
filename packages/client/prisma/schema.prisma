@@ -7,16 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model dbpayments {
+model Payment {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   amount    Int
-  bookingId String
+  bookingId String @db.ObjectId
   method    String
   time      Int
   userId    String
 }
 
-model dbsessions {
+model GameSession {
   id           String @id @default(auto()) @map("_id") @db.ObjectId
   bookingClose String
   bookingOpen  String
@@ -26,18 +26,18 @@ model dbsessions {
 }
 
 model Account {
-  id                 String  @id @default(cuid()) @map("_id")
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -45,15 +45,15 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid()) @map("_id") 
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique
-  userId       String
+  userId       String   @db.ObjectId
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String    @id @default(cuid()) @map("_id")
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
   email         String?   @unique
   emailVerified DateTime?

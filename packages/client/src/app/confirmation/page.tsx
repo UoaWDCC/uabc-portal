@@ -6,6 +6,7 @@
 
 import ConfirmationIcon from "@/components/ConfirmationIcon/ConfirmationIcon";
 import ConfirmedSessionCard from "@/components/ConfirmedSessionCard/ConfirmedSessionCard";
+import { getSession, useSession } from "next-auth/react";
 import ConfirmationBannerSVG from "public/images/ConfirmationBannerSVG.svg";
 
 const sessions = [
@@ -29,7 +30,15 @@ const sessions = [
 
 const confirmed = true;
 
-export default function ConfirmationPage() {
+export default async function ConfirmationPage() {
+
+
+  // const {data} = useSession();
+  // console.log(data)
+
+  const session = await getSession()
+  console.log(session)
+
   return (
     <div className="flex flex-col h-[100dvh]">
       <div className="relative">

@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './globals.css'
+import { SessionProvider } from 'next-auth/react';
 
 // export const metadata = {
 //   title: 'Create Next App',
@@ -20,7 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <QueryClientProvider client={queryClient}>
+          <SessionProvider>
           {children}
+          </SessionProvider>
         </QueryClientProvider>
       </body>
     </html>
