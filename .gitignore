@@ -39,3 +39,6 @@ next-env.d.ts
 
 # NextJS
 .next
+
+# env files
+.env
