@@ -8,12 +8,8 @@ export default function HomePage() {
   return (
     <div>
       <p>Welcome to UABC Booking Portal.</p>
-      <TextInput
-        label="Label"
-        value={value}
-        onChange={setValue}
-      />
+      <TextInput label="Label" value={value} onChange={setValue} />
       <p>{value}</p>
     </div>
-  )
+  );
 }

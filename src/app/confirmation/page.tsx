@@ -2,11 +2,10 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-"use client";
-
 import ConfirmationIcon from "@/components/ConfirmationIcon/ConfirmationIcon";
 import ConfirmedSessionCard from "@/components/ConfirmedSessionCard/ConfirmedSessionCard";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
+import Image from "next/image";
 import ConfirmationBannerSVG from "public/images/ConfirmationBannerSVG.svg";
 
 const sessions = [
@@ -31,18 +30,20 @@ const sessions = [
 const confirmed = true;
 
 export default async function ConfirmationPage() {
-
-
   // const {data} = useSession();
   // console.log(data)
 
-  const session = await getSession()
-  console.log(session)
+  const session = await getSession();
+  console.log(session);
 
   return (
     <div className="flex flex-col h-[100dvh]">
       <div className="relative">
-        <img src={ConfirmationBannerSVG.src} className="w-full" />
+        <Image
+          src={ConfirmationBannerSVG.src}
+          className="w-full"
+          alt={"Confirmation Banner"}
+        />
         <p className="text-5xl font-bold text-center text-blue-600 z-10 absolute left-0 right-0 top-10">
           UABC
         </p>

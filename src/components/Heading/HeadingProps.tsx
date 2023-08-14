@@ -3,7 +3,7 @@
  */
 
 type HeadingProps = {
-    children: string
-}
+  children: string;
+};
 
-export default HeadingProps
+export default HeadingProps;

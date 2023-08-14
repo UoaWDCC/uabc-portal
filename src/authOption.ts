@@ -7,15 +7,15 @@ import GoogleProvider from "next-auth/providers/google";
 const prisma = new PrismaClient();
 
 export const authOption: AuthOptions = {
-    adapter: PrismaAdapter(prisma) as Adapter,
-    providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-            checks: ["none"]
-        }),
-    ],
-    session: {
-        strategy: "jwt"
-    },
-}
+  adapter: PrismaAdapter(prisma) as Adapter,
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      checks: ["none"],
+    }),
+  ],
+  session: {
+    strategy: "jwt",
+  },
+};
