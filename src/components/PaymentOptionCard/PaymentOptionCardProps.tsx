@@ -3,9 +3,9 @@
  */
 
 type PaymentOptionCardProps = {
-    title: string,
-    subtitle: string,
-    onClick: () => void
-}
+  title: string;
+  subtitle: string;
+  onClick: () => void;
+};
 
-export default PaymentOptionCardProps
+export default PaymentOptionCardProps;

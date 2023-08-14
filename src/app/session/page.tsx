@@ -10,28 +10,24 @@ import { useGetSessions } from "@/useQuery/useGetSessions";
 import { useEffect } from "react";
 
 export default function SessionPage() {
+  const { data } = useGetSessions();
 
-    const { data } = useGetSessions();
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
-    return data ? (
-        <div>
-            {
-                data.map((session) => {
-                    return (
-                        <SessionCard
-                            startdate={new Date(session.bookingOpen)}
-                            enddate={new Date(session.bookingClose)}
-                            location={session.location}
-                            status={SessionCardStatus.DEFAULT}
-                        />
-                    )
-                })
-            }
-        </div>
-
-    ) : null
+  return data ? (
+    <div>
+      {data.map((session) => {
+        return (
+          <SessionCard
+            startdate={new Date(session.bookingOpen)}
+            enddate={new Date(session.bookingClose)}
+            location={session.location}
+            status={SessionCardStatus.DEFAULT}
+          />
+        );
+      })}
+    </div>
+  ) : null;
 }

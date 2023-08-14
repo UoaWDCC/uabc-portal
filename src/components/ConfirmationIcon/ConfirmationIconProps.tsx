@@ -3,7 +3,7 @@
  */
 
 type ConfirmationIconProps = {
-    confirmed: boolean
-}
+  confirmed: boolean;
+};
 
-export default ConfirmationIconProps
+export default ConfirmationIconProps;

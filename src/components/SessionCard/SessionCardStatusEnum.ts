@@ -1,6 +1,6 @@
 export enum SessionCardStatus {
-    DEFAULT,
-    SELECTED,
-    DISABLED,
-    UNAVAILABLE
+  DEFAULT,
+  SELECTED,
+  DISABLED,
+  UNAVAILABLE,
 }

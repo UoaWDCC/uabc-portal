@@ -3,7 +3,7 @@
  */
 
 type PaymentInfoCardProps = {
-    amount: number
-}
+  amount: number;
+};
 
-export default PaymentInfoCardProps
+export default PaymentInfoCardProps;

@@ -31,13 +31,11 @@ const sessions = [
 const confirmed = true;
 
 export default async function ConfirmationPage() {
-
-
   // const {data} = useSession();
   // console.log(data)
 
-  const session = await getSession()
-  console.log(session)
+  const session = await getSession();
+  console.log(session);
 
   return (
     <div className="flex flex-col h-[100dvh]">

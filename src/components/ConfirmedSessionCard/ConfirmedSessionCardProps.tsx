@@ -3,11 +3,11 @@
  */
 
 type ConfirmedSessionCardProps = {
-    weekDay: string,
-    locationName: string,
-    address: string,
-    startTime: string,
-    endTime: string
-}
+  weekDay: string;
+  locationName: string;
+  address: string;
+  startTime: string;
+  endTime: string;
+};
 
-export default ConfirmedSessionCardProps
+export default ConfirmedSessionCardProps;

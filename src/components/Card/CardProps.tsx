@@ -3,8 +3,8 @@
  */
 
 type CardProps = {
-    className?: string,
-    onClick?: () => void
-}
+  className?: string;
+  onClick?: () => void;
+};
 
-export default CardProps
+export default CardProps;
