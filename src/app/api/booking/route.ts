@@ -1,8 +1,23 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/db";
 
-export async function GET(request: Request) {
-  const user = await prisma.user.findFirst();
+// @TODO remove this later
+import { ObjectId } from "bson";
 
-  return NextResponse.json({ data: user });
+/**
+ * Create a new booking
+ */
+export async function POST() {
+  // @TODO auth users
+  const newBooking = await prisma.booking.create({
+    data: {
+      createdAt: new Date(),
+      paymentMethod: new ObjectId().toString(),
+      status: "pending",
+      userId: new ObjectId().toString(),
+      sessionId: new ObjectId().toString(),
+    },
+  });
+
+  return NextResponse.json({ data: newBooking });
 }
