@@ -31,8 +31,7 @@ export default function DirectDebitPage() {
         <div className="flex flex-col overflow-y-auto w-full gap-4 bg-bottom h-[calc(100dvh-460px)] max-h-[248px]">
           <DebitDetailsCard
             title="Account Number:"
-            text={[accountNumber]}
-            copy={true}
+            subtitle={accountNumber}
             onClick={() => {
               navigator.clipboard.writeText(accountNumber);
             }}
@@ -40,9 +39,8 @@ export default function DirectDebitPage() {
 
           <DebitDetailsCard
             title="Reference:"
-            text={[firstName + " " + lastName]}
+            subtitle={`${firstName} ${lastName}`}
             sessionId={sessionId}
-            copy={true}
             onClick={() => {
               navigator.clipboard.writeText(sessionId);
             }}

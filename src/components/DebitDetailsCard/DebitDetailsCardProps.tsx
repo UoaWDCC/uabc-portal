@@ -4,9 +4,8 @@
 
 type DebitDetailsCardProps = {
   title: string;
-  text: string[];
+  subtitle: string;
   sessionId?: string;
-  copy?: boolean; // TODO: redundant
   onClick?: () => void;
 };
 
