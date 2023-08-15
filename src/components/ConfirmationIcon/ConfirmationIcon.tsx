@@ -5,8 +5,8 @@
 import ConfirmationIconProps from "./ConfirmationIconProps";
 import { BsCheckCircle, BsClock } from "react-icons/bs";
 
-const ConfirmationIcon = (props: ConfirmationIconProps) => {
-  if (props.confirmed) {
+const ConfirmationIcon = ({confirmed}: ConfirmationIconProps) => {
+  if (confirmed) {
     return (
       <div className="text-center">
         <BsCheckCircle size={120} className="mx-auto text-green-500" />

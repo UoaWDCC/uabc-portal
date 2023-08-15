@@ -4,14 +4,12 @@
 
 import { PropsWithChildren } from "react";
 import CardProps from "./CardProps";
+import { twMerge } from "tailwind-merge";
 
-const Card = (props: PropsWithChildren<CardProps>) => {
+const Card = ({onClick, className, children} : PropsWithChildren<CardProps>) => {
   return (
-    <div
-      onClick={props.onClick}
-      className={`rounded-md drop-shadow-2xl ` + props.className}
-    >
-      {props.children}
+    <div onClick={onClick} className={twMerge("rounded-md", className)}>
+      {children}
     </div>
   );
 };

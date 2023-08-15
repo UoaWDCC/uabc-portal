@@ -5,14 +5,14 @@
 import Card from "../Card/Card";
 import ConfirmedSessionCardProps from "./ConfirmedSessionCardProps";
 
-const ConfirmedSessionCard = (props: ConfirmedSessionCardProps) => {
+const ConfirmedSessionCard = ({weekDay, locationName, address, startTime, endTime}: ConfirmedSessionCardProps) => {
   return (
     <Card className="bg-blue-500 text-blue-100 p-5">
-      <p className="text-white font-medium">{props.weekDay}</p>
-      <p className="text-sm mb-2">{props.locationName}</p>
-      <p className="text-sm">{props.address}</p>
+      <p className="text-white font-medium">{weekDay}</p>
+      <p className="text-sm mb-2">{locationName}</p>
+      <p className="text-sm">{address}</p>
       <p className="text-sm">
-        {props.startTime} - {props.endTime}
+        {startTime} - {endTime}
       </p>
     </Card>
   );
