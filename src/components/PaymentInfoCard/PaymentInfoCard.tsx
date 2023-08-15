@@ -5,8 +5,8 @@
 import Card from "../Card/Card";
 import PaymentInfoCardProps from "./PaymentInfoCardProps";
 
-const PaymentInfoCard = (props: PaymentInfoCardProps) => {
-  const dollarAmount = "$" + (Math.round(props.amount * 100) / 100).toFixed(2);
+const PaymentInfoCard = ({amount}: PaymentInfoCardProps) => {
+  const dollarAmount = "$" + (Math.round(amount * 100) / 100).toFixed(2);
   
   return (
     //TODO: colours

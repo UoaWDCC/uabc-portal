@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 
 export default function ScrollShadow({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   useEffect(() => {
     import("scroll-shadow-element");

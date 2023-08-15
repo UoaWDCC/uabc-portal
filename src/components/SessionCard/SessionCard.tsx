@@ -42,12 +42,12 @@ function checkMark(status: SessionCardStatus) {
   );
 }
 
-const SessionCard = (props: SessionCardProps) => {
-  const dayOfWeek = weekday[props.startdate.getDay()];
-  const start_time = props.startdate
+const SessionCard = ({startdate, enddate, status, location}: SessionCardProps) => {
+  const dayOfWeek = weekday[startdate.getDay()];
+  const start_time = startdate
     .toLocaleTimeString([], { timeStyle: "short" })
     .toUpperCase();
-  const end_time = props.enddate
+  const end_time = enddate
     .toLocaleTimeString([], { timeStyle: "short" })
     .toUpperCase();
 
@@ -57,7 +57,7 @@ const SessionCard = (props: SessionCardProps) => {
   let timeClassName = "font-normal text-lg pt-2 ";
 
   // Exact colours to be adjusted
-  switch (props.status) {
+  switch (status) {
     case SessionCardStatus.SELECTED:
       cardClassName += "bg-blue-600";
       dayOfWeekClassName += "text-white";
@@ -85,8 +85,8 @@ const SessionCard = (props: SessionCardProps) => {
   return (
     <Card className={cardClassName}>
       <p className={dayOfWeekClassName}>{dayOfWeek}</p>
-      {checkMark(props.status)}
-      <p className={locationClassName}>{props.location}</p>
+      {checkMark(status)}
+      <p className={locationClassName}>{location}</p>
       <p className={timeClassName}>
         {start_time} - {end_time}
       </p>

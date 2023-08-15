@@ -5,10 +5,10 @@
 import { PropsWithChildren } from "react";
 import CardProps from "./CardProps";
 
-const Card = (props: PropsWithChildren<CardProps>) => {
+const Card = ({onClick, className, children} : PropsWithChildren<CardProps>) => {
   return (
-    <div onClick={props.onClick} className={`rounded-md ` + props.className}>
-      {props.children}
+    <div onClick={onClick} className={`rounded-md ` + className}>
+      {children}
     </div>
   );
 };
