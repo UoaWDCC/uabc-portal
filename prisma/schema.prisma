@@ -70,3 +70,12 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Booking {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @db.ObjectId
+  sessionId     String   @db.ObjectId
+  createdAt     DateTime
+  paymentMethod String   @db.ObjectId
+  status        String
+}
