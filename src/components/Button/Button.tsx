@@ -1,4 +1,5 @@
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 /**
  * @param label button text
@@ -10,12 +11,14 @@ const Button = ({widthFull, onClick, disabled, label}: ButtonInputProps) => {
   return (
     //TODO: colours
     <button
-      className={`h-14 rounded text-white font-semibold text-sm bg-[#3767af] active:bg-[#264a7f] disabled:bg-[#BFBFBF]
-        ${widthFull ? "w-full" : "w-72"}`}
+      className={twMerge(
+        "h-14 rounded text-white font-semibold text-sm bg-[#3767af] active:bg-[#264a7f] disabled:bg-[#BFBFBF] uppercase",
+        widthFull ? "w-full" : "w-72",
+      )}
       onClick={onClick}
       disabled={disabled}
     >
-      {label.toUpperCase()}
+      {label}
     </button>
   );
 };
