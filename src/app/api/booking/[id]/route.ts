@@ -1,9 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/db";
-import { useRouter } from "next/router";
 
-export async function GET(request: Request) {
-  const user = await prisma.user.findFirst();
+export async function GET(request: NextRequest) {
+  // @TODO Janky solution please fix in future
+  const bookingId = request.nextUrl.pathname.split("/")[3];
 
-  return NextResponse.json({ data: user });
+  const booking = await prisma.booking.findFirst({ where: { id: bookingId } });
+
+  return NextResponse.json({ data: booking });
 }
