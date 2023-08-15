@@ -12,6 +12,32 @@ yarn dev
 pnpm dev
 ```
 
+Then run this to create the .env file
+
+```bash
+cp .env-example .env
+```
+
+Make sure to update the connection URL in your .env after the command
+
+Run this to Generate prisma schema types
+
+```bash
+npx prisma generate
+```
+
+Run this to bring up Prisma Studio (This is a very useful database viewer)
+
+```bash
+npx prisma studio
+```
+
+Run this to push your schema changes to db
+
+```bash
+npx prisma db push
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
