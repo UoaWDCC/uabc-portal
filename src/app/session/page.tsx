@@ -6,7 +6,7 @@
 
 import SessionCard from "@/components/SessionCard/SessionCard";
 import { SessionCardStatus } from "@/components/SessionCard/SessionCardStatusEnum";
-import { useGetSessions } from "@/useQuery/useGetSessions";
+import { useGetSessions } from "@/lib/useQuery/useGetSessions";
 import { useEffect } from "react";
 
 export default function SessionPage() {

@@ -3671,6 +3671,11 @@ scheduler@^0.23.0:
   dependencies:
     loose-envify "^1.1.0"
 
+scroll-shadow-element@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/scroll-shadow-element/-/scroll-shadow-element-2.0.5.tgz#5c88700c9ab196512bb257cdcce075a229bf79cc"
+  integrity sha512-N4cZKbDTYmmwHG496hDmNc3flPSFXAImU4O1L5cXgr3XJ9FrP8YuhWHYCYbIxDirLZmxDI9ztM2glArC78WPmQ==
+
 semver@^6.3.0, semver@^6.3.1:
   version "6.3.1"
   resolved "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz"
@@ -3840,6 +3845,11 @@ svgo@^3.0.2:
     css-tree "^2.2.1"
     csso "^5.0.5"
     picocolors "^1.0.0"
+
+tailwind-merge@^1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-1.14.0.tgz#e677f55d864edc6794562c63f5001f45093cdb8b"
+  integrity sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==
 
 tailwindcss@^3.3.3:
   version "3.3.3"
