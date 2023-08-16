@@ -24,7 +24,7 @@ export default function SelectSessionPage() {
   const firstName = "David";
 
   const { data } = useQuery(['current-sessions'], async () => {
-    const response = await fetch('api/session/current', {cache: 'no-store'})
+    const response = await fetch('api/gamesession/current', {cache: 'no-store'})
     return await response.json()
   })
 
@@ -147,7 +147,7 @@ export default function SelectSessionPage() {
           </p>
         )}
         {isMember && (
-          <p className="flex m-4 justify-center items-center rounded bg-[#D9D9D9] h-[34px] w-[34px]">
+          <p className="flex m-4 justify-center items-center rounded bg-[#D9D9D9] h-[35px] w-[35px]">
             {remainingSessions}
           </p>
         )}
