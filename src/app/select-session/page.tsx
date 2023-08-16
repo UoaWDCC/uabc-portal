@@ -15,18 +15,22 @@ import { SessionCardStatus } from "@/components/SessionCard/SessionCardStatusEnu
 import SessionCardProps from "@/components/SessionCard/SessionCardProps";
 import ScrollShadow from "@/components/ScrollShadow";
 import { twJoin } from "tailwind-merge";
-import { useGetSessions } from "@/lib/useQuery/useGetSessions";
+import { useQuery } from "@tanstack/react-query";
+import type { GameSession } from "@prisma/client";
 
 export default function SelectSessionPage() {
   const remainingSessions = 11;
   const isMember = true;
   const firstName = "David";
 
-  const { data } = useGetSessions()
+  const { data } = useQuery(['current-sessions'], async () => {
+    const response = await fetch('api/session/current', {cache: 'no-store'})
+    return await response.json()
+  })
 
-  const queriedSessions : SessionCardProps[] | undefined = data?.map((session) => {
-    const startDate = new Date(session.dateTime)
-    const endDate = new Date(session.dateTime)
+  const queriedSessions : SessionCardProps[] | undefined = data?.map((session: GameSession) => {
+    const startDate = session.dateTime
+    const endDate = session.dateTime
     endDate.setHours(endDate.getHours() + 1); //TODO: confirm
     return {
       startDate,
