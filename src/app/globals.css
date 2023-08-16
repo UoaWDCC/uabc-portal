@@ -9,6 +9,11 @@ scroll-shadow {
   --scroll-shadow-bottom: linear-gradient(to bottom, transparent 0%, white 18px);
 }
 
+.scroll-fade {
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 18px, black calc(100% - 15px), transparent 100%); 
+    mask-image: linear-gradient(to top, transparent 0%, black 18px, black calc(100% - 15px), transparent 100%); 
+}
+
 .error-shake {
   -webkit-animation: shake 0.16s 0s 3;
   animation: shake 0.16s 0s 3;

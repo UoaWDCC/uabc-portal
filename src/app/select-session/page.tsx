@@ -158,26 +158,27 @@ export default function SelectSessionPage() {
       </div>
 
       <ScrollShadow>
-        <div
-          className="flex flex-col overflow-y-auto w-full h-[calc(100dvh-329px)] gap-4 px-5"
-          onScroll={(e) => setScrollIndicator(false)}
-          ref={ref}
-        >
-          {session.map((card, index) => {
-            return (
-              <SessionCard
-                startDate={card.startDate}
-                endDate={card.endDate}
-                location={card.location}
-                status={card.status}
-                key={index}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  sessionClick(e, index)
-                }
-              ></SessionCard>
-            );
-          })}
-        </div>
+      <div
+        // scroll-fade py-4
+        className="flex flex-col overflow-y-auto w-full h-[calc(100dvh-329px)] gap-4 px-5"
+        onScroll={(e) => setScrollIndicator(false)}
+        ref={ref}
+      >
+        {session.map((card, index) => {
+          return (
+            <SessionCard
+              startDate={card.startDate}
+              endDate={card.endDate}
+              location={card.location}
+              status={card.status}
+              key={index}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                sessionClick(e, index)
+              }
+            ></SessionCard>
+          );
+        })}
+      </div>
       </ScrollShadow>
 
       {scrollIndicator && isOverflown && (
