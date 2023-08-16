@@ -15,11 +15,26 @@ import { SessionCardStatus } from "@/components/SessionCard/SessionCardStatusEnu
 import SessionCardProps from "@/components/SessionCard/SessionCardProps";
 import ScrollShadow from "@/components/ScrollShadow";
 import { twJoin } from "tailwind-merge";
+import { useGetSessions } from "@/lib/useQuery/useGetSessions";
 
 export default function SelectSessionPage() {
   const remainingSessions = 11;
   const isMember = true;
   const firstName = "David";
+
+  const { data } = useGetSessions()
+
+  const queriedSessions : SessionCardProps[] | undefined = data?.map((session) => {
+    const startDate = new Date(session.dateTime)
+    const endDate = new Date(session.dateTime)
+    endDate.setHours(endDate.getHours() + 1); //TODO: confirm
+    return {
+      startDate,
+      endDate,
+      location: session.location,
+      status: SessionCardStatus.DEFAULT,
+  }})
+
   const sessions: SessionCardProps[] = [
     {
       startDate: new Date("2023-05-10T10:30:00"),
@@ -157,6 +172,7 @@ export default function SelectSessionPage() {
         )}
       </div>
 
+      {/* TODO: check whether to use this or mask */}
       <ScrollShadow>
       <div
         // scroll-fade py-4
