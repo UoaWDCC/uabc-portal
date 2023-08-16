@@ -1,12 +1,85 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/db";
+import { Prisma } from "@prisma/client";
+import { gameSessionValidator } from "@/lib/validators";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async (request: NextRequest) => {
+  const sessions = await prisma.session.findMany();
 
-    const prisma = new PrismaClient();
+  return NextResponse.json({data: sessions});
+};
 
-    const sessions = await prisma.session.findMany();
+/**
+ * Creates a new game session
+ */
+export const POST = async (request: NextRequest) => {
+  const sessionBody = (await request.json()) as Omit<
+    Prisma.GameSessionGetPayload<{}>,
+    "id"
+  >;
 
-    return NextResponse.json(sessions)
+  const { success } = gameSessionValidator.safeParse(sessionBody);
 
-}
+  if (!success) {
+    return NextResponse.json(
+      {
+        data: {},
+        msg: "failed, please include all required fields in response with the correct type",
+      },
+      {
+        status: 404,
+      },
+    );
+  }
+
+  const session = await prisma.gameSession.create({
+    data: { ...sessionBody },
+  });
+
+  return NextResponse.json({
+    data: session,
+    msg: "success",
+  });
+};
+
+export const PATCH = async (request: NextRequest) => {
+  const sessionId = request.nextUrl.searchParams.get("id");
+
+  if (!sessionId) {
+    return NextResponse.json(
+      { data: {}, msg: "No id provided in the request" },
+      { status: 404 },
+    );
+  }
+
+  const sessionBody = (await request.json()) as Omit<
+    Prisma.GameSessionGetPayload<{}>,
+    "id"
+  >;
+
+  const { success } = gameSessionValidator.safeParse(sessionBody);
+
+  if (!success) {
+    return NextResponse.json(
+      {
+        data: {},
+        msg: "failed, please include all required fields in response with the correct type",
+      },
+      {
+        status: 404,
+      },
+    );
+  }
+
+  const session = await prisma.gameSession.update({
+    where: {
+      id: sessionId
+    },
+    data: { ...sessionBody },
+  });
+
+  return NextResponse.json({
+    data: session,
+    msg: "success",
+  });
+};

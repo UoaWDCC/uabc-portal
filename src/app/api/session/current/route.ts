@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/db";
 
+/**
+ * Gets game sessions currently available for booking
+ */
 export const GET = async (req: NextRequest) => {
   const sessions = prisma.gameSession.findMany({
     where: {
@@ -13,5 +16,5 @@ export const GET = async (req: NextRequest) => {
     }
   });
 
-  return NextResponse.json(sessions)
+  return NextResponse.json({data: sessions})
 };
