@@ -23,10 +23,14 @@ export default function SelectSessionPage() {
   const isMember = true;
   const firstName = "David";
 
-  const { data } = useQuery(['current-sessions'], async () => {
-    const response = await fetch('api/gamesession/current', {cache: 'no-store'})
-    return await response.json()
-  })
+  const { data } = useQuery({
+    queryKey: ['current-sessions'],
+    queryFn: async () => {
+      const response = await fetch("api/gamesession/current", {
+        cache: "no-store",
+      });
+      return await response.json();
+    }})
 
   const queriedSessions : SessionCardProps[] | undefined = data?.map((session: GameSession) => {
     const startDate = session.dateTime
