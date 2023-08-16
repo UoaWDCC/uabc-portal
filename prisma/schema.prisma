@@ -58,6 +58,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  difficulty    String?
   accounts      Account[]
   sessions      Session[]
 }
