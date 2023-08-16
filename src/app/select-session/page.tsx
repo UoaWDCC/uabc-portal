@@ -46,7 +46,7 @@ export default function SelectSessionPage() {
       startDate: new Date("2023-05-10T10:30:00"),
       endDate: new Date("2023-05-10T11:30:00"),
       location: "Auckland Badminton Association",
-      status: SessionCardStatus.DEFAULT,
+      status: SessionCardStatus.DISABLED,
     },
     {
       startDate: new Date("2023-05-10T10:30:00"),
@@ -176,7 +176,7 @@ export default function SelectSessionPage() {
       <ScrollShadow>
       <div
         // scroll-fade py-4
-        className="flex flex-col overflow-y-auto w-full h-[calc(100dvh-329px)] gap-4 px-5"
+        className="flex flex-col overflow-y-auto w-full h-[calc(100dvh-329px)] gap-3 px-5"
         onScroll={(e) => setScrollIndicator(false)}
         ref={ref}
       >

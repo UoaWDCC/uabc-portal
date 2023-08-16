@@ -2,6 +2,7 @@
  * @author Moeka Nakane <mnak534@aucklanduni.ac.nz>
  */
 
+import { twJoin } from "tailwind-merge";
 import Card from "../Card/Card";
 import SessionCardProps from "./SessionCardProps";
 import { SessionCardStatus } from "./SessionCardStatusEnum";
@@ -16,33 +17,35 @@ const weekday = [
   "Saturday",
 ];
 
-function checkMark(status: SessionCardStatus) {
+function CheckMark({ status }: { status: SessionCardStatus }) {
   return (
-    <>
-      {status == SessionCardStatus.SELECTED ? (
-        <div className="absolute right-20">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="white"
-            width="45"
-            height="45"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </div>
-      ) : (
-        <></>
+    <div className="absolute right-5 top-1/2 -translate-y-1/2">
+      {status === SessionCardStatus.SELECTED && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="white"
+          width="30"
+          height="30"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+            clip-rule="evenodd"
+          />
+        </svg>
       )}
-    </>
+    </div>
   );
 }
 
-const SessionCard = ({startDate, endDate, status, location, onChange}: SessionCardProps) => {
+const SessionCard = ({
+  startDate,
+  endDate,
+  status,
+  location,
+  onChange,
+}: SessionCardProps) => {
   const dayOfWeek = weekday[startDate.getDay()];
   const start_time = startDate
     .toLocaleTimeString([], { timeStyle: "short" })
@@ -51,50 +54,56 @@ const SessionCard = ({startDate, endDate, status, location, onChange}: SessionCa
     .toLocaleTimeString([], { timeStyle: "short" })
     .toUpperCase();
 
-  let cardClassName = "relative px-8 py-5 ";
-  let dayOfWeekClassName = "font-medium text-2xl ";
-  let locationClassName = "font-normal text-lg ";
-  let timeClassName = "font-normal text-lg pt-2 ";
+  let cardClassName;;
+  let dayOfWeekClassName;
+  let locationClassName;
+  let timeClassName;
 
   // Exact colours to be adjusted
   switch (status) {
     case SessionCardStatus.SELECTED:
-      cardClassName += "bg-blue-600";
-      dayOfWeekClassName += "text-white";
-      locationClassName += "text-indigo-200";
-      timeClassName += "text-indigo-200";
+      cardClassName = "bg-blue-600";
+      dayOfWeekClassName = "text-white";
+      locationClassName = "text-indigo-200";
+      timeClassName = "text-indigo-200";
       break;
     case SessionCardStatus.DISABLED:
-      cardClassName += "bg-gray-100";
-      dayOfWeekClassName += "text-gray-300";
-      locationClassName += "text-gray-300";
-      timeClassName += "text-gray-300";
+      cardClassName = "bg-gray-100";
+      dayOfWeekClassName = "text-gray-300";
+      locationClassName = "text-gray-300";
+      timeClassName = "text-gray-300";
       break;
     case SessionCardStatus.UNAVAILABLE:
-      cardClassName += "bg-orange-700";
-      dayOfWeekClassName += "text-white";
-      locationClassName += "text-rose-200";
-      timeClassName += "text-rose-200";
+      cardClassName = "bg-orange-700";
+      dayOfWeekClassName = "text-white";
+      locationClassName = "text-rose-200";
+      timeClassName = "text-rose-200";
       break;
     default:
-      cardClassName += "bg-gray-200";
-      locationClassName += "text-gray-500";
-      timeClassName += "text-gray-500";
+      cardClassName = "bg-gray-200";
+      locationClassName = "text-gray-500";
+      timeClassName = "text-gray-500";
   }
 
   return (
-    <Card className={cardClassName}>
+    <Card className={twJoin("relative px-6 py-4 font-normal", cardClassName)}>
       <input
-        className="absolute h-full w-full -translate-x-5 -translate-y-5 opacity-0"
+        className={twJoin(
+          "absolute h-full w-full -translate-x-6 -translate-y-4 opacity-0",
+          status !== SessionCardStatus.DISABLED && "cursor-pointer",
+        )}
         type="checkbox"
         onChange={onChange}
+        disabled={status === SessionCardStatus.DISABLED}
       ></input>
-      <p className={dayOfWeekClassName}>{dayOfWeek}</p>
-      {checkMark(status)}
-      <p className={locationClassName}>{location}</p>
-      <p className={timeClassName}>
-        {start_time} - {end_time}
-      </p>
+      <CheckMark status={status}></CheckMark>
+      <div className="pr-10">
+        <p className={twJoin("text-xl", dayOfWeekClassName)}>{dayOfWeek}</p>
+        <p className={twJoin("text-md", locationClassName)}>{location}</p>
+        <p className={twJoin("text-md pt-2", timeClassName)}>
+          {start_time} - {end_time}
+        </p>
+      </div>
     </Card>
   );
 };
