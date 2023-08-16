@@ -8,11 +8,11 @@ datasource db {
 }
 
 model Payment {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   amount    Int
-  bookingId String @db.ObjectId
+  bookingId String   @db.ObjectId
   method    String
-  time      Int
+  time      DateTime
   userId    String
 }
 
