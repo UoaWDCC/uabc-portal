@@ -2,10 +2,9 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import TextInputProps from "./TextInputProps";
 import { useState } from "react";
 
-const TextInput = (props: TextInputProps) => {
+const TextInput = ({value, label, onChange}: {value: string, label: string, onChange: (value: string) => void}) => {
   const [active, setActive] = useState(false);
 
   const borderColour = active ? "blue-500" : "blue-400";
@@ -15,18 +14,18 @@ const TextInput = (props: TextInputProps) => {
       <label
         htmlFor="input"
         className={`absolute left-3 transition-all ${
-          active || props.value != ""
+          active || value != ""
             ? `top-[-0.75rem] bg-white text-sm px-2 text-${borderColour}`
             : `top-1.5 text-gray-500 cursor-text`
         }`}
       >
-        {props.label}
+        {label}
       </label>
       <input
         id="input"
         type="text"
-        defaultValue={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
+        defaultValue={value}
+        onChange={(e) => onChange(e.target.value)}
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)}
         className={`ring-2 ring-${borderColour} focus:ring-${borderColour} border-none outline-none w-full rounded-md p-2`}
