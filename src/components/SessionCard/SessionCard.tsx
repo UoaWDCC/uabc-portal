@@ -42,12 +42,12 @@ function checkMark(status: SessionCardStatus) {
   );
 }
 
-const SessionCard = ({startdate, enddate, status, location}: SessionCardProps) => {
-  const dayOfWeek = weekday[startdate.getDay()];
-  const start_time = startdate
+const SessionCard = ({startDate, endDate, status, location, onChange}: SessionCardProps) => {
+  const dayOfWeek = weekday[startDate.getDay()];
+  const start_time = startDate
     .toLocaleTimeString([], { timeStyle: "short" })
     .toUpperCase();
-  const end_time = enddate
+  const end_time = endDate
     .toLocaleTimeString([], { timeStyle: "short" })
     .toUpperCase();
 
@@ -84,6 +84,11 @@ const SessionCard = ({startdate, enddate, status, location}: SessionCardProps) =
 
   return (
     <Card className={cardClassName}>
+      <input
+        className="absolute h-full w-full -translate-x-5 -translate-y-5 opacity-10"
+        type="checkbox"
+        onChange={onChange}
+      ></input>
       <p className={dayOfWeekClassName}>{dayOfWeek}</p>
       {checkMark(status)}
       <p className={locationClassName}>{location}</p>

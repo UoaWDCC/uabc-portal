@@ -9,6 +9,19 @@ scroll-shadow {
   --scroll-shadow-bottom: linear-gradient(to bottom, transparent 0%, white 18px);
 }
 
+.error-shake {
+  -webkit-animation: shake 0.16s 0s 3;
+  animation: shake 0.16s 0s 3;
+}
+
+
+@keyframes shake {
+  0% { -webkit-transform: translateX(0); transform: translateX(0); }
+  25% { -webkit-transform: translateX(8px); transform: translateX(8px); }
+  75% { -webkit-transform: translateX(-8px); transform: translateX(-8px); }
+  100% { -webkit-transform: translateX(0); transform: translateX(0); }
+}
+
 /* TODO: Implement in tailwind */
 .controls::before {
     width: var(--highlight-width);
