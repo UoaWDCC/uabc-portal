@@ -5,7 +5,7 @@
 import TextInputProps from "./TextInputProps";
 import { useState } from "react";
 
-const TextInput = ({value, label, onChange}: TextInputProps) => {
+const TextInput = (props: TextInputProps) => {
   const [active, setActive] = useState(false);
 
   const borderColour = active ? "blue-500" : "blue-400";
@@ -15,18 +15,18 @@ const TextInput = ({value, label, onChange}: TextInputProps) => {
       <label
         htmlFor="input"
         className={`absolute left-3 transition-all ${
-          active || value != ""
+          active || props.value != ""
             ? `top-[-0.75rem] bg-white text-sm px-2 text-${borderColour}`
             : `top-1.5 text-gray-500 cursor-text`
         }`}
       >
-        {label}
+        {props.label}
       </label>
       <input
         id="input"
         type="text"
-        defaultValue={value}
-        onChange={(e) => onChange(e.target.value)}
+        defaultValue={props.value}
+        onChange={(e) => props.onChange(e.target.value)}
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)}
         className={`ring-2 ring-${borderColour} focus:ring-${borderColour} border-none outline-none w-full rounded-md p-2`}

@@ -8,3 +8,9 @@ scroll-shadow {
   --scroll-shadow-top: linear-gradient(to top, transparent 0%, white 18px);
   --scroll-shadow-bottom: linear-gradient(to bottom, transparent 0%, white 18px);
 }
+
+/* TODO: Implement in tailwind */
+.controls::before {
+    width: var(--highlight-width);
+    transform: translateX(var(--highlight-x-pos));
+}
