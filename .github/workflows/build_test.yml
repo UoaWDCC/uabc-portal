@@ -18,6 +18,11 @@ jobs:
         run: |
           yarn install
 
+
+      - name: prisma generate
+        run: |
+          npx prisma generate
+
       - name: Build Next app
         run: |
           yarn build
