@@ -5,7 +5,7 @@ import { prisma } from "@/db";
  * Gets game sessions currently available for booking
  */
 export const GET = async (req: NextRequest) => {
-  const sessions = prisma.gameSession.findMany({
+  const sessions = await prisma.gameSession.findMany({
     where: {
       bookingClose: {
         gte: new Date()
@@ -16,5 +16,5 @@ export const GET = async (req: NextRequest) => {
     }
   });
 
-  return NextResponse.json({data: sessions})
+  return NextResponse.json(sessions)
 };
