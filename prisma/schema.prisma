@@ -18,9 +18,9 @@ model Payment {
 
 model GameSession {
   id           String @id @default(auto()) @map("_id") @db.ObjectId
-  bookingClose String
-  bookingOpen  String
-  dateTime     String
+  bookingClose DateTime
+  bookingOpen  DateTime
+  dateTime     DateTime
   location     String
   maxUsers     Int
 }
