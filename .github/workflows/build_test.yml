@@ -13,15 +13,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "18.x"
-          
+
       - name: yarn install
         run: |
           yarn install
 
-      - name: server build and test
+      - name: Build Next app
         run: |
-          yarn workspace server build
-
-      - name: client build and test
-        run: |
-          yarn workspace client build
+          yarn build
