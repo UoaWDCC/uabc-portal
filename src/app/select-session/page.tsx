@@ -14,6 +14,7 @@ import SessionCard from "@/components/SessionCard/SessionCard";
 import { SessionCardStatus } from "@/components/SessionCard/SessionCardStatusEnum";
 import SessionCardProps from "@/components/SessionCard/SessionCardProps";
 import ScrollShadow from "@/components/ScrollShadow";
+import { twJoin } from "tailwind-merge";
 
 export default function SelectSessionPage() {
   const remainingSessions = 11;
@@ -55,7 +56,7 @@ export default function SelectSessionPage() {
   const maxSessions: number = isMember ? 2 : 1;
   const [isOverflown, setIsOverflown] = useState(false);
 
-  const [session, setSession] = useState(sessions);
+  const [session, setSession] = useState<SessionCardProps[]>(sessions);
   const [sessionsSelected, setSessionsSelected] = useState(0);
   const [shake, setShake] = useState(false);
   const [scrollIndicator, setScrollIndicator] = useState(true);
@@ -68,15 +69,11 @@ export default function SelectSessionPage() {
     if (e.target.checked && sessionsSelected === maxSessions) {
       e.currentTarget.checked = false;
       setShake(true);
-      if ("vibrate" in navigator) {
-        // vibration API supported
-        navigator.vibrate(1000);
-      }
       setTimeout(() => {
         setShake(false);
       }, 480);
     } else {
-      let tempArray = structuredClone(session);
+      let tempArray = [...session];
       tempArray[index].status = e.target.checked
         ? SessionCardStatus.SELECTED
         : SessionCardStatus.DEFAULT;
@@ -116,9 +113,10 @@ export default function SelectSessionPage() {
         ></CgProfile>
       </div>
       <div
-        className={`bg-[#EAEEF3] min-h-[66px] flex ${
-          !isMember && "justify-center"
-        }`}
+        className={twJoin(
+          "bg-[#EAEEF3] min-h-[66px] flex",
+          !isMember && "justify-center",
+        )}
       >
         <p className="p-5 text-md flex items-center font-medium">
           Hey {isMember ? firstName : "Guest"}!
@@ -136,9 +134,10 @@ export default function SelectSessionPage() {
         )}
       </div>
       <div
-        className={`flex min-h-[76px] p-5 items-center ${
-          !isMember && "justify-center text-center"
-        }`}
+        className={twJoin(
+          "flex min-h-[76px] p-5 items-center",
+          !isMember && "justify-center text-center",
+        )}
       >
         <p className={`max-w-[70%] text-s leading-5 font-medium`}>
           Please select a badminton session for this week
@@ -146,10 +145,11 @@ export default function SelectSessionPage() {
         {isMember && (
           <div className="flex grow flex-row-reverse">
             <p
-              className={`flex items-center justify-center rounded bg-[#D9D9D9] h-[34px] w-[63px] font-semibold ${
+              className={twJoin(
+                "flex items-center justify-center rounded bg-[#D9D9D9] h-[34px] w-[63px] font-semibold",
                 shake &&
-                "error-shake text-[#AF3737] border-[#AF3737] border-solid border"
-              }`}
+                  "error-shake text-[#AF3737] border-[#AF3737] border-solid border",
+              )}
             >
               {sessionsSelected} / {maxSessions}
             </p>

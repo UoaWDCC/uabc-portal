@@ -85,7 +85,7 @@ const SessionCard = ({startDate, endDate, status, location, onChange}: SessionCa
   return (
     <Card className={cardClassName}>
       <input
-        className="absolute h-full w-full -translate-x-5 -translate-y-5 opacity-10"
+        className="absolute h-full w-full -translate-x-5 -translate-y-5 opacity-0"
         type="checkbox"
         onChange={onChange}
       ></input>
