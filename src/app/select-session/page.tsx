@@ -9,7 +9,6 @@ import Button from "@/components/Button/Button";
 import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { CgProfile } from "react-icons/cg";
 import { AiFillCaretDown } from "react-icons/ai";
-
 import SessionCard from "@/components/SessionCard/SessionCard";
 import { SessionCardStatus } from "@/components/SessionCard/SessionCardStatusEnum";
 import SessionCardProps from "@/components/SessionCard/SessionCardProps";
@@ -18,11 +17,12 @@ import { twJoin } from "tailwind-merge";
 import { useQuery } from "@tanstack/react-query";
 import type { GameSession } from "@prisma/client";
 
-export default function SelectSessionPage() {
-  const remainingSessions = 11;
-  const isMember = true;
-  const firstName = "David";
+const remainingSessions = 11;
+const isMember = true;
+const firstName = "David";
+const maxSessions: number = isMember ? 2 : 1;
 
+export default function SelectSessionPage() {
   const { data } = useQuery({
     queryKey: ["current-sessions"],
     queryFn: async () => {
@@ -34,7 +34,6 @@ export default function SelectSessionPage() {
     },
   });
 
-  const maxSessions: number = isMember ? 2 : 1;
   const [isOverflown, setIsOverflown] = useState(false);
   const [session, setSession] = useState<Map<string, SessionCardProps>>(
     new Map(),
@@ -62,7 +61,18 @@ export default function SelectSessionPage() {
     setSession(sessionMap);
   }, [data]);
 
-  /**Changes the status of the card on click conditionally
+  /**
+   * Doesn't show bouncing arrow if there is no overflow
+   * Session dependency to show arrow after initial session cards load
+   */
+  useEffect(() => {
+    if (ref.current && ref.current.scrollHeight > ref.current.clientHeight) {
+      setIsOverflown(true);
+    }
+  }, [session]);
+
+  /**
+   * Changes the status of the card on click conditionally
    * If number of cards active exceeds the allowed amount, plays error animation
    */
   function sessionClick(e: ChangeEvent<HTMLInputElement>, id: string) {
@@ -82,27 +92,20 @@ export default function SelectSessionPage() {
       };
       session?.set(id, updatedSession);
 
-      /**On status change, changes the counter of number of sessions selected*/
+      // On status change, changes the counter of number of sessions selected*/
       const numberActive = Array.from(session.values()).filter(
         (card: SessionCardProps) => {
           return card.status === SessionCardStatus.SELECTED;
         },
       ).length;
-      setSessionsSelected(numberActive ?? 0);
+
+      setSessionsSelected(numberActive);
+      // setSessionsSelected(sessionsSelected + (e.target.checked ? 1 : -1));
     }
   }
 
-  /**Doesn't show bouncing arrow on load if there is no overflow */
-  useEffect(() => {
-    setTimeout(() => {
-      if (ref.current && ref.current.scrollHeight > ref.current.clientHeight) {
-        setIsOverflown(true);
-      }
-    }, 200);
-  }, []);
-
   return (
-    <div className="h-[100dvh] flex flex-col">
+    <div className="h-screen flex flex-col">
       <div className="pt-5 pb-5 pl-7 flex">
         <Heading>Sessions</Heading>
         <CgProfile
@@ -121,10 +124,13 @@ export default function SelectSessionPage() {
           Hey {isMember ? firstName : "Guest"}!
         </p>
         {isMember && (
-          <p className="text-xs flex flex-row-reverse grow items-center">
-            Prepaid Sessions <br />
-            Remaining
-          </p>
+          <>
+            <div className="flex grow"></div>
+            <div className="text-xs flex flex-col justify-center text-left">
+              <p>Prepaid Sessions</p>
+              <p>Remaining</p>
+            </div>
+          </>
         )}
         {isMember && (
           <p className="flex m-4 justify-center items-center rounded bg-[#D9D9D9] h-[35px] w-[35px]">
@@ -156,12 +162,11 @@ export default function SelectSessionPage() {
         )}
       </div>
 
-      {/* TODO: check whether to use this or mask*/}
+      {/* TODO: check whether to use this or mask with: <scroll-fade py-4> */}
       <ScrollShadow>
         <div
-          // scroll-fade py-4
           className="flex flex-col overflow-y-auto w-full h-[calc(100dvh-329px)] gap-3 px-5"
-          onScroll={(e) => setScrollIndicator(false)}
+          onScroll={() => setScrollIndicator(false)}
           ref={ref}
         >
           {Array.from(session.values()).map((session) => {
