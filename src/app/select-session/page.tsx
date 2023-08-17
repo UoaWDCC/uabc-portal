@@ -188,14 +188,14 @@ export default function SelectSessionPage() {
         onScroll={(e) => setScrollIndicator(false)}
         ref={ref}
       >
-        {session.map((card, index) => {
+        {session.map((card) => {
           return (
             <SessionCard
               startDate={card.startDate}
               endDate={card.endDate}
               location={card.location}
               status={card.status}
-              key={index}
+              key={card.id}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 sessionClick(e, index)
               }
