@@ -34,14 +34,8 @@ const SessionCard = ({
   status,
   location,
   onChange,
-}: SessionCardProps) => {
+}: Omit<SessionCardProps, "id">) => {
   const dayOfWeek = weekday[startDate.getDay()];
-  const start_time = startDate
-    .toLocaleTimeString([], { timeStyle: "short" })
-    .toUpperCase();
-  const end_time = endDate
-    .toLocaleTimeString([], { timeStyle: "short" })
-    .toUpperCase();
 
   let cardClassName;
   let dayOfWeekClassName;
@@ -89,8 +83,9 @@ const SessionCard = ({
       <div className="pr-10">
         <p className={twJoin("text-xl", dayOfWeekClassName)}>{dayOfWeek}</p>
         <p className={twJoin("text-md", locationClassName)}>{location}</p>
-        <p className={twJoin("text-md pt-2", timeClassName)}>
-          {start_time} - {end_time}
+        <p className={twJoin("text-md pt-2 uppercase", timeClassName)}>
+          {startDate.toLocaleTimeString([], { timeStyle: "short" })} -{" "}
+          {endDate.toLocaleTimeString([], { timeStyle: "short" })}
         </p>
       </div>
     </Card>

@@ -23,72 +23,47 @@ export default function SelectSessionPage() {
   const isMember = true;
   const firstName = "David";
 
+  //TODO: IMPLEMENT LATER
   const { data } = useQuery({
-    queryKey: ['current-sessions'],
+    queryKey: ["current-sessions"],
     queryFn: async () => {
       const response = await fetch("api/gamesession/current", {
         cache: "no-store",
       });
-      return await response.json();
-    }})
-
-  const queriedSessions : SessionCardProps[] | undefined = data?.map((session: GameSession) => {
-    const startDate = session.dateTime
-    const endDate = session.dateTime
-    endDate.setHours(endDate.getHours() + 1); //TODO: confirm
-    return {
-      startDate,
-      endDate,
-      location: session.location,
-      status: SessionCardStatus.DEFAULT,
-  }})
-
-  const sessions: SessionCardProps[] = [
-    {
-      startDate: new Date("2023-05-10T10:30:00"),
-      endDate: new Date("2023-05-10T11:30:00"),
-      location: "Auckland Badminton Association",
-      status: SessionCardStatus.DEFAULT,
+      const data = await response.json();
+      return data;
     },
-    {
-      startDate: new Date("2023-05-10T10:30:00"),
-      endDate: new Date("2023-05-10T11:30:00"),
-      location: "Auckland Badminton Association",
-      status: SessionCardStatus.DISABLED,
-    },
-    {
-      startDate: new Date("2023-05-10T10:30:00"),
-      endDate: new Date("2023-05-10T11:30:00"),
-      location: "Auckland Badminton Association",
-      status: SessionCardStatus.DEFAULT,
-    },
-    {
-      startDate: new Date("2023-05-10T10:30:00"),
-      endDate: new Date("2023-05-10T11:30:00"),
-      location: "Auckland Badminton Association",
-      status: SessionCardStatus.DEFAULT,
-    },
-    {
-      startDate: new Date("2023-05-10T10:30:00"),
-      endDate: new Date("2023-05-10T11:30:00"),
-      location: "Auckland Badminton Association",
-      status: SessionCardStatus.DEFAULT,
-    },
-  ];
+  });
 
   const maxSessions: number = isMember ? 2 : 1;
   const [isOverflown, setIsOverflown] = useState(false);
-
-  const [session, setSession] = useState<SessionCardProps[]>(sessions);
+  const [session, setSession] = useState<SessionCardProps[]>([]);
   const [sessionsSelected, setSessionsSelected] = useState(0);
   const [shake, setShake] = useState(false);
   const [scrollIndicator, setScrollIndicator] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const querysessions: SessionCardProps[] = data?.map(
+      (session: GameSession) => {
+        return {
+          id: session.id,
+          startDate: new Date(session.dateTime),
+          endDate: new Date(session.dateTime),
+          location: session.location,
+          status: SessionCardStatus.DEFAULT,
+        };
+      },
+    );
+    setSession(querysessions);
+  }, [data]);
+
   /**Changes the status of the card on click conditionally
    * If number of cards active exceeds the allowed amount, plays error animation
    */
-  function sessionClick(e: ChangeEvent<HTMLInputElement>, index: number) {
+  function sessionClick(e: ChangeEvent<HTMLInputElement>, id: string) {
+    const cardIndex = session?.findIndex((card) => card.id === id);
+
     if (e.target.checked && sessionsSelected === maxSessions) {
       e.currentTarget.checked = false;
       setShake(true);
@@ -96,24 +71,32 @@ export default function SelectSessionPage() {
         setShake(false);
       }, 480);
     } else {
-      let tempArray = [...session];
-      tempArray[index].status = e.target.checked
-        ? SessionCardStatus.SELECTED
-        : SessionCardStatus.DEFAULT;
-      setSession(tempArray);
+      const updatedSession = session?.map((card, index) => {
+        if (index === cardIndex) {
+          return {
+            ...card,
+            status: e.target.checked
+              ? SessionCardStatus.SELECTED
+              : SessionCardStatus.DEFAULT,
+          };
+        }
+        return card;
+      });
+
+      setSession(updatedSession);
     }
   }
 
   /**On status change, changes the counter of number of sessions selected*/
   useEffect(() => {
-    const numberActive = session.filter((card: SessionCardProps) => {
+    const numberActive = session?.filter((card: SessionCardProps) => {
       if (card.status === SessionCardStatus.SELECTED) {
         return true;
       } else {
         return false;
       }
     }).length;
-    setSessionsSelected(numberActive);
+    setSessionsSelected(numberActive ?? 0);
   }, [session]);
 
   /**Doesn't show bouncing arrow on load if there is no overflow */
@@ -123,7 +106,7 @@ export default function SelectSessionPage() {
         setIsOverflown(true);
       }
     }, 200);
-  });
+  }, []);
 
   return (
     <div className="h-[100dvh] flex flex-col">
@@ -182,27 +165,27 @@ export default function SelectSessionPage() {
 
       {/* TODO: check whether to use this or mask */}
       <ScrollShadow>
-      <div
-        // scroll-fade py-4
-        className="flex flex-col overflow-y-auto w-full h-[calc(100dvh-329px)] gap-3 px-5"
-        onScroll={(e) => setScrollIndicator(false)}
-        ref={ref}
-      >
-        {session.map((card) => {
-          return (
-            <SessionCard
-              startDate={card.startDate}
-              endDate={card.endDate}
-              location={card.location}
-              status={card.status}
-              key={card.id}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                sessionClick(e, index)
-              }
-            ></SessionCard>
-          );
-        })}
-      </div>
+        <div
+          // scroll-fade py-4
+          className="flex flex-col overflow-y-auto w-full h-[calc(100dvh-329px)] gap-3 px-5"
+          onScroll={(e) => setScrollIndicator(false)}
+          ref={ref}
+        >
+          {session?.map((session) => {
+            return (
+              <SessionCard
+                startDate={session.startDate}
+                endDate={session.endDate}
+                location={session.location}
+                status={session.status}
+                key={session.id}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  sessionClick(e, session.id)
+                }
+              ></SessionCard>
+            );
+          })}
+        </div>
       </ScrollShadow>
 
       {scrollIndicator && isOverflown && (
@@ -220,7 +203,13 @@ export default function SelectSessionPage() {
               ? false
               : true
           }
-          onClick={() => alert("NEXT")}
+          onClick={() =>
+            alert(
+              session.filter(
+                (session) => session.status === SessionCardStatus.SELECTED,
+              ),
+            )
+          }
         />
       </div>
     </div>
