@@ -16,6 +16,7 @@ import ScrollShadow from "@/components/ScrollShadow";
 import { twJoin } from "tailwind-merge";
 import { useQuery } from "@tanstack/react-query";
 import type { GameSession } from "@prisma/client";
+import Image from "next/image";
 
 const remainingSessions = 11;
 const isMember = true;
@@ -106,11 +107,11 @@ export default function SelectSessionPage() {
 
   return (
     <div className="h-screen flex flex-col">
-      <div className="pt-5 pb-5 pl-7 flex">
+      <div className="flex pb-4 pt-10 pl-6">
         <Heading>Sessions</Heading>
         <CgProfile
           className="ml-auto mr-4"
-          size={30}
+          size={40}
           onClick={() => alert("profile")}
         ></CgProfile>
       </div>
@@ -120,9 +121,18 @@ export default function SelectSessionPage() {
           !isMember && "justify-center",
         )}
       >
-        <p className="p-5 text-md flex items-center font-medium">
+        <p className="p-5 pr-1 text-md flex items-center font-medium">
           Hey {isMember ? firstName : "Guest"}!
         </p>
+        <div className="flex items-center">
+          <Image
+            src="/images/BadmintonRacketLogo.png"
+            alt="Badminton Racket Logo"
+            className="pointer-events-none select-none"
+            width={20}
+            height={20}
+          ></Image>
+        </div>
         {isMember && (
           <>
             <div className="flex grow"></div>
