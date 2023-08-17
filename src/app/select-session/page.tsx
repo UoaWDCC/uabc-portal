@@ -23,7 +23,6 @@ export default function SelectSessionPage() {
   const isMember = true;
   const firstName = "David";
 
-  //TODO: IMPLEMENT LATER
   const { data } = useQuery({
     queryKey: ["current-sessions"],
     queryFn: async () => {
@@ -31,39 +30,42 @@ export default function SelectSessionPage() {
         cache: "no-store",
       });
       const data = await response.json();
-      return data;
+      return data as GameSession[];
     },
   });
 
   const maxSessions: number = isMember ? 2 : 1;
   const [isOverflown, setIsOverflown] = useState(false);
-  const [session, setSession] = useState<SessionCardProps[]>([]);
+  const [session, setSession] = useState<Map<string, SessionCardProps>>(
+    new Map(),
+  );
   const [sessionsSelected, setSessionsSelected] = useState(0);
   const [shake, setShake] = useState(false);
   const [scrollIndicator, setScrollIndicator] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const querysessions: SessionCardProps[] = data?.map(
-      (session: GameSession) => {
-        return {
-          id: session.id,
-          startDate: new Date(session.dateTime),
-          endDate: new Date(session.dateTime),
-          location: session.location,
-          status: SessionCardStatus.DEFAULT,
-        };
-      },
+    const sessionMap: Map<string, SessionCardProps> = new Map(
+      data?.map((session: GameSession) => {
+        return [
+          session.id,
+          {
+            id: session.id,
+            startDate: new Date(session.dateTime),
+            endDate: new Date(session.dateTime),
+            location: session.location,
+            status: SessionCardStatus.DEFAULT,
+          },
+        ];
+      }),
     );
-    setSession(querysessions);
+    setSession(sessionMap);
   }, [data]);
 
   /**Changes the status of the card on click conditionally
    * If number of cards active exceeds the allowed amount, plays error animation
    */
   function sessionClick(e: ChangeEvent<HTMLInputElement>, id: string) {
-    const cardIndex = session?.findIndex((card) => card.id === id);
-
     if (e.target.checked && sessionsSelected === maxSessions) {
       e.currentTarget.checked = false;
       setShake(true);
@@ -71,33 +73,24 @@ export default function SelectSessionPage() {
         setShake(false);
       }, 480);
     } else {
-      const updatedSession = session?.map((card, index) => {
-        if (index === cardIndex) {
-          return {
-            ...card,
-            status: e.target.checked
-              ? SessionCardStatus.SELECTED
-              : SessionCardStatus.DEFAULT,
-          };
-        }
-        return card;
-      });
+      const targetSession = session?.get(id)!;
+      const updatedSession = {
+        ...targetSession,
+        status: e.target.checked
+          ? SessionCardStatus.SELECTED
+          : SessionCardStatus.DEFAULT,
+      };
+      session?.set(id, updatedSession);
 
-      setSession(updatedSession);
+      /**On status change, changes the counter of number of sessions selected*/
+      const numberActive = Array.from(session.values()).filter(
+        (card: SessionCardProps) => {
+          return card.status === SessionCardStatus.SELECTED;
+        },
+      ).length;
+      setSessionsSelected(numberActive ?? 0);
     }
   }
-
-  /**On status change, changes the counter of number of sessions selected*/
-  useEffect(() => {
-    const numberActive = session?.filter((card: SessionCardProps) => {
-      if (card.status === SessionCardStatus.SELECTED) {
-        return true;
-      } else {
-        return false;
-      }
-    }).length;
-    setSessionsSelected(numberActive ?? 0);
-  }, [session]);
 
   /**Doesn't show bouncing arrow on load if there is no overflow */
   useEffect(() => {
@@ -163,7 +156,7 @@ export default function SelectSessionPage() {
         )}
       </div>
 
-      {/* TODO: check whether to use this or mask */}
+      {/* TODO: check whether to use this or mask*/}
       <ScrollShadow>
         <div
           // scroll-fade py-4
@@ -171,7 +164,7 @@ export default function SelectSessionPage() {
           onScroll={(e) => setScrollIndicator(false)}
           ref={ref}
         >
-          {session?.map((session) => {
+          {Array.from(session.values()).map((session) => {
             return (
               <SessionCard
                 startDate={session.startDate}
@@ -203,13 +196,7 @@ export default function SelectSessionPage() {
               ? false
               : true
           }
-          onClick={() =>
-            alert(
-              session.filter(
-                (session) => session.status === SessionCardStatus.SELECTED,
-              ),
-            )
-          }
+          onClick={() => alert("next")}
         />
       </div>
     </div>
