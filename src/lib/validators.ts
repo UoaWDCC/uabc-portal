@@ -13,5 +13,5 @@ export const gameSessionValidator = z.object({
   bookingOpen: z.date(),
   dateTime: z.date(),
   location: z.string(),
-  maxUsers: z.number()
-})
+  maxUsers: z.number(),
+});

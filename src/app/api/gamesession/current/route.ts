@@ -8,13 +8,13 @@ export const GET = async (req: NextRequest) => {
   const sessions = await prisma.gameSession.findMany({
     where: {
       bookingClose: {
-        gte: new Date()
+        gte: new Date(),
       },
       bookingOpen: {
-        lte: new Date()
-      }
-    }
+        lte: new Date(),
+      },
+    },
   });
 
-  return NextResponse.json(sessions)
+  return NextResponse.json(sessions);
 };

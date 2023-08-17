@@ -6,6 +6,7 @@ import { twJoin } from "tailwind-merge";
 import Card from "../Card/Card";
 import SessionCardProps from "./SessionCardProps";
 import { SessionCardStatus } from "./SessionCardStatusEnum";
+import { IoCheckmarkCircle } from "react-icons/io5";
 
 const weekday = [
   "Sunday",
@@ -19,20 +20,9 @@ const weekday = [
 
 function CheckMark({ status }: { status: SessionCardStatus }) {
   return (
-    <div className="absolute right-7 top-1/2 -translate-y-1/2">
+    <div className="absolute right-5 top-1/2 -translate-y-1/2">
       {status === SessionCardStatus.SELECTED && (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="23"
-          height="23"
-          viewBox="0 0 23 23"
-          fill="none"
-        >
-          <path
-            d="M11.1591 0C5.01042 0 0 5.01042 0 11.1591C0 17.3077 5.01042 22.3181 11.1591 22.3181C17.3077 22.3181 22.3181 17.3077 22.3181 11.1591C22.3181 5.01042 17.3077 0 11.1591 0ZM16.4931 8.59247L10.1659 14.9197C10.0097 15.0759 9.79765 15.1652 9.57447 15.1652C9.35129 15.1652 9.13927 15.0759 8.98304 14.9197L5.82503 11.7616C5.50141 11.438 5.50141 10.9024 5.82503 10.5788C6.14864 10.2552 6.68427 10.2552 7.00789 10.5788L9.57447 13.1454L15.3102 7.40961C15.6338 7.086 16.1695 7.086 16.4931 7.40961C16.8167 7.73322 16.8167 8.2577 16.4931 8.59247Z"
-            fill="white"
-          />
-        </svg>
+        <IoCheckmarkCircle color="white" size={30}></IoCheckmarkCircle>
       )}
     </div>
   );

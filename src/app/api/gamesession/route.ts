@@ -6,7 +6,7 @@ import { gameSessionValidator } from "@/lib/validators";
 export const GET = async (request: NextRequest) => {
   const sessions = await prisma.session.findMany();
 
-  return NextResponse.json({data: sessions});
+  return NextResponse.json({ data: sessions });
 };
 
 /**
@@ -73,7 +73,7 @@ export const PATCH = async (request: NextRequest) => {
 
   const session = await prisma.gameSession.update({
     where: {
-      id: sessionId
+      id: sessionId,
     },
     data: { ...sessionBody },
   });
