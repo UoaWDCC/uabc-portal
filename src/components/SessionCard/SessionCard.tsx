@@ -53,7 +53,7 @@ const SessionCard = ({
     .toLocaleTimeString([], { timeStyle: "short" })
     .toUpperCase();
 
-  let cardClassName;;
+  let cardClassName;
   let dayOfWeekClassName;
   let locationClassName;
   let timeClassName;
