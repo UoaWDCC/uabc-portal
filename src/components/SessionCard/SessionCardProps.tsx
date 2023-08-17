@@ -7,8 +7,8 @@ import { SessionCardStatus } from "./SessionCardStatusEnum";
 
 type SessionCardProps = {
   id: string;
-  startDate: Date;
-  endDate: Date;
+  startTime: Date;
+  endTime: Date;
   location: string;
   status: SessionCardStatus;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;

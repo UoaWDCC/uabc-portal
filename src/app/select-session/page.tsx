@@ -51,8 +51,8 @@ export default function SelectSessionPage() {
           session.id,
           {
             id: session.id,
-            startDate: new Date(session.dateTime),
-            endDate: new Date(session.dateTime),
+            startTime: new Date(session.startTime),
+            endTime: new Date(session.endTime),
             location: session.location,
             status: SessionCardStatus.DEFAULT,
           },
@@ -167,8 +167,8 @@ export default function SelectSessionPage() {
           {Array.from(session.values()).map((session) => {
             return (
               <SessionCard
-                startDate={session.startDate}
-                endDate={session.endDate}
+                startTime={session.startTime}
+                endTime={session.endTime}
                 location={session.location}
                 status={session.status}
                 key={session.id}
@@ -196,7 +196,15 @@ export default function SelectSessionPage() {
               ? false
               : true
           }
-          onClick={() => alert("next")}
+          onClick={() =>
+            alert(
+              Array.from(session.values())
+                .filter(
+                  (session) => session.status === SessionCardStatus.SELECTED,
+                )
+                .map((session) => session.id),
+            )
+          }
         />
       </div>
     </div>

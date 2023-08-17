@@ -29,13 +29,13 @@ function CheckMark({ status }: { status: SessionCardStatus }) {
 }
 
 const SessionCard = ({
-  startDate,
-  endDate,
+  startTime,
+  endTime,
   status,
   location,
   onChange,
 }: Omit<SessionCardProps, "id">) => {
-  const dayOfWeek = weekday[startDate.getDay()];
+  const dayOfWeek = weekday[startTime.getDay()];
 
   let cardClassName;
   let dayOfWeekClassName;
@@ -84,8 +84,8 @@ const SessionCard = ({
         <p className={twJoin("text-xl", dayOfWeekClassName)}>{dayOfWeek}</p>
         <p className={twJoin("text-md", locationClassName)}>{location}</p>
         <p className={twJoin("text-md pt-2 uppercase", timeClassName)}>
-          {startDate.toLocaleTimeString([], { timeStyle: "short" })} -{" "}
-          {endDate.toLocaleTimeString([], { timeStyle: "short" })}
+          {startTime.toLocaleTimeString([], { timeStyle: "short" })} -{" "}
+          {endTime.toLocaleTimeString([], { timeStyle: "short" })}
         </p>
       </div>
     </Card>

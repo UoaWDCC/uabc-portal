@@ -22,8 +22,8 @@ export default function SessionPage() {
         return (
           <SessionCard
             key={session.id}
-            startDate={new Date(session.bookingOpen)}
-            endDate={new Date(session.bookingClose)}
+            startTime={new Date(session.bookingOpen)}
+            endTime={new Date(session.bookingClose)}
             location={session.location}
             status={SessionCardStatus.DEFAULT}
           />
