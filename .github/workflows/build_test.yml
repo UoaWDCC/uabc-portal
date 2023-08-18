@@ -18,11 +18,18 @@ jobs:
         run: |
           yarn install
 
-
       - name: prisma generate
         run: |
           npx prisma generate
 
       - name: Build Next app
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          ENVIRONMENT: "DEVELOPMENT"
+          
         run: |
           yarn build
