@@ -4,7 +4,7 @@
 
 import ConfirmationIcon from "@/components/ConfirmationIcon/ConfirmationIcon";
 import ConfirmedSessionCard from "@/components/ConfirmedSessionCard/ConfirmedSessionCard";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
 import Image from "next/image";
 import ConfirmationBannerSVG from "public/images/ConfirmationBannerSVG.svg";
 
@@ -33,7 +33,7 @@ export default async function ConfirmationPage() {
   // const {data} = useSession();
   // console.log(data)
 
-  const session = await getSession();
+  const session = await getServerSession();
   console.log(session);
 
   return (
