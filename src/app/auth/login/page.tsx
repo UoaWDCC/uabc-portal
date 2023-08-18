@@ -4,7 +4,6 @@ import Button from "@/components/Button/Button";
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
-import logo from "@/images/UABC_logo.png";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -14,7 +13,7 @@ export default function Login() {
   return (
     <div>
       <div className="h-screen flex flex-col items-center justify-center">
-        <Image src={logo} alt="UABC Logo" priority />
+        <Image src={"/UABC_logo.png"} width={500} height={500} alt="UABC Logo" priority />
 
         <label className="text-center p-8">
           {" "}
@@ -23,7 +22,6 @@ export default function Login() {
             : "Please login:"}{" "}
         </label>
         <div className="w-319 h-852">
-          <form noValidate>
             <TextInput
               label="Email"
               value={email}
@@ -46,7 +44,6 @@ export default function Login() {
                 }
               />
             </Link>
-          </form>
         </div>
       </div>
     </div>
