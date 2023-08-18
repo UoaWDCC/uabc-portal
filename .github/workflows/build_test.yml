@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: development
     steps:
       - uses: actions/checkout@v2
 
@@ -13,15 +14,23 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "18.x"
-          
+
       - name: yarn install
         run: |
           yarn install
 
-      - name: server build and test
+      - name: prisma generate
         run: |
-          yarn workspace server build
+          npx prisma generate
 
-      - name: client build and test
+      - name: Build Next app
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          ENVIRONMENT: "DEVELOPMENT"
+          
         run: |
-          yarn workspace client build
+          yarn build
