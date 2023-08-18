@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: development
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
       - uses: actions/checkout@v3
 
@@ -37,32 +41,23 @@ jobs:
         run: |
           yarn build
 
-  deploy:
-    runs-on: ubuntu-latest
-    environment: development
-    # Add "id-token" with the intended permissions.
-    permissions:
-      contents: 'read'
-      id-token: 'write'
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: ${{ secrets.GOOGLE_SA_JSON }}
 
-    steps:
-    # actions/checkout MUST come before auth
-    - uses: 'actions/checkout@v3'
+      - id: 'deploy'
+        uses: 'google-github-actions/deploy-appengine@v1'
+        with:
+          env_vars: |-
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+            NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
+            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+            ENVIRONMENT="DEVELOPMENT"
 
-    - id: 'auth'
-      name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@v1'
-      with:
-        credentials_json: ${{ secrets.GOOGLE_SA_JSON }}
 
-    - id: 'deploy'
-      uses: 'google-github-actions/deploy-appengine@v1'
-      with:
-        env_vars: |-
-          DATABASE_URL=${{ secrets.DATABASE_URL }}
-          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
-          NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
-          NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
-          ENVIRONMENT="DEVELOPMENT"
+    
             
