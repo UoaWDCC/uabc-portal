@@ -10,7 +10,7 @@ const TextInput = ({value, label, onChange}: {value: string, label: string, onCh
   const borderColour = active ? "blue-500" : "blue-400";
 
   return (
-    <div className="mx-8 my-4 relative">
+    <div className="relative">
       <label
         htmlFor="input"
         className={`absolute left-3 transition-all ${

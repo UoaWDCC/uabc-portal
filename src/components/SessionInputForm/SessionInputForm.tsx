@@ -10,6 +10,8 @@ import Button from "../Button/Button";
 import "react-datepicker/dist/react-datepicker.css";
 import Card from "../Card/Card";
 
+// TODO: Database connection
+
 const SessionInputForm = (props: SessionInputFormProps) => {
     const [location, setLocation] = useState("");
     const [startDate, setStartDate] = useState(new Date())
@@ -28,28 +30,35 @@ const SessionInputForm = (props: SessionInputFormProps) => {
     }
 
     const onSubmit = () => {
-        alert('Hello');
+        alert(location + "\n" + startDate + "\n" + endDate);
     }
 
     return (
-        <Card className="p-5">
-            <p>Session Details</p>
-            <TextInput label="Location" value={location} onChange={setLocation}/>
-            <p>Start Date</p>
-            <DatePicker
-                selected={startDate}
-                onChange={handleStartDateChange}
-                showTimeSelect
-                dateFormat="Pp"
-            />
-            <p>End Date</p>
-            <DatePicker
-                selected={endDate}
-                onChange={handleEndDateChange}
-                showTimeSelect
-                dateFormat="Pp"
-            />
-            <Button label="Submit" onClick={onSubmit}/>
+        <Card>
+            <div className="my-5">
+                <TextInput label="Location" value={location} onChange={setLocation}/>
+            </div>
+            <div className="my-5">
+                <p>Start Date</p>
+                <DatePicker
+                    selected={startDate}
+                    onChange={handleStartDateChange}
+                    showTimeSelect
+                    dateFormat="Pp"
+                />
+            </div>
+            <div className="my-5">
+                <p>End Date</p>
+                <DatePicker
+                    selected={endDate}
+                    onChange={handleEndDateChange}
+                    showTimeSelect
+                    dateFormat="Pp"
+                />
+            </div>
+            <div className="my-5">
+                <Button label="Submit" onClick={onSubmit} widthFull/>
+            </div>
         </Card>
     )
 }
