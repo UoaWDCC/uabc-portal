@@ -9,9 +9,24 @@ import Button from "../Button/Button";
 import Card from "../Card/Card";
 import "react-datepicker/dist/react-datepicker.css";
 import { GameSession } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
 import { ObjectId } from "bson";
 import SessionInputFormProps from "./SessionInputFormProps";
+import { useMutation } from "@tanstack/react-query";
+
+// // TODO: Make this work
+// const createSession = async (data: GameSession) => {
+//     const response = await fetch("api/gamesession", {
+//         method: 'POST',
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(data)
+//     });
+//     const res = await response.json();
+//     console.log(res);
+//     return res
+// };
+
 
 const SessionInputForm = (props: SessionInputFormProps) => {
     const [bookingClose, setBookingClose] = useState(new Date());
@@ -22,20 +37,17 @@ const SessionInputForm = (props: SessionInputFormProps) => {
     const [maxUsers, setMaxUsers] = useState(0);
     const [maxUsersError, setMaxUsersError] = useState(false);
 
-    // TODO: Make this work
-    const createSession = async (sessionData: GameSession) => {
-        useQuery({
-            queryKey: ["gamesession"],
-            queryFn: async () => {
-              const response = await fetch("api/gamesession", {
+    const mutation = useMutation({
+        mutationFn: (data: GameSession) => {
+            return fetch('api/gamesession', {
                 method: 'POST',
-                body: JSON.stringify(sessionData)
-              });
-              const data = await response.json();
-              return data
-            },
-        });
-    };
+                body: JSON.stringify(data),  // Bug: converts dates to strings so it fails to validate
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+        }
+    })
 
     const handleStartTimeChange = (date: Date | null) => {
         if (date != null) {
@@ -61,11 +73,10 @@ const SessionInputForm = (props: SessionInputFormProps) => {
         }
     }
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         if (!maxUsersError) {
-            const id = Math.random().toString(36).slice(2)  // TODO: Replace with ObjectId
             const data = {
-                id: id,
+                id: Math.random().toString(36).slice(2),  // TODO: Replace with ObjectId
                 bookingClose: bookingClose,
                 bookingOpen: bookingOpen,
                 startTime: startTime,
@@ -74,12 +85,14 @@ const SessionInputForm = (props: SessionInputFormProps) => {
                 maxUsers: maxUsers
             } as GameSession;
 
-            // createSession(data);
             console.log(data);
 
+            // createSession(data);
+            mutation.mutate(data);
+            
             if (props.callback != undefined) {
                 props.callback();
-            }   
+            }
         }
     }
 
@@ -155,7 +168,7 @@ const SessionInputForm = (props: SessionInputFormProps) => {
                 />
             </div>
             <div className="my-5">
-                <Button label="Submit" onClick={onSubmit} widthFull/>
+                <Button label="Create Session" onClick={onSubmit} widthFull/>
             </div>
         </Card>
     )
