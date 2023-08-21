@@ -7,10 +7,13 @@
 import Heading from "@/components/Heading/Heading";
 import SessionInputForm from "@/components/SessionInputForm/SessionInputForm";
 
+// TODO: redirect on submit
+// TODO: cancel/return button
+
 export default function SessionInputPage() {
   return (
     <div className="p-5">
-      <Heading>Session Input</Heading>
+      <Heading>New Session</Heading>
 
       <SessionInputForm callback={() => alert('Session created!')}/>
       
