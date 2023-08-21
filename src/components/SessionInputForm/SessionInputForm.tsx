@@ -13,21 +13,6 @@ import { ObjectId } from "bson";
 import SessionInputFormProps from "./SessionInputFormProps";
 import { useMutation } from "@tanstack/react-query";
 
-// // TODO: Make this work
-// const createSession = async (data: GameSession) => {
-//     const response = await fetch("api/gamesession", {
-//         method: 'POST',
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(data)
-//     });
-//     const res = await response.json();
-//     console.log(res);
-//     return res
-// };
-
-
 const SessionInputForm = (props: SessionInputFormProps) => {
     const [bookingClose, setBookingClose] = useState(new Date());
     const [bookingOpen, setBookingOpen] = useState(new Date());
@@ -38,15 +23,20 @@ const SessionInputForm = (props: SessionInputFormProps) => {
     const [maxUsersError, setMaxUsersError] = useState(false);
 
     const mutation = useMutation({
-        mutationFn: (data: GameSession) => {
-            return fetch('api/gamesession', {
+        mutationFn: async (sessionData: GameSession) => {
+            const response =  await fetch('api/gamesession', {
                 method: 'POST',
-                body: JSON.stringify(data),  // Bug: converts dates to strings so it fails to validate
+                body: JSON.stringify(sessionData),  // Bug: converts dates to strings so it fails to validate
                 headers: {
                     "Content-Type": "application/json"
-                }
+                },
+                cache: "no-store"
             })
-        }
+            const data = await response.json();
+            console.log(data);
+            return data
+        },
+        onSuccess: props.onSuccess
     })
 
     const handleStartTimeChange = (date: Date | null) => {
@@ -87,12 +77,7 @@ const SessionInputForm = (props: SessionInputFormProps) => {
 
             console.log(data);
 
-            // createSession(data);
             mutation.mutate(data);
-            
-            if (props.callback != undefined) {
-                props.callback();
-            }
         }
     }
 

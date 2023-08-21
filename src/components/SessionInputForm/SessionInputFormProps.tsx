@@ -3,7 +3,7 @@
  */
 
 type SessionInputFormProps = {
-    callback?: () => void;
+    onSuccess?: () => void;
 };
 
 export default SessionInputFormProps;

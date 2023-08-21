@@ -15,7 +15,7 @@ export default function SessionInputPage() {
     <div className="p-5">
       <Heading>New Session</Heading>
 
-      <SessionInputForm callback={() => alert('Session created!')}/>
+      <SessionInputForm onSuccess={() => alert('Session created!')}/>
       
     </div>
   );
