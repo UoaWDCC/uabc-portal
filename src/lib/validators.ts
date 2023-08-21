@@ -10,10 +10,10 @@ export const paymentValidator = z.object({
 
 export const gameSessionValidator = z.object({
   id: z.string(),
-  bookingClose: z.date(),
-  bookingOpen: z.date(),
-  startTime: z.date(),
-  endTime: z.date(),
+  bookingClose: z.string(),
+  bookingOpen: z.string(),
+  startTime: z.string(),
+  endTime: z.string(),
   location: z.string(),
   maxUsers: z.number(),
 });
