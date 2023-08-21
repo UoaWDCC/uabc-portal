@@ -62,7 +62,7 @@ const SessionInputForm = () => {
 
     const onSubmit = () => {
         if (!maxUsersError) {
-            const id = "random-id"  // TODO: Replace with ObjectId
+            const id = Math.random().toString(36).slice(2)  // TODO: Replace with ObjectId
             const data = {
                 id: id,
                 bookingClose: bookingClose,
@@ -72,7 +72,7 @@ const SessionInputForm = () => {
                 location: location,
                 maxUsers: maxUsers
             } as GameSession;
-            
+
             // createSession(data);
             console.log(data);
         }
