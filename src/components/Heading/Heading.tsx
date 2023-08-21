@@ -4,7 +4,7 @@
 
 import HeadingProps from "./HeadingProps";
 
-const Heading = ({children}: HeadingProps) => {
+const Heading = ({ children }: HeadingProps) => {
   return <div className="font-bold text-3xl">{children}</div>;
 };
 

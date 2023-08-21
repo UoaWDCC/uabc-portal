@@ -1,34 +1,38 @@
+"use client"
+
 /**
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
 import { useState } from "react";
+import TextInputProps from "./TextInputProps";
+import { twMerge } from "tailwind-merge";
 
-const TextInput = ({value, label, onChange}: {value: string, label: string, onChange: (value: string) => void}) => {
+const TextInput = (props: TextInputProps) => {
   const [active, setActive] = useState(false);
 
-  const borderColour = active ? "blue-500" : "blue-400";
-
   return (
-    <div className="relative">
-      <label
-        htmlFor="input"
-        className={`absolute left-3 transition-all ${
-          active || value != ""
-            ? `top-[-0.75rem] bg-white text-sm px-2 text-${borderColour}`
-            : `top-1.5 text-gray-500 cursor-text`
-        }`}
-      >
-        {label}
-      </label>
+    <div className="mx-8 my-4 relative">
+      <h2 className={twMerge("absolute left-3 transition-all ",
+        active || props.value != ""
+          ? "top-[-0.75rem] bg-white text-sm px-2  text-blue-500"
+          : "top-1.5 text-gray-500 cursor-text",
+        props.isError && "absolute left-3 top-[-0.75rem] bg-white text-sm px-2  text-red-500")}>
+        {props.label}
+      </h2>
+
       <input
-        id="input"
-        type="text"
-        defaultValue={value}
-        onChange={(e) => onChange(e.target.value)}
+        type={props.type}
+        defaultValue={props.value}
+        onChange={(e) => props.onChange(e.target.value)}
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)}
-        className={`ring-2 ring-${borderColour} focus:ring-${borderColour} border-none outline-none w-full rounded-md p-2`}
+        className={twMerge("border-none outline-none w-full rounded-md p-2 ring-2",
+          active
+            ? "ring-blue-500 focus:ring-blue-500"
+            : "ring-blue-400 focus:ring-blue-400",
+          props.isError && "ring-red-500 focus:ring-red-500")}
+        required
       />
     </div>
   );
