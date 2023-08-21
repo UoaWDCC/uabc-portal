@@ -3,14 +3,16 @@
  */
 
 import React, { useState } from "react";
-import SessionInputFormProps from "./SessionInputFormProps";
 import TextInput from "../TextInput/TextInput";
 import DatePicker from "react-datepicker";
 import Button from "../Button/Button";
 import Card from "../Card/Card";
 import "react-datepicker/dist/react-datepicker.css";
+import { GameSession } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
+import { ObjectId } from "bson";
 
-const SessionInputForm = (props: SessionInputFormProps) => {
+const SessionInputForm = () => {
     const [bookingClose, setBookingClose] = useState(new Date());
     const [bookingOpen, setBookingOpen] = useState(new Date());
     const [startTime, setStartTime] = useState(new Date());
@@ -18,6 +20,21 @@ const SessionInputForm = (props: SessionInputFormProps) => {
     const [location, setLocation] = useState("");
     const [maxUsers, setMaxUsers] = useState(0);
     const [maxUsersError, setMaxUsersError] = useState(false);
+
+    // TODO: Make this work
+    const createSession = async (sessionData: GameSession) => {
+        useQuery({
+            queryKey: ["gamesession"],
+            queryFn: async () => {
+              const response = await fetch("api/gamesession", {
+                method: 'POST',
+                body: JSON.stringify(sessionData)
+              });
+              const data = await response.json();
+              return data
+            },
+        });
+    };
 
     const handleStartTimeChange = (date: Date | null) => {
         if (date != null) {
@@ -31,7 +48,6 @@ const SessionInputForm = (props: SessionInputFormProps) => {
         }
     }
 
-    
     const handleBookingCloseChange = (date: Date | null) => {
         if (date != null) {
             setBookingClose(date);
@@ -45,9 +61,20 @@ const SessionInputForm = (props: SessionInputFormProps) => {
     }
 
     const onSubmit = () => {
-        // TODO: database connection
         if (!maxUsersError) {
-            alert(location + "\n" + startTime + "\n" + endTime + "\n" + bookingOpen + "\n" + bookingClose + "\n" + maxUsers);
+            const id = "random-id"  // TODO: Replace with ObjectId
+            const data = {
+                id: id,
+                bookingClose: bookingClose,
+                bookingOpen: bookingOpen,
+                startTime: startTime,
+                endTime: endTime,
+                location: location,
+                maxUsers: maxUsers
+            } as GameSession;
+            
+            // createSession(data);
+            console.log(data);
         }
     }
 
