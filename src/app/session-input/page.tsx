@@ -12,7 +12,7 @@ export default function SessionInputPage() {
     <div className="p-5">
       <Heading>Session Input</Heading>
 
-      <SessionInputForm />
+      <SessionInputForm callback={() => alert('Session created!')}/>
       
     </div>
   );

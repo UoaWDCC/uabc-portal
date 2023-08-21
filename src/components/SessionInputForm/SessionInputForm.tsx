@@ -11,8 +11,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { GameSession } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { ObjectId } from "bson";
+import SessionInputFormProps from "./SessionInputFormProps";
 
-const SessionInputForm = () => {
+const SessionInputForm = (props: SessionInputFormProps) => {
     const [bookingClose, setBookingClose] = useState(new Date());
     const [bookingOpen, setBookingOpen] = useState(new Date());
     const [startTime, setStartTime] = useState(new Date());
@@ -75,6 +76,10 @@ const SessionInputForm = () => {
 
             // createSession(data);
             console.log(data);
+
+            if (props.callback != undefined) {
+                props.callback();
+            }   
         }
     }
 
