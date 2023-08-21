@@ -7,21 +7,8 @@ import SessionInputFormProps from "./SessionInputFormProps";
 import TextInput from "../TextInput/TextInput";
 import DatePicker from "react-datepicker";
 import Button from "../Button/Button";
-import "react-datepicker/dist/react-datepicker.css";
 import Card from "../Card/Card";
-import NumberInput from "../NumberInput/NumberInput";
-
-// TODO: Database connection
-
-// model GameSession {
-//     id           String   @id @default(auto()) @map("_id") @db.ObjectId
-//     bookingClose DateTime
-//     bookingOpen  DateTime
-//     startTime    DateTime
-//     endTime      DateTime
-//     location     String
-//     maxUsers     Int
-//   }
+import "react-datepicker/dist/react-datepicker.css";
 
 const SessionInputForm = (props: SessionInputFormProps) => {
     const [bookingClose, setBookingClose] = useState(new Date());
@@ -30,6 +17,7 @@ const SessionInputForm = (props: SessionInputFormProps) => {
     const [endTime, setEndTime] = useState(new Date());
     const [location, setLocation] = useState("");
     const [maxUsers, setMaxUsers] = useState(0);
+    const [maxUsersError, setMaxUsersError] = useState(false);
 
     const handleStartTimeChange = (date: Date | null) => {
         if (date != null) {
@@ -57,22 +45,47 @@ const SessionInputForm = (props: SessionInputFormProps) => {
     }
 
     const onSubmit = () => {
-        alert(location + "\n" + startTime + "\n" + endTime + "\n" + bookingOpen + "\n" + bookingClose + "\n" + maxUsers);
+        // TODO: database connection
+        if (!maxUsersError) {
+            alert(location + "\n" + startTime + "\n" + endTime + "\n" + bookingOpen + "\n" + bookingClose + "\n" + maxUsers);
+        }
     }
 
     const handleMaxUsersChange = (value: string) => {
-        // TODO: validation
-        setMaxUsers(Number(value))
+        const parsed_value = Number(value);
+        if (!isNaN(parsed_value) && Number.isInteger(parsed_value) && parsed_value >= 0) {
+            setMaxUsersError(false)
+            setMaxUsers(parsed_value)
+        } else {
+            setMaxUsersError(true);
+        }
     }
 
     return (
         <Card>
             <div className="my-5">
-                <TextInput label="Location" value={location} onChange={setLocation} type="text" isError={false}/>
+                <TextInput
+                    label="Location"
+                    value={location}
+                    onChange={setLocation}
+                    type="text"
+                    isError={false}
+                />
             </div>
+
             <div className="my-5">
-                <TextInput label="Maximum Users" value={maxUsers.toString()} onChange={handleMaxUsersChange} type="text" isError={false}/>
+                <TextInput
+                    label="Maximum Users"
+                    value={maxUsers.toString()}
+                    onChange={handleMaxUsersChange}
+                    type="text"
+                    isError={maxUsersError}
+                />
+                <div hidden={!maxUsersError}>
+                    <p className="text-red-500 text-sm">Must be a non-negative integer</p>
+                </div>
             </div>
+
             <div className="my-5">
                 <p>Start Time</p>
                 <DatePicker
