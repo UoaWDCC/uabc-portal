@@ -13,17 +13,17 @@ export const GET = async (request: NextRequest) => {
  * Creates a new game session
  */
 export const POST = async (request: NextRequest) => {
-  // const sessionBody = (await request.json()) as Omit<
-  //   Prisma.GameSessionGetPayload<{}>,
-  //   "id"
-  // >;
-  const sessionBody = await request.json() as Prisma.GameSessionGetPayload<{}>;
+  const sessionBody = (await request.json()) as Omit<
+    Prisma.GameSessionGetPayload<{}>,
+    "id"
+  >;
+  // const sessionBody = await request.json() as Prisma.GameSessionGetPayload<{}>;
 
-  console.log(sessionBody)
-
+  console.log(sessionBody);
+  console.log(typeof sessionBody.bookingClose);
   const { success } = gameSessionValidator.safeParse(sessionBody);
 
-  console.log(success)
+  console.log(success);
 
   if (!success) {
     return NextResponse.json(
