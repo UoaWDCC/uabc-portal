@@ -20,7 +20,6 @@ export const POST = async (request: NextRequest) => {
   // const sessionBody = await request.json() as Prisma.GameSessionGetPayload<{}>;
 
   console.log(sessionBody);
-  console.log(typeof sessionBody.bookingClose);
   const { success } = gameSessionValidator.safeParse(sessionBody);
 
   console.log(success);

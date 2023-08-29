@@ -26,7 +26,7 @@ const SessionInputForm = (props: SessionInputFormProps) => {
     mutationFn: async (sessionData: Omit<GameSession, "id">) => {
       const response = await fetch("api/gamesession", {
         method: "POST",
-        body: JSON.stringify(sessionData), // Bug: converts dates to strings so it fails to validate
+        body: JSON.stringify(sessionData),
         headers: {
           "Content-Type": "application/json",
         },
@@ -66,7 +66,6 @@ const SessionInputForm = (props: SessionInputFormProps) => {
   const onSubmit = async () => {
     if (!maxUsersError) {
       const data = {
-        // id: Math.random().toString(36).slice(2),  // TODO: Replace with ObjectId
         bookingClose: bookingClose,
         bookingOpen: bookingOpen,
         startTime: startTime,
