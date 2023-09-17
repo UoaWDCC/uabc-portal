@@ -41,6 +41,7 @@ export default async function ConfirmationPage() {
       <div className="relative">
         <Image
           src={ConfirmationBannerSVG.src}
+          fill
           className="w-full"
           alt={"Confirmation Banner"}
         />
