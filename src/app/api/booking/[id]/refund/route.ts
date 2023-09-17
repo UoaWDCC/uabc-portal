@@ -1,21 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/db";
 
-type BookingRefundRequest = {
-  bookingId: string;
-};
-
 /**
  * Refund a booking
  */
-export async function PATCH(request: Request) {
-  const { bookingId } = (await request.json()) as BookingRefundRequest;
-
-  console.log(bookingId);
-
+export async function PATCH(request: Request, params: { id: string }) {
+  
   const refundedBooking = await prisma.booking.update({
     data: { status: "refunded" },
-    where: { id: bookingId },
+    where: { id: params.id },
   });
 
   return NextResponse.json({ data: refundedBooking });

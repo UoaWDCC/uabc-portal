@@ -6,11 +6,11 @@
 
 import SessionCard from "@/components/SessionCard/SessionCard";
 import { SessionCardStatus } from "@/components/SessionCard/SessionCardStatusEnum";
-import { useGetSessions } from "@/lib/useQuery/useGetSessions";
+import { useGameSessions } from "@/lib/useQuery/useGameSessions";
 import { useEffect } from "react";
 
 export default function SessionPage() {
-  const { data } = useGetSessions();
+  const { data } = useGameSessions();
 
   useEffect(() => {
     console.log(data);
