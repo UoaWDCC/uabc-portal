@@ -12,7 +12,7 @@ const TextInput = (props: TextInputProps) => {
   const [active, setActive] = useState(false);
 
   return (
-    <div className="mx-8 my-4 relative">
+    <div className="relative">
       <h2 className={twMerge("absolute left-3 transition-all ",
         active || props.value != ""
           ? "top-[-0.75rem] bg-white text-sm px-2  text-blue-500"

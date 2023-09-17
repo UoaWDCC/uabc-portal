@@ -17,8 +17,12 @@ export const POST = async (request: NextRequest) => {
     Prisma.GameSessionGetPayload<{}>,
     "id"
   >;
+  // const sessionBody = await request.json() as Prisma.GameSessionGetPayload<{}>;
 
+  console.log(sessionBody);
   const { success } = gameSessionValidator.safeParse(sessionBody);
+
+  console.log(success);
 
   if (!success) {
     return NextResponse.json(
