@@ -28,6 +28,7 @@ const ExpandedSessionCard = ({
   defaultLevel
 }: Omit<ExpandedSessionCardProps, "id">) => {
   const [open, setOpen] = useState(false);
+  const [pendingLevel, setPendingLevel] = useState<string | undefined>(level);
 
   const dayOfWeek = weekday[startTime.getDay()];
 
@@ -55,8 +56,11 @@ const ExpandedSessionCard = ({
         </button>
         <LevelSelector
           isOpened={open}
-          onClose={() => setOpen(false)}
-          onSelect={setLevel}
+          onClose={() => {
+            setOpen(false);
+            setLevel(pendingLevel);
+          }}
+          onSelect={setPendingLevel}
           default={defaultLevel}
         />
       </div>
