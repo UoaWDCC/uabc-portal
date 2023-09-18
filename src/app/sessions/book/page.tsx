@@ -1,24 +1,21 @@
 "use client";
 
-import LevelSelector from "@/components/LevelSelector/LevelSelector";
+import ExpandedSessionCard from "@/components/ExpandedSessionCard/ExpandedSessionCard";
 import { useState } from "react";
 
-const defaultLevel = "intermediate";
-
 export default function BookSessionPage() {
-    const [open, setOpen] = useState(false);
-    const [level, setLevel] = useState(defaultLevel);
+    const [level, setLevel] = useState<string | undefined>(undefined);
   
     return (
-      <div>
-        <button onClick={() => setOpen(true)}>Open level selector</button>
-        <LevelSelector
-          isOpened={open}
-          onClose={() => setOpen(false)}
-          default={defaultLevel}
-          onSelect={setLevel}
+      <div className="mx-5">
+        <ExpandedSessionCard
+          level={level}
+          setLevel={setLevel}
+          address={"99 Gillies Avenue, Epsom"}
+          startTime={new Date(Date.now())}
+          endTime={new Date(Date.now())}
+          location={"Auckland Badminton Association"}
         />
-        <p>Level: {level}</p>
       </div>
     );
 }
