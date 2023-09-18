@@ -2,13 +2,20 @@
 import TextInput from "@/components/TextInput/TextInput";
 import Button from "@/components/Button/Button";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const [isError, setError] = useState(false);
+
+  const { data } = useSession();
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
   return (
     <div>
@@ -22,28 +29,29 @@ export default function Login() {
             : "Please login:"}{" "}
         </label>
         <div className="w-319 h-852">
-            <TextInput
-              label="Email"
-              value={email}
-              type="email"
-              isError={isError}
-              onChange={setEmail}
+          <TextInput
+            label="Email"
+            value={email}
+            type="email"
+            isError={isError}
+            onChange={setEmail}
+          />
+          <TextInput
+            label="Password"
+            value={password}
+            type="password"
+            isError={isError}
+            onChange={setPass}
+          />
+        
+            <Button
+              label="Login"
+              onClick={() =>
+                // email && password ? setError(false) : setError(true)
+                signIn("google")
+              }
             />
-            <TextInput
-              label="Password"
-              value={password}
-              type="password"
-              isError={isError}
-              onChange={setPass}
-            />
-            <Link href="/login">
-              <Button
-                label="Login"
-                onClick={() =>
-                  email && password ? setError(false) : setError(true)
-                }
-              />
-            </Link>
+          
         </div>
       </div>
     </div>

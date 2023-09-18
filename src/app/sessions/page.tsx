@@ -4,19 +4,21 @@
 
 "use client";
 
-import Heading from "@/components/Heading/Heading";
 import Button from "@/components/Button/Button";
-import { useEffect, useState, useRef, ChangeEvent } from "react";
-import { CgProfile } from "react-icons/cg";
-import { AiFillCaretDown } from "react-icons/ai";
-import SessionCard from "@/components/SessionCard/SessionCard";
-import { SessionCardStatus } from "@/components/SessionCard/SessionCardStatusEnum";
-import SessionCardProps from "@/components/SessionCard/SessionCardProps";
+import Heading from "@/components/Heading/Heading";
 import ScrollShadow from "@/components/ScrollShadow";
-import { twJoin } from "tailwind-merge";
-import { useQuery } from "@tanstack/react-query";
+import SessionCard from "@/components/SessionCard/SessionCard";
+import SessionCardProps from "@/components/SessionCard/SessionCardProps";
+import { SessionCardStatus } from "@/components/SessionCard/SessionCardStatusEnum";
+import { useGameSessions } from "@/lib/useQuery/useGameSessions";
 import type { GameSession } from "@prisma/client";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { AiFillCaretDown } from "react-icons/ai";
+import { CgProfile } from "react-icons/cg";
+import { twJoin } from "tailwind-merge";
 
 const remainingSessions = 11;
 const isMember = true;
@@ -24,16 +26,8 @@ const firstName = "David";
 const maxSessions: number = isMember ? 2 : 1;
 
 export default function SelectSessionPage() {
-  const { data } = useQuery({
-    queryKey: ["current-sessions"],
-    queryFn: async () => {
-      const response = await fetch("api/gamesession/current", {
-        cache: "no-store",
-      });
-      const data = await response.json();
-      return data as GameSession[];
-    },
-  });
+  const { data } = useGameSessions();
+  const { push } = useRouter();
 
   const [isOverflown, setIsOverflown] = useState(false);
   const [session, setSession] = useState<Map<string, SessionCardProps>>(
@@ -109,11 +103,11 @@ export default function SelectSessionPage() {
     <div className="h-screen flex flex-col">
       <div className="flex pb-4 pt-10 pl-6">
         <Heading>Sessions</Heading>
-        <CgProfile
-          className="ml-auto mr-4"
-          size={40}
-          onClick={() => alert("profile")}
-        ></CgProfile>
+        <Link href={"/account"} className="ml-auto mr-4">
+          <CgProfile
+            size={40}
+          />
+        </Link>
       </div>
       <div
         className={twJoin(
@@ -163,7 +157,7 @@ export default function SelectSessionPage() {
               className={twJoin(
                 "flex items-center justify-center rounded bg-[#D9D9D9] h-[34px] w-[63px] font-semibold",
                 shake &&
-                  "error-shake text-[#AF3737] border-[#AF3737] border-solid border",
+                "error-shake text-[#AF3737] border-[#AF3737] border-solid border",
               )}
             >
               {sessionsSelected} / {maxSessions}
@@ -212,13 +206,7 @@ export default function SelectSessionPage() {
               : true
           }
           onClick={() =>
-            alert(
-              Array.from(session.values())
-                .filter(
-                  (session) => session.status === SessionCardStatus.SELECTED,
-                )
-                .map((session) => session.id),
-            )
+            push("/sessions/book")
           }
         />
       </div>
