@@ -9,7 +9,6 @@ import Button from "../Button/Button";
 import Card from "../Card/Card";
 import "react-datepicker/dist/react-datepicker.css";
 import { GameSession } from "@prisma/client";
-import { ObjectId } from "bson";
 import SessionInputFormProps from "./SessionInputFormProps";
 import { useMutation } from "@tanstack/react-query";
 
@@ -24,7 +23,7 @@ const SessionInputForm = (props: SessionInputFormProps) => {
 
   const mutation = useMutation({
     mutationFn: async (sessionData: Omit<GameSession, "id">) => {
-      const response = await fetch("api/gamesession", {
+      const response = await fetch("/api/game-session", {
         method: "POST",
         body: JSON.stringify(sessionData),
         headers: {
