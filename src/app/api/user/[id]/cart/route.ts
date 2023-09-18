@@ -6,9 +6,9 @@ import { prisma } from "@/db";
  */
 export async function GET(
   req: NextRequest,
-  params: { params: { id: string } },
+  { params }: { params: { id: string } },
 ) {
-  const userId = params.params.id;
+  const userId = params.id;
   const checkoutCart = await prisma.checkoutCart.findFirst({
     where: {
       userId,
@@ -31,10 +31,10 @@ export async function GET(
  */
 export async function POST(
   req: NextRequest,
-  params: { params: { id: string } },
+  { params }: { params: { id: string } },
 ) {
   const { status } = await req.json();
-  const userId = params.params.id; // FIXME: params.id returns undefined
+  const userId = params.id;
   const checkoutCart = await prisma.checkoutCart.findFirst({
     where: {
       userId,
@@ -63,10 +63,10 @@ export async function POST(
  */
 export async function PATCH(
   req: NextRequest,
-  params: { params: { id: string } },
+  { params }: { params: { id: string } },
 ) {
   const { status } = await req.json();
-  const userId = params.params.id;
+  const userId = params.id;
 
   const updatedCart = await prisma.checkoutCart.update({
     where: {
@@ -91,9 +91,9 @@ export async function PATCH(
  */
 export async function DELETE(
   req: NextRequest,
-  params: { params: { id: string } },
+  { params }: { params: { id: string } },
 ) {
-  const userId = params.params.id;
+  const userId = params.id;
   const deletedCart = await prisma.checkoutCart.delete({
     where: {
       userId,
