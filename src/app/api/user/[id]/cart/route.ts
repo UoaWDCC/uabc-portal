@@ -8,10 +8,9 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const userId = params.id;
   const checkoutCart = await prisma.checkoutCart.findFirst({
     where: {
-      userId,
+      userId: params.id,
     },
     include: {
       CheckoutCartItem: true,
@@ -34,10 +33,9 @@ export async function POST(
   { params }: { params: { id: string } },
 ) {
   const { status } = await req.json();
-  const userId = params.id;
   const checkoutCart = await prisma.checkoutCart.findFirst({
     where: {
-      userId,
+      userId: params.id,
     },
   });
 
@@ -50,7 +48,7 @@ export async function POST(
 
   const newCart = await prisma.checkoutCart.create({
     data: {
-      userId,
+      userId: params.id,
       createdAt: new Date(),
       status: status,
     },
@@ -66,14 +64,13 @@ export async function PATCH(
   { params }: { params: { id: string } },
 ) {
   const { status } = await req.json();
-  const userId = params.id;
 
   const updatedCart = await prisma.checkoutCart.update({
     where: {
-      userId,
+      userId: params.id,
     },
     data: {
-      userId,
+      userId: params.id,
       status: status,
     },
   });
@@ -93,10 +90,9 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const userId = params.id;
   const deletedCart = await prisma.checkoutCart.delete({
     where: {
-      userId,
+      userId: params.id,
     },
   });
   if (!deletedCart) {
