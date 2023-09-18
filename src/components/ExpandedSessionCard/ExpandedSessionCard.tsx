@@ -33,7 +33,7 @@ const ExpandedSessionCard = ({
 
   return (
     <Card className="relative font-normal">
-      <div className="px-6 py-4 bg-blue-600 rounded-t-md drop-shadow-lg">
+      <div className="px-6 py-4 bg-blue-600 rounded-t-md drop-shadow-lg pr-10">
         <div className="absolute right-5 top-10 -translate-y-1/2">
           <IoCheckmarkCircle color="white" size={30}></IoCheckmarkCircle>
         </div>
