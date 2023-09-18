@@ -17,13 +17,14 @@ model Payment {
 }
 
 model GameSession {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
   bookingClose DateTime
   bookingOpen  DateTime
   startTime    DateTime
   endTime      DateTime
   location     String
   maxUsers     Int
+  checkoutCart CheckoutCart[]
 }
 
 model Account {
@@ -54,14 +55,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   difficulty    String?
   accounts      Account[]
   sessions      Session[]
+  CheckoutCart  CheckoutCart?
 }
 
 model VerificationToken {
@@ -80,4 +82,15 @@ model Booking {
   createdAt     DateTime
   paymentMethod String   @db.ObjectId
   status        String
+}
+
+model CheckoutCart {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String      @unique @db.ObjectId
+  user          User        @relation(fields: [userId], references: [id])
+  gameSessionId String      @db.ObjectId
+  gameSession   GameSession @relation(fields: [gameSessionId], references: [id])
+  createdAt     DateTime
+  status        String
+  difficulty    String
 }
