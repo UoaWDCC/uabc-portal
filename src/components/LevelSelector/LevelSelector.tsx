@@ -14,7 +14,7 @@ const LevelSelector = (props: LevelSelectorProps) => {
     { value: "advanced" },
   ];
 
-  const defaultIndex = levels.map((item) => item.value).indexOf(props.default);
+  const defaultIndex = props.default ? levels.map((item) => item.value).indexOf(props.default) : -1;
 
   return (
     <Modal isOpened={props.isOpened} onClose={props.onClose}>
@@ -23,7 +23,7 @@ const LevelSelector = (props: LevelSelectorProps) => {
         <SegmentedController
           segments={levels}
           callback={props.onSelect}
-          defaultIndex={defaultIndex != -1 ? defaultIndex : undefined}
+          defaultIndex={defaultIndex}
         />
       </div>
     </Modal>

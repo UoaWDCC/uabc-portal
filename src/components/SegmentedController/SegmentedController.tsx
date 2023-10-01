@@ -6,7 +6,7 @@ import { useState } from "react";
 import SegmentedControllerProps from "./SegmentedControllerProps";
 
 const SegmentedController = (props: SegmentedControllerProps) => {
-  const [activeIndex, setActiveIndex] = useState(props.defaultIndex ?? 0);
+  const [activeIndex, setActiveIndex] = useState(props.defaultIndex ?? -1);
 
   const onInputChange = (value: string, i: number) => {
     setActiveIndex(i);
@@ -36,11 +36,11 @@ const SegmentedController = (props: SegmentedControllerProps) => {
             />
             <label
               htmlFor={item.value}
-              className={`cursor-pointer block px-3 py-5 relative transition-colors text-xs ${
+              className={`uppercase cursor-pointer block px-3 py-5 relative transition-colors text-xs ${
                 i == activeIndex ? "text-white" : "text-gray-500"
               }`}
             >
-              {item.value.toUpperCase()}
+              {item.value}
             </label>
           </div>
         ))}
