@@ -3,6 +3,7 @@ import { prisma } from "@/db";
 
 // @TODO remove this later
 import { ObjectId } from "bson";
+import type { CheckoutCartItem, Booking } from "@prisma/client";
 
 /**
  * Get booking by id
@@ -30,10 +31,9 @@ export async function GET(request: NextRequest) {
 }
 
 /**
- * Create a new booking
+ * Create a new booking from user cart
  */
 export async function POST(req: NextRequest) {
-  // @TODO auth users
   const { userId } = await req.json();
 
   if (!userId) {
@@ -47,6 +47,13 @@ export async function POST(req: NextRequest) {
     where: {
       userId,
     },
+    include: {
+      CheckoutCartItem: {
+        include: {
+          GameSession: true,
+        },
+      },
+    },
   });
 
   if (!cart) {
@@ -56,11 +63,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const cartItems = await prisma.checkoutCartItem.findMany({
-    where: {
-      checkoutCartId: cart.id,
-    },
-  });
+  const cartItems = cart.CheckoutCartItem;
 
   if (!cartItems.length) {
     return NextResponse.json(
@@ -69,14 +72,10 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const newBookings = [];
+  const newBookings: Booking[] = [];
 
   for (const cartItem of cartItems) {
-    const session = await prisma.gameSession.findFirst({
-      where: {
-        id: cartItem.gameSessionId,
-      },
-    });
+    const session = cartItem.GameSession;
 
     if (!session) {
       return NextResponse.json(
@@ -89,14 +88,6 @@ export async function POST(req: NextRequest) {
         sessionId: cartItem.gameSessionId,
       },
     });
-
-    // TODO: decide what to do here, make one go through but not the other?
-    if (bookingCount >= session.maxUsers) {
-      return NextResponse.json(
-        { data: {}, msg: "session is full" },
-        { status: 404 },
-      );
-    }
 
     const booking = await prisma.booking.findFirst({
       where: {
@@ -112,14 +103,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // TODO: decide what to do here, make one go through but not the other?
+    if (bookingCount >= session.maxUsers) {
+      return NextResponse.json(
+        { data: {}, msg: "session is full" },
+        { status: 404 },
+      );
+    }
+
     newBookings.push(
       await prisma.booking.create({
         data: {
           createdAt: new Date(),
           userId,
           sessionId: cartItem.gameSessionId,
-          paymentMethod: new ObjectId().toString(),
-          status: "pending",
+          paymentMethod: new ObjectId().toString(), //TODO: add payment method enum
+          status: "pending", // TODO: add status enum
         },
       }),
     );
