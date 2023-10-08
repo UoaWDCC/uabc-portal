@@ -13,12 +13,26 @@ export async function POST(
     where: {
       userId: params.id,
     },
+    include: {
+      CheckoutCartItem: true,
+    },
   });
 
   if (!cart) {
     return NextResponse.json(
       { data: {}, msg: "cart not found" },
       { status: 404 },
+    );
+  }
+
+  if (
+    cart.CheckoutCartItem.some(
+      (item) => item.gameSessionId === params.sessionid,
+    )
+  ) {
+    return NextResponse.json(
+      { data: {}, msg: "cart item already exists" },
+      { status: 400 },
     );
   }
 
