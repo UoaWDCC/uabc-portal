@@ -42,5 +42,8 @@ jobs:
         with:
           credentials_json: "${{ secrets.UABC_DEV_GCP_DEPLOYMENT_SA_CREDENTIALS }}"
 
-      - id: "deploy"
-        uses: "google-github-actions/deploy-appengine@v1"
+      - id: "app-engine-deploy"
+        uses: "google-github-actions/deploy-appengine@v2"
+        with:
+          project_id: wdcc-uabc-dev
+          working_directory: ./
