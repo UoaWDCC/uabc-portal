@@ -1,0 +1,50 @@
+name: Build Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: development
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: "18.x"
+
+      - name: npm install
+        run: |
+          npm install
+
+      - name: prisma generate
+        run: |
+          npx prisma generate
+
+      - name: Create env file
+        run: echo ${{ secrets.UABC_DEV_BACKEND_ENVFILE }} | base64 --decode > .env
+
+      - name: Build Next app
+        run: |
+          npm build
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.UABC_DEV_GCP_DEPLOYMENT_SA_CREDENTIALS }}'
+
+      - id: 'deploy'
+        uses: 'google-github-actions/deploy-appengine@v1'
+
+
+    
+            
