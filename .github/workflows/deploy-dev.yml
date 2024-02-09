@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: "read"
+      id-token: "write"
 
     steps:
       - uses: actions/checkout@v3
@@ -34,17 +34,13 @@ jobs:
 
       - name: Build Next app
         run: |
-          npm build
+          npm run build
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v2'
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
         with:
-          credentials_json: '${{ secrets.UABC_DEV_GCP_DEPLOYMENT_SA_CREDENTIALS }}'
+          credentials_json: "${{ secrets.UABC_DEV_GCP_DEPLOYMENT_SA_CREDENTIALS }}"
 
-      - id: 'deploy'
-        uses: 'google-github-actions/deploy-appengine@v1'
-
-
-    
-            
+      - id: "deploy"
+        uses: "google-github-actions/deploy-appengine@v1"
