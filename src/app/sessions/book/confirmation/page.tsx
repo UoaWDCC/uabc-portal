@@ -4,7 +4,6 @@
 
 import ConfirmationIcon from "@/components/ConfirmationIcon/ConfirmationIcon";
 import ConfirmedSessionCard from "@/components/ConfirmedSessionCard/ConfirmedSessionCard";
-import { getServerSession } from "next-auth/next";
 import Image from "next/image";
 import ConfirmationBannerSVG from "public/images/ConfirmationBannerSVG.svg";
 
@@ -30,12 +29,6 @@ const sessions = [
 const confirmed = true;
 
 export default async function ConfirmationPage() {
-  // const {data} = useSession();
-  // console.log(data)
-
-  const session = await getServerSession();
-  console.log(session);
-
   return (
     <div className="flex flex-col h-[100dvh]">
       <div className="relative">
