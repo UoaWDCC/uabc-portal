@@ -4,8 +4,7 @@
 
 import ConfirmationIcon from "@/components/ConfirmationIcon/ConfirmationIcon";
 import ConfirmedSessionCard from "@/components/ConfirmedSessionCard/ConfirmedSessionCard";
-import Image from "next/image";
-import ConfirmationBannerSVG from "public/images/ConfirmationBannerSVG.svg";
+import { ConfirmationBanner } from "@/lib/assets/Icons";
 
 const sessions = [
   {
@@ -32,12 +31,14 @@ export default async function ConfirmationPage() {
   return (
     <div className="flex flex-col h-[100dvh]">
       <div className="relative">
-        <Image
-          src={ConfirmationBannerSVG.src}
+        {/* <Image
+          src="public/images/ConfirmationBannerSVG.svg"
           fill
           className="w-full"
           alt={"Confirmation Banner"}
-        />
+        /> */}
+        <ConfirmationBanner className="w-full" />
+
         <p className="text-5xl font-bold text-center text-blue-600 z-10 absolute left-0 right-0 top-10">
           UABC
         </p>

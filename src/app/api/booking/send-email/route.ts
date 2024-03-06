@@ -10,7 +10,6 @@ export type SendEmailRequest = {
 
 import { prisma } from "@/db";
 import { Booking, GameSession, User } from "@prisma/client";
-import { Exception } from "@prisma/client/runtime/library";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -69,7 +68,7 @@ export async function POST(request: NextRequest) {
     .then(() => {
       console.log("Email sent");
     })
-    .catch((error: Exception) => {
+    .catch((error: any) => {
       console.error(error);
     });
 }
