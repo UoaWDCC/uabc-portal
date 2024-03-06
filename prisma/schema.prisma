@@ -3,42 +3,22 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Payment {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  amount    Int
-  bookingId String   @db.ObjectId
-  method    String
-  time      DateTime
-  userId    String
-}
-
-model GameSession {
-  id               String             @id @default(auto()) @map("_id") @db.ObjectId
-  bookingClose     DateTime
-  bookingOpen      DateTime
-  startTime        DateTime
-  endTime          DateTime
-  location         String
-  maxUsers         Int
-  CheckoutCartItem CheckoutCartItem[]
-}
-
 model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
+  id                String  @id @default(cuid())
+  userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String? @db.Text
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -47,15 +27,15 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       String   @db.ObjectId
+  userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  id            String        @id @default(cuid())
   name          String?
   email         String?       @unique
   emailVerified DateTime?
@@ -67,7 +47,6 @@ model User {
 }
 
 model VerificationToken {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
   token      String   @unique
   expires    DateTime
@@ -75,29 +54,49 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model Payment {
+  id        Int      @id @default(autoincrement())
+  amount    Int
+  bookingId String
+  method    String
+  time      DateTime
+  userId    String
+}
+
+model GameSession {
+  id               Int                @id @default(autoincrement())
+  bookingClose     DateTime
+  bookingOpen      DateTime
+  startTime        DateTime
+  endTime          DateTime
+  location         String
+  maxUsers         Int
+  CheckoutCartItem CheckoutCartItem[]
+}
+
 model Booking {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String   @db.ObjectId
-  sessionId     String   @db.ObjectId
-  createdAt     DateTime
-  paymentMethod String   @db.ObjectId
+  id            Int      @id @default(autoincrement())
+  userId        String
+  sessionId     String
+  createdAt     DateTime @default(now())
+  paymentMethod String
   status        String
 }
 
 model CheckoutCart {
-  id               String             @id @default(auto()) @map("_id") @db.ObjectId
-  userId           String             @unique @db.ObjectId // @id @map("_id") @db.ObjectId
+  id               Int                @id @default(autoincrement())
+  userId           String             @unique
   user             User               @relation(fields: [userId], references: [id])
-  createdAt        DateTime
+  createdAt        DateTime           @default(now())
   status           String
   CheckoutCartItem CheckoutCartItem[]
 }
 
 model CheckoutCartItem {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  checkoutCartId String       @db.ObjectId
+  id             Int          @id @default(autoincrement())
+  checkoutCartId Int
   CheckoutCart   CheckoutCart @relation(fields: [checkoutCartId], references: [id])
-  gameSessionId  String       @db.ObjectId
+  gameSessionId  Int
   GameSession    GameSession  @relation(fields: [gameSessionId], references: [id])
   difficulty     String
 }
