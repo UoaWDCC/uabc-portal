@@ -45,5 +45,5 @@ jobs:
       - id: "app-engine-deploy"
         uses: "google-github-actions/deploy-appengine@v2"
         with:
-          project_id: wdcc-uabc-dev
+          project_id: uabc-dev
           working_directory: ./
