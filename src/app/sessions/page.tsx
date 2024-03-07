@@ -4,12 +4,14 @@
 
 "use client";
 
-import Button from "@/components/Button/Button";
-import Heading from "@/components/Heading/Heading";
+import { Button } from "@/components/Button";
+import { Heading } from "@/components/Heading";
 import ScrollShadow from "@/components/ScrollShadow";
-import SessionCard from "@/components/SessionCard/SessionCard";
-import SessionCardProps from "@/components/SessionCard/SessionCardProps";
-import { SessionCardStatus } from "@/components/SessionCard/SessionCardStatusEnum";
+import {
+  SessionCard,
+  SessionCardStatus,
+  SessionCardProps,
+} from "@/components/SessionCard";
 import { useGameSessions } from "@/lib/useQuery/useGameSessions";
 import type { GameSession } from "@prisma/client";
 import Image from "next/image";
@@ -88,11 +90,9 @@ export default function SelectSessionPage() {
       session?.set(id, updatedSession);
 
       // On status change, changes the counter of number of sessions selected*/
-      const numberActive = Array.from(session.values()).filter(
-        (card: SessionCardProps) => {
-          return card.status === SessionCardStatus.SELECTED;
-        },
-      ).length;
+      const numberActive = Array.from(session.values()).filter((card) => {
+        return card.status === SessionCardStatus.SELECTED;
+      }).length;
 
       setSessionsSelected(numberActive);
       // setSessionsSelected(sessionsSelected + (e.target.checked ? 1 : -1));
@@ -100,8 +100,8 @@ export default function SelectSessionPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col">
-      <div className="flex pb-4 pt-10 pl-6">
+    <div className="flex h-screen flex-col">
+      <div className="flex pb-4 pl-6 pt-10">
         <Heading>Sessions</Heading>
         <Link href={"/account"} className="ml-auto mr-4">
           <CgProfile size={40} />
@@ -109,11 +109,11 @@ export default function SelectSessionPage() {
       </div>
       <div
         className={twJoin(
-          "bg-[#EAEEF3] min-h-[66px] flex",
+          "flex min-h-[66px] bg-[#EAEEF3]",
           !isMember && "justify-center",
         )}
       >
-        <p className="p-5 pr-1 text-md flex items-center font-medium">
+        <p className="text-md flex items-center p-5 pr-1 font-medium">
           Hey {isMember ? firstName : "Guest"}!
         </p>
         <div className="flex items-center">
@@ -128,34 +128,34 @@ export default function SelectSessionPage() {
         {isMember && (
           <>
             <div className="flex grow"></div>
-            <div className="text-xs flex flex-col justify-center text-left">
+            <div className="flex flex-col justify-center text-left text-xs">
               <p>Prepaid Sessions</p>
               <p>Remaining</p>
             </div>
           </>
         )}
         {isMember && (
-          <p className="flex m-4 justify-center items-center rounded bg-[#D9D9D9] h-[35px] w-[35px]">
+          <p className="m-4 flex h-[35px] w-[35px] items-center justify-center rounded bg-[#D9D9D9]">
             {remainingSessions}
           </p>
         )}
       </div>
       <div
         className={twJoin(
-          "flex min-h-[76px] p-5 items-center",
+          "flex min-h-[76px] items-center p-5",
           !isMember && "justify-center text-center",
         )}
       >
-        <p className={`max-w-[70%] text-s leading-5 font-medium`}>
+        <p className={`text-s max-w-[70%] font-medium leading-5`}>
           Please select a badminton session for this week
         </p>
         {isMember && (
           <div className="flex grow flex-row-reverse">
             <p
               className={twJoin(
-                "flex items-center justify-center rounded bg-[#D9D9D9] h-[34px] w-[63px] font-semibold",
+                "flex h-[34px] w-[63px] items-center justify-center rounded bg-[#D9D9D9] font-semibold",
                 shake &&
-                  "error-shake text-[#AF3737] border-[#AF3737] border-solid border",
+                  "error-shake border border-solid border-[#AF3737] text-[#AF3737]",
               )}
             >
               {sessionsSelected} / {maxSessions}
@@ -167,7 +167,7 @@ export default function SelectSessionPage() {
       {/* TODO: check whether to use this or mask with: <scroll-fade py-4> */}
       <ScrollShadow>
         <div
-          className="flex flex-col overflow-y-auto w-full h-[calc(100dvh-329px)] gap-3 px-5"
+          className="flex h-[calc(100dvh-329px)] w-full flex-col gap-3 overflow-y-auto px-5"
           onScroll={() => setScrollIndicator(false)}
           ref={ref}
         >
@@ -190,12 +190,12 @@ export default function SelectSessionPage() {
 
       {scrollIndicator && isOverflown && (
         <AiFillCaretDown
-          className="absolute bottom-[105px] w-full z-10 opacity-20 animate-bounce pointer-events-none"
+          className="pointer-events-none absolute bottom-[105px] z-10 w-full animate-bounce opacity-20"
           size={80}
         />
       )}
 
-      <div className="flex justify-center mt-5 mb-10">
+      <div className="mb-10 mt-5 flex justify-center">
         <Button
           label="next"
           disabled={

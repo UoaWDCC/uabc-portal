@@ -9,7 +9,7 @@ export const authOption: AuthOptions = {
   pages: {
     signIn: "/auth/login",
     signOut: "/auth/signout",
-    newUser: "/onboard"
+    newUser: "/onboard",
   },
   providers: [
     GoogleProvider({

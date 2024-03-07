@@ -2,8 +2,8 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import ConfirmationIcon from "@/components/ConfirmationIcon/ConfirmationIcon";
-import ConfirmedSessionCard from "@/components/ConfirmedSessionCard/ConfirmedSessionCard";
+import { ConfirmationIcon } from "@/components/ConfirmationIcon";
+import { ConfirmedSessionCard } from "@/components/ConfirmedSessionCard";
 import { ConfirmationBanner } from "@/lib/assets/Icons";
 
 const sessions = [
@@ -29,7 +29,7 @@ const confirmed = true;
 
 export default async function ConfirmationPage() {
   return (
-    <div className="flex flex-col h-[100dvh]">
+    <div className="flex h-[100dvh] flex-col">
       <div className="relative">
         {/* <Image
           src="public/images/ConfirmationBannerSVG.svg"
@@ -39,20 +39,20 @@ export default async function ConfirmationPage() {
         /> */}
         <ConfirmationBanner className="w-full" />
 
-        <p className="text-5xl font-bold text-center text-blue-600 z-10 absolute left-0 right-0 top-10">
+        <p className="absolute left-0 right-0 top-10 z-10 text-center text-5xl font-bold text-blue-600">
           UABC
         </p>
       </div>
 
-      <div className="grow flex justify-center items-center my-10 mx-20">
+      <div className="mx-20 my-10 flex grow items-center justify-center">
         <ConfirmationIcon confirmed={confirmed} />
       </div>
 
-      <div className="bg-blue-600 overflow-hidden flex flex-col">
-        <p className="text-white mx-6 mt-5 mb-3 text-xl font-medium">
+      <div className="flex flex-col overflow-hidden bg-blue-600">
+        <p className="mx-6 mb-3 mt-5 text-xl font-medium text-white">
           Rackets at the ready!
         </p>
-        <div className="overflow-y-scroll max-h-80 flex gap-4 flex-col px-6 pb-4">
+        <div className="flex max-h-80 flex-col gap-4 overflow-y-scroll px-6 pb-4">
           {sessions.map((session) => {
             return (
               <ConfirmedSessionCard

@@ -6,12 +6,28 @@ scroll-shadow {
   display: inline-block;
   --scroll-shadow-size: 18;
   --scroll-shadow-top: linear-gradient(to top, transparent 0%, white 18px);
-  --scroll-shadow-bottom: linear-gradient(to bottom, transparent 0%, white 18px);
+  --scroll-shadow-bottom: linear-gradient(
+    to bottom,
+    transparent 0%,
+    white 18px
+  );
 }
 
 .scroll-fade {
-    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 18px, black calc(100% - 15px), transparent 100%); 
-    mask-image: linear-gradient(to top, transparent 0%, black 18px, black calc(100% - 15px), transparent 100%); 
+  -webkit-mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    black 18px,
+    black calc(100% - 15px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    black 18px,
+    black calc(100% - 15px),
+    transparent 100%
+  );
 }
 
 .error-shake {
@@ -19,16 +35,27 @@ scroll-shadow {
   animation: shake 0.16s 0s 3;
 }
 
-
 @keyframes shake {
-  0% { -webkit-transform: translateX(0); transform: translateX(0); }
-  25% { -webkit-transform: translateX(8px); transform: translateX(8px); }
-  75% { -webkit-transform: translateX(-8px); transform: translateX(-8px); }
-  100% { -webkit-transform: translateX(0); transform: translateX(0); }
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+  25% {
+    -webkit-transform: translateX(8px);
+    transform: translateX(8px);
+  }
+  75% {
+    -webkit-transform: translateX(-8px);
+    transform: translateX(-8px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
 }
 
 /* TODO: Implement in tailwind */
 .controls::before {
-    width: var(--highlight-width);
-    transform: translateX(var(--highlight-x-pos));
+  width: var(--highlight-width);
+  transform: translateX(var(--highlight-x-pos));
 }

@@ -6,7 +6,7 @@ const SignInPage = () => {
   const { data: session } = useSession();
 
   return (
-    <div className="w-full h-full">
+    <div className="h-full w-full">
       <button onClick={() => signIn("google")}>Sign in</button>
       <p>{session && session.user?.name}</p>
       <p>{session && session.user?.email}</p>

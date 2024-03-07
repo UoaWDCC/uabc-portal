@@ -31,6 +31,6 @@ jobs:
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           ENVIRONMENT: "DEVELOPMENT"
-          
+
         run: |
           yarn build

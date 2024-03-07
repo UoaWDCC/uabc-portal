@@ -1,7 +1,6 @@
 "use client";
-import TextInput from "@/components/TextInput/TextInput";
-import Button from "@/components/Button/Button";
-import Link from "next/link";
+import { TextInput } from "@/components/TextInput";
+import { Button } from "@/components/Button";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
@@ -14,15 +13,21 @@ export default function Login() {
   const { data } = useSession();
 
   useEffect(() => {
-    console.log(data)
-  }, [data])
+    console.log(data);
+  }, [data]);
 
   return (
     <div>
-      <div className="h-screen flex flex-col items-center justify-center">
-        <Image src={"/UABC_logo.png"} width={500} height={500} alt="UABC Logo" priority />
+      <div className="flex h-screen flex-col items-center justify-center">
+        <Image
+          src={"/UABC_logo.png"}
+          width={500}
+          height={500}
+          alt="UABC Logo"
+          priority
+        />
 
-        <label className="text-center p-8">
+        <label className="p-8 text-center">
           {" "}
           {isError
             ? "Incorrect email or password. Please try again:"
@@ -43,15 +48,14 @@ export default function Login() {
             isError={isError}
             onChange={setPass}
           />
-        
-            <Button
-              label="Login"
-              onClick={() =>
-                // email && password ? setError(false) : setError(true)
-                signIn("google")
-              }
-            />
-          
+
+          <Button
+            label="Login"
+            onClick={() =>
+              // email && password ? setError(false) : setError(true)
+              signIn("google")
+            }
+          />
         </div>
       </div>
     </div>

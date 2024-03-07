@@ -1,9 +1,8 @@
 ---
 name: Feature template
 about: For issues relating to new features
-title: ''
+title: ""
 labels: feature
-
 ---
 
 ### User story:
@@ -15,11 +14,13 @@ So that **<context>**.
 ### Description:
 
 ### Acceptance Criteria:
+
 - [ ] Sub task 1
 - [ ] Sub task 2
 - [ ] Testing task
 
 ### Definition of Done:
+
 - [ ] AC met
 - [ ] Applicable tests written
 - [ ] Applicable documentation is written in GH wiki

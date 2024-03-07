@@ -4,9 +4,9 @@
 
 "use client";
 
-import Heading from "../../../../components/Heading/Heading";
-import PaymentInfoCard from "../../../../components/PaymentInfoCard/PaymentInfoCard";
-import PaymentOptionCard from "../../../../components/PaymentOptionCard/PaymentOptionCard";
+import { Heading } from "@/components/Heading";
+import { PaymentInfoCard } from "@/components/PaymentInfoCard";
+import { PaymentOptionCard } from "@/components/PaymentOptionCard";
 
 export default function PaymentOptionsPage() {
   return (
@@ -18,7 +18,7 @@ export default function PaymentOptionsPage() {
       </div>
 
       <div className="absolute bottom-5 left-0 w-full p-2">
-        <p className="font-medium text-center">
+        <p className="text-center font-medium">
           Please select a payment method:
         </p>
         <PaymentOptionCard
