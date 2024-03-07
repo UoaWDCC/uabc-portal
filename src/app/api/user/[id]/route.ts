@@ -5,7 +5,6 @@ import { prisma } from "@/db";
  * Get payment by id
  */
 export async function GET(request: NextRequest, params: { id: string }) {
-
   if (!params.id) {
     return NextResponse.json(
       { data: {}, msg: "No id provided in the request" },

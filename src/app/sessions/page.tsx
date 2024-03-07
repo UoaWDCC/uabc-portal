@@ -30,7 +30,7 @@ export default function SelectSessionPage() {
   const { push } = useRouter();
 
   const [isOverflown, setIsOverflown] = useState(false);
-  const [session, setSession] = useState<Map<string, SessionCardProps>>(
+  const [session, setSession] = useState<Map<number, SessionCardProps>>(
     new Map(),
   );
   const [sessionsSelected, setSessionsSelected] = useState(0);
@@ -39,7 +39,7 @@ export default function SelectSessionPage() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const sessionMap: Map<string, SessionCardProps> = new Map(
+    const sessionMap: Map<number, SessionCardProps> = new Map(
       data?.map((session: GameSession) => {
         return [
           session.id,
@@ -70,7 +70,7 @@ export default function SelectSessionPage() {
    * Changes the status of the card on click conditionally
    * If number of cards active exceeds the allowed amount, plays error animation
    */
-  function sessionClick(e: ChangeEvent<HTMLInputElement>, id: string) {
+  function sessionClick(e: ChangeEvent<HTMLInputElement>, id: number) {
     if (e.target.checked && sessionsSelected === maxSessions) {
       e.currentTarget.checked = false;
       setShake(true);
@@ -104,9 +104,7 @@ export default function SelectSessionPage() {
       <div className="flex pb-4 pt-10 pl-6">
         <Heading>Sessions</Heading>
         <Link href={"/account"} className="ml-auto mr-4">
-          <CgProfile
-            size={40}
-          />
+          <CgProfile size={40} />
         </Link>
       </div>
       <div
@@ -157,7 +155,7 @@ export default function SelectSessionPage() {
               className={twJoin(
                 "flex items-center justify-center rounded bg-[#D9D9D9] h-[34px] w-[63px] font-semibold",
                 shake &&
-                "error-shake text-[#AF3737] border-[#AF3737] border-solid border",
+                  "error-shake text-[#AF3737] border-[#AF3737] border-solid border",
               )}
             >
               {sessionsSelected} / {maxSessions}
@@ -205,9 +203,7 @@ export default function SelectSessionPage() {
               ? false
               : true
           }
-          onClick={() =>
-            push("/sessions/book")
-          }
+          onClick={() => push("/sessions/book")}
         />
       </div>
     </div>

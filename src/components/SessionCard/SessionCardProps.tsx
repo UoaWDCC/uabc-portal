@@ -6,7 +6,7 @@ import { ChangeEvent } from "react";
 import { SessionCardStatus } from "./SessionCardStatusEnum";
 
 type SessionCardProps = {
-  id: string;
+  id: number;
   startTime: Date;
   endTime: Date;
   location: string;

@@ -7,8 +7,11 @@ import { paymentValidator } from "@/lib/validators";
 /**
  * Get payment by id
  */
-export async function GET(request: NextRequest) {
-  const paymentId = request.nextUrl.searchParams.get("id");
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const paymentId = parseInt(params.id);
 
   if (!paymentId) {
     return NextResponse.json(
@@ -59,8 +62,11 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ data: payment, msg: "success" });
 }
 
-export async function PATCH(request: NextRequest) {
-  const paymentId = request.nextUrl.searchParams.get("id");
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const paymentId = parseInt(params.id);
 
   if (!paymentId) {
     return NextResponse.json(

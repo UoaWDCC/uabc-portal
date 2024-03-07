@@ -5,7 +5,7 @@
  */
 
 export type SendEmailRequest = {
-  bookingId: string;
+  bookingId: number;
 };
 
 import { prisma } from "@/db";
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   })) as User;
 
   const gameSession = (await prisma.gameSession.findFirst({
-    where: { id: booking.sessionId },
+    where: { id: booking.gameSessionId },
   })) as GameSession;
 
   // setting up sendgrid

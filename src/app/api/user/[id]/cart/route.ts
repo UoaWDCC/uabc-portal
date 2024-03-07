@@ -4,16 +4,13 @@ import { prisma } from "@/db";
 /**
  * Get user checkoutCart
  */
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function GET(req: NextRequest, params: { id: string }) {
   const checkoutCart = await prisma.checkoutCart.findFirst({
     where: {
       userId: params.id,
     },
     include: {
-      CheckoutCartItem: true,
+      checkoutCartItem: true,
     },
   });
   if (!checkoutCart) {

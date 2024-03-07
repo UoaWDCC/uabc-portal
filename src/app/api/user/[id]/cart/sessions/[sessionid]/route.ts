@@ -14,7 +14,7 @@ export async function POST(
       userId: params.id,
     },
     include: {
-      CheckoutCartItem: true,
+      checkoutCartItem: true,
     },
   });
 
@@ -26,8 +26,8 @@ export async function POST(
   }
 
   if (
-    cart.CheckoutCartItem.some(
-      (item) => item.gameSessionId === params.sessionid,
+    cart.checkoutCartItem.some(
+      (item) => item.gameSessionId === parseInt(params.sessionid),
     )
   ) {
     return NextResponse.json(
@@ -39,7 +39,7 @@ export async function POST(
   const newCartItem = await prisma.checkoutCartItem.create({
     data: {
       checkoutCartId: cart.id,
-      gameSessionId: params.sessionid,
+      gameSessionId: parseInt(params.sessionid),
       difficulty,
     },
   });
@@ -70,7 +70,7 @@ export async function DELETE(
   const deletedCart = await prisma.checkoutCartItem.deleteMany({
     where: {
       checkoutCartId: cart.id,
-      gameSessionId: params.sessionid,
+      gameSessionId: parseInt(params.sessionid),
     },
   });
   return NextResponse.json(deletedCart, { status: 204 });

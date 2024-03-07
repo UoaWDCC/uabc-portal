@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { gameSessionValidator } from "@/lib/validators";
 
 export const GET = async (request: NextRequest) => {
-  const sessions = await prisma.session.findMany();
+  const sessions = await prisma.gameSession.findMany();
 
   return NextResponse.json({ data: sessions });
 };
@@ -37,48 +37,6 @@ export const POST = async (request: NextRequest) => {
   }
 
   const session = await prisma.gameSession.create({
-    data: { ...sessionBody },
-  });
-
-  return NextResponse.json({
-    data: session,
-    msg: "success",
-  });
-};
-
-export const PATCH = async (request: NextRequest) => {
-  const sessionId = request.nextUrl.searchParams.get("id");
-
-  if (!sessionId) {
-    return NextResponse.json(
-      { data: {}, msg: "No id provided in the request" },
-      { status: 404 },
-    );
-  }
-
-  const sessionBody = (await request.json()) as Omit<
-    Prisma.GameSessionGetPayload<{}>,
-    "id"
-  >;
-
-  const { success } = gameSessionValidator.safeParse(sessionBody);
-
-  if (!success) {
-    return NextResponse.json(
-      {
-        data: {},
-        msg: "failed, please include all required fields in response with the correct type",
-      },
-      {
-        status: 404,
-      },
-    );
-  }
-
-  const session = await prisma.gameSession.update({
-    where: {
-      id: sessionId,
-    },
     data: { ...sessionBody },
   });
 
