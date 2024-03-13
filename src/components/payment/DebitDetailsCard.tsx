@@ -2,7 +2,7 @@
  * @author David Zhu <dzhu292@aucklanduni.ac.nz>
  */
 
-import { Card } from "./Card";
+import { Card } from "../Card";
 import { MdContentCopy } from "react-icons/md";
 
 interface DebitDetailsCardProps {

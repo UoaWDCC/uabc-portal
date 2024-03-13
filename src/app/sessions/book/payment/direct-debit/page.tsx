@@ -5,10 +5,9 @@
 "use client";
 
 import { Heading } from "@/components/Heading";
-import { PaymentInfoCard } from "@/components/PaymentInfoCard";
-import { DebitDetailsCard } from "@/components/DebitDetailsCard";
+import { PaymentInfoCard } from "@/components/payment/PaymentInfoCard";
+import { DebitDetailsCard } from "@/components/payment/DebitDetailsCard";
 import { Button } from "@/components/Button";
-import ScrollShadow from "@/components/ScrollShadow";
 
 export default function DirectDebitPage() {
   const firstName: string = "John";
@@ -19,32 +18,27 @@ export default function DirectDebitPage() {
   return (
     // TODO: Add functionality for DONE button
     // TODO: Link name, payment components to backend
-    <div className="flex h-[100dvh] flex-col p-10">
-      <div className="-translate-x-3 pb-10">
-        <Heading>Payment</Heading>
-      </div>
-      <PaymentInfoCard amount={15} />
-      <p className="mt-auto flex grow flex-col-reverse p-3 text-center font-medium">
+    <div className="flex h-dvh flex-col">
+      <Heading className="pb-4 pl-6 pt-10">Payment</Heading>
+      <PaymentInfoCard amount={15} className="mx-10" />
+      <p className="flex grow flex-col-reverse py-3 text-center font-medium">
         Direct Debit
       </p>
-      <ScrollShadow>
-        <div className="flex h-[calc(100dvh-460px)] max-h-[248px] w-full flex-col gap-4 overflow-y-auto bg-bottom">
-          <DebitDetailsCard
-            title="Account Number:"
-            subtitle={accountNumber}
-            copyText={accountNumber}
-          />
+      <div className="scroll-fade mx-10 flex flex-col gap-3 overflow-y-auto overscroll-contain py-2">
+        <DebitDetailsCard
+          title="Account Number:"
+          subtitle={accountNumber}
+          copyText={accountNumber}
+        />
 
-          <DebitDetailsCard
-            title="Reference:"
-            subtitle={`${firstName} ${lastName}`}
-            sessionId={sessionId}
-            copyText={sessionId}
-          />
-        </div>
-      </ScrollShadow>
-
-      <div className="mt-8 flex justify-center">
+        <DebitDetailsCard
+          title="Reference:"
+          subtitle={`${firstName} ${lastName}`}
+          sessionId={sessionId}
+          copyText={sessionId}
+        />
+      </div>
+      <div className="mx-10 mb-10 mt-5 flex justify-center">
         <Button label="done" widthFull={true} onClick={() => alert("DONE")} />
       </div>
     </div>

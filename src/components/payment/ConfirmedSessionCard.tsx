@@ -2,7 +2,7 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import { Card } from "./Card";
+import { Card } from "../Card";
 
 type ConfirmedSessionCardProps = {
   weekDay: string;

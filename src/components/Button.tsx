@@ -22,6 +22,7 @@ export const Button = ({
 }: ButtonInputProps) => {
   return (
     <button
+      type="button"
       className={twJoin(
         "h-14 min-w-72 rounded bg-[#3767af] text-sm font-semibold uppercase text-white active:bg-[#264a7f] disabled:bg-[#BFBFBF]",
         widthFull && "w-full",

@@ -2,7 +2,7 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import { Card } from "./Card";
+import { Card } from "../Card";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { LevelSelector } from "./LevelSelector";
 import { useState } from "react";
@@ -37,7 +37,7 @@ export const ExpandedSessionCard = ({
   setLevel,
   defaultLevel,
 }: Omit<ExpandedSessionCardProps, "id">) => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [pendingLevel, setPendingLevel] = useState<string | undefined>(level);
 
   const dayOfWeek = weekday[startTime.getDay()];
@@ -63,14 +63,14 @@ export const ExpandedSessionCard = ({
       <div className="rounded-b-md bg-gray-500 py-2 text-center">
         <button
           className="w-full capitalize text-white"
-          onClick={() => setOpen(true)}
+          onClick={() => setIsOpen(true)}
         >
           {level ?? "Select Play Level"}
         </button>
         <LevelSelector
-          isOpened={open}
+          isOpen={isOpen}
           onClose={() => {
-            setOpen(false);
+            setIsOpen(false);
             setLevel(pendingLevel);
           }}
           onSelect={setPendingLevel}

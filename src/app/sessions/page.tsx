@@ -1,29 +1,26 @@
 /**
  * @author David Zhu <dzhu292@aucklanduni.ac.nz>
  */
-
 "use client";
 
 import { Button } from "@/components/Button";
 import { Heading } from "@/components/Heading";
-import ScrollShadow from "@/components/ScrollShadow";
 import {
-  SessionCard,
-  SessionCardStatus,
-  SessionCardProps,
-} from "@/components/SessionCard";
+  SelectSessionCard,
+  SelectSessionCardStatus,
+  SelectSessionCardProps,
+} from "@/components/booking/SelectSessionCard";
 import { useGameSessions } from "@/lib/useQuery/useGameSessions";
 import type { GameSession } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { AiFillCaretDown } from "react-icons/ai";
+import { ChangeEvent, useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { twJoin } from "tailwind-merge";
 
 const remainingSessions = 11;
-const isMember = true;
+const isMember = false;
 const firstName = "David";
 const maxSessions: number = isMember ? 2 : 1;
 
@@ -31,17 +28,14 @@ export default function SelectSessionPage() {
   const { data } = useGameSessions();
   const { push } = useRouter();
 
-  const [isOverflown, setIsOverflown] = useState(false);
-  const [session, setSession] = useState<Map<number, SessionCardProps>>(
+  const [session, setSession] = useState<Map<number, SelectSessionCardProps>>(
     new Map(),
   );
   const [sessionsSelected, setSessionsSelected] = useState(0);
   const [shake, setShake] = useState(false);
-  const [scrollIndicator, setScrollIndicator] = useState(true);
-  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const sessionMap: Map<number, SessionCardProps> = new Map(
+    const sessionMap: Map<number, SelectSessionCardProps> = new Map(
       data?.map((session: GameSession) => {
         return [
           session.id,
@@ -50,23 +44,13 @@ export default function SelectSessionPage() {
             startTime: new Date(session.startTime),
             endTime: new Date(session.endTime),
             location: session.location,
-            status: SessionCardStatus.DEFAULT,
+            status: SelectSessionCardStatus.DEFAULT,
           },
         ];
       }),
     );
     setSession(sessionMap);
   }, [data]);
-
-  /**
-   * Doesn't show bouncing arrow if there is no overflow
-   * Session dependency to show arrow after initial session cards load
-   */
-  useEffect(() => {
-    if (ref.current && ref.current.scrollHeight > ref.current.clientHeight) {
-      setIsOverflown(true);
-    }
-  }, [session]);
 
   /**
    * Changes the status of the card on click conditionally
@@ -76,26 +60,22 @@ export default function SelectSessionPage() {
     if (e.target.checked && sessionsSelected === maxSessions) {
       e.currentTarget.checked = false;
       setShake(true);
-      setTimeout(() => {
-        setShake(false);
-      }, 480);
     } else {
       const targetSession = session?.get(id)!;
       const updatedSession = {
         ...targetSession,
         status: e.target.checked
-          ? SessionCardStatus.SELECTED
-          : SessionCardStatus.DEFAULT,
+          ? SelectSessionCardStatus.SELECTED
+          : SelectSessionCardStatus.DEFAULT,
       };
       session?.set(id, updatedSession);
 
       // On status change, changes the counter of number of sessions selected*/
       const numberActive = Array.from(session.values()).filter((card) => {
-        return card.status === SessionCardStatus.SELECTED;
+        return card.status === SelectSessionCardStatus.SELECTED;
       }).length;
 
       setSessionsSelected(numberActive);
-      // setSessionsSelected(sessionsSelected + (e.target.checked ? 1 : -1));
     }
   }
 
@@ -107,93 +87,61 @@ export default function SelectSessionPage() {
           <CgProfile size={40} />
         </Link>
       </div>
-      <div
-        className={twJoin(
-          "flex min-h-[66px] bg-[#EAEEF3]",
-          !isMember && "justify-center",
-        )}
-      >
-        <p className="text-md flex items-center p-5 pr-1 font-medium">
-          Hey {isMember ? firstName : "Guest"}!
-        </p>
+      <div className="flex h-[4rem] items-center justify-between bg-[#EAEEF3] p-5">
         <div className="flex items-center">
+          <span className="text-md pr-1 font-medium">Hey {firstName}!</span>
           <Image
             src="/images/BadmintonRacketLogo.png"
             alt="Badminton Racket Logo"
             className="pointer-events-none select-none"
             width={20}
             height={20}
-          ></Image>
+          />
         </div>
         {isMember && (
-          <>
-            <div className="flex grow"></div>
-            <div className="flex flex-col justify-center text-left text-xs">
-              <p>Prepaid Sessions</p>
-              <p>Remaining</p>
+          <div className="flex items-center">
+            <div className="px-5 text-xs">
+              Prepaid Sessions <br />
+              Remaining
             </div>
-          </>
-        )}
-        {isMember && (
-          <p className="m-4 flex h-[35px] w-[35px] items-center justify-center rounded bg-[#D9D9D9]">
-            {remainingSessions}
-          </p>
-        )}
-      </div>
-      <div
-        className={twJoin(
-          "flex min-h-[76px] items-center p-5",
-          !isMember && "justify-center text-center",
-        )}
-      >
-        <p className={`text-s max-w-[70%] font-medium leading-5`}>
-          Please select a badminton session for this week
-        </p>
-        {isMember && (
-          <div className="flex grow flex-row-reverse">
-            <p
-              className={twJoin(
-                "flex h-[34px] w-[63px] items-center justify-center rounded bg-[#D9D9D9] font-semibold",
-                shake &&
-                  "error-shake border border-solid border-[#AF3737] text-[#AF3737]",
-              )}
-            >
-              {sessionsSelected} / {maxSessions}
-            </p>
+            <div className="flex h-[2rem] w-[2rem] items-center justify-center rounded bg-[#D9D9D9]">
+              {remainingSessions}
+            </div>
           </div>
         )}
       </div>
-
-      {/* TODO: check whether to use this or mask with: <scroll-fade py-4> */}
-      <ScrollShadow>
+      <div className="flex h-[4rem] items-center justify-between p-5">
+        <p className="text-s max-w-[70%] font-medium leading-5">
+          Please select a badminton session for this week
+        </p>
         <div
-          className="flex h-[calc(100dvh-329px)] w-full flex-col gap-3 overflow-y-auto px-5"
-          onScroll={() => setScrollIndicator(false)}
-          ref={ref}
+          className={twJoin(
+            "flex h-[2rem] w-[4rem] items-center justify-center rounded bg-[#D9D9D9] font-semibold",
+            shake &&
+              "error-shake border border-solid border-[#AF3737] text-[#AF3737]",
+          )}
+          onAnimationEnd={() => setShake(false)}
         >
-          {Array.from(session.values()).map((session) => {
-            return (
-              <SessionCard
-                startTime={session.startTime}
-                endTime={session.endTime}
-                location={session.location}
-                status={session.status}
-                key={session.id}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  sessionClick(e, session.id)
-                }
-              ></SessionCard>
-            );
-          })}
+          {sessionsSelected} / {maxSessions}
         </div>
-      </ScrollShadow>
+      </div>
 
-      {scrollIndicator && isOverflown && (
-        <AiFillCaretDown
-          className="pointer-events-none absolute bottom-[105px] z-10 w-full animate-bounce opacity-20"
-          size={80}
-        />
-      )}
+      <div className="scroll-fade flex w-full grow flex-col gap-3 overflow-y-auto overscroll-contain px-5 py-2">
+        {Array.from(session.values()).map((session) => {
+          return (
+            <SelectSessionCard
+              startTime={session.startTime}
+              endTime={session.endTime}
+              location={session.location}
+              status={session.status}
+              key={session.id}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                sessionClick(e, session.id)
+              }
+            ></SelectSessionCard>
+          );
+        })}
+      </div>
 
       <div className="mb-10 mt-5 flex justify-center">
         <Button

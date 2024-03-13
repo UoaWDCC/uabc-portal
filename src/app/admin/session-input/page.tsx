@@ -5,7 +5,7 @@
 "use client";
 
 import { Heading } from "@/components/Heading";
-import { SessionInputForm } from "@/components/SessionInputForm";
+import { SessionInputForm } from "@/components/admin/SessionInputForm";
 
 // TODO: redirect on submit
 // TODO: cancel/return button

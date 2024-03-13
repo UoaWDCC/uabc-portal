@@ -2,8 +2,8 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import { ConfirmationIcon } from "@/components/ConfirmationIcon";
-import { ConfirmedSessionCard } from "@/components/ConfirmedSessionCard";
+import { ConfirmationIcon } from "@/components/payment/ConfirmationIcon";
+import { ConfirmedSessionCard } from "@/components/payment/ConfirmedSessionCard";
 import { ConfirmationBanner } from "@/lib/assets/Icons";
 
 const sessions = [
@@ -25,7 +25,7 @@ const sessions = [
   },
 ];
 
-const confirmed = true;
+const confirmed = false;
 
 export default async function ConfirmationPage() {
   return (

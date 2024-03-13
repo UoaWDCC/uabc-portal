@@ -7,7 +7,7 @@ import { SegmentedController } from "./SegmentedController";
 import React from "react";
 
 interface LevelSelectorProps {
-  isOpened: boolean;
+  isOpen: boolean;
   onClose: () => void;
   default?: string;
   onSelect: (level: string | undefined) => void;
@@ -25,7 +25,7 @@ export const LevelSelector = (props: LevelSelectorProps) => {
     : -1;
 
   return (
-    <Modal isOpened={props.isOpened} onClose={props.onClose}>
+    <Modal isOpen={props.isOpen} onClose={props.onClose}>
       <div className="flex w-full flex-col bg-gray-200 py-6">
         <p className="mb-5 text-center font-bold">Please select a play level</p>
         <SegmentedController

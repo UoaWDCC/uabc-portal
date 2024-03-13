@@ -5,22 +5,20 @@
 "use client";
 
 import { Heading } from "@/components/Heading";
-import { PaymentInfoCard } from "@/components/PaymentInfoCard";
-import { PaymentOptionCard } from "@/components/PaymentOptionCard";
+import { PaymentInfoCard } from "@/components/payment/PaymentInfoCard";
+import { PaymentOptionCard } from "@/components/payment/PaymentOptionCard";
 
 export default function PaymentOptionsPage() {
   return (
-    <div>
-      <Heading>Payment</Heading>
+    <div className="flex h-dvh flex-col">
+      <Heading className="pb-4 pl-6 pt-10">Payment</Heading>
 
-      <div className="p-2">
-        <PaymentInfoCard amount={15} />
-      </div>
+      <PaymentInfoCard amount={15} className="mx-10" />
 
-      <div className="absolute bottom-5 left-0 w-full p-2">
-        <p className="text-center font-medium">
-          Please select a payment method:
-        </p>
+      <p className="flex grow flex-col-reverse py-3 text-center font-medium">
+        Please select a payment method:
+      </p>
+      <div className="scroll-fade mx-10 flex flex-col gap-3 overflow-y-auto overscroll-contain py-2 pb-10">
         <PaymentOptionCard
           onClick={() => alert("Direct debit")}
           title="Direct Debit"

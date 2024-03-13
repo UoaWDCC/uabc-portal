@@ -26,7 +26,6 @@ export const SegmentedController = (props: SegmentedControllerProps) => {
     <div className="flex">
       <div
         className={`m-auto inline-flex justify-between rounded-md bg-white p-2 shadow-lg`}
-        style={{}}
       >
         {props.segments.map((item, i) => (
           <div

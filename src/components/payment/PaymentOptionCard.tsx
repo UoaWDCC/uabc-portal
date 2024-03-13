@@ -2,7 +2,7 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import { Card } from "./Card";
+import { Card } from "../Card";
 import { BsArrowRight } from "react-icons/bs";
 
 interface PaymentOptionCardProps {

@@ -3,10 +3,10 @@
  */
 
 import React, { useState } from "react";
-import { TextInput } from "./TextInput";
+import { TextInput } from "../TextInput";
 import DatePicker from "react-datepicker";
-import { Button } from "./Button";
-import { Card } from "./Card";
+import { Button } from "../Button";
+import { Card } from "../Card";
 import "react-datepicker/dist/react-datepicker.css";
 import { GameSession } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";

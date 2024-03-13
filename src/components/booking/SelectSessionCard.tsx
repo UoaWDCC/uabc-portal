@@ -3,20 +3,20 @@
  */
 
 import { twJoin } from "tailwind-merge";
-import { Card } from "./Card";
+import { Card } from "../Card";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { ChangeEvent } from "react";
 
-export interface SessionCardProps {
+export interface SelectSessionCardProps {
   id: number;
   startTime: Date;
   endTime: Date;
   location: string;
-  status: SessionCardStatus;
+  status: SelectSessionCardStatus;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export enum SessionCardStatus {
+export enum SelectSessionCardStatus {
   DEFAULT,
   SELECTED,
   DISABLED,
@@ -33,23 +33,23 @@ const weekday = [
   "Saturday",
 ];
 
-function CheckMark({ status }: { status: SessionCardStatus }) {
+function CheckMark({ status }: { status: SelectSessionCardStatus }) {
   return (
     <div className="absolute right-5 top-1/2 -translate-y-1/2">
-      {status === SessionCardStatus.SELECTED && (
+      {status === SelectSessionCardStatus.SELECTED && (
         <IoCheckmarkCircle color="white" size={30}></IoCheckmarkCircle>
       )}
     </div>
   );
 }
 
-export const SessionCard = ({
+export const SelectSessionCard = ({
   startTime,
   endTime,
   status,
   location,
   onChange,
-}: Omit<SessionCardProps, "id">) => {
+}: Omit<SelectSessionCardProps, "id">) => {
   const dayOfWeek = weekday[startTime.getDay()];
 
   let cardClassName;
@@ -59,19 +59,19 @@ export const SessionCard = ({
 
   // Exact colours to be adjusted
   switch (status) {
-    case SessionCardStatus.SELECTED:
+    case SelectSessionCardStatus.SELECTED:
       cardClassName = "bg-blue-600";
       dayOfWeekClassName = "text-white";
       locationClassName = "text-indigo-200";
       timeClassName = "text-indigo-200";
       break;
-    case SessionCardStatus.DISABLED:
+    case SelectSessionCardStatus.DISABLED:
       cardClassName = "bg-gray-100";
       dayOfWeekClassName = "text-gray-300";
       locationClassName = "text-gray-300";
       timeClassName = "text-gray-300";
       break;
-    case SessionCardStatus.UNAVAILABLE:
+    case SelectSessionCardStatus.UNAVAILABLE:
       cardClassName = "bg-orange-700";
       dayOfWeekClassName = "text-white";
       locationClassName = "text-rose-200";
@@ -88,11 +88,11 @@ export const SessionCard = ({
       <input
         className={twJoin(
           "absolute h-full w-full -translate-x-6 -translate-y-4 opacity-0",
-          status !== SessionCardStatus.DISABLED && "cursor-pointer",
+          status !== SelectSessionCardStatus.DISABLED && "cursor-pointer",
         )}
         type="checkbox"
         onChange={onChange}
-        disabled={status === SessionCardStatus.DISABLED}
+        disabled={status === SelectSessionCardStatus.DISABLED}
       ></input>
       <CheckMark status={status}></CheckMark>
       <div className="pr-10">

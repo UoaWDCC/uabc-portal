@@ -2,30 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-scroll-shadow {
-  display: inline-block;
-  --scroll-shadow-size: 18;
-  --scroll-shadow-top: linear-gradient(to top, transparent 0%, white 18px);
-  --scroll-shadow-bottom: linear-gradient(
-    to bottom,
-    transparent 0%,
-    white 18px
-  );
-}
-
 .scroll-fade {
   -webkit-mask-image: linear-gradient(
     to top,
     transparent 0%,
-    black 18px,
-    black calc(100% - 15px),
+    black 8px,
+    black calc(100% - 8px),
     transparent 100%
   );
   mask-image: linear-gradient(
     to top,
     transparent 0%,
-    black 18px,
-    black calc(100% - 15px),
+    black 8px,
+    black calc(100% - 8px),
     transparent 100%
   );
 }

@@ -3,9 +3,10 @@
  */
 
 import { ReactNode } from "react";
+import { twJoin } from "tailwind-merge";
 
 interface ModalProps {
-  isOpened: boolean;
+  isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
 }
@@ -13,9 +14,7 @@ interface ModalProps {
 export const Modal = (props: ModalProps) => {
   return (
     <div
-      className={`fixed left-0 top-0 h-screen w-screen flex-col ${
-        props.isOpened ? "flex" : "hidden"
-      }`}
+      className={twJoin("fixed left-0 top-0 h-dvh w-dvw flex flex-col", !props.isOpen && "hidden")}
     >
       <div onClick={props.onClose} className="flex-grow bg-black opacity-60" />
       {props.children}

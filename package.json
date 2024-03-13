@@ -25,7 +25,6 @@
     "react-datepicker": "^6.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^5.0.1",
-    "scroll-shadow-element": "^2.0.5",
     "tailwind-merge": "^2.2.1",
     "typescript": "^5.3.3",
     "zod": "^3.22.4"
@@ -47,8 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "autoprefixer": "^10.4.18",
-    "bson": "^6.4.0",
-    "eslint-config-prettier": "^9.1.0",
+     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-storybook": "^0.8.0",
     "postcss": "^8.4.35",
     "prettier": "^3.2.5",
