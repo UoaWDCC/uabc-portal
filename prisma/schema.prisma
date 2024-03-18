@@ -35,15 +35,14 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?       @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   difficulty    String?
   accounts      Account[]
   sessions      Session[]
-  checkoutCart  CheckoutCart?
   booking       Booking[]
   payment       Payment[]
 }
@@ -68,15 +67,14 @@ model Payment {
 }
 
 model GameSession {
-  id               Int                @id @default(autoincrement())
-  bookingClose     DateTime
-  bookingOpen      DateTime
-  startTime        DateTime
-  endTime          DateTime
-  location         String
-  maxUsers         Int
-  checkoutCartItem CheckoutCartItem[]
-  booking          Booking[]
+  id           Int       @id @default(autoincrement())
+  bookingClose DateTime
+  bookingOpen  DateTime
+  startTime    DateTime
+  endTime      DateTime
+  location     String
+  maxUsers     Int
+  booking      Booking[]
 }
 
 model Booking {
@@ -89,22 +87,4 @@ model Booking {
   paymentMethod String
   status        String
   payment       Payment[]
-}
-
-model CheckoutCart {
-  id               Int                @id @default(autoincrement())
-  user             User               @relation(fields: [userId], references: [id])
-  userId           String             @unique
-  createdAt        DateTime           @default(now())
-  status           String
-  checkoutCartItem CheckoutCartItem[]
-}
-
-model CheckoutCartItem {
-  id             Int          @id @default(autoincrement())
-  checkoutCart   CheckoutCart @relation(fields: [checkoutCartId], references: [id])
-  checkoutCartId Int
-  gameSession    GameSession  @relation(fields: [gameSessionId], references: [id])
-  gameSessionId  Int
-  difficulty     String
 }

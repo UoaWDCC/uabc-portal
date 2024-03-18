@@ -10,7 +10,7 @@ import {
   SelectSessionCardStatus,
   SelectSessionCardProps,
 } from "@/components/booking/SelectSessionCard";
-import { useGameSessions } from "@/lib/useQuery/useGameSessions";
+import { useCurrentGameSessions } from "@/lib/useQuery/useGameSessions";
 import type { GameSession } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,7 +25,7 @@ const firstName = "David";
 const maxSessions: number = isMember ? 2 : 1;
 
 export default function SelectSessionPage() {
-  const { data } = useGameSessions();
+  const { data } = useCurrentGameSessions();
   const { push } = useRouter();
 
   const [session, setSession] = useState<Map<number, SelectSessionCardProps>>(
