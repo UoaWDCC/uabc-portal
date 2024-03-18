@@ -1,11 +1,11 @@
 "use client";
+import { cn } from "@/lib/utils";
 import React, { ButtonHTMLAttributes } from "react";
-import { twJoin } from "tailwind-merge";
 
 interface ButtonInputProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
   widthFull?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 /**
@@ -23,7 +23,7 @@ export const Button = ({
   return (
     <button
       type="button"
-      className={twJoin(
+      className={cn(
         "h-14 min-w-72 rounded bg-[#3767af] text-sm font-semibold uppercase text-white active:bg-[#264a7f] disabled:bg-[#BFBFBF]",
         widthFull && "w-full",
       )}
