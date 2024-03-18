@@ -19,11 +19,13 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: 20
+          cache: "pnpm"
 
-      - name: npm install
-        run: |
-          npm install
+      - uses: pnpm/action-setup@v3
+        name: Install pnpm
+        with:
+          run_install: true
 
       - name: prisma generate
         run: |
@@ -34,7 +36,7 @@ jobs:
 
       - name: Build Next app
         run: |
-          npm run build
+          pnpm build
 
       - id: "auth"
         name: "Authenticate to Google Cloud"
@@ -45,5 +47,5 @@ jobs:
       - id: "app-engine-deploy"
         uses: "google-github-actions/deploy-appengine@v2"
         with:
-          project_id: uabc-dev
+          project_id: wdcc-uabc-dev
           working_directory: ./
