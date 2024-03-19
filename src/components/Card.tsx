@@ -2,8 +2,8 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
+import { cn } from "@/lib/utils";
 import { PropsWithChildren } from "react";
-import { twJoin } from "tailwind-merge";
 
 interface CardProps {
   className?: string;
@@ -16,7 +16,7 @@ export const Card = ({
   children,
 }: PropsWithChildren<CardProps>) => {
   return (
-    <div onClick={onClick} className={twJoin("rounded-md", className)}>
+    <div onClick={onClick} className={cn("rounded-md", className)}>
       {children}
     </div>
   );
