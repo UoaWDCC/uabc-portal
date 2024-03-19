@@ -2,6 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 210 8% 5%;
+    --neutral: 0 0% 82%;
+
+    --card: 240 8% 97%;
+    --card-foreground: 210 8% 5%;
+
+    --popover: 240 8% 97%;
+    --popover-foreground: 210 8% 5%;
+
+    --primary: 216 52% 45%;
+    --primary-foreground: 0 0% 98%;
+
+    /* --secondary: 217 23% 89%; */
+    --secondary: 210 6% 93%;
+    --secondary-foreground: 210 8% 5%;
+
+    --tertiary: 217 19% 50%; 
+    --tertiary-foreground: 0 0% 98%;
+
+    --muted: 210 6% 93%;
+    --muted-foreground: 219 6% 45%;
+
+    --accent: 210 6% 93%;
+    --accent-foreground: 210 8% 5%;
+
+    --destructive: 0 52% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 6% 90%;
+    --input: 220 7% 82%;
+    --ring: 216 24% 74%;
+
+    --radius: 0.5rem;
+  }
+  
+  .dark {
+    --background: 240 3% 6%;
+    --foreground: 0 0% 98%;
+
+    --card: 210 6% 7%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 210 6% 7%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 216 52% 45%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 225 5% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 210 5% 22%;
+    --muted-foreground: 215 5% 49%;
+
+    --accent: 216 45% 14%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 5% 12%;
+    --input: 225 4% 18%;
+    --ring: 216 52% 40%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
 .scroll-fade {
   -webkit-mask-image: linear-gradient(
     to top,
@@ -41,10 +119,4 @@
     -webkit-transform: translateX(0);
     transform: translateX(0);
   }
-}
-
-/* TODO: Implement in tailwind */
-.controls::before {
-  width: var(--highlight-width);
-  transform: translateX(var(--highlight-x-pos));
 }
