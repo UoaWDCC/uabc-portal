@@ -44,7 +44,7 @@ export const SegmentedController = (props: SegmentedControllerProps) => {
             />
             <label
               htmlFor={item.value}
-              className={`relative block cursor-pointer px-3 py-5 text-xs uppercase transition-colors ${
+              className={`relative block cursor-pointer select-none px-3 py-5 text-xs uppercase transition-colors ${
                 i == activeIndex ? "text-white" : "text-gray-500"
               }`}
             >

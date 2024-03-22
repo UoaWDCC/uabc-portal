@@ -21,6 +21,7 @@ export default function Login() {
       <div className="flex h-screen flex-col items-center justify-center">
         <Image
           src={"/UABC_logo.png"}
+          className="pointer-events-none select-none "
           width={500}
           height={500}
           alt="UABC Logo"
@@ -28,12 +29,11 @@ export default function Login() {
         />
 
         <label className="p-8 text-center">
-          {" "}
           {isError
             ? "Incorrect email or password. Please try again:"
-            : "Please login:"}{" "}
+            : "Please login:"}
         </label>
-        <div className="w-319 h-852">
+        <div className="flex flex-col gap-4 rounded-md">
           <TextInput
             label="Email"
             value={email}
@@ -51,6 +51,7 @@ export default function Login() {
 
           <Button
             label="Login"
+            className="rounded-[inherit] text-lg"
             onClick={() =>
               // email && password ? setError(false) : setError(true)
               signIn("google")

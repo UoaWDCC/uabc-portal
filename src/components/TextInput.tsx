@@ -12,6 +12,7 @@ type TextInputProps = {
   value: string;
   type: string;
   isError: boolean;
+  className?: string;
   onChange: (value: string) => void;
 };
 

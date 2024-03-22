@@ -5,6 +5,7 @@ import React, { ButtonHTMLAttributes } from "react";
 interface ButtonInputProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
   widthFull?: boolean;
+  className?: string;
   onClick?: () => void;
 }
 
@@ -18,6 +19,7 @@ export const Button = ({
   label,
   widthFull,
   onClick,
+  className,
   ...props
 }: ButtonInputProps) => {
   return (
@@ -26,6 +28,7 @@ export const Button = ({
       className={cn(
         "h-14 min-w-72 select-none rounded bg-primary text-sm font-semibold uppercase text-primary-foreground hover:brightness-105 active:brightness-75 disabled:bg-neutral",
         widthFull && "w-full",
+        `${className}`,
       )}
       onClick={onClick}
       {...props}
