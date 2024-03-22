@@ -4,6 +4,7 @@ import { Button } from "@/components/Button";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
+import { googleIcon48x } from "@image/index";
 
 export default function Login() {
   const [isError, setError] = useState(false);
@@ -15,26 +16,31 @@ export default function Login() {
   }, [data]);
 
   return (
-    <div className="grid h-screen w-screen place-content-center">
-      <div className="rounded-[24px] p-8 outline outline-1 outline-black">
-        <p className="Proxima text-center text-5xl font-bold text-primary">
+    <div className="grid h-screen w-screen place-content-center bg-tertiary">
+      <div className="flex select-none flex-col items-center rounded-[24px] bg-white p-8 px-14 drop-shadow-2xl">
+        <p className="Proxima text-center text-[4rem] font-bold leading-[3rem] text-primary">
           UABC
         </p>
-      </div>
-      <label className="p-8 text-center">
-        {isError
-          ? "Incorrect email or password. Please try again:"
-          : "Please login:"}
-      </label>
-      <div className="flex flex-col gap-4 rounded-md">
-        <Button
-          label="Login"
-          className="rounded-[inherit] text-lg"
+        <label className=" text-center text-sm">
+          {isError
+            ? "Incorrect email or password. Please try again:"
+            : "Please login:"}
+        </label>
+        <div
+          className="mt-8 flex w-[300px] cursor-pointer justify-center gap-8 rounded-sm p-6 outline outline-1"
           onClick={() =>
             // email && password ? setError(false) : setError(true)
             signIn("google")
           }
-        />
+        >
+          <Image
+            src="/images/googleIcon@48x.svg"
+            width={24}
+            height={24}
+            alt="Google Icon"
+          />
+          <span>Sign in with Google</span>
+        </div>
       </div>
     </div>
   );
