@@ -6,8 +6,6 @@ import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPass] = useState("");
   const [isError, setError] = useState(false);
 
   const { data } = useSession();
@@ -17,47 +15,26 @@ export default function Login() {
   }, [data]);
 
   return (
-    <div>
-      <div className="flex h-screen flex-col items-center justify-center">
-        <Image
-          src={"/UABC_logo.png"}
-          className="pointer-events-none select-none "
-          width={500}
-          height={500}
-          alt="UABC Logo"
-          priority
+    <div className="grid h-screen w-screen place-content-center">
+      <div className="rounded-[24px] p-8 outline outline-1 outline-black">
+        <p className="Proxima text-center text-5xl font-bold text-primary">
+          UABC
+        </p>
+      </div>
+      <label className="p-8 text-center">
+        {isError
+          ? "Incorrect email or password. Please try again:"
+          : "Please login:"}
+      </label>
+      <div className="flex flex-col gap-4 rounded-md">
+        <Button
+          label="Login"
+          className="rounded-[inherit] text-lg"
+          onClick={() =>
+            // email && password ? setError(false) : setError(true)
+            signIn("google")
+          }
         />
-
-        <label className="p-8 text-center">
-          {isError
-            ? "Incorrect email or password. Please try again:"
-            : "Please login:"}
-        </label>
-        <div className="flex flex-col gap-4 rounded-md">
-          <TextInput
-            label="Email"
-            value={email}
-            type="email"
-            isError={isError}
-            onChange={setEmail}
-          />
-          <TextInput
-            label="Password"
-            value={password}
-            type="password"
-            isError={isError}
-            onChange={setPass}
-          />
-
-          <Button
-            label="Login"
-            className="rounded-[inherit] text-lg"
-            onClick={() =>
-              // email && password ? setError(false) : setError(true)
-              signIn("google")
-            }
-          />
-        </div>
       </div>
     </div>
   );
