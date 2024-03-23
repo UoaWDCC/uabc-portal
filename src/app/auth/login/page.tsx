@@ -4,7 +4,6 @@ import { Button } from "@/components/Button";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
-import { googleIcon48x } from "@image/index";
 
 export default function Login() {
   const [isError, setError] = useState(false);
@@ -17,7 +16,7 @@ export default function Login() {
 
   return (
     <div className="grid h-screen w-screen place-content-center bg-tertiary">
-      <div className="flex select-none flex-col items-center rounded-[24px] bg-white p-8 px-14 drop-shadow-2xl">
+      <div className="flex select-none flex-col items-center rounded-[24px] bg-white p-12 px-20 drop-shadow-2xl">
         <p className="Proxima text-center text-[4rem] font-bold leading-[3rem] text-primary">
           UABC
         </p>
