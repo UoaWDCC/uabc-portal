@@ -1,57 +1,82 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/db";
-import { Prisma } from "@prisma/client";
-import { gameSessionValidator } from "@/lib/validators";
+import { db } from "@/db";
+import { gameSessions } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { insertGameSessionSchema } from "@/db/validators";
+import { z } from "zod";
 
-export const GET = async (
+const routeContextSchema = z.object({
+  params: z.object({
+    id: z.coerce.number(),
+  }),
+});
+
+export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
-) => {
-  const session = await prisma.gameSession.findFirst({
-    where: { id: parseInt(params.id) },
-  });
+  context: z.infer<typeof routeContextSchema>,
+) {
+  const result = routeContextSchema.safeParse(context);
 
-  return NextResponse.json(session);
-};
+  if (!result.success)
+    return new Response("Invalid id provided in the request", {
+      status: 400,
+    });
 
-export const PATCH = async (request: NextRequest, params: { id: string }) => {
-  const sessionId = parseInt(params.id);
+  const {
+    params: { id },
+  } = result.data;
 
-  if (!sessionId) {
-    return NextResponse.json(
-      { data: {}, msg: "No id provided in the request" },
-      { status: 404 },
-    );
-  }
+  const session = await db
+    .select()
+    .from(gameSessions)
+    .where(eq(gameSessions.id, id));
 
-  const sessionBody = (await request.json()) as Omit<
-    Prisma.GameSessionGetPayload<{}>,
-    "id"
-  >;
+  if (session.length === 0)
+    return new Response(`No Game Session found with id: ${id}`, {
+      status: 404,
+    });
 
-  const { success } = gameSessionValidator.safeParse(sessionBody);
+  return NextResponse.json(session[0]);
+}
 
-  if (!success) {
-    return NextResponse.json(
-      {
-        data: {},
-        msg: "failed, please include all required fields in response with the correct type",
-      },
-      {
+export async function PATCH(
+  request: NextRequest,
+  context: z.infer<typeof routeContextSchema>,
+) {
+  const result = routeContextSchema.safeParse(context);
+
+  if (!result.success)
+    return new Response("Invalid id provided in the request", {
+      status: 400,
+    });
+
+  const {
+    params: { id },
+  } = result.data;
+
+  try {
+    const json = await request.json();
+
+    const body = insertGameSessionSchema.parse(json);
+
+    if (
+      !(await db.select().from(gameSessions).where(eq(gameSessions.id, id)))
+        .length
+    )
+      return new Response(`No Game Session found with id: ${id}`, {
         status: 404,
-      },
-    );
+      });
+
+    const session = await db
+      .update(gameSessions)
+      .set(body)
+      .where(eq(gameSessions.id, id));
+
+    return new Response(null, { status: 204 });
+  } catch (error) {
+    if (error instanceof z.ZodError)
+      return NextResponse.json(error.issues, { status: 400 });
+
+    return new Response(null, { status: 500 });
   }
-
-  const session = await prisma.gameSession.update({
-    where: {
-      id: sessionId,
-    },
-    data: { ...sessionBody },
-  });
-
-  return NextResponse.json({
-    data: session,
-    msg: "success",
-  });
-};
+}

@@ -13,7 +13,13 @@ type SelectSessionCardStatus =
   | "selected"
   | "disabled"
   | "unavailable";
-export interface SelectSessionCardProps extends GameSessionDto {
+export interface SelectSessionCardProps {
+  id: number;
+  weekday: number;
+  startTime: string;
+  endTime: string;
+  locationName: string;
+  status: SelectSessionCardStatus;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -46,7 +52,7 @@ export const SelectSessionCard = ({
   startTime,
   endTime,
   status,
-  location,
+  locationName,
   onChange,
 }: Omit<SelectSessionCardProps, "id">) => {
   const isDisabled = status === "disabled";
@@ -81,7 +87,7 @@ export const SelectSessionCard = ({
           {weekdayMap.get(weekday)}
         </p>
         <p className={twJoin("text-md opacity-70", textColorMap.get(status))}>
-          {location}
+          {locationName}
         </p>
         <p
           className={twJoin(

@@ -2,13 +2,14 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
+//TODO: REFACTOR
+
 import React, { useState } from "react";
 import { TextInput } from "../TextInput";
 import DatePicker from "react-datepicker";
 import { Button } from "../Button";
 import { Card } from "../Card";
 import "react-datepicker/dist/react-datepicker.css";
-import { GameSession } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 
 type SessionInputFormProps = {
@@ -25,7 +26,7 @@ export const SessionInputForm = (props: SessionInputFormProps) => {
   const [maxUsersError, setMaxUsersError] = useState(false);
 
   const mutation = useMutation({
-    mutationFn: async (sessionData: Omit<GameSession, "id">) => {
+    mutationFn: async (sessionData: any) => {
       const response = await fetch("/api/game-session", {
         method: "POST",
         body: JSON.stringify(sessionData),
@@ -74,7 +75,7 @@ export const SessionInputForm = (props: SessionInputFormProps) => {
         endTime: endTime,
         location: location,
         maxUsers: maxUsers,
-      } as Omit<GameSession, "id">;
+      } as any;
 
       console.log(data);
 

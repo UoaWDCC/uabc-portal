@@ -1,7 +1,7 @@
-import { SelectSessionCardProps } from "@/components/booking/SelectSessionCard";
+import { GameSessionDto } from "@/types/GameSessionDto";
 import { create } from "zustand";
 
-interface CartDto extends SelectSessionCardProps {
+interface CartDto extends GameSessionDto {
   difficulty?: string;
 }
 

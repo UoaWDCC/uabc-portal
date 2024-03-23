@@ -9,7 +9,6 @@ import { SelectSessionList } from "@/components/booking/SelectSessionList";
 import { useCurrentGameSessions } from "@/hooks/query/useGameSessions";
 import { useCartStore } from "@/store/useCartStore";
 import { GameSessionDto } from "@/types/GameSessionDto";
-import type { GameSession } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -35,7 +34,7 @@ export default function SelectSessionPage() {
 
   useEffect(() => {
     const sessionMap: Map<number, GameSessionDto> = new Map(
-      data?.map((session: GameSession) => {
+      data?.map((session) => {
         return [
           session.id,
           {
@@ -47,7 +46,8 @@ export default function SelectSessionPage() {
             endTime: new Date(session.endTime).toLocaleTimeString("en-NZ", {
               timeStyle: "short",
             }),
-            location: session.location,
+            locationName: session.locationName,
+            locationAddress: session.locationAddress,
             status: "default",
           },
         ];
@@ -81,7 +81,7 @@ export default function SelectSessionPage() {
               Prepaid Sessions <br />
               Remaining
             </div>
-            <div className="bg-neutral flex h-[2rem] w-[2rem] items-center justify-center rounded font-semibold">
+            <div className="flex h-[2rem] w-[2rem] items-center justify-center rounded bg-neutral font-semibold">
               {remainingSessions}
             </div>
           </div>
@@ -93,7 +93,7 @@ export default function SelectSessionPage() {
         </p>
         <div
           className={twJoin(
-            "bg-neutral flex h-[2rem] w-[4rem] items-center justify-center rounded font-semibold",
+            "flex h-[2rem] w-[4rem] items-center justify-center rounded bg-neutral font-semibold",
             shake &&
               "error-shake border border-solid border-destructive text-destructive",
           )}

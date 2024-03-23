@@ -4,7 +4,7 @@
 
 import { ConfirmationIcon } from "@/components/payment/ConfirmationIcon";
 import { ConfirmedSessionCard } from "@/components/payment/ConfirmedSessionCard";
-import { ConfirmationBanner } from "@/lib/assets/Icons";
+import { ConfirmationBanner } from "@/lib/Icons";
 
 const sessions = [
   {

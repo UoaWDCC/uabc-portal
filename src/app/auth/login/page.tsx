@@ -3,7 +3,7 @@ import { TextInput } from "@/components/TextInput";
 import { Button } from "@/components/Button";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { signIn, useSession } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,10 +11,6 @@ export default function Login() {
   const [isError, setError] = useState(false);
 
   const { data } = useSession();
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <div>
@@ -51,10 +47,9 @@ export default function Login() {
 
           <Button
             label="Login"
-            onClick={() =>
-              // email && password ? setError(false) : setError(true)
-              signIn("google")
-            }
+            onClick={() => {
+              signIn("google");
+            }}
           />
         </div>
       </div>

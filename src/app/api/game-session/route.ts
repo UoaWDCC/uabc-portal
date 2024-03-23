@@ -1,47 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/db";
-import { Prisma } from "@prisma/client";
-import { gameSessionValidator } from "@/lib/validators";
+import { db } from "@/db";
+import { gameSessions } from "@/db/schema";
+import { insertGameSessionSchema } from "@/db/validators";
+import z from "zod";
 
-export const GET = async (request: NextRequest) => {
-  const sessions = await prisma.gameSession.findMany();
+//TODO: validate and run tests
 
-  return NextResponse.json({ data: sessions });
-};
+export async function GET(req: NextRequest) {
+  const sessions = await db.query.gameSessions.findMany();
+  return NextResponse.json(sessions);
+}
 
 /**
  * Creates a new game session
  */
-export const POST = async (request: NextRequest) => {
-  const sessionBody = (await request.json()) as Omit<
-    Prisma.GameSessionGetPayload<{}>,
-    "id"
-  >;
-  // const sessionBody = await request.json() as Prisma.GameSessionGetPayload<{}>;
+export async function POST(req: NextRequest) {
+  try {
+    const json = await req.json();
 
-  console.log(sessionBody);
-  const { success } = gameSessionValidator.safeParse(sessionBody);
+    const body = insertGameSessionSchema.parse(json);
 
-  console.log(success);
+    await db.insert(gameSessions).values(body);
 
-  if (!success) {
-    return NextResponse.json(
-      {
-        data: {},
-        msg: "failed, please include all required fields in response with the correct type",
-      },
-      {
-        status: 404,
-      },
-    );
+    return NextResponse.json(body, { status: 201 });
+  } catch (error) {
+    if (error instanceof z.ZodError)
+      return NextResponse.json(error.issues, { status: 400 });
+
+    return new Response(null, { status: 500 });
   }
-
-  const session = await prisma.gameSession.create({
-    data: { ...sessionBody },
-  });
-
-  return NextResponse.json({
-    data: session,
-    msg: "success",
-  });
-};
+}

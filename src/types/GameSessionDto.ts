@@ -3,6 +3,6 @@ export interface GameSessionDto {
   weekday: number;
   startTime: string;
   endTime: string;
-  location: string;
-  status: "default" | "selected" | "disabled" | "unavailable";
+  locationName: string;
+  locationAddress: string;
 }

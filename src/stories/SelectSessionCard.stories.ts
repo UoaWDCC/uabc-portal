@@ -9,7 +9,10 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    status: {control: {type: "select"}, options: ["default", "selected", "disabled", "unavailable"]},
+    status: {
+      control: { type: "select" },
+      options: ["default", "selected", "disabled", "unavailable"],
+    },
   },
 } satisfies Meta<typeof SelectSessionCard>;
 
@@ -22,6 +25,6 @@ export const Default: Story = {
     startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
     endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
     status: "default",
-    location: "Location",
+    locationName: "Location",
   },
 };

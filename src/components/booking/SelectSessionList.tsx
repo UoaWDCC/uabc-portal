@@ -1,9 +1,10 @@
 import { ChangeEvent } from "react";
 import { SelectSessionCard, SelectSessionCardProps } from "./SelectSessionCard";
 import { useCartStore } from "@/store/useCartStore";
+import { GameSessionDto } from "@/types/GameSessionDto";
 
 interface SelectSessionListProps {
-  sessions: Map<number, SelectSessionCardProps>;
+  sessions: Map<number, GameSessionDto>;
   onLimitReached: () => void;
 }
 
@@ -50,7 +51,7 @@ export function SelectSessionList({
             weekday={session.weekday}
             startTime={session.startTime}
             endTime={session.endTime}
-            location={session.location}
+            locationName={session.locationName}
             status={
               cart.some((s) => s.id === session.id) ? "selected" : "default"
             }
