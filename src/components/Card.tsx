@@ -14,10 +14,8 @@ export const Card = ({
   onClick,
   className,
   children,
-}: PropsWithChildren<CardProps>) => {
-  return (
-    <div onClick={onClick} className={cn("rounded-md", className)}>
-      {children}
-    </div>
-  );
-};
+}: PropsWithChildren<CardProps>) => (
+  <div onClick={onClick} className={cn("rounded-md", className)}>
+    {children}
+  </div>
+);

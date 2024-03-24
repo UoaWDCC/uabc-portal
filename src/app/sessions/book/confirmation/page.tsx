@@ -31,12 +31,6 @@ export default async function ConfirmationPage() {
   return (
     <div className="flex h-[100dvh] flex-col">
       <div className="relative">
-        {/* <Image
-          src="public/images/ConfirmationBannerSVG.svg"
-          fill
-          className="w-full"
-          alt={"Confirmation Banner"}
-        /> */}
         <ConfirmationBanner className="w-full" />
 
         <p className="absolute left-0 right-0 top-10 z-10 text-center text-5xl font-bold text-blue-600">

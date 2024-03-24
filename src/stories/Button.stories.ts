@@ -24,6 +24,6 @@ export const Default: Story = {
   args: {
     disabled: false,
     widthFull: false,
-    label: "Button",
+    children: "Button",
   },
 };

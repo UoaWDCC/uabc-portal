@@ -46,11 +46,12 @@ export default function Login() {
           />
 
           <Button
-            label="Login"
             onClick={() => {
               signIn("google");
             }}
-          />
+          >
+            login
+          </Button>
         </div>
       </div>
     </div>

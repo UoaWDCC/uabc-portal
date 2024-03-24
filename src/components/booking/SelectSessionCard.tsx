@@ -5,14 +5,14 @@
 import { twJoin } from "tailwind-merge";
 import { Card } from "../Card";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { ChangeEvent, memo } from "react";
-import { GameSessionDto } from "@/types/GameSessionDto";
+import { ChangeEvent, useRef } from "react";
 
 type SelectSessionCardStatus =
   | "default"
   | "selected"
   | "disabled"
   | "unavailable";
+
 export interface SelectSessionCardProps {
   id: number;
   weekday: number;
@@ -57,7 +57,7 @@ export const SelectSessionCard = ({
 }: Omit<SelectSessionCardProps, "id">) => {
   const isDisabled = status === "disabled";
   const isSelected = status === "selected";
-  console.log("1");
+  const inputRef = useRef(null);
   return (
     <Card
       className={twJoin(

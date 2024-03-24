@@ -1,6 +1,7 @@
 /**
  * @author David Zhu <dzhu292@aucklanduni.ac.nz>
  */
+
 "use client";
 
 import { Button } from "@/components/Button";
@@ -58,13 +59,13 @@ export default function SelectSessionPage() {
 
   return (
     <div className="flex h-dvh flex-col">
-      <div className="flex pb-4 pl-6 pt-10">
+      <div className="flex py-4 pl-6">
         <Heading>Sessions</Heading>
         <Link href={"/account"} className="ml-auto mr-4">
           <CgProfile size={40} />
         </Link>
       </div>
-      <div className="flex h-[4rem] items-center justify-between bg-secondary p-5">
+      <div className="flex h-16 items-center justify-between bg-secondary p-5">
         <div className="flex items-center">
           <span className="text-md pr-1 font-medium">Hey {firstName}!</span>
           <Image
@@ -81,19 +82,19 @@ export default function SelectSessionPage() {
               Prepaid Sessions <br />
               Remaining
             </div>
-            <div className="flex h-[2rem] w-[2rem] items-center justify-center rounded bg-neutral font-semibold">
+            <div className="flex size-8 items-center justify-center rounded bg-neutral font-semibold">
               {remainingSessions}
             </div>
           </div>
         )}
       </div>
-      <div className="flex h-[4rem] items-center justify-between p-5">
+      <div className="flex h-16 items-center justify-between p-5">
         <p className="text-s max-w-[70%] font-medium leading-5">
           Please select a badminton session for this week
         </p>
         <div
           className={twJoin(
-            "flex h-[2rem] w-[4rem] items-center justify-center rounded bg-neutral font-semibold",
+            "flex h-8 w-16 items-center justify-center rounded bg-neutral font-semibold",
             shake &&
               "error-shake border border-solid border-destructive text-destructive",
           )}
@@ -106,18 +107,21 @@ export default function SelectSessionPage() {
       <SelectSessionList
         sessions={sessions}
         onLimitReached={() => setShake(true)}
+        isMember={isMember}
+        className="px-5"
       />
 
-      <div className="mb-10 mt-5 flex justify-center">
+      <div className="my-3 flex justify-center">
         <Button
-          label="next"
           disabled={
             sessionsSelected <= maxSessions && sessionsSelected > 0
               ? false
               : true
           }
           onClick={() => push("/sessions/book")}
-        />
+        >
+          next
+        </Button>
       </div>
     </div>
   );

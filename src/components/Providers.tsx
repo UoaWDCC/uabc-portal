@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
 
-const Providers = ({ children }: { children: ReactNode }) => {
+export const Providers = ({ children }: { children: ReactNode }) => {
   const queryClient = new QueryClient();
 
   return (
@@ -13,5 +13,3 @@ const Providers = ({ children }: { children: ReactNode }) => {
     </QueryClientProvider>
   );
 };
-
-export default Providers;

@@ -159,7 +159,9 @@ export const SessionInputForm = (props: SessionInputFormProps) => {
         />
       </div>
       <div className="my-5">
-        <Button label="Create Session" onClick={onSubmit} widthFull />
+        <Button onClick={onSubmit} widthFull>
+          Create Session
+        </Button>
       </div>
     </Card>
   );
