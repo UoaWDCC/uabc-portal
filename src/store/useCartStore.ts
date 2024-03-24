@@ -1,7 +1,14 @@
 import { GameSessionDto } from "@/types/GameSessionDto";
 import { create } from "zustand";
 
-interface CartDto extends GameSessionDto {
+interface CartDto {
+  id: number;
+  weekday: number;
+  startTime: string;
+  endTime: string;
+  locationName: string;
+  locationAddress: string;
+  isFull: boolean;
   difficulty?: string;
 }
 

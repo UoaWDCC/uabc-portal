@@ -1,13 +1,13 @@
 "use client";
 
 import { ChangeEvent } from "react";
-import { SelectSessionCard } from "./SelectSessionCard";
 import { useCartStore } from "@/store/useCartStore";
 import { GameSessionDto } from "@/types/GameSessionDto";
 import { cn } from "@/lib/utils";
+import { SelectableCard } from "./SelectableCard";
 
 interface SelectSessionListProps {
-  sessions: Map<number, GameSessionDto>;
+  sessions: Map<number, GameSessionDto & { isFull: boolean }>;
   isMember: boolean;
   onLimitReached: () => void;
   className?: string;
@@ -58,21 +58,18 @@ export function SelectSessionList({
     >
       {Array.from(sessions.values()).map((session) => {
         return (
-          <SelectSessionCard
+          <SelectableCard
             weekday={session.weekday}
             startTime={session.startTime}
             endTime={session.endTime}
             locationName={session.locationName}
-            status={
-              cart.some((s) => s.id === session.id)
-                ? "selected"
-                : session.status
-            }
+            checked={cart.some((s) => s.id === session.id)}
             key={session.id}
+            disabled={session.isFull}
             onChange={(e) => {
               handleSessionClick(e, session.id);
             }}
-          ></SelectSessionCard>
+          />
         );
       })}
     </div>
