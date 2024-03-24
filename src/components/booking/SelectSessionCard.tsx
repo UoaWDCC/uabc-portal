@@ -3,6 +3,7 @@
  */
 
 import { twJoin } from "tailwind-merge";
+
 import { Card } from "../Card";
 
 type SelectSessionCardStatus = "default" | "selected" | "disabled";
@@ -51,7 +52,7 @@ export const SelectSessionCard = ({
       status === "disabled" && "opacity-50",
     )}
   >
-    <div className="text-md pr-10">
+    <div className="pr-10">
       <p className={twJoin("text-xl", textColorMap.get(status))}>
         {weekdayMap.get(weekday)} {status === "disabled" && "(Session Full)"}
       </p>

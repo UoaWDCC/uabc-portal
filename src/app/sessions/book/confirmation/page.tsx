@@ -2,9 +2,9 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
+import { ConfirmationBanner } from "@/lib/Icons";
 import { ConfirmationIcon } from "@/components/payment/ConfirmationIcon";
 import { ConfirmedSessionCard } from "@/components/payment/ConfirmedSessionCard";
-import { ConfirmationBanner } from "@/lib/Icons";
 
 const sessions = [
   {
@@ -29,11 +29,11 @@ const confirmed = false;
 
 export default async function ConfirmationPage() {
   return (
-    <div className="flex h-[100dvh] flex-col">
+    <div className="flex h-dvh flex-col">
       <div className="relative">
         <ConfirmationBanner className="w-full" />
 
-        <p className="absolute left-0 right-0 top-10 z-10 text-center text-5xl font-bold text-blue-600">
+        <p className="absolute inset-x-0 top-10 z-10 text-center text-5xl font-bold text-blue-600">
           UABC
         </p>
       </div>

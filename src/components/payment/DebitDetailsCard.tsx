@@ -2,8 +2,9 @@
  * @author David Zhu <dzhu292@aucklanduni.ac.nz>
  */
 
-import { Card } from "../Card";
 import { MdContentCopy } from "react-icons/md";
+
+import { Card } from "../Card";
 
 interface DebitDetailsCardProps {
   title: string;
@@ -19,12 +20,12 @@ export const DebitDetailsCard = ({
   copyText,
 }: DebitDetailsCardProps) => {
   return (
-    <Card className="pt-50 relative mt-0 bg-gray-200 p-5 font-normal">
+    <Card className="relative mt-0 bg-gray-200 p-5 pt-52 font-normal">
       <p className="top-5 text-xl font-medium">{title}</p>
       <p className="text-gray-500">{subtitle}</p>
 
       {sessionId && (
-        <p className="blueGray-200 pt-5">
+        <p className="bg-gray-200 pt-5">
           SessionID: <span className="font-bold">{sessionId}</span>
         </p>
       )}
@@ -33,7 +34,7 @@ export const DebitDetailsCard = ({
         onPointerDown={() =>
           copyText && navigator.clipboard.writeText(copyText)
         }
-        className="absolute right-4 top-1/2 translate-y-[-50%] rounded-lg p-2"
+        className="absolute right-4 top-1/2 translate-y-1/2 rounded-lg p-2"
       >
         <MdContentCopy className="text-3xl" />
       </button>

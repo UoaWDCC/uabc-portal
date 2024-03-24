@@ -2,10 +2,11 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import { Card } from "../Card";
-import { IoCheckmarkCircle } from "react-icons/io5";
-import { LevelSelector } from "./LevelSelector";
 import { useState } from "react";
+import { IoCheckmarkCircle } from "react-icons/io5";
+
+import { Card } from "../Card";
+import { LevelSelector } from "./LevelSelector";
 
 interface ExpandedSessionCardProps {
   id: string;
@@ -49,13 +50,13 @@ export const ExpandedSessionCard = ({
           <IoCheckmarkCircle color="white" size={30}></IoCheckmarkCircle>
         </div>
         <p className="text-xl text-white">{dayOfWeek}</p>
-        <p className="text-md text-indigo-200">{location}</p>
+        <p className="text-indigo-200">{location}</p>
       </div>
-      <div className="text-md bg-gray-200 px-6 py-8">
-        <p className="text-md text-gray-800">Address</p>
-        <p className="text-md text-gray-500">{address}</p>
-        <p className="text-md mt-2 text-gray-800">Time</p>
-        <p className="text-md uppercase text-gray-500">
+      <div className="bg-gray-200 px-6 py-8">
+        <p className="text-gray-800">Address</p>
+        <p className="text-gray-500">{address}</p>
+        <p className="mt-2 text-gray-800">Time</p>
+        <p className="uppercase text-gray-500">
           {startTime.toLocaleTimeString([], { timeStyle: "short" })} -{" "}
           {endTime.toLocaleTimeString([], { timeStyle: "short" })}
         </p>

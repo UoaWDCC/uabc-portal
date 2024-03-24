@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { gameSessions } from "@/db/schema";
 import { and, asc, gt, lt } from "drizzle-orm";
@@ -6,7 +6,7 @@ import { and, asc, gt, lt } from "drizzle-orm";
 /**
  * Gets game sessions currently available for booking
  */
-export async function GET(req: NextRequest) {
+export async function GET() {
   const sessions = await db
     .select()
     .from(gameSessions)

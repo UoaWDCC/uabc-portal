@@ -14,9 +14,12 @@ interface ModalProps {
 export const Modal = (props: ModalProps) => {
   return (
     <div
-      className={twJoin("fixed left-0 top-0 h-dvh w-dvw flex flex-col", !props.isOpen && "hidden")}
+      className={twJoin(
+        "fixed left-0 top-0 flex h-dvh w-dvw flex-col",
+        !props.isOpen && "hidden",
+      )}
     >
-      <div onClick={props.onClose} className="flex-grow bg-black opacity-60" />
+      <div onClick={props.onClose} className="grow bg-black opacity-60" />
       {props.children}
     </div>
   );

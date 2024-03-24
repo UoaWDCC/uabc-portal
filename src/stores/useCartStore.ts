@@ -1,4 +1,3 @@
-import { GameSessionDto } from "@/types/GameSessionDto";
 import { create } from "zustand";
 
 interface CartDto {
@@ -12,13 +11,13 @@ interface CartDto {
   difficulty?: string;
 }
 
-type CartState = {
+interface CartState {
   cart: CartDto[];
-};
+}
 
-type CartAction = {
+interface CartAction {
   updateCart: (cart: CartState["cart"]) => void;
-};
+}
 
 export const useCartStore = create<CartState & CartAction>((set) => ({
   cart: [],

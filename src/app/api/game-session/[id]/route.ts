@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { gameSessions } from "@/db/schema";
-import { eq } from "drizzle-orm";
 import { insertGameSessionSchema } from "@/db/validators";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 const routeContextSchema = z.object({
@@ -67,10 +67,7 @@ export async function PATCH(
         status: 404,
       });
 
-    const session = await db
-      .update(gameSessions)
-      .set(body)
-      .where(eq(gameSessions.id, id));
+    await db.update(gameSessions).set(body).where(eq(gameSessions.id, id));
 
     return new Response(null, { status: 204 });
   } catch (error) {

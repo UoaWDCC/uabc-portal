@@ -6,7 +6,7 @@ import z from "zod";
 
 //TODO: validate and run tests
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const sessions = await db.query.gameSessions.findMany();
   return NextResponse.json(sessions);
 }

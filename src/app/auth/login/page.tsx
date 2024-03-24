@@ -1,16 +1,16 @@
 "use client";
-import { TextInput } from "@/components/TextInput";
-import { Button } from "@/components/Button";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import Image from "next/image";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn } from "next-auth/react";
+
+import { Button } from "@/components/Button";
+import { TextInput } from "@/components/TextInput";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const [isError, setError] = useState(false);
-
-  const { data } = useSession();
 
   return (
     <div>
@@ -29,7 +29,7 @@ export default function Login() {
             ? "Incorrect email or password. Please try again:"
             : "Please login:"}{" "}
         </label>
-        <div className="w-319 h-852">
+        <div>
           <TextInput
             label="Email"
             value={email}

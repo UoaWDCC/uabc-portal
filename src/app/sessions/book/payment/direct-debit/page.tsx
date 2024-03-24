@@ -4,16 +4,16 @@
 
 "use client";
 
-import { Heading } from "@/components/Heading";
-import { PaymentInfoCard } from "@/components/payment/PaymentInfoCard";
-import { DebitDetailsCard } from "@/components/payment/DebitDetailsCard";
 import { Button } from "@/components/Button";
+import { Heading } from "@/components/Heading";
+import { DebitDetailsCard } from "@/components/payment/DebitDetailsCard";
+import { PaymentInfoCard } from "@/components/payment/PaymentInfoCard";
 
 export default function DirectDebitPage() {
-  const firstName: string = "John";
-  const lastName: string = "Smith";
-  const sessionId: string = "rn3498";
-  const accountNumber: string = "xx-xxxx-xxxx-xxx";
+  const firstName = "John";
+  const lastName = "Smith";
+  const sessionId = "rn3498";
+  const accountNumber = "xx-xxxx-xxxx-xxx";
 
   return (
     // TODO: Add functionality for DONE button
@@ -24,7 +24,7 @@ export default function DirectDebitPage() {
       <p className="flex grow flex-col-reverse py-3 text-center font-medium">
         Direct Debit
       </p>
-      <div className="scroll-fade mx-10 flex flex-col gap-3 overflow-y-auto overscroll-contain py-2">
+      <div className="mx-10 flex flex-col gap-3 overflow-y-auto overscroll-contain py-2">
         <DebitDetailsCard
           title="Account Number:"
           subtitle={accountNumber}

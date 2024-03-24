@@ -18,7 +18,7 @@ export default function PaymentOptionsPage() {
       <p className="flex grow flex-col-reverse py-3 text-center font-medium">
         Please select a payment method:
       </p>
-      <div className="scroll-fade mx-10 flex flex-col gap-3 overflow-y-auto overscroll-contain py-2 pb-10">
+      <div className="mx-10 flex flex-col gap-3 overflow-y-auto overscroll-contain py-2 pb-10">
         <PaymentOptionCard
           onClick={() => alert("Direct debit")}
           title="Direct Debit"

@@ -1,9 +1,11 @@
 "use client";
 
 import { ChangeEvent } from "react";
-import { useCartStore } from "@/store/useCartStore";
+
+import { useCartStore } from "@/stores/useCartStore";
 import { GameSessionDto } from "@/types/GameSessionDto";
 import { cn } from "@/lib/utils";
+
 import { SelectableCard } from "./SelectableCard";
 
 interface SelectSessionListProps {

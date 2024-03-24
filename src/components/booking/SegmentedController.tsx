@@ -30,7 +30,7 @@ export const SegmentedController = (props: SegmentedControllerProps) => {
         {props.segments.map((item, i) => (
           <div
             key={item.value}
-            className={`z-1 relative rounded-md text-center ${
+            className={`relative rounded-md text-center ${
               i == activeIndex ? "absolute left-0 z-0 bg-blue-500" : ""
             }`}
           >
@@ -40,7 +40,7 @@ export const SegmentedController = (props: SegmentedControllerProps) => {
               id={item.value}
               onChange={() => onInputChange(item.value, i)}
               checked={i == activeIndex}
-              className="absolute bottom-0 left-0 right-0 top-0 m-0 h-full w-full cursor-pointer opacity-0"
+              className="absolute inset-0 m-0 size-full cursor-pointer opacity-0"
             />
             <label
               htmlFor={item.value}

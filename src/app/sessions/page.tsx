@@ -4,18 +4,19 @@
 
 "use client";
 
-import { Button } from "@/components/Button";
-import { Heading } from "@/components/Heading";
-import { SelectSessionList } from "@/components/booking/SelectSessionList";
-import { useCurrentGameSessions } from "@/hooks/query/useGameSessions";
-import { useCartStore } from "@/store/useCartStore";
-import { GameSessionDto } from "@/types/GameSessionDto";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { twJoin } from "tailwind-merge";
+
+import { useCartStore } from "@/stores/useCartStore";
+import { GameSessionDto } from "@/types/GameSessionDto";
+import { useCurrentGameSessions } from "@/hooks/query/useGameSessions";
+import { SelectSessionList } from "@/components/booking/SelectSessionList";
+import { Button } from "@/components/Button";
+import { Heading } from "@/components/Heading";
 
 const remainingSessions = 11;
 const isMember = true;
@@ -67,7 +68,7 @@ export default function SelectSessionPage() {
       </div>
       <div className="flex h-16 items-center justify-between bg-secondary p-5">
         <div className="flex items-center">
-          <span className="text-md pr-1 font-medium">Hey {firstName}!</span>
+          <span className="pr-1 font-medium">Hey {firstName}!</span>
           <Image
             src="/images/BadmintonRacketLogo.png"
             alt="Badminton Racket Logo"
@@ -89,7 +90,7 @@ export default function SelectSessionPage() {
         )}
       </div>
       <div className="flex h-16 items-center justify-between p-5">
-        <p className="text-s max-w-[70%] font-medium leading-5">
+        <p className="max-w-[70%] text-sm font-medium leading-5">
           Please select a badminton session for this week
         </p>
         <div

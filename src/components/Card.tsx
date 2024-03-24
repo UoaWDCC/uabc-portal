@@ -2,8 +2,9 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import { cn } from "@/lib/utils";
 import { PropsWithChildren } from "react";
+
+import { cn } from "@/lib/utils";
 
 interface CardProps {
   className?: string;
