@@ -35,7 +35,7 @@ export default function SelectSessionPage() {
 
   useEffect(() => {
     const sessionMap: Map<number, GameSessionDto> = new Map(
-      data?.map((session) => {
+      data?.map((session, index) => {
         return [
           session.id,
           {
@@ -49,7 +49,7 @@ export default function SelectSessionPage() {
             }),
             locationName: session.locationName,
             locationAddress: session.locationAddress,
-            status: "default",
+            status: index % 3 === 0 ? "disabled" : "default",
           },
         ];
       }),

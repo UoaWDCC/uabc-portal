@@ -5,4 +5,5 @@ export interface GameSessionDto {
   endTime: string;
   locationName: string;
   locationAddress: string;
+  status: "default" | "selected" | "disabled" | "unavailable";
 }

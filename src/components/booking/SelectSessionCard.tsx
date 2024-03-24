@@ -61,9 +61,9 @@ export const SelectSessionCard = ({
   return (
     <Card
       className={twJoin(
-        "relative px-6 py-4 font-normal",
+        "relative border border-border px-6 py-4 font-normal",
         backgroundColorMap.get(status),
-        isDisabled && "opacity-30",
+        isDisabled && "opacity-50",
       )}
     >
       {isSelected && (
@@ -82,16 +82,16 @@ export const SelectSessionCard = ({
         onChange={onChange}
         disabled={isDisabled}
       />
-      <div className="pr-10">
+      <div className="text-md pr-10">
         <p className={twJoin("text-xl", textColorMap.get(status))}>
-          {weekdayMap.get(weekday)}
+          {weekdayMap.get(weekday)} {isDisabled && "(Session Full)"}
         </p>
-        <p className={twJoin("text-md opacity-70", textColorMap.get(status))}>
+        <p className={twJoin("opacity-70", textColorMap.get(status))}>
           {locationName}
         </p>
         <p
           className={twJoin(
-            "text-md pt-2 uppercase opacity-70",
+            "pt-2 uppercase opacity-70",
             textColorMap.get(status),
           )}
         >

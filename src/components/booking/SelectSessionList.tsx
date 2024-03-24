@@ -64,7 +64,9 @@ export function SelectSessionList({
             endTime={session.endTime}
             locationName={session.locationName}
             status={
-              cart.some((s) => s.id === session.id) ? "selected" : "default"
+              cart.some((s) => s.id === session.id)
+                ? "selected"
+                : session.status
             }
             key={session.id}
             onChange={(e) => {

@@ -36,7 +36,6 @@ export const SessionInputForm = (props: SessionInputFormProps) => {
         cache: "no-store",
       });
       const data = await response.json();
-      console.log(data);
       return data;
     },
     onSuccess: props.onSuccess,
@@ -76,8 +75,6 @@ export const SessionInputForm = (props: SessionInputFormProps) => {
         location: location,
         maxUsers: maxUsers,
       } as any;
-
-      console.log(data);
 
       mutation.mutate(data);
     }
