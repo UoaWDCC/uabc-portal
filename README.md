@@ -22,6 +22,8 @@ Refer to the [Onboarding](https://github.com/UoaWDCC/uabc-portal/wiki/Onboarding
 | Prabhjot Singh Sodhi     | Developer       |
 | Annabelle Ding           | Developer       |
 | Chanasit Jitsawatpaiboon | Developer       |
+| Dennis Hu                | Developer       |
+| Hamish Patel             | Developer       |
 
 ---
 
