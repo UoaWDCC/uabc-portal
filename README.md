@@ -20,6 +20,7 @@ Refer to the [Onboarding](https://github.com/UoaWDCC/uabc-portal/wiki/Onboarding
 | David Zhu            | Tech Lead       |
 | Kimia Varasteh       | Developer       |
 | Prabhjot Singh Sodhi | Developer       |
+| Annabelle Ding       | Developer       |
 
 ---
 
