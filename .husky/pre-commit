@@ -1,2 +1,2 @@
-pnpm lint
-pnpm pretty-quick --staged
+npm run lint
+npx pretty-quick --staged

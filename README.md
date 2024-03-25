@@ -14,15 +14,16 @@ Refer to the [Onboarding](https://github.com/UoaWDCC/uabc-portal/wiki/Onboarding
 
 ## 2024 Team
 
-| Name                 | Role            |
-| -------------------- | --------------- |
-| Daniel Yang          | Project Manager |
-| David Zhu            | Tech Lead       |
-| Kimia Varasteh       | Developer       |
-| Prabhjot Singh Sodhi | Developer       |
-| Annabelle Ding       | Developer       |
-| Dennis Hu            | Developer       |
-| Hamish Patel         | Developer       |
+| Name                     | Role            |
+| ------------------------ | --------------- |
+| Daniel Yang              | Project Manager |
+| David Zhu                | Tech Lead       |
+| Kimia Varasteh           | Developer       |
+| Prabhjot Singh Sodhi     | Developer       |
+| Annabelle Ding           | Developer       |
+| Chanasit Jitsawatpaiboon | Developer       |
+| Dennis Hu                | Developer       |
+| Hamish Patel             | Developer       |
 
 ---
 
