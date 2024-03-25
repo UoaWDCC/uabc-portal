@@ -24,6 +24,7 @@ Refer to the [Onboarding](https://github.com/UoaWDCC/uabc-portal/wiki/Onboarding
 | Chanasit Jitsawatpaiboon | Developer       |
 | Dennis Hu                | Developer       |
 | Hamish Patel             | Developer       |
+| Liam Parker              | Developer       |
 
 ---
 
