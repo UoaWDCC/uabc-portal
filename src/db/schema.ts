@@ -71,4 +71,16 @@ export const gameSessions = pgTable("gameSession", {
   maxUsers: integer("maxUsers").notNull(),
 });
 
-export const booking = pgTable("booking", {});
+export const booking = pgTable("booking", {
+  id: serial("id").primaryKey(),
+  user: text("user").notNull(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  gameSeeion: text("gameSession").notNull(),
+  gameSessionId: integer("gameSessionId")
+    .notNull()
+    .references(() => gameSessions.id, { onDelete: "cascade" }),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
+  difficulty: text("difficulty").notNull(),
+});
