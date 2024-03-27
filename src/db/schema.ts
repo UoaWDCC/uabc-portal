@@ -70,3 +70,5 @@ export const gameSessions = pgTable("gameSession", {
   locationAddress: text("locationAddress").notNull(),
   maxUsers: integer("maxUsers").notNull(),
 });
+
+export const booking = pgTable("booking", {});
