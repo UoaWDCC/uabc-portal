@@ -1,4 +1,5 @@
 import type { AdapterAccount } from "@auth/core/adapters";
+import { relations } from "drizzle-orm";
 import {
   integer,
   pgTable,
@@ -77,10 +78,23 @@ export const booking = pgTable("booking", {
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  gameSeeion: text("gameSession").notNull(),
-  gameSessionId: integer("gameSessionId")
-    .notNull()
-    .references(() => gameSessions.id, { onDelete: "cascade" }),
-  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
-  difficulty: text("difficulty").notNull(),
+  //gameSession: text("gameSession").notNull(),
+  gameSessionId: integer("gameSessionId"),
+  //.notNull()
+  //.references(() => gameSessions.id, { onDelete: "cascade" }),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(), //default(sql`CURRENT_TIMESTAMP`) if it does not work
+  difficulty: text("difficulty").notNull(), // waiting for enum
 });
+
+// each game session can have many bookings
+export const gameSessionRelations = relations(gameSessions, ({ many }) => ({
+  booking: many(booking),
+}));
+
+// each booking can have one game session
+export const bookingSessionRelations = relations(booking, ({ one }) => ({
+  gameSession: one(gameSessions, {
+    fields: [booking.gameSessionId],
+    references: [gameSessions.id],
+  }),
+}));
