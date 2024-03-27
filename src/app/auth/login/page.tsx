@@ -14,6 +14,7 @@ export default function Login() {
   }, [data]);
 
   return (
+    //TODO: redirect to sessions and add new uabc logo
     <div className="grid h-screen w-screen place-content-center bg-tertiary">
       <div className="flex select-none flex-col items-center rounded-[24px] bg-white p-12 px-20 drop-shadow-2xl">
         <p className="Proxima text-center text-[4rem] font-bold leading-[3rem] text-primary">
