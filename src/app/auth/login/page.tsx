@@ -1,57 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
-
-import { Button } from "@/components/Button";
-import { TextInput } from "@/components/TextInput";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPass] = useState("");
   const [isError, setError] = useState(false);
 
-  return (
-    <div>
-      <div className="flex h-screen flex-col items-center justify-center">
-        <Image
-          src={"/UABC_logo.png"}
-          width={500}
-          height={500}
-          alt="UABC Logo"
-          priority
-        />
+  const { data } = useSession();
 
-        <label className="p-8 text-center">
-          {" "}
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  return (
+    <div className="grid h-screen w-screen place-content-center bg-tertiary">
+      <div className="flex select-none flex-col items-center rounded-[24px] bg-white p-12 px-20 drop-shadow-2xl">
+        <p className="Proxima text-center text-[4rem] font-bold leading-[3rem] text-primary">
+          UABC
+        </p>
+        <label className=" text-center text-sm">
           {isError
             ? "Incorrect email or password. Please try again:"
-            : "Please login:"}{" "}
+            : "Please login:"}
         </label>
-        <div>
-          <TextInput
-            label="Email"
-            value={email}
-            type="email"
-            isError={isError}
-            onChange={setEmail}
+        <div
+          className="mt-8 flex w-[300px] cursor-pointer justify-center gap-8 rounded-sm p-6 outline outline-1 hover:bg-gray-100"
+          onClick={() =>
+            // email && password ? setError(false) : setError(true)
+            signIn("google")
+          }
+        >
+          <Image
+            src="/images/googleIcon@48x.svg"
+            width={24}
+            height={24}
+            alt="Google Icon"
           />
-          <TextInput
-            label="Password"
-            value={password}
-            type="password"
-            isError={isError}
-            onChange={setPass}
-          />
-
-          <Button
-            onClick={() => {
-              signIn("google");
-            }}
-          >
-            login
-          </Button>
+          <span>Sign in with Google</span>
         </div>
       </div>
     </div>
