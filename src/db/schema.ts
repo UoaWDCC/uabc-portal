@@ -74,7 +74,9 @@ export const gameSessions = pgTable("gameSession", {
 
 export const booking = pgTable("booking", {
   id: serial("id").primaryKey(),
-  user: text("user").notNull(),
+  user: integer("user")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
@@ -96,5 +98,9 @@ export const bookingSessionRelations = relations(booking, ({ one }) => ({
   gameSession: one(gameSessions, {
     fields: [booking.gameSessionId],
     references: [gameSessions.id],
+  }),
+  userSession: one(users, {
+    fields: [booking.userId],
+    references: [users.id],
   }),
 }));
