@@ -104,3 +104,4 @@ export const bookingSessionRelations = relations(booking, ({ one }) => ({
     references: [users.id],
   }),
 }));
+//Test
