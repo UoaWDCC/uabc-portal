@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+
+import GoogleSignIn from "@/components/AuthLogin/GoogleSignIn";
 
 export default function Login() {
   const [isError, setError] = useState(false);
-
   const { data } = useSession();
-
   useEffect(() => {
     console.log(data);
   }, [data]);
@@ -25,21 +24,7 @@ export default function Login() {
             ? "Incorrect email or password. Please try again:"
             : "Please login:"}
         </label>
-        <div
-          className="mt-8 flex w-[300px] cursor-pointer justify-center gap-8 rounded-sm p-6 outline outline-1 hover:bg-gray-100"
-          onClick={() =>
-            // email && password ? setError(false) : setError(true)
-            signIn("google")
-          }
-        >
-          <Image
-            src="/images/googleIcon@48x.svg"
-            width={24}
-            height={24}
-            alt="Google Icon"
-          />
-          <span>Sign in with Google</span>
-        </div>
+        <GoogleSignIn className="mt-8" />
       </div>
     </div>
   );
