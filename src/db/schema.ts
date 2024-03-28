@@ -1,5 +1,5 @@
 import type { AdapterAccount } from "@auth/core/adapters";
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   integer,
   pgTable,
@@ -80,11 +80,10 @@ export const booking = pgTable("booking", {
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  //gameSession: text("gameSession").notNull(),
   gameSessionId: integer("gameSessionId"),
-  //.notNull()
-  //.references(() => gameSessions.id, { onDelete: "cascade" }),
-  createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(), //default(sql`CURRENT_TIMESTAMP`) if it does not work
+  createdAt: timestamp("createdAt", { mode: "date" })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`), //default(sql`CURRENT_TIMESTAMP`) if it does not work
   difficulty: text("difficulty").notNull(), // waiting for enum
 });
 
