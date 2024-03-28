@@ -11,7 +11,7 @@ import {
 
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
-  //name: text("name"),
+  name: text("name"),
   firstName: text("firstName"),
   lastName: text("lastName"),
   member: boolean("member"),
