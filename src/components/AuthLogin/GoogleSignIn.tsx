@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import { signIn } from "next-auth/react";
 
@@ -8,7 +7,6 @@ type ButtonProps = {
   className?: string;
 };
 const GoogleSignIn = ({ className }: ButtonProps) => {
-  const { push } = useRouter();
   return (
     <>
       <div
