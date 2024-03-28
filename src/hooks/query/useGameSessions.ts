@@ -1,8 +1,12 @@
-import { selectGameSessionSchema } from "@/db/validators";
 import { useQuery } from "@tanstack/react-query";
-import { z } from "zod";
 
-type GameSessionResponse = z.infer<typeof selectGameSessionSchema>;
+type GameSessionResponse = {
+  id: number;
+  startTime: Date;
+  endTime: Date;
+  locationName: string;
+  locationAddress: string;
+};
 
 const fetchCurrentGameSessions = async (): Promise<GameSessionResponse[]> => {
   const response = await fetch(`/api/game-session/current`);

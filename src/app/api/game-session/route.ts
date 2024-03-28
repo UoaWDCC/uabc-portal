@@ -4,11 +4,13 @@ import { gameSessions } from "@/db/schema";
 import { insertGameSessionSchema } from "@/db/validators";
 import z from "zod";
 
-//TODO: validate and run tests
-
 export async function GET() {
-  const sessions = await db.query.gameSessions.findMany();
-  return NextResponse.json(sessions);
+  try {
+    const sessions = await db.query.gameSessions.findMany();
+    return NextResponse.json(sessions);
+  } catch (error) {
+    return new Response("Internal Server Error", { status: 500 });
+  }
 }
 
 /**
