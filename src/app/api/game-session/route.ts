@@ -8,7 +8,7 @@ export async function GET() {
   try {
     const sessions = await db.query.gameSessions.findMany();
     return NextResponse.json(sessions);
-  } catch (error) {
+  } catch {
     return new Response("Internal Server Error", { status: 500 });
   }
 }

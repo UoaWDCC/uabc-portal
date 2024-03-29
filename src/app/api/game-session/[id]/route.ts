@@ -11,10 +11,7 @@ const routeContextSchema = z.object({
   }),
 });
 
-export async function GET(
-  req: NextRequest,
-  context: z.infer<typeof routeContextSchema>,
-) {
+export async function GET(context: z.infer<typeof routeContextSchema>) {
   try {
     const result = routeContextSchema.safeParse(context);
 
@@ -37,7 +34,7 @@ export async function GET(
       });
 
     return NextResponse.json(session);
-  } catch (error) {
+  } catch {
     return new Response("Internal Server Error", { status: 500 });
   }
 }

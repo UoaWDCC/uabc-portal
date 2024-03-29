@@ -26,7 +26,7 @@ export async function GET() {
       .orderBy(asc(gameSessions.startTime));
 
     return NextResponse.json(sessions);
-  } catch (error) {
+  } catch {
     return new Response("Internal Server Error", { status: 500 });
   }
 }
