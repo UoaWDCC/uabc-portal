@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 
+import { useCurrentGameSessions } from "@/hooks/query/useGameSessions";
+import { cn, getShortenedTime } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
 import { GameSessionDto } from "@/types/GameSessionDto";
-import { cn, getShortenedTime } from "@/lib/utils";
-import { useCurrentGameSessions } from "@/hooks/query/useGameSessions";
 import { SelectSessionCard } from "./SelectSessionCard";
 
 interface SelectSessionListProps {

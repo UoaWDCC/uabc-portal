@@ -11,13 +11,13 @@ import { useRouter } from "next/navigation";
 import { CgProfile } from "react-icons/cg";
 import { twJoin } from "tailwind-merge";
 
-import { useCartStore } from "@/stores/useCartStore";
-import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { PrepaidSessionsCounter } from "@/components/booking/PrepaidSessionsCounter";
 import { SelectSessionList } from "@/components/booking/SelectSessionList";
 import { Button } from "@/components/Button";
 import { CountIndicator } from "@/components/CountIndicator";
 import { Heading } from "@/components/Heading";
+import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
+import { useCartStore } from "@/stores/useCartStore";
 
 const remainingSessions = 11;
 const isMember = true;
