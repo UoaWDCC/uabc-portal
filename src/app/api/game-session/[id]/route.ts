@@ -11,7 +11,10 @@ const routeContextSchema = z.object({
   }),
 });
 
-export async function GET(context: z.infer<typeof routeContextSchema>) {
+export async function GET(
+  _req: NextRequest,
+  context: z.infer<typeof routeContextSchema>,
+) {
   try {
     const result = routeContextSchema.safeParse(context);
 
