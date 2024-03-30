@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-import { db } from "@/db";
-import { gameSessions } from "@/db/schema";
-import { insertGameSessionSchema } from "@/db/validators";
+import { db } from "@/lib/db";
+import { gameSessions } from "@/lib/db/schema";
+import { insertGameSessionSchema } from "@/lib/db/validators";
 
 const routeContextSchema = z.object({
   params: z.object({

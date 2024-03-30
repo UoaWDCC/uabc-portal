@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { and, asc, gt, lt } from "drizzle-orm";
 
-import { db } from "@/db";
-import { gameSessions } from "@/db/schema";
+import { db } from "@/lib/db";
+import { gameSessions } from "@/lib/db/schema";
 
 /**
  * Gets game sessions currently available for booking
