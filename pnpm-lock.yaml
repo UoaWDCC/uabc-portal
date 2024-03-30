@@ -29,6 +29,9 @@ dependencies:
   drizzle-zod:
     specifier: ^0.5.1
     version: 0.5.1(drizzle-orm@0.30.6)(zod@3.22.4)
+  i:
+    specifier: ^0.3.7
+    version: 0.3.7
   lucide-react:
     specifier: ^0.358.0
     version: 0.358.0(react@18.2.0)
@@ -11411,6 +11414,14 @@ packages:
     engines: { node: ">=18" }
     hasBin: true
     dev: true
+
+  /i@0.3.7:
+    resolution:
+      {
+        integrity: sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q==,
+      }
+    engines: { node: ">=0.4" }
+    dev: false
 
   /iconv-lite@0.4.24:
     resolution:
