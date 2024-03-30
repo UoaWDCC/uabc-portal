@@ -12,6 +12,7 @@
     "<THIRD_PARTY_MODULES>",
     "",
     "^types$",
+    "^@/db(.*)$",
     "^@/env(.*)$",
     "^@/stores/(.*)$",
     "^@/types/(.*)$",

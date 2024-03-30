@@ -1,7 +1,8 @@
 "use client";
 
-import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
 import { useState } from "react";
+
+import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
 
 export default function BookSessionPage() {
   const [level, setLevel] = useState<string | undefined>(undefined);

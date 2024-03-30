@@ -2,9 +2,10 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
+import React from "react";
+
 import { Modal } from "./Modal";
 import { SegmentedController } from "./SegmentedController";
-import React from "react";
 
 interface LevelSelectorProps {
   isOpen: boolean;
