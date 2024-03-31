@@ -11,7 +11,7 @@ const GoogleSignIn = ({ className }: ButtonProps) => {
     <>
       <div
         className={clsx(
-          "flex w-[300px] cursor-pointer justify-center gap-8 rounded-sm p-6 outline outline-1 hover:bg-gray-100",
+          "flex w-[300px] cursor-pointer justify-center gap-8 rounded-sm p-6 outline outline-1 hover:bg-gray-100 bg-white",
           `${className}`,
         )}
         onClick={() => {
