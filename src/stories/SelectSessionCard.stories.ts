@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+
 import { SelectSessionCard } from "@/components/booking/SelectSessionCard";
 
 const meta = {
@@ -11,7 +12,7 @@ const meta = {
   argTypes: {
     status: {
       control: { type: "select" },
-      options: ["default", "selected", "disabled", "unavailable"],
+      options: ["default", "selected", "disabled"],
     },
   },
 } satisfies Meta<typeof SelectSessionCard>;

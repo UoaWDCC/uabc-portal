@@ -4,7 +4,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,51 +12,25 @@ import { CgProfile } from "react-icons/cg";
 import { twJoin } from "tailwind-merge";
 
 import { useCartStore } from "@/stores/useCartStore";
-import { GameSessionDto } from "@/types/GameSessionDto";
-import { useCurrentGameSessions } from "@/hooks/query/useGameSessions";
+import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
+import { PrepaidSessionsCounter } from "@/components/booking/PrepaidSessionsCounter";
 import { SelectSessionList } from "@/components/booking/SelectSessionList";
 import { Button } from "@/components/Button";
+import { CountIndicator } from "@/components/CountIndicator";
 import { Heading } from "@/components/Heading";
 
 const remainingSessions = 11;
 const isMember = true;
 const firstName = "David";
-const maxSessions: number = isMember ? 2 : 1;
+
+const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
 
 export default function SelectSessionPage() {
-  const { data } = useCurrentGameSessions();
   const { push } = useRouter();
 
   const sessionsSelected = useCartStore((state) => state.cart.length);
 
-  const [sessions, setSessions] = useState<Map<number, GameSessionDto>>(
-    new Map(),
-  );
   const [shake, setShake] = useState(false);
-
-  useEffect(() => {
-    const sessionMap = new Map(
-      data?.map((session, index) => {
-        return [
-          session.id,
-          {
-            id: session.id,
-            weekday: new Date(session.startTime).getDay(),
-            startTime: new Date(session.startTime).toLocaleTimeString("en-NZ", {
-              timeStyle: "short",
-            }),
-            endTime: new Date(session.endTime).toLocaleTimeString("en-NZ", {
-              timeStyle: "short",
-            }),
-            locationName: session.locationName,
-            locationAddress: session.locationAddress,
-            isFull: index % 3 === 0,
-          },
-        ];
-      }),
-    );
-    setSessions(sessionMap);
-  }, [data]);
 
   return (
     <div className="flex h-dvh flex-col">
@@ -66,7 +40,7 @@ export default function SelectSessionPage() {
           <CgProfile size={40} />
         </Link>
       </div>
-      <div className="flex h-16 items-center justify-between bg-secondary p-5">
+      <div className="flex h-16 items-center justify-between bg-secondary/70 p-4">
         <div className="flex items-center">
           <span className="pr-1 font-medium">Hey {firstName}!</span>
           <Image
@@ -78,50 +52,38 @@ export default function SelectSessionPage() {
           />
         </div>
         {isMember && (
-          <div className="flex items-center">
-            <div className="px-5 text-xs font-semibold">
-              Prepaid Sessions <br />
-              Remaining
-            </div>
-            <div className="flex size-8 items-center justify-center rounded bg-neutral font-semibold">
-              {remainingSessions}
-            </div>
-          </div>
+          <PrepaidSessionsCounter remainingSessions={remainingSessions} />
         )}
       </div>
-      <div className="flex h-16 items-center justify-between p-5">
-        <p className="max-w-[70%] text-sm font-medium leading-5">
+      <div className="flex h-16 items-center justify-between p-4">
+        <p className="max-w-[70%] font-medium leading-5">
           Please select a badminton session for this week
         </p>
-        <div
+        <CountIndicator
           className={twJoin(
-            "flex h-8 w-16 items-center justify-center rounded bg-neutral font-semibold",
+            "w-16",
             shake &&
-              "error-shake border border-solid border-destructive text-destructive",
+              "error-shake border-2 border-solid border-destructive text-destructive",
           )}
           onAnimationEnd={() => setShake(false)}
         >
           {sessionsSelected} / {maxSessions}
-        </div>
+        </CountIndicator>
       </div>
 
       <SelectSessionList
-        sessions={sessions}
         onLimitReached={() => setShake(true)}
         isMember={isMember}
-        className="px-5"
+        className="mx-4"
       />
 
-      <div className="my-3 flex justify-center">
+      <div className="mt-6 mb-8 mx-4 flex justify-center">
         <Button
-          disabled={
-            sessionsSelected <= maxSessions && sessionsSelected > 0
-              ? false
-              : true
-          }
+          disabled={sessionsSelected === 0}
           onClick={() => push("/sessions/book")}
+          className="w-full"
         >
-          next
+          Next
         </Button>
       </div>
     </div>

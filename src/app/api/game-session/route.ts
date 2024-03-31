@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
+import z from "zod";
+
 import { db } from "@/db";
 import { gameSessions } from "@/db/schema";
 import { insertGameSessionSchema } from "@/db/validators";
-import z from "zod";
-
-//TODO: validate and run tests
 
 export async function GET() {
-  const sessions = await db.query.gameSessions.findMany();
-  return NextResponse.json(sessions);
+  try {
+    const sessions = await db.query.gameSessions.findMany();
+    return NextResponse.json(sessions);
+  } catch {
+    return new Response("Internal Server Error", { status: 500 });
+  }
 }
 
 /**
