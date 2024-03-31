@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { useCurrentGameSessions } from "@/hooks/query/useGameSessions";
+import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
 import { cn, getShortenedTime } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
 import { GameSessionDto } from "@/types/GameSessionDto";
@@ -36,7 +36,7 @@ export function SelectSessionList({
           endTime: getShortenedTime(session.endTime),
           locationName: session.locationName,
           locationAddress: session.locationAddress,
-          isFull: index % 3 === 0,
+          isFull: index % 4 === 3,
         })),
       ),
     [data],
@@ -55,11 +55,12 @@ export function SelectSessionList({
   }
 
   if (isLoading || !sessions) {
-    return "Loading...";
+    return <div>Loading...</div>;
   }
 
   return (
     <div
+      data-testid="session-list"
       className={cn(
         "flex grow flex-col gap-3 overflow-y-auto overscroll-contain",
         className,
@@ -69,9 +70,10 @@ export function SelectSessionList({
         const checked = cart.some((s) => s.id === session.id);
         return (
           <div
+            data-testid="session-card"
             key={session.id}
             className={session.isFull ? "pointer-events-none" : ""}
-            onClick={() => handleSessionClick(session.id)}
+            onClick={() => !session.isFull && handleSessionClick(session.id)}
           >
             <SelectSessionCard
               weekday={session.weekday}

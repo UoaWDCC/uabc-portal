@@ -28,7 +28,10 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/env.ts"
+    "src/env.ts",
+    "src/tests/setup-jest.ts",
+    "src/tests/jsdom-extended.js",
+    "src/app/__tests__/.test.tsx"
   ],
   "exclude": ["node_modules"]
 }
