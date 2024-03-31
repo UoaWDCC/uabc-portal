@@ -14,15 +14,14 @@
     --popover: 240 8% 97%; /*hsl(240 8% 97%)*/
     --popover-foreground: 210 8% 5%; /*hsl(210 8% 5%)*/
 
-    --primary: 216 52% 45%; /*hsl(216 52% 45%)*/
-    --primary-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
+    --primary: 216 52% 45%;
+    --primary-foreground: 0 0% 98%;
 
-    /* --secondary: 217 23% 89%; */
-    --secondary: 210 6% 93%; /*hsl(210 6% 93%)*/
-    --secondary-foreground: 210 8% 5%; /*hsl(210 8% 5%)*/
+    --secondary: 217 23% 89%;
+    --secondary-foreground: 210 8% 5%;
 
-    --tertiary: 217 19% 50%; /*hsl(217 19% 50%)*/
-    --tertiary-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
+    --tertiary: 216 17% 42%;
+    --tertiary-foreground: 0 0% 98%;
 
     --muted: 210 6% 93%; /*hsl(210 6% 93%)*/
     --muted-foreground: 219 6% 45%; /*hsl(219 6% 45%)*/

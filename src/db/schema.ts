@@ -1,5 +1,6 @@
 import type { AdapterAccount } from "@auth/core/adapters";
 import {
+  boolean,
   integer,
   pgTable,
   primaryKey,
@@ -11,6 +12,11 @@ import {
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
   name: text("name"),
+  firstName: text("firstName"),
+  lastName: text("lastName"),
+  member: boolean("member"),
+  verified: boolean("verified").default(false).notNull(),
+  remainingSessions: integer("remainingSessions").default(0).notNull(),
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),

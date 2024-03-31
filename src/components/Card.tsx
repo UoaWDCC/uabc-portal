@@ -16,7 +16,7 @@ export const Card = ({
   className,
   children,
 }: PropsWithChildren<CardProps>) => (
-  <div onClick={onClick} className={cn("rounded-md", className)}>
+  <div onClick={onClick} className={cn("rounded-sm", className)}>
     {children}
   </div>
 );
