@@ -3,7 +3,7 @@ import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
 import * as schema from "@/db/schema";
-import { env } from "@/env.js";
+import { env } from "@/env";
 
 declare global {
   // eslint-disable-next-line
