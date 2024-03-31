@@ -6,6 +6,7 @@ import { useCartStore } from "@/stores/useCartStore";
 import { GameSessionDto } from "@/types/GameSessionDto";
 import { cn, getShortenedTime } from "@/lib/utils";
 import { useCurrentGameSessions } from "@/hooks/query/useGameSessions";
+import { Card } from "../Card";
 import { SelectSessionCard } from "./SelectSessionCard";
 
 interface SelectSessionListProps {
@@ -55,7 +56,11 @@ export function SelectSessionList({
   }
 
   if (isLoading || !sessions) {
-    return "Loading...";
+    return (
+      <Card className="border  px-6 mx-4 py-4 min-h-24 grid place-items-center font-medium align-middle">
+        <div className="bg-neutral rounded p-2 px-6 font-bold">Loading...</div>
+      </Card>
+    );
   }
 
   return (
@@ -70,7 +75,9 @@ export function SelectSessionList({
         return (
           <div
             key={session.id}
-            className={session.isFull ? "pointer-events-none" : ""}
+            className={
+              session.isFull ? "pointer-events-none" : "cursor-pointer"
+            }
             onClick={() => handleSessionClick(session.id)}
           >
             <SelectSessionCard

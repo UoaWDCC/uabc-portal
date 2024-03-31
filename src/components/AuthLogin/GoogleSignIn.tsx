@@ -1,25 +1,26 @@
 import React from "react";
 import Image from "next/image";
-import clsx from "clsx";
 import { signIn } from "next-auth/react";
 
-type ButtonProps = {
+import { cn } from "@/lib/utils";
+
+type GoogleSignInProps = {
   className?: string;
 };
-const GoogleSignIn = ({ className }: ButtonProps) => {
+const GoogleSignIn = ({ className }: GoogleSignInProps) => {
   return (
     <>
       <div
-        className={clsx(
+        className={cn(
           "flex w-[300px] cursor-pointer justify-center gap-8 rounded-sm p-6 outline outline-1 hover:bg-gray-100 bg-white",
-          `${className}`,
+          className,
         )}
         onClick={() => {
           signIn("google");
         }}
       >
         <Image
-          src="/images/googleIcon@48x.svg"
+          src="/images/googleIcon.svg"
           width={24}
           height={24}
           alt="Google Icon"

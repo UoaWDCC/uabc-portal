@@ -82,6 +82,9 @@ const config = {
         semibold: "550",
         bold: "650",
       },
+      fontFamily: {
+        proxima: ["var(--font-proxima)"],
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
