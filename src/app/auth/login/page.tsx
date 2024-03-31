@@ -13,7 +13,7 @@ export default function Login() {
 
   useEffect(() => {
     if (data) {
-      push("/sessions");
+      // push("/sessions");///
     }
   }, [data]);
 
@@ -21,7 +21,7 @@ export default function Login() {
     //TODO: add new uabc logo
     <div className="grid h-screen w-screen place-content-center from-primary to-white-[50%] bg-gradient-to-t">
       {/* card */}
-      <div className="flex items-center rounded-2xl p-12 gap-20 drop-shadow-2xl">
+      <div className="flex items-center rounded-2xl lg:p-12 gap-20 drop-shadow-2xl z-10">
         <Image
           src="/UABC_logo.png"
           width={219}
@@ -34,10 +34,14 @@ export default function Login() {
             <p className="Proxima text-[4rem] font-bold leading-[2.5rem] text-primary">
               UABC
             </p>
-            <label className="text-sms">Please login:</label>
           </div>
-          <hr className="w-full my-6 mt-12 border-border" />
-
+          <div className="mt-12 mb-4 flex whitespace-nowrap w-full justify-center items-center">
+            <hr className="w-full border-tertiary" />
+            <label className="m-2 w-min rounded-lg text-base">
+              Please login
+            </label>
+            <hr className="w-full border-tertiary" />
+          </div>
           <GoogleSignIn />
         </div>
       </div>
