@@ -20,6 +20,7 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)"],
+        proxima: ["var(--font-proxima)"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -84,9 +85,6 @@ const config = {
         medium: "450",
         semibold: "550",
         bold: "650",
-      },
-      fontFamily: {
-        proxima: ["var(--font-proxima)"],
       },
     },
   },
