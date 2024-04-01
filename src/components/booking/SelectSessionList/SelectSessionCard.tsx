@@ -7,17 +7,7 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 import { twJoin } from "tailwind-merge";
 
 import { cn } from "@/lib/utils";
-import { Card } from "../Card";
-
-type SelectSessionCardStatus = "default" | "selected" | "disabled";
-
-export interface SelectSessionCardProps {
-  weekday: string;
-  startTime: string;
-  endTime: string;
-  locationName: string;
-  status: SelectSessionCardStatus;
-}
+import { Card } from "../../Card";
 
 const backgroundColorMap = new Map([
   ["default", "bg-secondary"],
@@ -30,6 +20,16 @@ const textColorMap = new Map([
   ["selected", "text-primary-foreground"],
   ["disabled", "text-secondary-foreground"],
 ]);
+
+type SelectSessionCardStatus = "default" | "selected" | "disabled";
+
+interface SelectSessionCardProps {
+  weekday: string;
+  startTime: string;
+  endTime: string;
+  locationName: string;
+  status: SelectSessionCardStatus;
+}
 
 const UnmemoizedSelectSessionCard = ({
   weekday,

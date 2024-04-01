@@ -12,7 +12,7 @@ import { CgProfile } from "react-icons/cg";
 import { twJoin } from "tailwind-merge";
 
 import { PrepaidSessionsCounter } from "@/components/booking/PrepaidSessionsCounter";
-import { SelectSessionList } from "@/components/booking/SelectSessionList";
+import { SelectSessionList } from "@/components/booking/SelectSessionList/SelectSessionList";
 import { Button } from "@/components/Button";
 import { CountIndicator } from "@/components/CountIndicator";
 import { Heading } from "@/components/Heading";
@@ -26,7 +26,7 @@ const firstName = "David";
 const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
 
 export default function SelectSessionPage() {
-  const router = useRouter();
+  const { push } = useRouter();
 
   const sessionsSelected = useCartStore((state) => state.cart.length);
 
@@ -60,7 +60,6 @@ export default function SelectSessionPage() {
           Please select a badminton session for this week
         </p>
         <CountIndicator
-          data-testid="session-count"
           className={twJoin(
             "w-16",
             shake &&
@@ -81,7 +80,7 @@ export default function SelectSessionPage() {
       <div className="mt-6 mb-8 mx-4 flex justify-center">
         <Button
           disabled={sessionsSelected === 0}
-          onClick={() => router.push("/sessions/book")}
+          onClick={() => push("/sessions/book")}
           className="w-full"
         >
           Next

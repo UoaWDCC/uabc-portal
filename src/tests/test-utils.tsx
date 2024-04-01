@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
-import { ReactElement, ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render } from "@testing-library/react";
+import { render as rtlRender } from "@testing-library/react";
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -12,7 +12,7 @@ const createTestQueryClient = () =>
     },
   });
 
-export function renderWithQueryClient(ui: ReactElement) {
+function render(ui: ReactElement) {
   const testQueryClient = createTestQueryClient();
   const wrapper = ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={testQueryClient}>
@@ -20,13 +20,10 @@ export function renderWithQueryClient(ui: ReactElement) {
     </QueryClientProvider>
   );
 
-  return { ...render(ui, { wrapper }), testQueryClient };
+  return { ...rtlRender(ui, { wrapper }), testQueryClient };
 }
 
-export function createWrapper() {
-  const queryClient = createTestQueryClient();
-
-  return ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-}
+export * from "@testing-library/react";
+export * from "@testing-library/user-event";
+// override render method
+export { render };

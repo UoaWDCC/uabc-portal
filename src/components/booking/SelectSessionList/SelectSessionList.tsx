@@ -29,14 +29,14 @@ export function SelectSessionList({
   useEffect(
     () =>
       setSessions(
-        data?.map((session, index) => ({
+        data?.map((session) => ({
           id: session.id,
           weekday: getWeekday(session.startTime),
           startTime: getShortenedTime(session.startTime),
           endTime: getShortenedTime(session.endTime),
           locationName: session.locationName,
           locationAddress: session.locationAddress,
-          isFull: index % 4 === 3,
+          isFull: session.isFull,
         })),
       ),
     [data],
@@ -60,7 +60,6 @@ export function SelectSessionList({
 
   return (
     <div
-      data-testid="session-list"
       className={cn(
         "flex grow flex-col gap-3 overflow-y-auto overscroll-contain",
         className,
@@ -76,6 +75,8 @@ export function SelectSessionList({
               session.isFull ? "pointer-events-none" : "cursor-pointer"
             }
             onClick={() => !session.isFull && handleSessionClick(session.id)}
+            role="checkbox"
+            aria-checked={checked}
           >
             <SelectSessionCard
               weekday={session.weekday}

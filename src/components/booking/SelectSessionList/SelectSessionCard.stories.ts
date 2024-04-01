@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { SelectSessionCard } from "@/components/booking/SelectSessionCard";
+import { SelectSessionCard } from "@/components/booking/SelectSessionList/SelectSessionCard";
 
 const meta = {
   title: "SelectSessionCard",
@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    weekday: 0,
+    weekday: "Monday",
     startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
     endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
     status: "default",
