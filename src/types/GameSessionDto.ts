@@ -1,6 +1,6 @@
 export interface GameSessionDto {
   id: number;
-  weekday: number;
+  weekday: string;
   startTime: string;
   endTime: string;
   locationName: string;
