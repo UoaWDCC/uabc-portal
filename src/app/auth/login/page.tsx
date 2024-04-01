@@ -12,11 +12,12 @@ export default function Login() {
       {/* card */}
       <div className="flex items-center rounded-2xl lg:p-12 gap-20 drop-shadow-2xl z-10">
         <Image
-          src="/UABC_logo.png"
+          src="/svgs/logo.svg"
           width={219}
           height={213}
           alt="uabc logo"
-          className="lg:block hidden"
+          className="lg:block hidden select-none"
+          draggable={false}
         />
         <div className="flex select-none flex-col items-center">
           <UabcHeaderText />
@@ -32,11 +33,12 @@ export default function Login() {
       </div>
       <div className="absolute bottom-0 justify-center flex overflow-hidden w-full max-h-[30%]">
         <Image
-          className="min-w-[1920px] w-full"
+          className="min-w-[1920px] w-full select-none"
           src="/svgs/loginPageWave.svg"
           width={1920}
           height={300}
           alt="decoration wave"
+          draggable={false}
         />
       </div>
     </div>
