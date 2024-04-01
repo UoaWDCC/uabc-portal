@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { useCartStore } from "@/stores/useCartStore";
-import { GameSessionDto } from "@/types/GameSessionDto";
+import type { GameSessionDto } from "@/types/GameSessionDto";
 import { cn, getShortenedTime } from "@/lib/utils";
 import { useCurrentGameSessions } from "@/hooks/query/useGameSessions";
 import { SelectSessionCard } from "./SelectSessionCard";

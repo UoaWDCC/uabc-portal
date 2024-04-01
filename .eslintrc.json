@@ -8,6 +8,7 @@
   ],
   "plugins": ["tailwindcss"],
   "rules": {
+    "@typescript-eslint/consistent-type-imports": "warn",
     "tailwindcss/no-custom-classname": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",
