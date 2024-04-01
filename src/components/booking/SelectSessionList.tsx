@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 
 import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
-import { cn, getShortenedTime } from "@/lib/utils";
+import { cn, getShortenedTime, getWeekday } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
-import { GameSessionDto } from "@/types/GameSessionDto";
+import type { GameSessionDto } from "@/types/GameSessionDto";
 import { SelectSessionCard } from "./SelectSessionCard";
 
 interface SelectSessionListProps {
@@ -31,7 +31,7 @@ export function SelectSessionList({
       setSessions(
         data?.map((session, index) => ({
           id: session.id,
-          weekday: new Date(session.startTime).getDay(),
+          weekday: getWeekday(session.startTime),
           startTime: getShortenedTime(session.startTime),
           endTime: getShortenedTime(session.endTime),
           locationName: session.locationName,
@@ -72,7 +72,9 @@ export function SelectSessionList({
           <div
             data-testid="session-card"
             key={session.id}
-            className={session.isFull ? "pointer-events-none" : ""}
+            className={
+              session.isFull ? "pointer-events-none" : "cursor-pointer"
+            }
             onClick={() => !session.isFull && handleSessionClick(session.id)}
           >
             <SelectSessionCard
