@@ -29,3 +29,23 @@ export const Default: Story = {
     locationName: "Location",
   },
 };
+
+export const Selected: Story = {
+  args: {
+    weekday: "Monday",
+    startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    status: "selected",
+    locationName: "Location",
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    weekday: "Monday",
+    startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    status: "disabled",
+    locationName: "Location",
+  },
+};

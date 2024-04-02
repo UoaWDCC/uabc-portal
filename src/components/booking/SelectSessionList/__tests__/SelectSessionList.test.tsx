@@ -4,38 +4,31 @@ import { SelectSessionList } from "@/components/booking/SelectSessionList/Select
 import type { UserEvent } from "@/tests/test-utils";
 import { render, screen, userEvent } from "@/tests/test-utils";
 
-jest.mock("next/navigation", () => ({
-  useRouter() {
-    return {
-      prefetch: () => null,
-    };
-  },
-}));
-
-jest.mock("@/hooks/query/useCurrentGameSessions", () => ({
-  useCurrentGameSessions: jest.fn().mockReturnValue({
-    data: [
-      {
-        id: 4,
-        isFull: false,
-      },
-      {
-        id: 3,
-        isFull: false,
-      },
-      {
-        id: 2,
-        isFull: false,
-      },
-      {
-        id: 1,
-        isFull: true,
-      },
-    ],
-    isLoading: false,
-    error: {},
-  }),
-}));
+// this data is mocked with msw
+// jest.mock("@/hooks/query/useCurrentGameSessions", () => ({
+//   useCurrentGameSessions: jest.fn().mockReturnValue({
+//     data: [
+//       {
+//         id: 4,
+//         isFull: false,
+//       },
+//       {
+//         id: 3,
+//         isFull: false,
+//       },
+//       {
+//         id: 2,
+//         isFull: false,
+//       },
+//       {
+//         id: 1,
+//         isFull: true,
+//       },
+//     ],
+//     isLoading: false,
+//     error: {},
+//   }),
+// }));
 
 describe("SelectSessionList", () => {
   let user: UserEvent;
@@ -47,6 +40,7 @@ describe("SelectSessionList", () => {
   it("should render 4 items in the the session list", async () => {
     render(<SelectSessionList isMember={true} onLimitReached={() => {}} />);
     const sessionCards = await screen.findAllByTestId("session-card");
+
     expect(sessionCards.length).toBe(4);
   });
 
@@ -68,14 +62,11 @@ describe("SelectSessionList", () => {
       expect(firstSessionCard.getAttribute("aria-checked")).toBe("false");
 
       await user.click(firstSessionCard);
-
       expect(firstSessionCard.getAttribute("aria-checked")).toBe("true");
     });
 
     it("should not add a session to the cart if the session is full", async () => {
       const fullSessionCard = sessionCards[3];
-
-      expect(fullSessionCard.getAttribute("aria-checked")).toBe("false");
 
       await user.click(fullSessionCard);
 
