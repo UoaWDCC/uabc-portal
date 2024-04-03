@@ -6,9 +6,8 @@ import { useCartStore } from "@/stores/useCartStore";
 import { GameSessionDto } from "@/types/GameSessionDto";
 import { cn, getShortenedTime } from "@/lib/utils";
 import { useCurrentGameSessions } from "@/hooks/query/useGameSessions";
-import { Card } from "../Card";
-import { Skeleton } from "../ui/skeleton";
 import { SelectSessionCard } from "./SelectSessionCard";
+import SkeletonSelectSessionCard from "./SkeletonSelectSessionCard";
 
 interface SelectSessionListProps {
   isMember: boolean;
@@ -59,16 +58,14 @@ export function SelectSessionList({
   if (isLoading || !sessions) {
     return (
       <div className="flex flex-col gap-3 overflow-y-auto overscroll-contain grow">
-        <Card className="border px-6 mx-4 py-4 min-h-24 grid place-items-center font-medium align-middle">
-          <div className="bg-neutral rounded p-2 px-6 font-bold">
-            Loading...
-          </div>
-        </Card>
-        <Skeleton className="border px-6 py-4 mx-4 min-h-24 flex" />
-        <Skeleton className="border px-6 py-4 mx-4 min-h-24 flex" />
-        <Skeleton className="border px-6 py-4 mx-4 min-h-24 flex" />
-        <Skeleton className="border px-6 py-4 mx-4 min-h-24 flex" />
-        <Skeleton className="border px-6 py-4 mx-4 min-h-24 flex" />
+        {/* arbitrary number of cards */}
+        <SkeletonSelectSessionCard />
+        <SkeletonSelectSessionCard />
+        <SkeletonSelectSessionCard />
+        <SkeletonSelectSessionCard />
+        <SkeletonSelectSessionCard />
+        <SkeletonSelectSessionCard />
+        <SkeletonSelectSessionCard />
       </div>
     );
   }
