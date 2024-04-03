@@ -2,7 +2,7 @@ import React from "react";
 
 import { Skeleton } from "../ui/skeleton";
 
-const SelectSessionSkeletonCard = () => {
+const SkeletonSessionCard = () => {
   return (
     <Skeleton className="rounded-sm border px-6 flex-col gap-1 py-4 min-h-24 flex font-medium bg-secondary opacity-40">
       <Skeleton
@@ -21,4 +21,4 @@ const SelectSessionSkeletonCard = () => {
   );
 };
 
-export default SelectSessionSkeletonCard;
+export default SkeletonSessionCard;
