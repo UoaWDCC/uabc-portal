@@ -55,9 +55,9 @@ export function SelectSessionList({
     }
   }
 
-  if (isLoading || !sessions) {
+  if (isLoading || !sessions || false) {
     return (
-      <div className="flex flex-col gap-3 overflow-y-auto overscroll-contain grow">
+      <div className="flex grow flex-col gap-3 overflow-y-auto overscroll-contain mx-4">
         {/* arbitrary number of cards */}
         <SkeletonSelectSessionCard />
         <SkeletonSelectSessionCard />
