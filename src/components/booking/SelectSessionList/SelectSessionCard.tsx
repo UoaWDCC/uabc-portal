@@ -2,31 +2,12 @@
  * @author Moeka Nakane <mnak534@aucklanduni.ac.nz>
  */
 
+import { memo } from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { twJoin } from "tailwind-merge";
 
 import { cn } from "@/lib/utils";
-import { Card } from "../Card";
-
-type SelectSessionCardStatus = "default" | "selected" | "disabled";
-
-export interface SelectSessionCardProps {
-  weekday: number;
-  startTime: string;
-  endTime: string;
-  locationName: string;
-  status: SelectSessionCardStatus;
-}
-
-const weekdayMap = new Map([
-  [0, "Sunday"],
-  [1, "Monday"],
-  [2, "Tuesday"],
-  [3, "Wednesday"],
-  [4, "Thursday"],
-  [5, "Friday"],
-  [6, "Saturday"],
-]);
+import { Card } from "../../Card";
 
 const backgroundColorMap = new Map([
   ["default", "bg-secondary"],
@@ -40,7 +21,17 @@ const textColorMap = new Map([
   ["disabled", "text-secondary-foreground"],
 ]);
 
-export const SelectSessionCard = ({
+type SelectSessionCardStatus = "default" | "selected" | "disabled";
+
+interface SelectSessionCardProps {
+  weekday: string;
+  startTime: string;
+  endTime: string;
+  locationName: string;
+  status: SelectSessionCardStatus;
+}
+
+const UnmemoizedSelectSessionCard = ({
   weekday,
   startTime,
   endTime,
@@ -51,15 +42,15 @@ export const SelectSessionCard = ({
     className={cn(
       "border px-6 py-4 min-h-24 flex font-medium align-middle",
       backgroundColorMap.get(status),
-      status === "disabled" && "opacity-50",
+      status === "disabled" && "opacity-40",
     )}
   >
     <div className={twJoin(textColorMap.get(status), "leading-5")}>
       <span className="text-lg leading-6">
-        {weekdayMap.get(weekday)} {status === "disabled" && "(Session Full)"}
+        {weekday} {status === "disabled" && "(Session Full)"}
       </span>
       <br />
-      <span className="opacity-60">
+      <span className="opacity-70">
         {locationName} <br />
         <span className="uppercase tracking-tight">
           {startTime} - {endTime}
@@ -77,3 +68,5 @@ export const SelectSessionCard = ({
     </div>
   </Card>
 );
+
+export const SelectSessionCard = memo(UnmemoizedSelectSessionCard);

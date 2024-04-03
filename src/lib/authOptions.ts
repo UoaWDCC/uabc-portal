@@ -1,10 +1,10 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { NextAuthOptions } from "next-auth";
-import { Adapter } from "next-auth/adapters";
+import type { NextAuthOptions } from "next-auth";
+import type { Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 
-import { db } from "@/db";
 import { env } from "@/env";
+import { db } from "@/lib/db";
 
 export const authOptions: NextAuthOptions = {
   adapter: DrizzleAdapter(db) as Adapter,

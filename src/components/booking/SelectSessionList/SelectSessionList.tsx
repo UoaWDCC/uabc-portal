@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
+import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
+import { cn, getShortenedTime, getWeekday } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
 import { GameSessionDto } from "@/types/GameSessionDto";
-import { cn, getShortenedTime } from "@/lib/utils";
-import { useCurrentGameSessions } from "@/hooks/query/useGameSessions";
+import SkeletonSelectSessionCard from "../SkeletonSelectSessionCard";
+import { SelectableCard } from "./SelectableCard";
 import { SelectSessionCard } from "./SelectSessionCard";
-import SkeletonSelectSessionCard from "./SkeletonSelectSessionCard";
 
 interface SelectSessionListProps {
   isMember: boolean;
@@ -21,25 +22,24 @@ export function SelectSessionList({
   className,
 }: SelectSessionListProps) {
   const { data, isLoading } = useCurrentGameSessions();
-  const [sessions, setSessions] = useState<GameSessionDto[]>();
   const maxSessions: number = isMember ? 2 : 1;
   const cart = useCartStore((state) => state.cart);
   const updateCart = useCartStore((state) => state.updateCart);
   const sessionsSelected = cart.length;
 
-  useEffect(
+  const sessions = useMemo(
     () =>
-      setSessions(
-        data?.map((session, index) => ({
+      data?.map((session) => {
+        return {
           id: session.id,
-          weekday: new Date(session.startTime).getDay(),
+          weekday: getWeekday(session.startTime),
           startTime: getShortenedTime(session.startTime),
           endTime: getShortenedTime(session.endTime),
           locationName: session.locationName,
           locationAddress: session.locationAddress,
-          isFull: index % 3 === 0,
-        })),
-      ),
+          isFull: session.isFull,
+        };
+      }),
     [data],
   );
 
@@ -77,26 +77,14 @@ export function SelectSessionList({
         className,
       )}
     >
-      {sessions.map((session) => {
-        const checked = cart.some((s) => s.id === session.id);
-        return (
-          <div
-            key={session.id}
-            className={session.isFull ? "pointer-events-none" : ""}
-            onClick={() => handleSessionClick(session.id)}
-          >
-            <SelectSessionCard
-              weekday={session.weekday}
-              startTime={session.startTime}
-              endTime={session.endTime}
-              locationName={session.locationName}
-              status={
-                session.isFull ? "disabled" : checked ? "selected" : "default"
-              }
-            />
-          </div>
-        );
-      })}
+      {sessions.map((session) => (
+        <SelectableCard
+          key={session.id}
+          session={session}
+          checked={cart.some((s) => s.id === session.id)}
+          handleSessionClick={handleSessionClick}
+        />
+      ))}
     </div>
   );
 }
