@@ -24,19 +24,19 @@ const textColorMap = new Map([
 type SelectSessionCardStatus = "default" | "selected" | "disabled";
 
 interface SelectSessionCardProps {
-  weekday: string;
+  day: string;
   startTime: string;
   endTime: string;
-  locationName: string;
+  location: string;
   status: SelectSessionCardStatus;
 }
 
 const UnmemoizedSelectSessionCard = ({
-  weekday,
+  day,
   startTime,
   endTime,
   status,
-  locationName,
+  location,
 }: SelectSessionCardProps) => (
   <Card
     className={cn(
@@ -47,11 +47,11 @@ const UnmemoizedSelectSessionCard = ({
   >
     <div className={twJoin(textColorMap.get(status), "leading-5")}>
       <span className="text-lg leading-6">
-        {weekday} {status === "disabled" && "(Session Full)"}
+        {day} {status === "disabled" && "(Session Full)"}
       </span>
       <br />
       <span className="opacity-70">
-        {locationName} <br />
+        {location} <br />
         <span className="uppercase tracking-tight">
           {startTime} - {endTime}
         </span>
