@@ -1,7 +1,3 @@
-/**
- * @author Angela Guo <aguo921@aucklanduni.ac.nz>
- */
-
 import { useState } from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
 
@@ -9,39 +5,42 @@ import { Card } from "../Card";
 import { LevelSelector } from "./LevelSelector";
 
 interface ExpandedSessionCardProps {
-  id: string;
+  day: weekday;
   startTime: Date;
   endTime: Date;
   location: string;
   address: string;
-  level?: string;
-  defaultLevel?: string;
-  setLevel: (level: string | undefined) => void;
+}
+enum weekday {
+  Monday = "Monday",
+  Tuesday = "Tuesday",
+  Wednesday = "Wednesday",
+  Thursday = "Thursday",
+  Friday = "Friday",
+  Saturday = "Saturday",
+  Sunday = "Sunday",
 }
 
-const weekday = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-
 export const ExpandedSessionCard = ({
+  day,
   startTime,
   endTime,
   location,
   address,
-  level,
-  setLevel,
-  defaultLevel,
-}: Omit<ExpandedSessionCardProps, "id">) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [pendingLevel, setPendingLevel] = useState<string | undefined>(level);
+}: ExpandedSessionCardProps) => {
+  const [showModal, setShowModal] = useState(false);
+  const [pendingLevel, setPendingLevel] = useState<string | undefined>(
+    undefined,
+  );
 
-  const dayOfWeek = weekday[startTime.getDay()];
+  const handleButtonClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setPendingLevel(pendingLevel);
+  };
 
   return (
     <Card className="relative font-normal">
@@ -49,7 +48,7 @@ export const ExpandedSessionCard = ({
         <div className="absolute right-5 top-10 -translate-y-1/2">
           <IoCheckmarkCircle color="white" size={30}></IoCheckmarkCircle>
         </div>
-        <p className="text-xl text-white">{dayOfWeek}</p>
+        <p className="text-xl text-white">{day}</p>
         <p className="text-indigo-200">{location}</p>
       </div>
       <div className="bg-gray-200 px-6 py-8">
@@ -64,20 +63,19 @@ export const ExpandedSessionCard = ({
       <div className="rounded-b-md bg-gray-500 py-2 text-center">
         <button
           className="w-full capitalize text-white"
-          onClick={() => setIsOpen(true)}
+          onClick={handleButtonClick}
         >
-          {level ?? "Select Play Level"}
+          {pendingLevel ?? "Select Play Level"}
         </button>
-        <LevelSelector
-          isOpen={isOpen}
-          onClose={() => {
-            setIsOpen(false);
-            setLevel(pendingLevel);
-          }}
-          onSelect={setPendingLevel}
-          default={defaultLevel}
-        />
       </div>
+
+      <LevelSelector
+        isOpen={showModal}
+        onClose={() => {
+          handleCloseModal;
+        }}
+        onSelect={setPendingLevel}
+      />
     </Card>
   );
 };

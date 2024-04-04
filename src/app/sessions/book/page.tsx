@@ -1,17 +1,21 @@
 "use client";
 
-import { useState } from "react";
-
 import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
 
+enum weekday {
+  Monday = "Monday",
+  Tuesday = "Tuesday",
+  Wednesday = "Wednesday",
+  Thursday = "Thursday",
+  Friday = "Friday",
+  Saturday = "Saturday",
+  Sunday = "Sunday",
+}
 export default function BookSessionPage() {
-  const [level, setLevel] = useState<string | undefined>(undefined);
-
   return (
     <div className="mx-5">
       <ExpandedSessionCard
-        level={level}
-        setLevel={setLevel}
+        day={weekday.Monday}
         address={"99 Gillies Avenue, Epsom"}
         startTime={new Date(Date.now())}
         endTime={new Date(Date.now())}
