@@ -45,7 +45,7 @@ export const TextInput = (props: TextInputProps) => {
         onBlur={() => setActive(false)}
         className={twMerge(
           cn(
-            "w-full rounded-md border-none p-2 outline-none ring-2",
+            "w-full rounded border-none p-2 outline-none ring-2 h-full",
             props.backgroundColor,
           ),
           active
