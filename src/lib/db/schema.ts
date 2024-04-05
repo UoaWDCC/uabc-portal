@@ -10,11 +10,12 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
-export enum PlayLevel {
-  Beginner,
-  Intermediate,
-  Advanced,
-}
+export const playLevelEnum = pgEnum("playLevel", [
+  "beginner",
+  "intermediate",
+  "advanced",
+]);
+export const roleEnum = pgEnum("role", ["admin", "user"]);
 
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
