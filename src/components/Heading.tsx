@@ -10,5 +10,7 @@ interface HeadingProps {
 }
 
 export const Heading = ({ children, className }: HeadingProps) => (
-  <h1 className={cn("text-3xl font-bold", className)}>{children}</h1>
+  <h1 className={cn("text-3xl font-bold tracking-tight", className)}>
+    {children}
+  </h1>
 );

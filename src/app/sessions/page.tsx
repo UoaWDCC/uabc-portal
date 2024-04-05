@@ -34,9 +34,9 @@ export default function SelectSessionPage() {
 
   return (
     <div className="flex h-dvh flex-col">
-      <div className="flex py-4 pl-6">
+      <div className="flex p-4">
         <Heading>Sessions</Heading>
-        <Link href={"/account"} className="ml-auto mr-4">
+        <Link href={"/account"} className="ml-auto">
           <CgProfile size={40} />
         </Link>
       </div>
@@ -56,7 +56,7 @@ export default function SelectSessionPage() {
         )}
       </div>
       <div className="flex h-16 items-center justify-between p-4">
-        <p className="max-w-[70%] font-medium leading-5">
+        <p className="max-w-[70%] font-medium text-sm">
           Please select a badminton session for this week
         </p>
         <CountIndicator
