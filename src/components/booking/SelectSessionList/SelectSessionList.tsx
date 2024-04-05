@@ -77,6 +77,7 @@ export function SelectSessionList({
         className,
       )}
     >
+      <SkeletonSelectSessionCard />
       {sessions.map((session) => (
         <SelectableCard
           key={session.id}
