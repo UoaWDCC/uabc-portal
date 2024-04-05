@@ -10,6 +10,12 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
+export enum PlayLevel {
+  Beginner,
+  Intermediate,
+  Advanced,
+}
+
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
   name: text("name"),
