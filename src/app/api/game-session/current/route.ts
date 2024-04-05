@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
-import { gameSessions } from "@/db/schema";
-import { and, asc, gt, lt } from "drizzle-orm";
+import { and, asc, gt, lt, sql } from "drizzle-orm";
+
+import { db } from "@/lib/db";
+import { gameSessions } from "@/lib/db/schema";
 
 /**
  * Gets game sessions currently available for booking
@@ -15,6 +16,7 @@ export async function GET() {
         endTime: gameSessions.endTime,
         locationName: gameSessions.locationName,
         locationAddress: gameSessions.locationName,
+        isFull: sql`RANDOM() < 0.5`,
       })
       .from(gameSessions)
       .where(

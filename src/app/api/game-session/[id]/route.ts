@@ -1,9 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/db";
-import { gameSessions } from "@/db/schema";
-import { insertGameSessionSchema } from "@/db/validators";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+
+import { db } from "@/lib/db";
+import { gameSessions } from "@/lib/db/schema";
+import { insertGameSessionSchema } from "@/lib/db/validators";
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -11,7 +13,10 @@ const routeContextSchema = z.object({
   }),
 });
 
-export async function GET(context: z.infer<typeof routeContextSchema>) {
+export async function GET(
+  _req: NextRequest,
+  context: z.infer<typeof routeContextSchema>,
+) {
   try {
     const result = routeContextSchema.safeParse(context);
 

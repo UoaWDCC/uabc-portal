@@ -3,7 +3,6 @@
  */
 
 import { cn } from "@/lib/utils";
-
 import { Card } from "../Card";
 
 interface PaymentInfoCardProps {
