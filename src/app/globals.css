@@ -14,14 +14,14 @@
     --popover: 240 8% 97%; /*hsl(240 8% 97%)*/
     --popover-foreground: 210 8% 5%; /*hsl(210 8% 5%)*/
 
-    --primary: 216 52% 45%; /*hsl(216 52% 45%)*/
-    --primary-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
+    --primary: 215 52% 45%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 217 23% 89%; /*hsl(217 23% 89%)*/
-    --secondary-foreground: 210 8% 5%; /*hsl(210 8% 5%)*/
+    --secondary: 215 23% 89%;
+    --secondary-foreground: 210 8% 5%;
 
-    --tertiary: 216 17% 42%; /*hsl(216 17% 42%)*/
-    --tertiary-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
+    --tertiary: 215 17% 40%;
+    --tertiary-foreground: 0 0% 98%;
 
     --muted: 210 6% 93%; /*hsl(210 6% 93%)*/
     --muted-foreground: 219 6% 45%; /*hsl(219 6% 45%)*/
@@ -32,16 +32,17 @@
     --destructive: 0 52% 45%; /*hsl(0 52% 45%)*/
     --destructive-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
 
-    --border: 220 6% 90%; /*hsl(220 6% 90%)*/
-    --input: 220 7% 82%; /*hsl(220 7% 82%)*/
-    --ring: 216 24% 74%; /*hsl(216 24% 74%)*/
+    --border: 220 6% 90%;
+    --input: 220 7% 82%;
+    --ring: 215 24% 74%;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 240 3% 6%; /*hsl(240 3% 6%)*/
-    --foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
+    --background: 215 52% 9%;
+    --foreground: 0 0% 98%;
+    --neutral: 0 0% 28%;
 
     --card: 210 6% 7%;
     --card-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
@@ -49,24 +50,27 @@
     --popover: 210 6% 7%; /*hsl(210 6% 7%)*/
     --popover-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
 
-    --primary: 216 52% 45%; /*hsl(216 52% 45%)*/
-    --primary-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
+    --primary: 215 52% 45%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 225 5% 15%; /*hsl(225 5% 15%)*/
-    --secondary-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
+    --secondary: 215 23% 16%;
+    --secondary-foreground: 0 0% 98%;
+
+    --tertiary: 215 17% 40%;
+    --tertiary-foreground: 0 0% 98%;
 
     --muted: 210 5% 22%; /*hsl(210 5% 22%)*/
     --muted-foreground: 215 5% 49%; /*hsl(215 5% 49%)*/
 
-    --accent: 216 45% 14%; /*hsl(216 45% 14%)*/
-    --accent-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
+    --accent: 215 45% 14%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84% 60%; /*hsl(0 84% 60%)*/
     --destructive-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
 
-    --border: 220 5% 12%; /*hsl(220 5% 12%)*/
-    --input: 225 4% 18%; /*hsl(225 4% 18%)*/
-    --ring: 216 52% 40%; /*hsl(216 52% 40%)*/
+    --border: 220 5% 12%;
+    --input: 225 4% 18%;
+    --ring: 215 52% 40%;
   }
 }
 

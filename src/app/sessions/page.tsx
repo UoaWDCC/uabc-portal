@@ -11,13 +11,13 @@ import { useRouter } from "next/navigation";
 import { CgProfile } from "react-icons/cg";
 import { twJoin } from "tailwind-merge";
 
-import { useCartStore } from "@/stores/useCartStore";
-import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { PrepaidSessionsCounter } from "@/components/booking/PrepaidSessionsCounter";
-import { SelectSessionList } from "@/components/booking/SelectSessionList";
+import { SelectSessionList } from "@/components/booking/SelectSessionList/SelectSessionList";
 import { Button } from "@/components/Button";
 import { CountIndicator } from "@/components/CountIndicator";
 import { Heading } from "@/components/Heading";
+import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
+import { useCartStore } from "@/stores/useCartStore";
 
 const remainingSessions = 11;
 const isMember = true;
@@ -34,9 +34,9 @@ export default function SelectSessionPage() {
 
   return (
     <div className="flex h-dvh flex-col">
-      <div className="flex py-4 pl-6">
+      <div className="flex p-4">
         <Heading>Sessions</Heading>
-        <Link href={"/account"} className="ml-auto mr-4">
+        <Link href={"/account"} className="ml-auto">
           <CgProfile size={40} />
         </Link>
       </div>
@@ -56,7 +56,7 @@ export default function SelectSessionPage() {
         )}
       </div>
       <div className="flex h-16 items-center justify-between p-4">
-        <p className="max-w-[70%] font-medium leading-5">
+        <p className="max-w-[70%] font-medium text-sm">
           Please select a badminton session for this week
         </p>
         <CountIndicator

@@ -4,7 +4,8 @@
 
 "use client";
 
-import React, { ButtonHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes } from "react";
+import React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -21,7 +22,7 @@ export const Button = ({
 }: ButtonInputProps) => (
   <button
     className={cn(
-      "h-14 min-w-72 whitespace-nowrap rounded bg-primary font-semibold text-lg text-primary-foreground transition-colors hover:bg-primary/90 active:brightness-75 disabled:pointer-events-none disabled:opacity-40",
+      "h-12 min-w-72 whitespace-nowrap rounded bg-primary font-semibold text-primary-foreground transition-colors hover:bg-primary/90 active:brightness-75 disabled:pointer-events-none disabled:opacity-40",
       className,
     )}
     onClick={onClick}

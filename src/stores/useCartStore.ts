@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface CartDto {
   id: number;
-  weekday: number;
+  weekday: string;
   startTime: string;
   endTime: string;
   locationName: string;
