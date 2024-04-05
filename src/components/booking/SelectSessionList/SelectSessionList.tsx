@@ -8,7 +8,6 @@ import { useCartStore } from "@/stores/useCartStore";
 import { GameSessionDto } from "@/types/GameSessionDto";
 import SkeletonSelectSessionCard from "../SkeletonSessionCard";
 import { SelectableCard } from "./SelectableCard";
-import { SelectSessionCard } from "./SelectSessionCard";
 
 interface SelectSessionListProps {
   isMember: boolean;
@@ -59,9 +58,6 @@ export function SelectSessionList({
     return (
       <div className="flex grow flex-col gap-3 overflow-y-auto overscroll-contain mx-4">
         {/* arbitrary number of cards */}
-        <SkeletonSelectSessionCard />
-        <SkeletonSelectSessionCard />
-        <SkeletonSelectSessionCard />
         <SkeletonSelectSessionCard />
         <SkeletonSelectSessionCard />
         <SkeletonSelectSessionCard />
