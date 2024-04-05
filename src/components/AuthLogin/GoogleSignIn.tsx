@@ -12,7 +12,7 @@ const GoogleSignIn = ({ className }: GoogleSignInProps) => {
     <>
       <div
         className={cn(
-          "flex w-[300px] cursor-pointer justify-center gap-8 rounded p-6 hover:contrast-75 bg-white",
+          "flex w-[300px] cursor-pointer justify-center gap-8 rounded items-center hover:contrast-75 bg-white",
           className,
         )}
         onClick={() => {
