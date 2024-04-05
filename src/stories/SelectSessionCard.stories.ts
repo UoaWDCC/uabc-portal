@@ -22,30 +22,30 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    weekday: "Monday",
+    day: "Monday",
     startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
     endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    location: "Location",
     status: "default",
-    locationName: "Location",
   },
 };
 
 export const Selected: Story = {
   args: {
-    weekday: "Monday",
+    day: "Monday",
     startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
     endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    location: "Location",
     status: "selected",
-    locationName: "Location",
   },
 };
 
 export const Disabled: Story = {
   args: {
-    weekday: "Monday",
+    day: "Monday",
     startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
     endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    location: "Location",
     status: "disabled",
-    locationName: "Location",
   },
 };
