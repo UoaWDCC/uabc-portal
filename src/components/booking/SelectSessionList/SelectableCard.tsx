@@ -23,10 +23,10 @@ export const SelectableCard = ({
     aria-checked={checked}
   >
     <SelectSessionCard
-      weekday={session.weekday}
+      day={session.weekday}
       startTime={session.startTime}
       endTime={session.endTime}
-      locationName={session.locationName}
+      location={session.locationName}
       status={session.isFull ? "disabled" : checked ? "selected" : "default"}
     />
   </div>
