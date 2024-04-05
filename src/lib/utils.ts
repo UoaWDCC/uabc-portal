@@ -12,3 +12,7 @@ export function getShortenedTime(date: Date | string): string {
     })
     .replace(" ", "");
 }
+
+export function getWeekday(date: Date | string): string {
+  return new Date(date).toLocaleDateString("en-NZ", { weekday: "long" });
+}
