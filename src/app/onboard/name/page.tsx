@@ -18,7 +18,7 @@ export default function NamePage() {
         <div className="pt-4">
           <UabcHeaderText />
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="py-6 flex flex-col gap-6">
           <p className="text-center">What&apos;s your name?</p>
           <TextInput
             label="First Name"

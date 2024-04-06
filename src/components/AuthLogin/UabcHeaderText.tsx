@@ -1,13 +1,11 @@
 import React from "react";
 
-const UabcHeaderText = () => {
+export default function UabcHeaderText() {
   return (
     <div className="text-center">
-      <p className="font-proxima text-[4rem] font-bold leading-[2.5rem] text-primary">
+      <span className="font-proxima text-[4rem] font-bold leading-[5rem] text-primary tracking-tight">
         UABC
-      </p>
+      </span>
     </div>
   );
-};
-
-export default UabcHeaderText;
+}
