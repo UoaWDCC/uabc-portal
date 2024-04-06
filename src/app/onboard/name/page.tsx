@@ -5,10 +5,14 @@ import { useState } from "react";
 import UabcHeaderText from "@/components/AuthLogin/UabcHeaderText";
 import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
+import { useAccountStore } from "@/stores/accountDetails";
 
 export default function NamePage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
+  const updateFirstName = useAccountStore((state) => state.setFirstName);
+  const updateLastName = useAccountStore((state) => state.setLastName);
 
   return (
     <div className="h-[100dvh] w-[100dvw]">
@@ -37,6 +41,8 @@ export default function NamePage() {
           <Button
             className="w-full"
             onClick={() => {
+              updateFirstName(firstName);
+              updateLastName(lastName);
               // Go to membership type selection page
             }}
             disabled={firstName == "" || lastName == "" ? true : false}
