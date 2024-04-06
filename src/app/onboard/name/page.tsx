@@ -11,28 +11,31 @@ export default function NamePage() {
   const [lastName, setLastName] = useState("");
 
   return (
-    <div className="h-[100dvh] w-[100dvw] grid place-items-center">
-      <div className="h-full w-[375px] pt-12 flex-col flex items-center justify-center">
-        <UabcHeaderText />
-        <p className="pt-24 text-center">What&apos;s your name?</p>
+    <div className="h-[100dvh] w-[100dvw]">
+      <div className="mx-4 flex flex-col h-full justify-between">
         <div className="pt-4">
-          <div className="flex flex-col space-y-4 pb-40">
-            <TextInput
-              label="First Name"
-              value={firstName}
-              type="firstName"
-              isError={false}
-              onChange={setFirstName}
-            />
-            <TextInput
-              label="Last Name"
-              value={lastName}
-              type="lastName"
-              isError={false}
-              onChange={setLastName}
-            />
-          </div>
+          <UabcHeaderText />
+        </div>
+        <div className="flex flex-col space-y-4">
+          <p className="text-center">What&apos;s your name?</p>
+          <TextInput
+            label="First Name"
+            value={firstName}
+            type="firstName"
+            isError={false}
+            onChange={setFirstName}
+          />
+          <TextInput
+            label="Last Name"
+            value={lastName}
+            type="lastName"
+            isError={false}
+            onChange={setLastName}
+          />
+        </div>
+        <div className="pb-10">
           <Button
+            className="w-full"
             onClick={() => {
               // Go to membership type selection page
             }}
