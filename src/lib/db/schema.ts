@@ -88,9 +88,6 @@ export const gameSessions = pgTable("gameSession", {
 
 export const booking = pgTable("booking", {
   id: serial("id").primaryKey(),
-  user: integer("user")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
@@ -103,7 +100,7 @@ export const booking = pgTable("booking", {
 
 // each game session can have many bookings
 export const gameSessionRelations = relations(gameSessions, ({ many }) => ({
-  booking: many(booking),
+  bookings: many(booking),
 }));
 
 // each booking can have one game session
@@ -116,4 +113,8 @@ export const bookingSessionRelations = relations(booking, ({ one }) => ({
     fields: [booking.userId],
     references: [users.id],
   }),
+}));
+
+export const userSessionRelations = relations(users, ({ many }) => ({
+  bookings: many(booking),
 }));
