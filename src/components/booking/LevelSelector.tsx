@@ -4,6 +4,17 @@
 
 import React from "react";
 
+import { Button } from "../ui/button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../ui/drawer";
 import { Modal } from "./Modal";
 import { SegmentedController } from "./SegmentedController";
 
@@ -24,6 +35,30 @@ export const LevelSelector = (props: LevelSelectorProps) => {
   const defaultIndex = props.default
     ? levels.map((item) => item.value).indexOf(props.default)
     : -1;
+
+  /* return (
+      <Drawer>
+        <DrawerContent>
+          <div className="mx-auto w-full max-w-sm">
+          <DrawerTrigger asChild>
+            <Button variant="outline">Open Drawer</Button>
+          </DrawerTrigger>
+            <DrawerHeader>
+              <DrawerDescription>Please select a play level</DrawerDescription>
+            </DrawerHeader>
+            <Button>Beginner</Button>
+            <Button>Intermediate</Button>
+            <Button>Advanced</Button>
+            <DrawerFooter>
+              <Button>Submit</Button>
+              <DrawerClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </div>
+        </DrawerContent>
+      </Drawer>
+    )*/
 
   return (
     <Modal isOpen={props.isOpen} onClose={props.onClose}>

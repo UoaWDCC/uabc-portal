@@ -6,6 +6,17 @@ import { useState } from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
 
 import { Card } from "../Card";
+import { Button } from "../ui/button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../ui/drawer";
 import { LevelSelector } from "./LevelSelector";
 
 interface ExpandedSessionCardProps {
@@ -43,6 +54,10 @@ export const ExpandedSessionCard = ({
 
   const dayOfWeek = weekday[startTime.getDay()];
 
+  function onClick(level: string) {
+    setLevel(level);
+  }
+
   return (
     <Card className="relative font-normal">
       <div className="rounded-t-md bg-blue-600 px-6 py-4 pr-10 drop-shadow-lg">
@@ -62,21 +77,34 @@ export const ExpandedSessionCard = ({
         </p>
       </div>
       <div className="rounded-b-md bg-gray-500 py-2 text-center">
-        <button
-          className="w-full capitalize text-white"
-          onClick={() => setIsOpen(true)}
-        >
-          {level ?? "Select Play Level"}
-        </button>
-        <LevelSelector
-          isOpen={isOpen}
-          onClose={() => {
-            setIsOpen(false);
-            setLevel(pendingLevel);
-          }}
-          onSelect={setPendingLevel}
-          default={defaultLevel}
-        />
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button className="w-full capitalize text-white bg-gray hover: bg-gray-500">
+              {level ?? "Select a Play Level"}
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <div className="mx-auto w-full max-w-sm">
+              <DrawerHeader>
+                <DrawerDescription>
+                  Please select a play level
+                </DrawerDescription>
+              </DrawerHeader>
+              <Button onClick={() => onClick("Beginner")}>Beginner</Button>
+              <Button onClick={() => onClick("Intermediate")}>
+                Intermediate
+              </Button>
+              <Button onClick={() => onClick("Advanced")}>Advanced</Button>
+              <DrawerFooter>
+                <DrawerClose asChild>
+                  <Button variant="outline" onClick={() => setIsOpen(false)}>
+                    Cancel
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </div>
+          </DrawerContent>
+        </Drawer>
       </div>
     </Card>
   );
