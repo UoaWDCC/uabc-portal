@@ -1,5 +1,5 @@
 import type { AdapterAccount } from "@auth/core/adapters";
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
   boolean,
   integer,
@@ -92,9 +92,7 @@ export const booking = pgTable("booking", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   gameSessionId: integer("gameSessionId"),
-  createdAt: timestamp("createdAt", { mode: "date" })
-    .defaultNow(),
-    .notNull()
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
   difficulty: playLevelEnum("difficulty").notNull(),
 });
 
