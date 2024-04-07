@@ -1,83 +1,67 @@
-/**
- * @author Angela Guo <aguo921@aucklanduni.ac.nz>
- */
+import React, { useState } from "react";
 
-import { useState } from "react";
-import { IoCheckmarkCircle } from "react-icons/io5";
-
+import type { weekday } from "@/types/types";
 import { Card } from "../Card";
 import { LevelSelector } from "./LevelSelector";
 
 interface ExpandedSessionCardProps {
-  id: string;
-  startTime: Date;
-  endTime: Date;
+  day: weekday;
+  startTime: string;
+  endTime: string;
   location: string;
   address: string;
-  level?: string;
-  defaultLevel?: string;
-  setLevel: (level: string | undefined) => void;
 }
 
-const weekday = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-
 export const ExpandedSessionCard = ({
+  day,
   startTime,
   endTime,
   location,
   address,
-  level,
-  setLevel,
-  defaultLevel,
-}: Omit<ExpandedSessionCardProps, "id">) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [pendingLevel, setPendingLevel] = useState<string | undefined>(level);
+}: ExpandedSessionCardProps) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPlayLevel, setSelectedPlayLevel] = useState<
+    string | undefined
+  >(undefined);
 
-  const dayOfWeek = weekday[startTime.getDay()];
+  const handleButtonClick = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedPlayLevel(selectedPlayLevel);
+  };
 
   return (
-    <Card className="relative font-normal">
-      <div className="rounded-t-md bg-blue-600 px-6 py-4 pr-10 drop-shadow-lg">
-        <div className="absolute right-5 top-10 -translate-y-1/2">
-          <IoCheckmarkCircle color="white" size={30}></IoCheckmarkCircle>
-        </div>
-        <p className="text-xl text-white">{dayOfWeek}</p>
-        <p className="text-indigo-200">{location}</p>
+    <Card className="text-sm">
+      <div className="rounded-t-md bg-primary px-6 py-4 drop-shadow-lg">
+        <p className="text-lg text-primary-foreground">{day}</p>
+        <p className="text-primary-foreground/70">{location}</p>
       </div>
-      <div className="bg-gray-200 px-6 py-8">
-        <p className="text-gray-800">Address</p>
-        <p className="text-gray-500">{address}</p>
-        <p className="mt-2 text-gray-800">Time</p>
-        <p className="uppercase text-gray-500">
-          {startTime.toLocaleTimeString([], { timeStyle: "short" })} -{" "}
-          {endTime.toLocaleTimeString([], { timeStyle: "short" })}
+      <div className="bg-secondary p-6">
+        <p className="text-tertiary font-semibold">Address</p>
+        <p className="text-tertiary/70">{address}</p>
+        <br />
+        <p className="text-tertiary font-semibold">Time</p>
+        <p className="uppercase text-tertiary/70">
+          {startTime} - {endTime}
         </p>
       </div>
-      <div className="rounded-b-md bg-gray-500 py-2 text-center">
-        <button
-          className="w-full capitalize text-white"
-          onClick={() => setIsOpen(true)}
-        >
-          {level ?? "Select Play Level"}
-        </button>
-        <LevelSelector
-          isOpen={isOpen}
-          onClose={() => {
-            setIsOpen(false);
-            setLevel(pendingLevel);
-          }}
-          onSelect={setPendingLevel}
-          default={defaultLevel}
-        />
-      </div>
+      <button
+        className="w-full text-tertiary-foreground rounded-b-md bg-tertiary text-sm font-semibold h-12"
+        onClick={handleButtonClick}
+      >
+        {selectedPlayLevel ?? "Select Play Level"}
+      </button>
+
+      <LevelSelector
+        isOpen={modalOpen}
+        onClose={() => {
+          handleCloseModal;
+        }}
+        onSelect={setSelectedPlayLevel}
+      />
     </Card>
   );
 };
