@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
+import { getShortenedTime, getWeekday } from "@/lib/utils";
 
 const meta = {
   title: "ExpandedSessionCard",
@@ -16,9 +17,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    day: "Monday",
-    startTime: "5pm",
-    endTime: "7pm",
+    day: getWeekday(new Date()),
+    startTime: getShortenedTime(new Date()),
+    endTime: getShortenedTime(new Date()),
     location: "Auckland Badminton Association",
     address: " 9 Gillies Avenue",
   },

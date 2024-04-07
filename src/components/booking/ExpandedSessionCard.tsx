@@ -34,24 +34,26 @@ export const ExpandedSessionCard = ({
   };
 
   return (
-    <Card>
+    <Card className="text-sm">
       <div className="rounded-t-md bg-primary px-6 py-4 drop-shadow-lg">
         <p className="text-lg text-primary-foreground">{day}</p>
         <p className="text-primary-foreground/70">{location}</p>
       </div>
-      <div className="bg-secondary px-6 py-8">
-        <p className="text-tertiary">Address</p>
+      <div className="bg-secondary p-6">
+        <p className="text-tertiary font-semibold">Address</p>
         <p className="text-tertiary/70">{address}</p>
-        <p className="mt-2 text-tertiary">Time</p>
+        <br />
+        <p className="text-tertiary font-semibold">Time</p>
         <p className="uppercase text-tertiary/70">
           {startTime} - {endTime}
         </p>
       </div>
-      <div className="rounded-b-md bg-tertiary py-2 text-center">
-        <button className="w-full text-white" onClick={handleButtonClick}>
-          {selectedPlayLevel ?? "Select Play Level"}
-        </button>
-      </div>
+      <button
+        className="w-full text-tertiary-foreground rounded-b-md bg-tertiary text-sm font-semibold h-12"
+        onClick={handleButtonClick}
+      >
+        {selectedPlayLevel ?? "Select Play Level"}
+      </button>
 
       <LevelSelector
         isOpen={modalOpen}
