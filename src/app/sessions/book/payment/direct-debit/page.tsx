@@ -39,9 +39,7 @@ export default function DirectDebitPage() {
         />
       </div>
       <div className="mx-10 mb-10 mt-5 flex justify-center">
-        <Button widthFull={true} onClick={() => alert("DONE")}>
-          done
-        </Button>
+        <Button onClick={() => alert("DONE")}>Done</Button>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ const meta = {
   component: Button,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
-    layout: "fullscreen",
+    layout: "centered",
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
@@ -23,7 +23,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     disabled: false,
-    widthFull: false,
     children: "Button",
   },
 };

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { SelectSessionCard } from "@/components/booking/SelectSessionCard";
+
+import { SelectSessionCard } from "@/components/booking/SelectSessionList/SelectSessionCard";
 
 const meta = {
   title: "SelectSessionCard",
@@ -11,7 +12,7 @@ const meta = {
   argTypes: {
     status: {
       control: { type: "select" },
-      options: ["default", "selected", "disabled", "unavailable"],
+      options: ["default", "selected", "disabled"],
     },
   },
 } satisfies Meta<typeof SelectSessionCard>;
@@ -21,10 +22,30 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    weekday: 0,
+    day: "Monday",
     startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
     endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    location: "Location",
     status: "default",
-    locationName: "Location",
+  },
+};
+
+export const Selected: Story = {
+  args: {
+    day: "Monday",
+    startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    location: "Location",
+    status: "selected",
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    day: "Monday",
+    startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    location: "Location",
+    status: "disabled",
   },
 };
