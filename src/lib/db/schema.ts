@@ -98,7 +98,7 @@ export const booking = pgTable("booking", {
   createdAt: timestamp("createdAt", { mode: "date" })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`), //default(sql`CURRENT_TIMESTAMP`) if it does not work
-  difficulty: text("difficulty").notNull(), // waiting for enum
+  difficulty: playLevelEnum("difficulty").notNull(),
 });
 
 // each game session can have many bookings
@@ -117,4 +117,3 @@ export const bookingSessionRelations = relations(booking, ({ one }) => ({
     references: [users.id],
   }),
 }));
-//Test
