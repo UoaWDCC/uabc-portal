@@ -2,12 +2,20 @@ import type { AdapterAccount } from "@auth/core/adapters";
 import {
   boolean,
   integer,
+  pgEnum,
   pgTable,
   primaryKey,
   serial,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
+
+export const playLevelEnum = pgEnum("playLevel", [
+  "beginner",
+  "intermediate",
+  "advanced",
+]);
+export const roleEnum = pgEnum("role", ["admin", "user"]);
 
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
