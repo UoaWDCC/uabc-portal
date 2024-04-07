@@ -9,24 +9,6 @@ import { twJoin } from "tailwind-merge";
 import { cn } from "@/lib/utils";
 import { Card } from "../../Card";
 
-const backgroundColorMap = new Map([
-  ["default", "bg-secondary"],
-  ["selected", "bg-primary"],
-  ["disabled", "bg-secondary"],
-]);
-
-const weekdayColorMap = new Map([
-  ["default", "text-secondary-foreground"],
-  ["selected", "text-primary-foreground"],
-  ["disabled", "text-secondary-foreground"],
-]);
-
-const textColorMap = new Map([
-  ["default", "text-tertiary"],
-  ["selected", "text-primary-foreground/70"],
-  ["disabled", "text-tertiary"],
-]);
-
 type SelectSessionCardStatus = "default" | "selected" | "disabled";
 
 interface SelectSessionCardProps {
