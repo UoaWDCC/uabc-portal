@@ -17,8 +17,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     day: "Monday",
-    startTime: new Date(2022, 2, 15, 10, 0),
-    endTime: new Date(2022, 2, 15, 12, 0),
+    startTime: "5pm",
+    endTime: "7pm",
     location: "Auckland Badminton Association",
     address: " 9 Gillies Avenue",
   },

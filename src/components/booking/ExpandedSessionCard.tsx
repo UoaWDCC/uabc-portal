@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-import { weekday } from "@/types/types";
+import type { weekday } from "@/types/types";
 import { Card } from "../Card";
 import { LevelSelector } from "./LevelSelector";
 
 interface ExpandedSessionCardProps {
   day: weekday;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   location: string;
   address: string;
 }
@@ -19,24 +19,24 @@ export const ExpandedSessionCard = ({
   location,
   address,
 }: ExpandedSessionCardProps) => {
-  const [showModal, setShowModal] = useState(false);
-  const [pendingLevel, setPendingLevel] = useState<string | undefined>(
-    undefined,
-  );
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPlayLevel, setSelectedPlayLevel] = useState<
+    string | undefined
+  >(undefined);
 
   const handleButtonClick = () => {
-    setShowModal(true);
+    setModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setShowModal(false);
-    setPendingLevel(pendingLevel);
+    setModalOpen(false);
+    setSelectedPlayLevel(selectedPlayLevel);
   };
 
   return (
-    <Card className="relative font-normal">
-      <div className="rounded-t-md bg-primary px-6 py-4 pr-10 drop-shadow-lg">
-        <p className="text-xl text-white">{day}</p>
+    <Card>
+      <div className="rounded-t-md bg-primary px-6 py-4 drop-shadow-lg">
+        <p className="text-lg text-primary-foreground">{day}</p>
         <p className="text-primary-foreground/70">{location}</p>
       </div>
       <div className="bg-secondary px-6 py-8">
@@ -44,22 +44,21 @@ export const ExpandedSessionCard = ({
         <p className="text-tertiary/70">{address}</p>
         <p className="mt-2 text-tertiary">Time</p>
         <p className="uppercase text-tertiary/70">
-          {startTime.toLocaleTimeString([], { timeStyle: "short" })} -{" "}
-          {endTime.toLocaleTimeString([], { timeStyle: "short" })}
+          {startTime} - {endTime}
         </p>
       </div>
       <div className="rounded-b-md bg-tertiary py-2 text-center">
         <button className="w-full text-white" onClick={handleButtonClick}>
-          {pendingLevel ?? "Select Play Level"}
+          {selectedPlayLevel ?? "Select Play Level"}
         </button>
       </div>
 
       <LevelSelector
-        isOpen={showModal}
+        isOpen={modalOpen}
         onClose={() => {
           handleCloseModal;
         }}
-        onSelect={setPendingLevel}
+        onSelect={setSelectedPlayLevel}
       />
     </Card>
   );

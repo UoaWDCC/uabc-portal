@@ -8,8 +8,8 @@ export default function BookSessionPage() {
       <ExpandedSessionCard
         day="Monday"
         address={"99 Gillies Avenue, Epsom"}
-        startTime={new Date(Date.now())}
-        endTime={new Date(Date.now())}
+        startTime={"5pm"}
+        endTime={"7pm"}
         location={"Auckland Badminton Association"}
       />
     </div>
