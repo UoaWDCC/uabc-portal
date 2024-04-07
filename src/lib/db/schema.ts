@@ -93,8 +93,8 @@ export const booking = pgTable("booking", {
     .references(() => users.id, { onDelete: "cascade" }),
   gameSessionId: integer("gameSessionId"),
   createdAt: timestamp("createdAt", { mode: "date" })
+    .defaultNow(),
     .notNull()
-    .default(sql`CURRENT_TIMESTAMP`), //default(sql`CURRENT_TIMESTAMP`) if it does not work
   difficulty: playLevelEnum("difficulty").notNull(),
 });
 
