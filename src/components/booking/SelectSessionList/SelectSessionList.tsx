@@ -5,7 +5,6 @@ import { useMemo } from "react";
 import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
 import { cn, getShortenedTime, getWeekday } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
-import { GameSessionDto } from "@/types/GameSessionDto";
 import SkeletonSelectSessionCard from "../SkeletonSessionCard";
 import { SelectableCard } from "./SelectableCard";
 
