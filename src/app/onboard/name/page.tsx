@@ -1,6 +1,6 @@
 "use client";
 
-import UabcHeaderText from "@/components/AuthLogin/UabcHeaderText";
+import { UabcHeaderText } from "@/components/AuthLogin/UabcHeaderText";
 import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
 import { useAccountStore } from "@/stores/accountDetails";
