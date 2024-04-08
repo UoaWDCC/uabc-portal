@@ -45,20 +45,20 @@ const EmailLogin = ({ className }: { className: string }) => {
           )}
         >
           <TextInput
-            className="text-white h-12"
+            className="text-foreground h-12"
             label="Email"
             type="email"
             isError={error}
-            backgroundColor="bg-[#0A172A]"
+            backgroundColor="bg-background"
             value={email}
             onChange={setEmail}
           />
           <TextInput
-            className="text-white h-12"
+            className="text-foreground h-12"
             label="Password"
             type="password"
             isError={error}
-            backgroundColor="bg-[#0A172A]"
+            backgroundColor="bg-background"
             value={password}
             onChange={setPassword}
           />
