@@ -20,6 +20,7 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)"],
+        proxima: ["var(--font-proxima)"],
       },
       colors: {
         border: "hsl(var(--border))",

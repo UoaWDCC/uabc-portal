@@ -21,7 +21,6 @@ export const Button = ({
   ...props
 }: ButtonInputProps) => (
   <button
-    type="button"
     className={cn(
       "h-12 min-w-72 whitespace-nowrap rounded bg-primary font-semibold text-primary-foreground transition-colors hover:bg-primary/90 active:brightness-75 disabled:pointer-events-none disabled:opacity-40",
       className,

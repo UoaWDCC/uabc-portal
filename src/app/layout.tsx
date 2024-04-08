@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import localFont from "next/font/local";
 
 import { Providers } from "@/components/Providers";
 
@@ -11,6 +12,23 @@ export const metadata = {
   title: "UABC Booking Portal",
   description: "",
 };
+
+const ProximaNova = localFont({
+  src: [
+    {
+      path: "../../public/fonts/proximanova_regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/proximanova_bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--font-proxima",
+});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,8 +46,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} font-sans`}>
+    <html
+      lang="en"
+      className={`${ProximaNova.variable} ${inter.variable} font-sans`}
+    >
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>

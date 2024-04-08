@@ -7,11 +7,15 @@
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
+import { cn } from "@/lib/utils";
+
 type TextInputProps = {
   label?: string;
   value: string;
   type: string;
   isError: boolean;
+  backgroundColor?: string;
+  className?: string;
   onChange: (value: string) => void;
 };
 
@@ -19,15 +23,18 @@ export const TextInput = (props: TextInputProps) => {
   const [active, setActive] = useState(false);
 
   return (
-    <div className="relative">
+    <div className={cn("relative", props.className)}>
       <h2
         className={twMerge(
-          "absolute left-3 transition-all ",
+          cn(
+            "absolute left-3 transition-all pointer-events-none z-10",
+            props.backgroundColor,
+          ),
           active || props.value != ""
-            ? "top-[-0.75rem] bg-white px-2 text-sm  text-blue-500"
+            ? "top-[-0.75rem] px-2 text-sm  text-blue-500"
             : "top-1.5 cursor-text text-gray-500",
           props.isError &&
-            "absolute left-3 top-[-0.75rem] bg-white px-2 text-sm  text-red-500",
+            "absolute left-3 top-[-0.75rem] px-2 text-sm  text-red-500",
         )}
       >
         {props.label}
@@ -40,11 +47,14 @@ export const TextInput = (props: TextInputProps) => {
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)}
         className={twMerge(
-          "w-full rounded-md border-none p-2 outline-none ring-2",
+          cn(
+            "w-full rounded p-2 border focus:border-2 outline-none h-full",
+            props.backgroundColor,
+          ),
           active
-            ? "ring-blue-500 focus:ring-blue-500"
-            : "ring-blue-400 focus:ring-blue-400",
-          props.isError && "ring-red-500 focus:ring-red-500",
+            ? "border-blue-500 focus:border-blue-500"
+            : "border-blue-400 focus:border-blue-400",
+          props.isError && "border-red-500 focus:border-red-500",
         )}
         required
       />
