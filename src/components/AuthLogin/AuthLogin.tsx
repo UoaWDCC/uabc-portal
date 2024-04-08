@@ -21,8 +21,8 @@ const AuthLogin = () => {
         <div className="mt-6 flex flex-col w-full gap-4">
           <EmailLogin className="text-base" />
           <BreakLine label="or" />
-          <GoogleSignIn className="w-full p-6 h-12 " />
-          <p className="text-center text-white text-xs mt-6">
+          <GoogleSignIn className="w-full" />
+          <p className="text-center text-white text-xs mt-2">
             Don&apos;t have an account?{" "}
             <a className="underline font-bold">Sign up</a>
           </p>

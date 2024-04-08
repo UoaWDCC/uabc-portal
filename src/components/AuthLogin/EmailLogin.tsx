@@ -10,9 +10,13 @@ const EmailLogin = ({ className }: { className: string }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
 
-  const HandleSubmit = (e) => {
+  const HandleSubmit = (e: React.FormEvent) => {
     if (!open) {
       setOpen(true);
+    }
+
+    if (email === "" || password === "") {
+      setError(true);
     }
     return;
   };
@@ -22,6 +26,13 @@ const EmailLogin = ({ className }: { className: string }) => {
       setOpen(true);
     }
   };
+
+  if (!open)
+    return (
+      <Button className="h-12" onClick={openEmailLogin} key="open email">
+        Login with Email
+      </Button>
+    );
 
   return (
     <form onSubmit={() => HandleSubmit}>
@@ -52,15 +63,9 @@ const EmailLogin = ({ className }: { className: string }) => {
             onChange={setPassword}
           />
         </div>
-        {open ? (
-          <Button type="submit" className="h-12" key="form submit">
-            Login
-          </Button>
-        ) : (
-          <Button className="h-12" onClick={openEmailLogin} key="open email">
-            Login with Email
-          </Button>
-        )}
+        <Button type="submit" className="h-12" key="form submit">
+          Login
+        </Button>
       </div>
     </form>
   );
