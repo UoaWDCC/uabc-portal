@@ -13,9 +13,9 @@ const AuthLoginMobile = () => {
         <UabcHeaderText />
         <Image src="/svgs/logo2.svg" alt="uabc logo" width={225} height={225} />
         <div className="mt-6 flex flex-col w-full gap-4">
-          <EmailLogin className="text-sm" />
+          <EmailLogin className="text-base" />
           <BreakLine label="or" />
-          <GoogleSignIn className="w-full p-6 h-12" />
+          <GoogleSignIn className="w-full p-6 h-12 " />
           <p className="text-center text-white text-xs mt-6">
             Don&apos;t have an account?{" "}
             <span className="underline font-bold">Sign up</span>
