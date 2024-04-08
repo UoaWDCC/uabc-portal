@@ -26,7 +26,10 @@ export const TextInput = (props: TextInputProps) => {
     <div className={cn("relative", props.className)}>
       <h2
         className={twMerge(
-          cn("absolute left-3 transition-all ", props.backgroundColor),
+          cn(
+            "absolute left-3 transition-all pointer-events-none",
+            props.backgroundColor,
+          ),
           active || props.value != ""
             ? "top-[-0.75rem] px-2 text-sm  text-blue-500"
             : "top-1.5 cursor-text text-gray-500",
