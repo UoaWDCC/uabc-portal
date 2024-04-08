@@ -1,6 +1,6 @@
 import React from "react";
 
-import type { GameSessionDto } from "@/types/GameSessionDto";
+import type { GameSessionDto } from "@/types/game-session";
 import { SelectSessionCard } from "./SelectSessionCard";
 
 interface SelectableCardProps {

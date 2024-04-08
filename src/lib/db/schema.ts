@@ -23,6 +23,7 @@ export const users = pgTable("user", {
   name: text("name"),
   firstName: text("firstName"),
   lastName: text("lastName"),
+  role: roleEnum("role").default("user").notNull(),
   member: boolean("member"),
   verified: boolean("verified").default(false).notNull(),
   remainingSessions: integer("remainingSessions").default(0).notNull(),

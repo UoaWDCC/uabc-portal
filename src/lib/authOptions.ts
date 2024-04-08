@@ -1,8 +1,9 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import type { NextAuthOptions } from "next-auth";
+import type { NextAuthOptions, User } from "next-auth";
 import type { Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 
+import { getUserFromEmail } from "@/actions/user";
 import { env } from "@/env";
 import { db } from "@/lib/db";
 
@@ -19,6 +20,24 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  callbacks: {
+    async jwt({ token }) {
+      const existingUser = await getUserFromEmail(token.email);
+
+      if (!existingUser) {
+        return token;
+      }
+
+      return {
+        ...token,
+        profile: existingUser || null,
+      };
+    },
+    async session({ session, token }) {
+      session.user = token.profile as User;
+      return session;
+    },
+  },
   session: {
     strategy: "jwt",
   },
