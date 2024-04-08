@@ -37,13 +37,7 @@ export const EmailLogin = ({ className }: { className: string }) => {
   return (
     <form onSubmit={() => HandleSubmit}>
       <div className={cn("flex-col flex gap-4", className)}>
-        {/* p-0.5 to compensate for borderwidth */}
-        <div
-          className={cn(
-            "flex-col flex gap-4 overflow-hidden p-0.5 pt-2",
-            open ? "h-auto" : "p-0 h-0",
-          )}
-        >
+        <div className={cn("flex-col flex gap-4 overflow-hidden")}>
           <TextInput
             className="text-foreground h-12"
             label="Email"

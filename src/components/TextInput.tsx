@@ -52,9 +52,9 @@ export const TextInput = (props: TextInputProps) => {
             props.backgroundColor,
           ),
           active
-            ? "ring-blue-500 focus:ring-blue-500"
-            : "ring-blue-400 focus:ring-blue-400",
-          props.isError && "ring-red-500 focus:ring-red-500",
+            ? "border-blue-500 focus:border-blue-500"
+            : "border-blue-400 focus:border-blue-400",
+          props.isError && "border-red-500 focus:border-red-500",
         )}
         required
       />
