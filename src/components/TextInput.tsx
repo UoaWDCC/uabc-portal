@@ -23,7 +23,7 @@ export const TextInput = (props: TextInputProps) => {
   const [active, setActive] = useState(false);
 
   return (
-    <div className={cn("relative", props.className)}>
+    <div className={cn("relative h-11", props.className)}>
       <h2
         className={twMerge(
           cn(

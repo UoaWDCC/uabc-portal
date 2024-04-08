@@ -1,7 +1,9 @@
 import React from "react";
 
-export const UabcHeaderText = () => (
-  <div className="text-center">
+import { cn } from "@/lib/utils";
+
+export const UabcHeaderText = ({ className }: { className?: string }) => (
+  <div className={cn("text-center", className)}>
     <span className="font-proxima text-[4rem] font-bold leading-[5rem] text-primary dark:text-white tracking-tight">
       UABC
     </span>
