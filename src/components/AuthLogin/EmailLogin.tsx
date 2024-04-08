@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../Button";
 import { TextInput } from "../TextInput";
 
-const EmailLogin = ({ className }: { className: string }) => {
+export const EmailLogin = ({ className }: { className: string }) => {
   const [error, setError] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
@@ -70,5 +70,3 @@ const EmailLogin = ({ className }: { className: string }) => {
     </form>
   );
 };
-
-export default EmailLogin;

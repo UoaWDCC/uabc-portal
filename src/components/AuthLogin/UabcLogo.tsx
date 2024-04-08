@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const UabcLogo = () => {
+export const UabcLogo = () => {
   return (
     <>
       <Image
@@ -22,5 +22,3 @@ const UabcLogo = () => {
     </>
   );
 };
-
-export default UabcLogo;

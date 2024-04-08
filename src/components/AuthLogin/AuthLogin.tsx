@@ -1,13 +1,12 @@
 import React from "react";
-import Image from "next/image";
 
-import BreakLine from "./BreakLine";
-import EmailLogin from "./EmailLogin";
-import GoogleSignIn from "./GoogleSignIn";
-import UabcHeaderText from "./UabcHeaderText";
-import UabcLogo from "./UabcLogo";
+import { BreakLine } from "./BreakLine";
+import { EmailLogin } from "./EmailLogin";
+import { GoogleSignIn } from "./GoogleSignIn";
+import { UabcHeaderText } from "./UabcHeaderText";
+import { UabcLogo } from "./UabcLogo";
 
-const AuthLogin = () => {
+export const AuthLogin = () => {
   return (
     <div className="dark h-dvh w-dvw bg-background grid place-items-center">
       <div className="w-dvw px-4 flex-col h-full flex items-center justify-between py-8">
@@ -26,5 +25,3 @@ const AuthLogin = () => {
     </div>
   );
 };
-
-export default AuthLogin;

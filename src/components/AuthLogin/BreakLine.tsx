@@ -1,6 +1,6 @@
 import React from "react";
 
-const BreakLine = ({ label }: { label: string }) => {
+export const BreakLine = ({ label }: { label: string }) => {
   return (
     <div className="flex whitespace-nowrap w-full justify-center items-center">
       <hr className="w-full border-tertiary dark:border-white border-0.5" />
@@ -11,5 +11,3 @@ const BreakLine = ({ label }: { label: string }) => {
     </div>
   );
 };
-
-export default BreakLine;

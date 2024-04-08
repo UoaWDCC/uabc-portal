@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 type GoogleSignInProps = {
   className?: string;
 };
-const GoogleSignIn = ({ className }: GoogleSignInProps) => {
+export const GoogleSignIn = ({ className }: GoogleSignInProps) => {
   return (
     <>
       <div
@@ -30,5 +30,3 @@ const GoogleSignIn = ({ className }: GoogleSignInProps) => {
     </>
   );
 };
-
-export default GoogleSignIn;
