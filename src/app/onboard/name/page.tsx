@@ -1,8 +1,8 @@
 "use client";
 
-import { UabcHeaderText } from "@/components/AuthLogin/UabcHeaderText";
 import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
+import { UabcHeaderText } from "@/components/UabcHeaderText";
 import { useAccountStore } from "@/stores/accountDetails";
 
 export default function NamePage() {

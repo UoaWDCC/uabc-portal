@@ -27,7 +27,7 @@ export const TextInput = (props: TextInputProps) => {
       <h2
         className={twMerge(
           cn(
-            "absolute left-3 transition-all pointer-events-none",
+            "absolute left-3 transition-all pointer-events-none z-10",
             props.backgroundColor,
           ),
           active || props.value != ""
@@ -48,7 +48,7 @@ export const TextInput = (props: TextInputProps) => {
         onBlur={() => setActive(false)}
         className={twMerge(
           cn(
-            "w-full rounded border-none p-2 outline-none ring-2 h-full",
+            "w-full rounded p-2 border focus:border-2 outline-none h-full",
             props.backgroundColor,
           ),
           active

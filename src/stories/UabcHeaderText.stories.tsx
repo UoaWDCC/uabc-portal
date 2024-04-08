@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { UabcHeaderText } from "./UabcHeaderText";
+import { UabcHeaderText } from "../components/UabcHeaderText";
 
 const meta = {
   title: "UABC Header Text",
