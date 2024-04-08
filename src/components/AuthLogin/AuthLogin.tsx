@@ -17,7 +17,7 @@ const AuthLogin = () => {
           <EmailLogin className="text-base" />
           <BreakLine label="or" />
           <GoogleSignIn className="w-full" />
-          <p className="text-center text-white text-xs mt-2">
+          <p className="text-center text-tertiary dark:text-white text-xs mt-2">
             Don&apos;t have an account?{" "}
             <a className="underline font-bold">Sign up</a>
           </p>
