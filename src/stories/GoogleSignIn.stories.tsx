@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { GoogleSignIn } from "../components/auth/GoogleSignIn";
+import { GoogleSignIn } from "../components/auth/GoogleLoginButton";
 
 const meta = {
   title: "GoogleSignInButton",

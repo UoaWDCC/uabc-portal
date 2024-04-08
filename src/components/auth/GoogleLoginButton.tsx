@@ -25,7 +25,7 @@ export const GoogleSignIn = ({ className }: GoogleSignInProps) => {
           height={24}
           alt="Google Icon"
         />
-        <span>Sign in with Google</span>
+        <span>Continue with Google</span>
       </div>
     </>
   );
