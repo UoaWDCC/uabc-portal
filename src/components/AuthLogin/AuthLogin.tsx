@@ -6,7 +6,7 @@ import EmailLogin from "./EmailLogin";
 import GoogleSignIn from "./GoogleSignIn";
 import UabcHeaderText from "./UabcHeaderText";
 
-const AuthLoginMobile = () => {
+const AuthLogin = () => {
   return (
     <div className="h-dvh w-dvw bg-[#0A172A] grid place-items-center">
       <div className="w-dvw px-4 flex-col h-full flex items-center justify-between py-8">
@@ -32,4 +32,4 @@ const AuthLoginMobile = () => {
   );
 };
 
-export default AuthLoginMobile;
+export default AuthLogin;

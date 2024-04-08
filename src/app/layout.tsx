@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import localFont from "next/font/local";
 
 import { Providers } from "@/components/Providers";
