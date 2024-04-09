@@ -1,5 +1,5 @@
+import { Card } from "@/components/Card";
 import type { GameSessionDto } from "@/types/game-session";
-import { Card } from "../Card";
 import { LevelSelector } from "./LevelSelector";
 
 interface ExpandedSessionCardProps {

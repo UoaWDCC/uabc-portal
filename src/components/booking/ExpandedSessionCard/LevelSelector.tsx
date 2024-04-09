@@ -4,41 +4,17 @@
 
 import React from "react";
 
-import { cn } from "@/lib/utils";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { useCartStore } from "@/stores/useCartStore";
 import type { playLevel } from "@/types/types";
-import { Button } from "../ui/button";
-import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
+import { SelectorButton } from "./SelectorButton";
 
 interface LevelSelectorProps {
   id: number;
   playLevel?: playLevel;
 }
 
-interface SelectorButtonProps extends LevelSelectorProps {
-  currentPlayLevel: playLevel;
-  handleClick: () => void;
-}
-
 const PLAY_LEVELS: playLevel[] = ["beginner", "intermediate", "advanced"];
-
-const SelectorButton = ({
-  playLevel,
-  currentPlayLevel,
-  handleClick,
-}: SelectorButtonProps) => (
-  <Button
-    className={cn(
-      "h-12 rounded capitalize",
-      playLevel === currentPlayLevel
-        ? "bg-primary text-primary-foreground"
-        : "bg-white text-tertiary hover:bg-tertiary/10 hover:text-tertiary",
-    )}
-    onClick={handleClick}
-  >
-    {currentPlayLevel}
-  </Button>
-);
 
 export const LevelSelector = ({ id, playLevel }: LevelSelectorProps) => {
   const updatePlayLevelById = useCartStore(
@@ -60,7 +36,6 @@ export const LevelSelector = ({ id, playLevel }: LevelSelectorProps) => {
           {PLAY_LEVELS.map((level) => (
             <SelectorButton
               key={id}
-              id={id}
               playLevel={playLevel}
               currentPlayLevel={level}
               handleClick={() => updatePlayLevelById(id, level)}
