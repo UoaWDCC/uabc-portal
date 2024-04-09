@@ -6,6 +6,7 @@ type GameSessionResponse = {
   endTime: Date;
   locationName: string;
   locationAddress: string;
+  isFull: boolean;
 };
 
 const fetchCurrentGameSessions = async (): Promise<GameSessionResponse[]> => {

@@ -1,9 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import z from "zod";
 
-import { db } from "@/db";
-import { gameSessions } from "@/db/schema";
-import { insertGameSessionSchema } from "@/db/validators";
+import { db } from "@/lib/db";
+import { gameSessions } from "@/lib/db/schema";
+import { insertGameSessionSchema } from "@/lib/db/validators";
 
 export async function GET() {
   try {
