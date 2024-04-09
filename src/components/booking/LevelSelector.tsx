@@ -8,13 +8,7 @@ import { cn } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
 import type { playLevel } from "@/types/types";
 import { Button } from "../ui/button";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "../ui/drawer";
+import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
 
 interface LevelSelectorProps {
   id: number;
