@@ -1,3 +1,5 @@
+import type { playLevel } from "./types";
+
 export interface GameSessionDto {
   id: number;
   weekday: string;
@@ -6,4 +8,5 @@ export interface GameSessionDto {
   locationName: string;
   locationAddress: string;
   isFull: boolean;
+  playLevel?: playLevel;
 }

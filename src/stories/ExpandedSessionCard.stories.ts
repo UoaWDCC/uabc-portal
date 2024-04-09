@@ -17,10 +17,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    day: getWeekday(new Date()),
-    startTime: getShortenedTime(new Date()),
-    endTime: getShortenedTime(new Date()),
-    location: "Auckland Badminton Association",
-    address: " 9 Gillies Avenue",
+    gameSession: {
+      id: 1,
+      weekday: getWeekday(new Date()),
+      startTime: getShortenedTime(new Date()),
+      endTime: getShortenedTime(new Date()),
+      locationName: "Auckland Badminton Association",
+      locationAddress: "99 Gillies Avenue",
+      isFull: false,
+    },
   },
 };
