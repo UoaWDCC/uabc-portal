@@ -6,3 +6,5 @@ export type weekday =
   | "Friday"
   | "Saturday"
   | "Sunday";
+
+export type playLevel = "beginner" | "intermediate" | "advanced";
