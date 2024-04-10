@@ -11,8 +11,12 @@ export const ExpandedSessionCard = ({
 }: ExpandedSessionCardProps) => (
   <Card className="text-sm">
     <div className="rounded-t-md bg-primary px-6 py-4 drop-shadow-lg">
-      <p className="text-lg text-primary-foreground">{gameSession.weekday}</p>
-      <p className="text-primary-foreground/70">{gameSession.locationName}</p>
+      <p className="text-lg font-medium text-primary-foreground">
+        {gameSession.weekday}
+      </p>
+      <p className="text-primary-foreground/70 font-medium">
+        {gameSession.locationName}
+      </p>
     </div>
     <div className="bg-secondary p-6">
       <p className="text-tertiary font-semibold">Address</p>
@@ -23,6 +27,6 @@ export const ExpandedSessionCard = ({
         {gameSession.startTime} - {gameSession.endTime}
       </p>
     </div>
-    <LevelSelector id={gameSession.id} playLevel={gameSession.playLevel} />
+    <LevelSelector id={gameSession.id} selectedLevel={gameSession.playLevel} />
   </Card>
 );

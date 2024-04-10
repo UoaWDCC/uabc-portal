@@ -29,6 +29,9 @@ export const EmailLogin = ({ onLoginOpen }: EmailLoginProps) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex-col flex gap-4">
+        <span className="text-foreground text-center">
+          Login to your account
+        </span>
         <TextInput
           className="text-foreground"
           label="Email"

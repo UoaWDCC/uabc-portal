@@ -3,14 +3,18 @@
 import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
 import { UabcHeaderText } from "@/components/UabcHeaderText";
-import { useAccountStore } from "@/stores/accountDetails";
+import { useOnboardingDetailsStore } from "@/stores/useOnboardingDetailsStore";
 
 export default function NamePage() {
-  const firstName = useAccountStore((state) => state.firstName);
-  const lastName = useAccountStore((state) => state.lastName);
+  const firstName = useOnboardingDetailsStore((state) => state.firstName);
+  const lastName = useOnboardingDetailsStore((state) => state.lastName);
 
-  const updateFirstName = useAccountStore((state) => state.setFirstName);
-  const updateLastName = useAccountStore((state) => state.setLastName);
+  const updateFirstName = useOnboardingDetailsStore(
+    (state) => state.setFirstName,
+  );
+  const updateLastName = useOnboardingDetailsStore(
+    (state) => state.setLastName,
+  );
 
   return (
     <div className="h-dvh w-dvw">

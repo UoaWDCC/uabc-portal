@@ -48,7 +48,7 @@
     "@storybook/react": "^8.0.5",
     "@storybook/test": "^8.0.5",
     "@testing-library/jest-dom": "^6.4.2",
-    "@testing-library/react": "^14.2.2",
+    "@testing-library/react": "^14.3.0",
     "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.28",
@@ -70,14 +70,11 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.13",
     "pretty-quick": "^4.0.0",
-    "react-test-renderer": "^18.2.0",
     "storybook": "^8.0.5",
     "tailwindcss": "^3.4.1",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2",
-    "typescript-eslint": "^7.3.1",
-    "undici": "^6.10.2",
-    "web-streams-polyfill": "^4.0.0"
+    "typescript-eslint": "^7.3.1"
   }
 }
