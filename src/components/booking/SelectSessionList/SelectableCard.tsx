@@ -17,7 +17,9 @@ export const SelectableCard = ({
   <div
     data-testid="session-card"
     key={session.id}
-    className={session.isFull ? "pointer-events-none" : "cursor-pointer"}
+    className={
+      session.isFull ? "pointer-events-none" : "cursor-pointer hover:opacity-90"
+    }
     onClick={() => !session.isFull && handleSessionClick(session.id)}
     role="checkbox"
     aria-checked={checked}
