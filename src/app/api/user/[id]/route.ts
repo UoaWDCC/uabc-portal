@@ -14,7 +14,6 @@ export async function GET(
 ) {
   try {
     const { id } = params;
-
     const user = await db.query.users.findFirst({
       where: eq(users.id, id),
     });
@@ -23,7 +22,21 @@ export async function GET(
       return new Response(`No User found for id: ${id}`, { status: 404 });
     }
 
-    return NextResponse.json(user);
+    const requiredFields = [
+      "id",
+      "firstName",
+      "lastName",
+      "email",
+      "member",
+      "verified",
+      "remainingSessions",
+    ];
+
+    const filteredUser = Object.fromEntries(
+      Object.entries(user).filter(([key]) => requiredFields.includes(key)),
+    );
+
+    return NextResponse.json(filteredUser);
   } catch {
     return new Response("Internal Server Error", { status: 500 });
   }
