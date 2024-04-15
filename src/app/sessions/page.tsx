@@ -8,6 +8,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 import { CgProfile } from "react-icons/cg";
 import { twJoin } from "tailwind-merge";
 
@@ -19,11 +20,9 @@ import { Heading } from "@/components/Heading";
 import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { useCartStore } from "@/stores/useCartStore";
 
-const remainingSessions = 11;
-const isMember = true;
-const firstName = "David";
-
-const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
+//const remainingSessions = 11;
+//const isMember = true;
+//const firstName = "David";
 
 export default function SelectSessionPage() {
   const { push } = useRouter();
@@ -31,6 +30,22 @@ export default function SelectSessionPage() {
   const sessionsSelected = useCartStore((state) => state.cart.length);
 
   const [shake, setShake] = useState(false);
+  const [firstName, setFirstName] = useState(null);
+  const [isMember, setIsMember] = useState(false);
+  const [remainingSessions, setRemainingSessions] = useState(false);
+  const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
+
+  function getUserInfo(id: string) {
+    axios.get(`http://localhost:3000/api/user/${id}`).then((response) => {
+      const data = response.data;
+      setFirstName(data.firstName);
+      setIsMember(data.member);
+      setRemainingSessions(data.remainingSessions);
+      console.log(data);
+    });
+  }
+
+  getUserInfo("123");
 
   return (
     <div className="flex h-dvh flex-col">
