@@ -12,6 +12,6 @@ declare module "next-auth" {
   }
 
   interface Session {
-    user: CustomUser;
+    user: User;
   }
 }
