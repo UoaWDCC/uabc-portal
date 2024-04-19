@@ -4,7 +4,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -32,20 +32,27 @@ export default function SelectSessionPage() {
   const [shake, setShake] = useState(false);
   const [firstName, setFirstName] = useState(null);
   const [isMember, setIsMember] = useState(false);
-  const [remainingSessions, setRemainingSessions] = useState(false);
+  const [remainingSessions, setRemainingSessions] = useState(0);
   const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
 
-  function getUserInfo(id: string) {
-    axios.get(`http://localhost:3000/api/user/${id}`).then((response) => {
-      const data = response.data;
-      setFirstName(data.firstName);
-      setIsMember(data.member);
-      setRemainingSessions(data.remainingSessions);
-      console.log(data);
-    });
-  }
+  useEffect(() => {
+    async function getUserInfo(id: string) {
+      try {
+        const response = await fetch(`/api/user/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const data = await response.json();
+        setFirstName(data.firstName);
+        setIsMember(data.member);
+        setRemainingSessions(data.remainingSessions);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
 
-  getUserInfo("123");
+    getUserInfo("123");
+  }, []);
 
   return (
     <div className="flex h-dvh flex-col">
