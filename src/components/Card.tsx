@@ -2,7 +2,7 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -16,7 +16,7 @@ export const Card = ({
   className,
   children,
 }: PropsWithChildren<CardProps>) => (
-  <div onClick={onClick} className={cn("rounded-md", className)}>
+  <div onClick={onClick} className={cn("rounded-sm", className)}>
     {children}
   </div>
 );

@@ -1,4 +1,4 @@
-name: Build Test
+name: Deploy Development
 
 on:
   push:
@@ -26,10 +26,6 @@ jobs:
         with:
           version: 8
           run_install: true
-
-      - name: prisma generate
-        run: |
-          npx prisma generate
 
       - name: Create env file
         run: echo ${{ secrets.UABC_DEV_BACKEND_ENVFILE }} | base64 --decode > .env

@@ -2,7 +2,7 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { twJoin } from "tailwind-merge";
 
 interface ModalProps {

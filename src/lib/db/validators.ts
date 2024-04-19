@@ -1,6 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { gameSessions } from "./schema";
 import { z } from "zod";
+
+import { gameSessions } from "./schema";
 
 export const selectGameSessionSchema = createSelectSchema(gameSessions);
 

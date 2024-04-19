@@ -12,16 +12,7 @@
     "<THIRD_PARTY_MODULES>",
     "",
     "^types$",
-    "^@/env(.*)$",
-    "^@/stores/(.*)$",
-    "^@/types/(.*)$",
-    "^@/lib/(.*)$",
-    "^@/hooks/(.*)$",
-    "^@/components/ui/(.*)$",
-    "^@/components/(.*)$",
-    "^@/styles/(.*)$",
-    "^@/app/(.*)$",
-    "",
+    "^@/(.*)$",
     "^[./]"
   ],
   "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"]

@@ -1,9 +1,9 @@
-import * as schema from "@/db/schema";
 import { drizzle } from "drizzle-orm/postgres-js";
 import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { env } from "@/env.mjs";
+import { env } from "@/env";
+import * as schema from "@/lib/db/schema";
 
 declare global {
   // eslint-disable-next-line
