@@ -20,6 +20,7 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)"],
+        proxima: ["var(--font-proxima)"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -79,11 +80,6 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-      },
-      fontWeight: {
-        medium: "450",
-        semibold: "550",
-        bold: "650",
       },
     },
   },

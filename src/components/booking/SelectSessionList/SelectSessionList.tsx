@@ -5,8 +5,8 @@ import { useMemo } from "react";
 import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
 import { cn, getShortenedTime, getWeekday } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
-import SkeletonSelectSessionCard from "../SkeletonSessionCard";
 import { SelectableCard } from "./SelectableCard";
+import SkeletonSelectSessionCard from "./SkeletonSessionCard";
 
 interface SelectSessionListProps {
   isMember: boolean;

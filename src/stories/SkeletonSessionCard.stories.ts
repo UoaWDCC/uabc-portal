@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import SkeletonSessionCard from "./SkeletonSessionCard";
+import SkeletonSessionCard from "../components/booking/SelectSessionList/SkeletonSessionCard";
 
 const meta = {
   title: "SkeletonSessionCard",
