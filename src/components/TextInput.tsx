@@ -19,7 +19,7 @@ type TextInputProps = {
 
 export const TextInput = (props: TextInputProps) => {
   return (
-    <div className={cn("relative h-11", props.className)}>
+    <div className={cn("relative h-11 ", props.className)}>
       <input
         type={props.type}
         defaultValue={props.value}
@@ -27,7 +27,7 @@ export const TextInput = (props: TextInputProps) => {
         value={props.value}
         className={twMerge(
           cn(
-            "w-full rounded p-2 border focus:border-2 outline-none h-full bg-background InputAdjacentText",
+            "w-full rounded p-2 border focus:border-2 outline-none h-full bg-background text-tertiary dark:text-white/70 InputAdjacentText",
             "border-blue-400 focus:border-blue-500",
           ),
           props.isError && "border-red-500 focus:border-red-500",
@@ -40,9 +40,9 @@ export const TextInput = (props: TextInputProps) => {
             "absolute left-3 transition-all pointer-events-none z-10 bg-background",
           ),
           props.value != ""
-            ? "top-[-0.75rem] text-sm  text-blue-500"
-            : "top-1.5 cursor-text text-gray-500",
-          props.isError && "left-3 top-[-0.75rem] px-2 text-sm  text-red-500",
+            ? "top-[-0.75rem] text-sm text-blue-500"
+            : "top-1.5 cursor-text text-tertiary/70 dark:text-white/70",
+          props.isError && "left-3 top-[-0.75rem] px-2 text-sm text-red-500",
         )}
       >
         {props.label}
