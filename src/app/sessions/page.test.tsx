@@ -9,9 +9,23 @@ jest.mock("next/navigation", () => ({
   },
 }));
 
+const mockUserData = {
+  firstName: "Test",
+  isMember: true,
+  remainingSessions: 11,
+};
+
 describe("Select Sessions page", () => {
   beforeEach(() => {
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve(mockUserData),
+    } as Response);
     render(<SelectSessionsPage />);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   it("should render h1 with the text 'Sessions'", () => {
