@@ -20,6 +20,19 @@ type TextInputProps = {
 export const TextInput = (props: TextInputProps) => {
   return (
     <div className={cn("relative h-11 ", props.className)}>
+      <h2
+        className={twMerge(
+          cn(
+            "absolute left-3 transition-all pointer-events-none z-10 bg-background px-2",
+          ),
+          props.value != ""
+            ? "top-[-0.75rem] text-sm text-blue-500"
+            : "top-1.5 cursor-text text-tertiary/70 dark:text-white/70",
+          props.isError && "left-3 top-[-0.75rem] px-2 text-sm text-red-500",
+        )}
+      >
+        {props.label}
+      </h2>
       <input
         type={props.type}
         defaultValue={props.value}
@@ -34,19 +47,6 @@ export const TextInput = (props: TextInputProps) => {
         )}
         required
       />
-      <h2
-        className={twMerge(
-          cn(
-            "absolute left-3 transition-all pointer-events-none z-10 bg-background",
-          ),
-          props.value != ""
-            ? "top-[-0.75rem] text-sm text-blue-500"
-            : "top-1.5 cursor-text text-tertiary/70 dark:text-white/70",
-          props.isError && "left-3 top-[-0.75rem] px-2 text-sm text-red-500",
-        )}
-      >
-        {props.label}
-      </h2>
     </div>
   );
 };
