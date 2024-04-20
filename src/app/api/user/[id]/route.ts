@@ -53,8 +53,8 @@ export async function PATCH(
 
   // Check that the current user is defined
   const currentUser = await getCurrentUser();
-  if (!currentUser) {
-    return new Response("No current user logged in", { status: 400 });
+  if (!currentUser || id !== currentUser.id) {
+    return new Response(null, { status: 403 });
   }
 
   // Get the user from the database
