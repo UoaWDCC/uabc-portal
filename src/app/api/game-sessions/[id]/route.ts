@@ -81,6 +81,7 @@ export async function PATCH(
     if (error instanceof z.ZodError)
       return NextResponse.json(error.issues, { status: 400 });
 
+    console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }
