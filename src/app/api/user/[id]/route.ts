@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
+import { updateUserSchema } from "@/lib/validators";
 
 /**
  * Get user by id
@@ -40,9 +41,15 @@ export async function PATCH(
 ) {
   const { id } = params;
 
-  // Get the body of the request
+  // Validate the body of the request
   const json = await req.json();
-  const { firstName, lastName, member } = json.data;
+  const bodyResult = updateUserSchema.safeParse(json);
+
+  if (!bodyResult.success) {
+    return NextResponse.json(bodyResult.error, { status: 400 });
+  }
+
+  const { firstName, lastName, member } = bodyResult.data;
 
   // Check that the current user is defined
   const currentUser = await getCurrentUser();
