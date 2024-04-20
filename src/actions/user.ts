@@ -20,15 +20,12 @@ export async function getUserFromEmail(
         columns: {
           id: true,
           email: true,
-          //member: true,
+          member: true,
           firstName: true,
           lastName: true,
           role: true,
         },
         where: (users, { eq }) => eq(users.email, email as string),
-        extras: {
-          member: sql<boolean>`RANDOM() < 0.5`.as("member"),
-        },
       });
     },
 
