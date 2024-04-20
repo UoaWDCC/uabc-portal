@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { gameSessions } from "@/lib/db/schema";
-import { insertGameSessionSchema } from "@/lib/db/validators";
+import { insertGameSessionSchema } from "@/lib/validators";
 
 const routeContextSchema = z.object({
   params: z.object({
