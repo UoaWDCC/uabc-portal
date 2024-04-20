@@ -4,6 +4,7 @@
 
 "use client";
 
+import { InputHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { cn } from "@/lib/utils";
@@ -17,7 +18,11 @@ type TextInputProps = {
   onChange: (value: string) => void;
 };
 
-export const TextInput = (props: TextInputProps) => {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+}
+
+export const TextInput = ({ label, ...props }: TextInputProps) => {
   return (
     <div className={cn("relative h-11 ", props.className)}>
       <h2
@@ -31,7 +36,7 @@ export const TextInput = (props: TextInputProps) => {
           props.isError && "left-3 top-[-0.75rem] px-2 text-sm text-red-500",
         )}
       >
-        {props.label}
+        {label}
       </h2>
       <input
         type={props.type}
@@ -41,7 +46,7 @@ export const TextInput = (props: TextInputProps) => {
         className={twMerge(
           cn(
             "w-full rounded p-2 border focus:border-2 outline-none h-full bg-background text-tertiary dark:text-white/70 InputAdjacentText",
-            "border-blue-400 focus:border-blue-500",
+            "border-primary",
           ),
           props.isError && "border-red-500 focus:border-red-500",
         )}

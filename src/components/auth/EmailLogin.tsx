@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { Button } from "../Button";
 import { TextInput } from "../TextInput";
+import TextInputB from "../TextInputB";
 
 interface EmailLoginProps {
   onLoginOpen: () => void;
@@ -40,7 +41,7 @@ export const EmailLogin = ({ onLoginOpen }: EmailLoginProps) => {
           value={email}
           onChange={setEmail}
         />
-        <TextInput
+        <TextInputB
           className="text-foreground"
           label="Password"
           type="password"
