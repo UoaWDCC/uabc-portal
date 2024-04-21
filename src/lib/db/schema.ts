@@ -87,33 +87,35 @@ export const gameSessions = pgTable("gameSession", {
   maxUsers: integer("maxUsers").notNull(),
 });
 
-export const booking = pgTable("booking", {
+export const bookings = pgTable("booking", {
   id: serial("id").primaryKey(),
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  gameSessionId: integer("gameSessionId"),
+  gameSessionId: integer("gameSessionId")
+    .notNull()
+    .references(() => gameSessions.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
   difficulty: playLevelEnum("difficulty").notNull(),
 });
 
 // each game session can have many bookings
 export const gameSessionRelations = relations(gameSessions, ({ many }) => ({
-  bookings: many(booking),
+  bookings: many(bookings),
 }));
 
 // each booking can have one game session
-export const bookingSessionRelations = relations(booking, ({ one }) => ({
+export const bookingSessionRelations = relations(bookings, ({ one }) => ({
   gameSession: one(gameSessions, {
-    fields: [booking.gameSessionId],
+    fields: [bookings.gameSessionId],
     references: [gameSessions.id],
   }),
   userSession: one(users, {
-    fields: [booking.userId],
+    fields: [bookings.userId],
     references: [users.id],
   }),
 }));
 
 export const userSessionRelations = relations(users, ({ many }) => ({
-  bookings: many(booking),
+  bookings: many(bookings),
 }));

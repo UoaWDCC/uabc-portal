@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { gameSessions } from "@/lib/db/schema";
-import { insertGameSessionSchema } from "@/lib/db/validators";
+import { insertGameSessionSchema } from "@/lib/validators";
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -81,6 +81,7 @@ export async function PATCH(
     if (error instanceof z.ZodError)
       return NextResponse.json(error.issues, { status: 400 });
 
+    console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }
