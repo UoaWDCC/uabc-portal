@@ -3,13 +3,13 @@ import { create } from "zustand";
 interface OnboardingDetailsState {
   firstName: string;
   lastName: string;
-  member: boolean;
+  member: boolean | null;
 }
 
 interface OnboardingDetailsAction {
   setFirstName: (firstName: OnboardingDetailsState["firstName"]) => void;
   setLastName: (lastName: OnboardingDetailsState["lastName"]) => void;
-  setMember: (member: OnboardingDetailsState["member"]) => void;
+  setMember: (member: boolean) => void;
 }
 
 export const useOnboardingDetailsStore = create<
@@ -17,7 +17,7 @@ export const useOnboardingDetailsStore = create<
 >((set) => ({
   firstName: "",
   lastName: "",
-  member: false,
+  member: null,
   setFirstName: (firstName) => set(() => ({ firstName: firstName })),
   setLastName: (lastName) => set(() => ({ lastName: lastName })),
   setMember: (member) => set(() => ({ member: member })),
