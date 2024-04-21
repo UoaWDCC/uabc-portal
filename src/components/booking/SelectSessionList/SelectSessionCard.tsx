@@ -31,20 +31,13 @@ function UnmemoizedSelectSessionCard({
   return (
     <Card
       className={cn(
-        "border px-6 py-4 min-h-24 flex align-middle leading-5",
-        isSelected ? "bg-primary" : "bg-secondary",
+        "min-h-24 flex align-middle leading-5",
         isDisabled && "opacity-40",
       )}
+      variant={isSelected ? "primary" : "secondary"}
     >
       <div>
-        <span
-          className={twJoin(
-            isSelected
-              ? "text-primary-foreground"
-              : "text-secondary-foreground",
-            "text-lg font-medium leading-5",
-          )}
-        >
+        <span className="text-lg font-medium leading-5">
           {day} {isDisabled && "(Session Full)"}
         </span>
         <br />

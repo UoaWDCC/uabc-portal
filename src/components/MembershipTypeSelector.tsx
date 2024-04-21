@@ -3,6 +3,7 @@
 import type { ChangeEventHandler } from "react";
 
 import { cn } from "@/lib/utils";
+import { Card } from "./Card";
 
 interface MembershipTypeSelectorProps {
   selectedMembership: boolean | undefined;
@@ -22,35 +23,26 @@ export const MembershipTypeSelector = ({
   description1,
   description2,
 }: MembershipTypeSelectorProps) => (
-  <label
-    className={cn(
-      "flex flex-col px-6 py-4 shadow rounded cursor-pointer",
-      selectedMembership
-        ? "bg-primary text-primary-foreground hover:bg-primary/90"
-        : "bg-secondary text-secondary-foreground hover:bg-secondary/90",
-    )}
-  >
-    <input
-      type="radio"
-      name="MembershipTypeButton"
-      className="hidden"
-      checked={selectedMembership}
-      onChange={onChange}
-    />
-
-    <h2 className="text-lg font-medium">{heading}</h2>
-
-    <div
-      className={cn(
-        "text-sm",
-        selectedMembership
-          ? "text-primary-foreground/70"
-          : "text-secondary-foreground/70",
-      )}
+  <label>
+    <Card
+      variant={selectedMembership ? "primary" : "secondary"}
+      className={cn("flex flex-col shadow cursor-pointer hover:opacity-90")}
     >
-      <span>{description1}</span>
-      <br />
-      <span>{description2}</span>
-    </div>
+      <input
+        type="radio"
+        name="membership-type-selector"
+        className="hidden"
+        checked={selectedMembership}
+        onChange={onChange}
+      />
+
+      <h2 className="text-lg font-medium">{heading}</h2>
+
+      <div className={cn("text-sm opacity-70")}>
+        <span>{description1}</span>
+        <br />
+        <span>{description2}</span>
+      </div>
+    </Card>
   </label>
 );

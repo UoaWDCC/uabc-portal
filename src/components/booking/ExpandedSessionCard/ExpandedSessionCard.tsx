@@ -9,7 +9,7 @@ interface ExpandedSessionCardProps {
 export const ExpandedSessionCard = ({
   gameSession,
 }: ExpandedSessionCardProps) => (
-  <Card className="text-sm">
+  <div className="rounded text-sm">
     <div className="rounded-t-md bg-primary px-6 py-4 drop-shadow-lg">
       <p className="text-lg font-medium text-primary-foreground">
         {gameSession.weekday}
@@ -28,5 +28,5 @@ export const ExpandedSessionCard = ({
       </p>
     </div>
     <LevelSelector id={gameSession.id} selectedLevel={gameSession.playLevel} />
-  </Card>
+  </div>
 );
