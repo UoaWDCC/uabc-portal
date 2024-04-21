@@ -28,10 +28,10 @@ const MembershipType = () => {
   };
 
   return (
-    <div className="mx-[16px]">
-      <div className="flex my-[16px]">
+    <div className="flex flex-col h-dvh mx-4 gap-y-6">
+      <div className="flex mt-4">
         <button
-          className="flex items-center mr-[16px] hover:text-primary"
+          className="flex items-center px-4 hover:text-primary"
           onClick={handleBackButtonClick}
         >
           <IoArrowBackOutline />
@@ -41,7 +41,7 @@ const MembershipType = () => {
 
       <MembershipTypeButton
         selectedMembership={selectedMembership === true}
-        onClick={() => handleButtonClick(true)}
+        onChange={() => handleButtonClick(true)}
         typeHeading="Prepaid Member"
         description1="Package of 6, 11 or 22 prepaid sessions for the semester"
         description2="(limit of 2 sessions per week)"
@@ -49,15 +49,15 @@ const MembershipType = () => {
 
       <MembershipTypeButton
         selectedMembership={selectedMembership === false}
-        onClick={() => handleButtonClick(false)}
+        onChange={() => handleButtonClick(false)}
         typeHeading="Non-Member (Casual)"
         description1="$15.00 per session"
         description2="(limit of 1 session per week)"
       />
 
-      <div className="flex-grow h-[320px]"></div>
+      <div className="flex-grow" />
 
-      <div className="mb-[40px]">
+      <div className="mb-10">
         <Button
           className="w-full"
           onClick={handleNextButtonClick}
