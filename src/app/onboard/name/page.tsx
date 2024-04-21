@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
 import { UabcHeaderText } from "@/components/UabcHeaderText";
+import { Button } from "@/components/ui/button";
 import { useOnboardingDetailsStore } from "@/stores/useOnboardingDetailsStore";
 
 export default function NamePage() {
@@ -41,6 +41,7 @@ export default function NamePage() {
         </div>
         <div className="pb-10">
           <Button
+            large
             className="w-full"
             onClick={() => {
               // Go to membership type selection page
