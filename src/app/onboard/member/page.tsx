@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { IoArrowBackOutline } from "react-icons/io5";
 
-import { Button } from "@/components/Button";
 import { MembershipTypeButton } from "@/components/MembershipTypeButton";
+import { Button } from "@/components/ui/button";
 import { useOnboardingDetailsStore } from "@/stores/useOnboardingDetailsStore";
 
 const MembershipType = () => {
