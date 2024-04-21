@@ -1,13 +1,13 @@
 "use client";
 
-import React from "react";
+import type { ChangeEventHandler } from "react";
 
 import { cn } from "@/lib/utils";
 
-interface MembershipOptionProps {
+interface MembershipTypeSelectorProps {
   selectedMembership: boolean | undefined;
-  onChange: (isMember: boolean) => void;
-  typeHeading: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  heading: string;
   description1: string;
   description2: string;
 }
@@ -15,13 +15,13 @@ interface MembershipOptionProps {
 // the description should be text-primary-foreground/70 when its selected, and text-secondary-foreground/70 when its not selected
 // the header text though should still be text-primary-foreground and text-secondary-foreground respectively without the opacity
 
-export const MembershipTypeButton = ({
+export const MembershipTypeSelector = ({
   selectedMembership,
   onChange,
-  typeHeading,
+  heading,
   description1,
   description2,
-}: MembershipOptionProps) => (
+}: MembershipTypeSelectorProps) => (
   <label
     className={cn(
       "flex flex-col px-6 py-4 shadow rounded cursor-pointer",
@@ -35,23 +35,12 @@ export const MembershipTypeButton = ({
       name="MembershipTypeButton"
       className="hidden"
       checked={selectedMembership}
-      onChange={() => onChange(!selectedMembership)}
+      onChange={onChange}
     />
 
-    <h2 className="text-large pb-[3px] font-medium">{typeHeading}</h2>
+    <h2 className="text-lg font-medium">{heading}</h2>
 
-    <p
-      className={cn(
-        "text-sm pb-[1.5px]",
-        selectedMembership
-          ? "text-primary-foreground/70"
-          : "text-secondary-foreground/70",
-      )}
-    >
-      {description1}
-    </p>
-
-    <p
+    <div
       className={cn(
         "text-sm",
         selectedMembership
@@ -59,7 +48,9 @@ export const MembershipTypeButton = ({
           : "text-secondary-foreground/70",
       )}
     >
-      {description2}
-    </p>
+      <span>{description1}</span>
+      <br />
+      <span>{description2}</span>
+    </div>
   </label>
 );
