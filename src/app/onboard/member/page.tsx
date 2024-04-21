@@ -6,14 +6,14 @@ import { IoArrowBackOutline } from "react-icons/io5";
 
 import { Button } from "@/components/Button";
 import { MembershipTypeButton } from "@/components/MembershipTypeButton";
+import { useOnboardingDetailsStore } from "@/stores/useOnboardingDetailsStore";
 
 const MembershipType = () => {
-  const [selectedMembership, setSelectedMembership] = useState<
-    boolean | undefined
-  >(undefined);
+  const member = useOnboardingDetailsStore((state) => state.member);
+  const setMember = useOnboardingDetailsStore((state) => state.setMember);
 
   const handleButtonClick = (isMember: boolean) => {
-    setSelectedMembership(isMember);
+    setMember(isMember);
   };
 
   const router = useRouter();
@@ -28,11 +28,12 @@ const MembershipType = () => {
   };
 
   return (
-    <div className="flex flex-col h-dvh mx-4 gap-y-6">
+    <div className="flex flex-col h-dvh mx-4 gap-y-4">
       <div className="flex mt-4">
         <button
           className="flex items-center px-4 hover:text-primary"
           onClick={handleBackButtonClick}
+          style={{ fontSize: "1.5rem" }}
         >
           <IoArrowBackOutline />
         </button>
@@ -40,7 +41,7 @@ const MembershipType = () => {
       </div>
 
       <MembershipTypeButton
-        selectedMembership={selectedMembership === true}
+        selectedMembership={member === true}
         onChange={() => handleButtonClick(true)}
         typeHeading="Prepaid Member"
         description1="Package of 6, 11 or 22 prepaid sessions for the semester"
@@ -48,7 +49,7 @@ const MembershipType = () => {
       />
 
       <MembershipTypeButton
-        selectedMembership={selectedMembership === false}
+        selectedMembership={member === false}
         onChange={() => handleButtonClick(false)}
         typeHeading="Non-Member (Casual)"
         description1="$15.00 per session"
@@ -61,7 +62,7 @@ const MembershipType = () => {
         <Button
           className="w-full"
           onClick={handleNextButtonClick}
-          disabled={selectedMembership === undefined}
+          disabled={member === undefined}
         >
           Next
         </Button>

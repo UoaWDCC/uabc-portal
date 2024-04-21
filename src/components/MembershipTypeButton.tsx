@@ -21,17 +21,9 @@ export const MembershipTypeButton = ({
 }: MembershipOptionProps) => (
   <label
     className={cn(
-      "flex",
-      "flex-col",
-      "py-[21px]",
-      "px-8",
-      "py-6",
-      "shadow",
-      "rounded",
-      "hover:pointer",
-      "cursor-pointer",
+      "flex flex-col px-6 py-4 shadow rounded cursor-pointer",
       selectedMembership
-        ? "bg-primary text-secondary hover:bg-primary/90"
+        ? "bg-primary text-primary-foreground hover:bg-primary/90"
         : "bg-secondary hover:bg-secondary/90",
     )}
   >
@@ -42,8 +34,10 @@ export const MembershipTypeButton = ({
       checked={selectedMembership}
       onChange={() => onChange(!selectedMembership)}
     />
-    <h2 className="text-medium pb-[3px] font-bold">{typeHeading}</h2>
-    <p className="text-sm pb-[1.5px]">{description1}</p>
-    <p className="text-sm">{description2}</p>
+    <h2 className="text-large pb-[3px] font-medium">{typeHeading}</h2>
+    <p className="text-sm pb-[1.5px] text-primary-foreground/70">
+      {description1}
+    </p>
+    <p className="text-sm text-primary-foreground/70">{description2}</p>
   </label>
 );
