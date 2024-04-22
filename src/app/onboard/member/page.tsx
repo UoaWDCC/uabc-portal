@@ -56,7 +56,7 @@ const MembershipType = () => {
         <Button
           className="w-full self-end"
           onClick={handleNextButtonClick}
-          disabled={member === undefined}
+          disabled={member === null}
         >
           Next
         </Button>
