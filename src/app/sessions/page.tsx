@@ -37,7 +37,7 @@ export default function SelectSessionPage() {
 
   useEffect(() => {
     function getUserInfo(id: string) {
-      fetch(`/api/user/${id}`)
+      fetch(`/api/user/${id}`, { cache: "no-store" })
         .then((res) => res.json())
         .then((response) => {
           const data = response;
