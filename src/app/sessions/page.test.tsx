@@ -1,6 +1,8 @@
 import { render, screen, userEvent } from "@/tests/test-utils";
 import SelectSessionsPage from "./page";
 
+//import {server} from "./server";
+
 jest.mock("next/navigation", () => ({
   useRouter() {
     return {
@@ -9,24 +11,20 @@ jest.mock("next/navigation", () => ({
   },
 }));
 
-const mockUserData = {
-  firstName: "Test",
-  isMember: true,
-  remainingSessions: 11,
-};
+//server.listen()
 
 describe("Select Sessions page", () => {
   beforeEach(() => {
-    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+    /*jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve(mockUserData),
-    } as Response);
+    } as Response);*/
     render(<SelectSessionsPage />);
   });
 
-  afterEach(() => {
+  /*afterEach(() => {
     jest.resetAllMocks();
-  });
+  });*/
 
   it("should render h1 with the text 'Sessions'", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
