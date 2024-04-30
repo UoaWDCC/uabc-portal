@@ -45,9 +45,9 @@ export const EmailLogin = ({ onLoginOpen }: EmailLoginProps) => {
           className="text-foreground"
           label="Password"
           type="password"
-          isError={error}
           value={password}
-          onChange={setPassword}
+          isError={error}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <Button type="submit">Login</Button>
       </div>
