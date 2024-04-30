@@ -29,14 +29,14 @@ export default function NamePage() {
             value={firstName}
             type="text"
             isError={false}
-            onChange={updateFirstName}
+            OnChange={updateFirstName}
           />
           <TextInput
             label="Last Name"
             value={lastName}
             type="text"
             isError={false}
-            onChange={updateLastName}
+            OnChange={updateLastName}
           />
         </div>
         <div className="pb-10">

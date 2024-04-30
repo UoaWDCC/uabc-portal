@@ -21,6 +21,6 @@ export const Default: Story = {
     value: "",
     type: "text",
     isError: false,
-    onChange: () => {},
+    OnChange: () => {},
   },
 };
