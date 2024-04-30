@@ -9,45 +9,31 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   type: string;
   isError?: boolean;
-  OnChange?: (value: string) => void;
-  classNames?: string;
 }
 
-/**
- * @param {React.Dispatch<SetStateAction<any>>} OnChange (e) => OnChange?(e.target.value)
- */
-
-export const TextInput = ({
-  label,
-  type,
-  isError,
-  className,
-  OnChange,
-  ...props
-}: InputProps) => {
+export const TextInput = ({ label, type, isError, ...props }: InputProps) => {
   return (
-    <div className={cn("relative h-11 ", className)}>
+    <div className={cn("relative h-11 ", props.className)}>
       <input
         type={type}
-        placeholder=" "
+        placeholder={props.placeholder ? props.placeholder : " "}
         className={twMerge(
-          "peer w-full border-primary rounded p-2 border focus:border-2 outline-none h-full bg-background text-tertiary dark:text-white/70",
-          isError && "border-red-500 ",
+          "peer w-full border-primary rounded p-2 border focus:border-2 outline-none h-full bg-background dark:text-white/70",
+          isError && "!border-destructive !text-destructive",
         )}
         {...props}
-        onChange={(e) => OnChange?.(e.target.value)}
         required
       />
-      <h2
+      <span
         className={cn(
-          "absolute -top-3 left-2 transition-all pointer-events-none select-none z-10 bg-background px-2 text-primary text-xs",
-          "peer-focus:-top-3 peer-focus:translate-y-[0%] peer-focus:text-primary peer-focus:text-xs",
-          "peer-placeholder-shown:top-[50%] peer-placeholder-shown:-translate-y-[50%] peer-placeholder-shown:text-white/70 peer-placeholder-shown:text-sm",
-          isError && "text-red-500",
+          "absolute top-0 -translate-y-[50%] left-2 transition-all pointer-events-none select-none z-10 bg-background px-1 text-primary text-xs autofill:bg-black",
+          "peer-focus:top-0 peer-focus:-translate-y-[50%] peer-focus:text-primary peer-focus:text-xs",
+          "peer-placeholder-shown:top-[50%] peer-placeholder-shown:-translate-y-[50%] peer-placeholder-shown:text-tertiary/70 peer-placeholder-shown:text-base",
+          isError && "!text-destructive",
         )}
       >
         {label}
-      </h2>
+      </span>
     </div>
   );
 };

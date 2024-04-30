@@ -38,7 +38,7 @@ export const EmailLogin = ({ onLoginOpen }: EmailLoginProps) => {
           type="email"
           isError={error}
           value={email}
-          OnChange={setEmail}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextInput
           className="text-foreground"
@@ -46,7 +46,7 @@ export const EmailLogin = ({ onLoginOpen }: EmailLoginProps) => {
           type="password"
           value={password}
           isError={error}
-          OnChange={setPassword}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <Button type="submit">Login</Button>
       </div>
