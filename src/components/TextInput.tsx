@@ -8,12 +8,19 @@ import { cn } from "@/lib/utils";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   type: string;
+  className?: string;
   isError?: boolean;
 }
 
-export const TextInput = ({ label, type, isError, ...props }: InputProps) => {
+export const TextInput = ({
+  label,
+  type,
+  isError,
+  className,
+  ...props
+}: InputProps) => {
   return (
-    <div className={cn("relative h-11 ", props.className)}>
+    <div className={cn("relative h-11 ", className)}>
       <input
         type={type}
         placeholder={props.placeholder ? props.placeholder : " "}
