@@ -16,7 +16,11 @@ export async function GET() {
         endTime: gameSessions.endTime,
         locationName: gameSessions.locationName,
         locationAddress: gameSessions.locationName,
-        isFull: sql`RANDOM() < 0.5`,
+        isFull: sql`(
+          SELECT COUNT(*)
+          FROM bookings
+          WHERE bookings.gameSessionId = gameSessions.id
+        ) = ${gameSessions.maxUsers}`,
       })
       .from(gameSessions)
       .where(
