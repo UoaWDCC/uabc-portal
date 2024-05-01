@@ -78,13 +78,15 @@ export const verificationTokens = pgTable(
 
 export const gameSessions = pgTable("gameSession", {
   id: serial("id").primaryKey(),
-  bookingClose: timestamp("bookingClose", { mode: "date" }).notNull(),
   bookingOpen: timestamp("bookingOpen", { mode: "date" }).notNull(),
+  bookingClose: timestamp("bookingClose", { mode: "date" }).notNull(),
   startTime: timestamp("startTime", { mode: "date" }).notNull(),
   endTime: timestamp("endTime", { mode: "date" }).notNull(),
   locationName: text("locationName").notNull(),
   locationAddress: text("locationAddress").notNull(),
   maxUsers: integer("maxUsers").notNull(),
+  capacity: integer("capacity").notNull(),
+  casualCapacity: integer("casualCapacity").notNull().default(5),
   numberOfBookings: integer("numberOfBookings").default(0).notNull(),
 });
 
