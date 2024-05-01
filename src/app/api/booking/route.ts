@@ -40,58 +40,106 @@ export async function POST(request: Request) {
       where: eq(users.id, currentUser!.id),
     });
 
-    if (numOfSessions <= (user?.member ? 2 : 1) && numOfSessions > 0) {
-      // iterate through all the sessions in the request
-      for (const session of json) {
-        const gameSession = await db.query.gameSessions.findFirst({
-          where: eq(gameSessions.id, session.gameSessionId),
-        });
-
-        // check if the booking is within the time period
-        const time = new Date();
-        if (time > gameSession!.endTime || time < gameSession!.startTime) {
-          return new Response("booking not within the time period", {
-            status: 400,
-          });
-        }
-
-        // check if the session is already full
-        const booking = await db.query.bookings.findMany({
-          where: eq(bookings.gameSessionId, session.gameSessionId),
-        });
-        if (booking.length >= gameSession!.maxUsers) {
-          return new Response("game session is full", { status: 400 });
-        }
-      }
-
-      // if the user is a member, check if they have enough remaining sessions
-      if (user?.member === true && user.remainingSessions < numOfSessions) {
-        return new Response("insufficient remaining sessions", { status: 400 });
-      }
-
-      // if all checks pass, insert the bookings into the database and update the user's remaining sessions
-      await db.transaction(async (tx) => {
-        if (user?.member) {
-          await tx
-            .update(users)
-            .set({
-              remainingSessions: user.remainingSessions - numOfSessions,
-            })
-            .where(eq(users.id, currentUser!.id));
-        }
-        for (let i = 0; i < numOfSessions; i++) {
-          await tx.insert(bookings).values({
-            userId: currentUser!.id,
-            gameSessionId: json[i].gameSessionId,
-            difficulty: json[i].playLevel,
-          });
-        }
-      });
-
-      return new Response("bookings created", { status: 201 });
-    } else {
+    // check if there are too many or too little sessions in the request
+    if (numOfSessions > (user?.member ? 2 : 1)) {
       return new Response("num_of_sessions exceeds limit", { status: 400 });
     }
+
+    // if the user is a member, check if they have enough remaining sessions
+    if (user?.member === true && user.remainingSessions < numOfSessions) {
+      return new Response("insufficient remaining sessions", { status: 400 });
+    }
+
+    // check if there are duplicate game session ids in the request
+    if (numOfSessions == 2 && json[0].gameSessionId == json[1].gameSessionId) {
+      return new Response("duplicate game session ids", { status: 400 });
+    }
+
+    // iterate through all the sessions in the request
+    for (const session of json) {
+      const gameSession = await db.query.gameSessions.findFirst({
+        where: eq(gameSessions.id, session.gameSessionId),
+      });
+
+      // check if the booking is within the time period
+      const currentTime = new Date();
+      if (
+        currentTime > gameSession!.endTime ||
+        currentTime < gameSession!.startTime
+      ) {
+        return new Response("booking not within the time period", {
+          status: 400,
+        });
+      }
+
+      // check if the session is already full
+      if (gameSession!.numberOfBookings >= gameSession!.maxUsers) {
+        return new Response("game session is full", { status: 400 });
+      }
+
+      // check if user has already booked the session
+      const booking = await db.query.bookings.findFirst({
+        where: and(
+          eq(bookings.userId, currentUser!.id),
+          eq(bookings.gameSessionId, session.gameSessionId),
+        ),
+      });
+      if (booking) {
+        return new Response("user has already booked this session", {
+          status: 400,
+        });
+      }
+    }
+
+    // incrementing the numberOfBookings first, then checking if the session is full to erase race conditions
+    for (const session of json) {
+      await db
+        .update(gameSessions)
+        .set({
+          numberOfBookings: sql`${gameSessions.numberOfBookings} + 1`,
+        })
+        .where(eq(gameSessions.id, session.gameSessionId));
+    }
+
+    // check if the session is full after incrementing the numberOfBookings
+    for (const session of json) {
+      const gameSession = await db.query.gameSessions.findFirst({
+        where: eq(gameSessions.id, session.gameSessionId),
+      });
+      if (gameSession!.numberOfBookings > gameSession!.maxUsers) {
+        // decrement the numberOfBookings if the session is full
+        for (const filledSession of json) {
+          await db
+            .update(gameSessions)
+            .set({
+              numberOfBookings: sql`${gameSessions.numberOfBookings} - 1`,
+            })
+            .where(eq(gameSessions.id, filledSession.gameSessionId));
+        }
+        return new Response("game session is full", { status: 400 });
+      }
+    }
+
+    // ALL CHECKS SHOULD BE PASSED BY THIS POINT
+    await db.transaction(async (tx) => {
+      if (user?.member) {
+        await tx
+          .update(users)
+          .set({
+            remainingSessions: user.remainingSessions - numOfSessions,
+          })
+          .where(eq(users.id, currentUser!.id));
+      }
+      for (const session of json) {
+        await tx.insert(bookings).values({
+          userId: currentUser!.id,
+          gameSessionId: session.gameSessionId,
+          difficulty: session.playLevel,
+        });
+      }
+    });
+
+    return new Response("bookings created", { status: 201 });
   } catch {
     return new Response("unexpected error", { status: 500 });
   }
