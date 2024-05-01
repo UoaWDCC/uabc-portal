@@ -84,7 +84,6 @@ export const gameSessions = pgTable("gameSession", {
   endTime: timestamp("endTime", { mode: "date" }).notNull(),
   locationName: text("locationName").notNull(),
   locationAddress: text("locationAddress").notNull(),
-  maxUsers: integer("maxUsers").notNull(),
   capacity: integer("capacity").notNull(),
   casualCapacity: integer("casualCapacity").notNull().default(5),
   numberOfBookings: integer("numberOfBookings").default(0).notNull(),
