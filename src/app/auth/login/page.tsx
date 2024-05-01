@@ -11,7 +11,7 @@ import { UabcLogo } from "@/components/UabcLogo";
 export default function Login() {
   const [emailLoginOpen, setEmailLoginOpen] = useState(false);
   return (
-    <div className="dark min-h-dvh w-dvw bg-background px-4 flex-col flex items-center justify-between py-8">
+    <div className="min-h-dvh w-dvw bg-background px-4 flex-col flex items-center justify-between py-8">
       {emailLoginOpen ? <div /> : <UabcHeaderText className="mb-4" />}
       <UabcLogo />
       <div className="flex flex-col w-full gap-4 mt-8">
