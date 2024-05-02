@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { CgProfile } from "react-icons/cg";
 import { twJoin } from "tailwind-merge";
 
@@ -17,6 +16,7 @@ import { SelectSessionList } from "@/components/booking/SelectSessionList/Select
 import { Button } from "@/components/Button";
 import { CountIndicator } from "@/components/CountIndicator";
 import { Heading } from "@/components/Heading";
+import { useUser } from "@/hooks/query/getUser";
 import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { useCartStore } from "@/stores/useCartStore";
 
@@ -28,28 +28,20 @@ export default function SelectSessionPage() {
   const { push } = useRouter();
 
   const sessionsSelected = useCartStore((state) => state.cart.length);
-
+  const { data, isLoading } = useUser("123");
   const [shake, setShake] = useState(false);
-  const [firstName, setFirstName] = useState(null);
+  const [firstName, setFirstName] = useState("");
   const [isMember, setIsMember] = useState(false);
   const [remainingSessions, setRemainingSessions] = useState(0);
   const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
 
   useEffect(() => {
-    function getUserInfo(id: string) {
-      fetch(`/api/user/${id}`, { cache: "no-store" })
-        .then((res) => res.json())
-        .then((response) => {
-          const data = response;
-          setFirstName(data.firstName);
-          setIsMember(data.member);
-          setRemainingSessions(data.remainingSessions);
-          console.log(data);
-        });
+    if (!isLoading && data) {
+      setFirstName(data.firstName);
+      setIsMember(data.member);
+      setRemainingSessions(data.remainingSessions);
     }
-
-    getUserInfo("123");
-  }, []);
+  }, [isLoading, data]);
 
   return (
     <div className="flex h-dvh flex-col">
