@@ -42,18 +42,16 @@ export const EmailLogin = ({ onLoginOpen }: EmailLoginProps) => {
           label="Email"
           type="email"
           isError={error}
-          backgroundColor="bg-background"
           value={email}
-          onChange={setEmail}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextInput
           className="text-foreground"
           label="Password"
           type="password"
-          isError={error}
-          backgroundColor="bg-background"
           value={password}
-          onChange={setPassword}
+          isError={error}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <Button large type="submit">
           Login
