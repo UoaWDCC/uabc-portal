@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
 import { UabcHeaderText } from "@/components/UabcHeaderText";
+import { Button } from "@/components/ui/button";
 import { useOnboardingDetailsStore } from "@/stores/useOnboardingDetailsStore";
 
 export default function NamePage() {
@@ -29,18 +29,19 @@ export default function NamePage() {
             value={firstName}
             type="text"
             isError={false}
-            onChange={updateFirstName}
+            onChange={(e) => updateFirstName(e.target.value)}
           />
           <TextInput
             label="Last Name"
             value={lastName}
             type="text"
             isError={false}
-            onChange={updateLastName}
+            onChange={(e) => updateLastName(e.target.value)}
           />
         </div>
         <div className="pb-10">
           <Button
+            large
             className="w-full"
             onClick={() => {
               // Go to membership type selection page

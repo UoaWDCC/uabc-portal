@@ -1,7 +1,6 @@
 "server only";
 
 import { unstable_cache } from "next/cache";
-import { sql } from "drizzle-orm/sql";
 import type { User } from "next-auth";
 
 import { CACHE_REVALIDATION_PERIOD } from "@/lib/constants";

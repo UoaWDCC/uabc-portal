@@ -13,9 +13,9 @@ import { twJoin } from "tailwind-merge";
 
 import { PrepaidSessionsCounter } from "@/components/booking/PrepaidSessionsCounter";
 import { SelectSessionList } from "@/components/booking/SelectSessionList/SelectSessionList";
-import { Button } from "@/components/Button";
 import { CountIndicator } from "@/components/CountIndicator";
 import { Heading } from "@/components/Heading";
+import { Button } from "@/components/ui/button";
 import { useUser } from "@/hooks/query/getUser";
 import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { useCartStore } from "@/stores/useCartStore";
@@ -90,6 +90,7 @@ export default function SelectSessionPage() {
 
       <div className="mt-6 mb-8 mx-4 flex justify-center">
         <Button
+          large
           disabled={sessionsSelected === 0}
           onClick={() => push("/sessions/book")}
           className="w-full"
