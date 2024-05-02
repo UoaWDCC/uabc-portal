@@ -51,7 +51,7 @@ describe("Select Sessions page", () => {
 
   it("should render n sessions selected after click", async () => {
     const user = userEvent.setup();
-    const sessionsSelected = screen.findByText("0 / 2");
+    const sessionsSelected = await screen.findByText("0 / 2");
     const sessionCards = await screen.findAllByTestId("session-card");
 
     await user.click(sessionCards[0]);
