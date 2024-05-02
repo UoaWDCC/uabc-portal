@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { Button } from "../Button";
 import { TextInput } from "../TextInput";
+import { Button } from "../ui/button";
 
 interface EmailLoginProps {
   onLoginOpen: () => void;
@@ -24,7 +24,12 @@ export const EmailLogin = ({ onLoginOpen }: EmailLoginProps) => {
     setOpen(true);
   }
 
-  if (!open) return <Button onClick={openEmailLogin}>Login with Email</Button>;
+  if (!open)
+    return (
+      <Button large onClick={openEmailLogin}>
+        Login with Email
+      </Button>
+    );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -48,7 +53,9 @@ export const EmailLogin = ({ onLoginOpen }: EmailLoginProps) => {
           isError={error}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type="submit">Login</Button>
+        <Button large type="submit">
+          Login
+        </Button>
       </div>
     </form>
   );

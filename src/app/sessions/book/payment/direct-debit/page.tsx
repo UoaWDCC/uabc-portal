@@ -4,10 +4,10 @@
 
 "use client";
 
-import { Button } from "@/components/Button";
 import { Heading } from "@/components/Heading";
 import { DebitDetailsCard } from "@/components/payment/DebitDetailsCard";
 import { PaymentInfoCard } from "@/components/payment/PaymentInfoCard";
+import { Button } from "@/components/ui/button";
 
 export default function DirectDebitPage() {
   const firstName = "John";
@@ -39,7 +39,9 @@ export default function DirectDebitPage() {
         />
       </div>
       <div className="mx-10 mb-10 mt-5 flex justify-center">
-        <Button onClick={() => alert("DONE")}>Done</Button>
+        <Button large onClick={() => alert("DONE")}>
+          Done
+        </Button>
       </div>
     </div>
   );

@@ -78,42 +78,45 @@ export const verificationTokens = pgTable(
 
 export const gameSessions = pgTable("gameSession", {
   id: serial("id").primaryKey(),
-  bookingClose: timestamp("bookingClose", { mode: "date" }).notNull(),
   bookingOpen: timestamp("bookingOpen", { mode: "date" }).notNull(),
+  bookingClose: timestamp("bookingClose", { mode: "date" }).notNull(),
   startTime: timestamp("startTime", { mode: "date" }).notNull(),
   endTime: timestamp("endTime", { mode: "date" }).notNull(),
   locationName: text("locationName").notNull(),
   locationAddress: text("locationAddress").notNull(),
-  maxUsers: integer("maxUsers").notNull(),
+  capacity: integer("capacity").notNull(),
+  casualCapacity: integer("casualCapacity").notNull().default(5),
 });
 
-export const booking = pgTable("booking", {
+export const bookings = pgTable("booking", {
   id: serial("id").primaryKey(),
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  gameSessionId: integer("gameSessionId"),
+  gameSessionId: integer("gameSessionId")
+    .notNull()
+    .references(() => gameSessions.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
   difficulty: playLevelEnum("difficulty").notNull(),
 });
 
 // each game session can have many bookings
 export const gameSessionRelations = relations(gameSessions, ({ many }) => ({
-  bookings: many(booking),
+  bookings: many(bookings),
 }));
 
 // each booking can have one game session
-export const bookingSessionRelations = relations(booking, ({ one }) => ({
+export const bookingSessionRelations = relations(bookings, ({ one }) => ({
   gameSession: one(gameSessions, {
-    fields: [booking.gameSessionId],
+    fields: [bookings.gameSessionId],
     references: [gameSessions.id],
   }),
   userSession: one(users, {
-    fields: [booking.userId],
+    fields: [bookings.userId],
     references: [users.id],
   }),
 }));
 
 export const userSessionRelations = relations(users, ({ many }) => ({
-  bookings: many(booking),
+  bookings: many(bookings),
 }));
