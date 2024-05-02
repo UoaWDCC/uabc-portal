@@ -18,9 +18,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     label: "Text Input",
-    value: "",
     type: "text",
     isError: false,
-    onChange: () => {},
   },
 };
