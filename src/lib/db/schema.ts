@@ -85,7 +85,7 @@ export const gameSessions = pgTable("gameSession", {
   locationName: text("locationName").notNull(),
   locationAddress: text("locationAddress").notNull(),
   capacity: integer("capacity").notNull(),
-  casualCapacity: integer("casualCapacity").notNull().default(5),
+  casualCapacity: integer("casualCapacity").notNull(),
 });
 
 export const bookings = pgTable("booking", {
