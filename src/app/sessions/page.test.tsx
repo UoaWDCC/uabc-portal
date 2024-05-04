@@ -15,7 +15,7 @@ describe("Select Sessions page", () => {
       <ClientSessionPage
         firstName="Test"
         isMember={true}
-        remainingSessions={parseInt("10")}
+        remainingSessions={10}
       />,
     );
   });

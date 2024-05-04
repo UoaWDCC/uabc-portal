@@ -4,12 +4,10 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { User } from "@auth/core/types";
-import { useSession } from "next-auth/react";
 import { CgProfile } from "react-icons/cg";
 import { twJoin } from "tailwind-merge";
 
@@ -18,7 +16,6 @@ import { SelectSessionList } from "@/components/booking/SelectSessionList/Select
 import { CountIndicator } from "@/components/CountIndicator";
 import { Heading } from "@/components/Heading";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@/hooks/query/getUser";
 import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { useCartStore } from "@/stores/useCartStore";
 
@@ -39,20 +36,8 @@ export default function ClientSessionPage({
   const { push } = useRouter();
 
   const sessionsSelected = useCartStore((state) => state.cart.length);
-  //const { data, isLoading } = useUser(user!);
   const [shake, setShake] = useState(false);
-  //const [firstName, setFirstName] = useState("");
-  //const [isMember, setIsMember] = useState(false);
-  //const [remainingSessions, setRemainingSessions] = useState(0);
   const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
-
-  /*useEffect(() => {
-    if (!isLoading && data) {
-      setFirstName(data.firstName);
-      setIsMember(data.member);
-      setRemainingSessions(data.remainingSessions);
-    }
-  }, [isLoading, data]);*/
 
   return (
     <div className="flex h-dvh flex-col">
