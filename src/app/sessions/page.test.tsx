@@ -1,5 +1,4 @@
 import { render, screen, userEvent } from "@/tests/test-utils";
-import SelectSessionsPage from "./client-page";
 import ClientSessionPage from "./client-page";
 
 jest.mock("next/navigation", () => ({
