@@ -11,7 +11,13 @@ jest.mock("next/navigation", () => ({
 
 describe("Select Sessions page", () => {
   beforeEach(() => {
-    render(<ClientSessionPage user={"123"} />);
+    render(
+      <ClientSessionPage
+        firstName="Test"
+        isMember={true}
+        remainingSessions={parseInt("10")}
+      />,
+    );
   });
 
   it("should render h1 with the text 'Sessions'", () => {

@@ -26,27 +26,33 @@ import { useCartStore } from "@/stores/useCartStore";
 //const isMember = true;
 //const firstName = "David";
 interface ClientSessionPageProps {
-  user: string;
+  firstName: string;
+  isMember: boolean;
+  remainingSessions: number;
 }
 
-export default function ClientSessionPage({ user }: ClientSessionPageProps) {
+export default function ClientSessionPage({
+  firstName,
+  isMember,
+  remainingSessions,
+}: ClientSessionPageProps) {
   const { push } = useRouter();
 
   const sessionsSelected = useCartStore((state) => state.cart.length);
-  const { data, isLoading } = useUser(user!);
+  //const { data, isLoading } = useUser(user!);
   const [shake, setShake] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [isMember, setIsMember] = useState(false);
-  const [remainingSessions, setRemainingSessions] = useState(0);
+  //const [firstName, setFirstName] = useState("");
+  //const [isMember, setIsMember] = useState(false);
+  //const [remainingSessions, setRemainingSessions] = useState(0);
   const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (!isLoading && data) {
       setFirstName(data.firstName);
       setIsMember(data.member);
       setRemainingSessions(data.remainingSessions);
     }
-  }, [isLoading, data]);
+  }, [isLoading, data]);*/
 
   return (
     <div className="flex h-dvh flex-col">
@@ -83,7 +89,7 @@ export default function ClientSessionPage({ user }: ClientSessionPageProps) {
           )}
           onAnimationEnd={() => setShake(false)}
         >
-          {sessionsSelected} / {isLoading ? "..." : maxSessions}
+          {sessionsSelected} / {maxSessions}
         </CountIndicator>
       </div>
 
