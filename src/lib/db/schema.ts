@@ -17,6 +17,15 @@ export const playLevelEnum = pgEnum("playLevel", [
   "advanced",
 ]);
 export const roleEnum = pgEnum("role", ["admin", "user"]);
+export const dayEnum = pgEnum("day", [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+  "sunday",
+]);
 
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
@@ -78,6 +87,9 @@ export const verificationTokens = pgTable(
 
 export const gameSessions = pgTable("gameSession", {
   id: serial("id").primaryKey(),
+  gameSessionScheduleId: integer("gameSessionScheduleId")
+    .notNull()
+    .references(() => gameSessionSchedules.id, { onDelete: "cascade" }),
   bookingOpen: timestamp("bookingOpen", { mode: "date" }).notNull(),
   bookingClose: timestamp("bookingClose", { mode: "date" }).notNull(),
   startTime: timestamp("startTime", { mode: "date" }).notNull(),
@@ -100,10 +112,17 @@ export const bookings = pgTable("booking", {
   difficulty: playLevelEnum("difficulty").notNull(),
 });
 
-// each game session can have many bookings
-export const gameSessionRelations = relations(gameSessions, ({ many }) => ({
-  bookings: many(bookings),
-}));
+// each game session can have one gameSessionSchedule and many bookings
+export const gameSessionRelations = relations(
+  gameSessions,
+  ({ one, many }) => ({
+    gameSessionSchedules: one(gameSessionSchedules, {
+      fields: [gameSessions.id],
+      references: [gameSessionSchedules.id],
+    }),
+    bookings: many(bookings),
+  }),
+);
 
 // each booking can have one game session
 export const bookingSessionRelations = relations(bookings, ({ one }) => ({
@@ -120,3 +139,44 @@ export const bookingSessionRelations = relations(bookings, ({ one }) => ({
 export const userSessionRelations = relations(users, ({ many }) => ({
   bookings: many(bookings),
 }));
+
+export const semesters = pgTable("semester", {
+  id: serial("id").primaryKey(),
+  startDate: timestamp("startDate", { mode: "date" }).notNull(),
+  endDate: timestamp("endDate", { mode: "date" }).notNull(),
+  breakStart: timestamp("breakStart", { mode: "date" }).notNull(),
+  breakEnd: timestamp("breakEnd", { mode: "date" }).notNull(),
+  bookingDay: timestamp("bookingDay", { mode: "date" }).notNull(),
+  bookingOpenTime: timestamp("bookingOpenTime", { mode: "date" }).notNull(),
+});
+
+export const gameSessionSchedules = pgTable("gameSessionSchedule", {
+  id: serial("id").primaryKey(),
+  semesterId: integer("semesterId")
+    .notNull()
+    .references(() => semesters.id, { onDelete: "cascade" }),
+  day: text("day").notNull(),
+  startTime: timestamp("startTime", { mode: "date" }).notNull(),
+  endTime: timestamp("endTime", { mode: "date" }).notNull(),
+  locationName: text("locationName").notNull(),
+  locationAddress: text("locationAddress").notNull(),
+  capacity: integer("capacity").notNull(),
+  casualCapacity: integer("casualCapacity").notNull().default(5),
+});
+
+// One semester is associated with many GameSessionSchedules
+export const semesterRelations = relations(semesters, ({ many }) => ({
+  gameSessionSchedules: many(gameSessionSchedules),
+}));
+
+// One GameSessionSchedule is associated with one Semester and many GameSessions
+export const gameSessionScheduleRelations = relations(
+  gameSessionSchedules,
+  ({ one, many }) => ({
+    semester: one(semesters, {
+      fields: [gameSessionSchedules.semesterId],
+      references: [semesters.id],
+    }),
+    gameSessions: many(gameSessions),
+  }),
+);
