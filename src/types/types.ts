@@ -1,4 +1,4 @@
-export type weekday =
+export type Weekday =
   | "Monday"
   | "Tuesday"
   | "Wednesday"
@@ -7,4 +7,4 @@ export type weekday =
   | "Saturday"
   | "Sunday";
 
-export type playLevel = "beginner" | "intermediate" | "advanced";
+export type PlayLevel = "beginner" | "intermediate" | "advanced";

@@ -1,9 +1,8 @@
-import { Card } from "@/components/Card";
-import type { GameSessionDto } from "@/types/game-session";
+import type { CartGameSession } from "@/types/game-session";
 import { LevelSelector } from "./LevelSelector";
 
 interface ExpandedSessionCardProps {
-  gameSession: GameSessionDto;
+  gameSession: CartGameSession;
 }
 
 export const ExpandedSessionCard = ({
