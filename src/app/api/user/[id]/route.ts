@@ -31,20 +31,6 @@ export async function GET(
       return new Response(`No User found for id: ${id}`, { status: 404 });
     }
 
-    /*const requiredFields = [
-      "id",
-      "firstName",
-      "lastName",
-      "email",
-      "member",
-      "verified",
-      "remainingSessions",
-    ];
-
-    const filteredUser = Object.fromEntries(
-      Object.entries(user).filter(([key]) => requiredFields.includes(key)),
-    );*/
-    console.log(user);
     return NextResponse.json(user);
   } catch {
     return new Response("Internal Server Error", { status: 500 });
