@@ -151,7 +151,7 @@ export const semesters = pgTable("semester", {
   endDate: timestamp("endDate", { mode: "date" }).notNull(),
   breakStart: timestamp("breakStart", { mode: "date" }).notNull(),
   breakEnd: timestamp("breakEnd", { mode: "date" }).notNull(),
-  bookingDay: weekdayEnum("bookingDay").notNull(),
+  bookingOpenDay: weekdayEnum("bookingOpenDay").notNull(),
   bookingOpenTime: time("bookingOpenTime").notNull(),
 });
 
