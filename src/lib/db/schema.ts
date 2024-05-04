@@ -21,13 +21,13 @@ export const playLevelEnum = pgEnum("playLevel", [
 
 export const roleEnum = pgEnum("role", ["admin", "user"]);
 export const weekdayEnum = pgEnum("weekday", [
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-  "sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
 ]);
 
 export const users = pgTable("user", {
@@ -90,9 +90,10 @@ export const verificationTokens = pgTable(
 
 export const gameSessions = pgTable("gameSession", {
   id: serial("id").primaryKey(),
-  gameSessionScheduleId: integer("gameSessionScheduleId")
-    .notNull()
-    .references(() => gameSessionSchedules.id, { onDelete: "set null" }),
+  gameSessionScheduleId: integer("gameSessionScheduleId").references(
+    () => gameSessionSchedules.id,
+    { onDelete: "set null" },
+  ),
   bookingOpen: timestamp("bookingOpen", { mode: "date" }).notNull(),
   bookingClose: timestamp("bookingClose", { mode: "date" }).notNull(),
   startTime: timestamp("startTime", { mode: "date" }).notNull(),
@@ -161,7 +162,7 @@ export const gameSessionSchedules = pgTable(
     semesterId: integer("semesterId")
       .notNull()
       .references(() => semesters.id, { onDelete: "cascade" }),
-    day: text("day").notNull(),
+    weekday: text("weekday").notNull(),
     startTime: time("startTime").notNull(),
     endTime: time("endTime").notNull(),
     locationName: text("locationName").notNull(),
@@ -170,7 +171,7 @@ export const gameSessionSchedules = pgTable(
     casualCapacity: integer("casualCapacity").notNull(),
   },
   (gss) => ({
-    unq: unique().on(gss.semesterId, gss.day),
+    unq: unique().on(gss.semesterId, gss.weekday),
   }),
 );
 
