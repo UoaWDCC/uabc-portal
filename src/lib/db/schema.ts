@@ -8,7 +8,9 @@ import {
   primaryKey,
   serial,
   text,
+  time,
   timestamp,
+  unique,
 } from "drizzle-orm/pg-core";
 
 export const playLevelEnum = pgEnum("playLevel", [
@@ -17,7 +19,7 @@ export const playLevelEnum = pgEnum("playLevel", [
   "advanced",
 ]);
 export const roleEnum = pgEnum("role", ["admin", "user"]);
-export const dayEnum = pgEnum("day", [
+export const weekdayEnum = pgEnum("weekday", [
   "monday",
   "tuesday",
   "wednesday",
@@ -89,7 +91,7 @@ export const gameSessions = pgTable("gameSession", {
   id: serial("id").primaryKey(),
   gameSessionScheduleId: integer("gameSessionScheduleId")
     .notNull()
-    .references(() => gameSessionSchedules.id, { onDelete: "cascade" }),
+    .references(() => gameSessionSchedules.id, { onDelete: "set null" }),
   bookingOpen: timestamp("bookingOpen", { mode: "date" }).notNull(),
   bookingClose: timestamp("bookingClose", { mode: "date" }).notNull(),
   startTime: timestamp("startTime", { mode: "date" }).notNull(),
@@ -142,27 +144,34 @@ export const userSessionRelations = relations(users, ({ many }) => ({
 
 export const semesters = pgTable("semester", {
   id: serial("id").primaryKey(),
+  name: text("name").unique().notNull(),
   startDate: timestamp("startDate", { mode: "date" }).notNull(),
   endDate: timestamp("endDate", { mode: "date" }).notNull(),
   breakStart: timestamp("breakStart", { mode: "date" }).notNull(),
   breakEnd: timestamp("breakEnd", { mode: "date" }).notNull(),
-  bookingDay: timestamp("bookingDay", { mode: "date" }).notNull(),
-  bookingOpenTime: timestamp("bookingOpenTime", { mode: "date" }).notNull(),
+  bookingDay: weekdayEnum("bookingDay").notNull(),
+  bookingOpenTime: time("bookingOpenTime").notNull(),
 });
 
-export const gameSessionSchedules = pgTable("gameSessionSchedule", {
-  id: serial("id").primaryKey(),
-  semesterId: integer("semesterId")
-    .notNull()
-    .references(() => semesters.id, { onDelete: "cascade" }),
-  day: text("day").notNull(),
-  startTime: timestamp("startTime", { mode: "date" }).notNull(),
-  endTime: timestamp("endTime", { mode: "date" }).notNull(),
-  locationName: text("locationName").notNull(),
-  locationAddress: text("locationAddress").notNull(),
-  capacity: integer("capacity").notNull(),
-  casualCapacity: integer("casualCapacity").notNull().default(5),
-});
+export const gameSessionSchedules = pgTable(
+  "gameSessionSchedule",
+  {
+    id: serial("id").primaryKey(),
+    semesterId: integer("semesterId")
+      .notNull()
+      .references(() => semesters.id, { onDelete: "cascade" }),
+    day: text("day").notNull(),
+    startTime: time("startTime").notNull(),
+    endTime: time("endTime").notNull(),
+    locationName: text("locationName").notNull(),
+    locationAddress: text("locationAddress").notNull(),
+    capacity: integer("capacity").notNull(),
+    casualCapacity: integer("casualCapacity").notNull(),
+  },
+  (gss) => ({
+    unq: unique().on(gss.semesterId, gss.day),
+  }),
+);
 
 // One semester is associated with many GameSessionSchedules
 export const semesterRelations = relations(semesters, ({ many }) => ({
