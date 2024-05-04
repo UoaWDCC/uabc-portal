@@ -2,7 +2,7 @@
  * @author Angela Guo <aguo921@aucklanduni.ac.nz>
  */
 
-import { ConfirmationBanner } from "@/components/icons";
+import { ConfirmationBanner } from "@/components/Icons";
 import { ConfirmationIcon } from "@/components/payment/ConfirmationIcon";
 import { ConfirmedSessionCard } from "@/components/payment/ConfirmedSessionCard";
 

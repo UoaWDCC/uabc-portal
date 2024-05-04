@@ -6,15 +6,15 @@ import React from "react";
 
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { useCartStore } from "@/stores/useCartStore";
-import type { playLevel } from "@/types/types";
+import type { PlayLevel } from "@/types/types";
 import { LevelSelectorButton } from "./LevelSelectorButton";
 
 interface LevelSelectorProps {
   id: number;
-  selectedLevel?: playLevel;
+  selectedLevel?: PlayLevel;
 }
 
-const PLAY_LEVELS: playLevel[] = ["beginner", "intermediate", "advanced"];
+const PLAY_LEVELS: PlayLevel[] = ["beginner", "intermediate", "advanced"];
 
 export const LevelSelector = ({ id, selectedLevel }: LevelSelectorProps) => {
   const updatePlayLevelById = useCartStore(
@@ -33,9 +33,9 @@ export const LevelSelector = ({ id, selectedLevel }: LevelSelectorProps) => {
           Please select a play level
         </span>
         <div className="grid grid-cols-3 gap-2 bg-white p-2 rounded-xl">
-          {PLAY_LEVELS.map((playLevel) => (
+          {PLAY_LEVELS.map((playLevel, index) => (
             <LevelSelectorButton
-              key={id}
+              key={index}
               name={playLevel}
               selected={selectedLevel === playLevel}
               handleClick={() => updatePlayLevelById(id, playLevel)}
