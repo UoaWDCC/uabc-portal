@@ -15,7 +15,7 @@ type UserResponse = {
 };
 
 const fetchUserInfo = async (id: string): Promise<UserResponse> => {
-  const response = await fetch(`${env.APP_URL}/api/user/${id}`, {
+  const response = await fetch(`${env.APP_URL}/api/users/${id}`, {
     cache: "no-store",
   });
   return response.json();

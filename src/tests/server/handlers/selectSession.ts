@@ -1,7 +1,7 @@
 import { http, HttpResponse } from "msw";
 
 export const selectSessionHandlers = [
-  http.get("/api/user/123", () => {
+  http.get("/api/users/123", () => {
     return HttpResponse.json({
       id: "123",
       firstName: "Test",
