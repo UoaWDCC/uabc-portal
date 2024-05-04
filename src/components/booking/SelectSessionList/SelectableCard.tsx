@@ -1,10 +1,10 @@
 import React from "react";
 
-import type { GameSessionDto } from "@/types/game-session";
+import type { CartGameSession } from "@/types/game-session";
 import { SelectSessionCard } from "./SelectSessionCard";
 
 interface SelectableCardProps {
-  session: GameSessionDto;
+  session: CartGameSession;
   checked: boolean;
   handleSessionClick: (id: number) => void;
 }

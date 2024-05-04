@@ -16,6 +16,7 @@ export const playLevelEnum = pgEnum("playLevel", [
   "intermediate",
   "advanced",
 ]);
+
 export const roleEnum = pgEnum("role", ["admin", "user"]);
 
 export const users = pgTable("user", {
@@ -97,7 +98,7 @@ export const bookings = pgTable("booking", {
     .notNull()
     .references(() => gameSessions.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
-  difficulty: playLevelEnum("difficulty").notNull(),
+  playLevel: playLevelEnum("playLevel").notNull(),
 });
 
 // each game session can have many bookings
