@@ -1,5 +1,14 @@
+import { count } from "console";
 import { NextResponse } from "next/server";
-import { and, asc, eq, gt, lt, sql } from "drizzle-orm";
+import {
+  and,
+  asc,
+  eq,
+  gt,
+  lt,
+  sql,
+  TransactionRollbackError,
+} from "drizzle-orm";
 import { number, z } from "zod";
 
 import { db } from "@/lib/db";
@@ -40,7 +49,7 @@ export async function POST(request: Request) {
       where: eq(users.id, currentUser!.id),
     });
 
-    // check if there are too many or too little sessions in the request
+    // check if there are too many sessions in the request
     if (numOfSessions > (user?.member ? 2 : 1)) {
       return new Response("num_of_sessions exceeds limit", { status: 400 });
     }
@@ -55,90 +64,42 @@ export async function POST(request: Request) {
       return new Response("duplicate game session ids", { status: 400 });
     }
 
-    // iterate through all the sessions in the request
-    for (const session of json) {
-      const gameSession = await db.query.gameSessions.findFirst({
-        where: eq(gameSessions.id, session.gameSessionId),
-      });
-
-      // check if the booking is within the time period
-      const currentTime = new Date();
-      if (
-        currentTime > gameSession!.endTime ||
-        currentTime < gameSession!.startTime
-      ) {
-        return new Response("booking not within the time period", {
-          status: 400,
-        });
-      }
-
-      // check if the session is already full
-      if (gameSession!.numberOfBookings >= gameSession!.maxUsers) {
-        return new Response("game session is full", { status: 400 });
-      }
-
-      // check if user has already booked the session
-      const booking = await db.query.bookings.findFirst({
-        where: and(
-          eq(bookings.userId, currentUser!.id),
-          eq(bookings.gameSessionId, session.gameSessionId),
-        ),
-      });
-      if (booking) {
-        return new Response("user has already booked this session", {
-          status: 400,
-        });
-      }
-    }
-
-    // incrementing the numberOfBookings first, then checking if the session is full to erase race conditions
-    for (const session of json) {
-      await db
-        .update(gameSessions)
-        .set({
-          numberOfBookings: sql`${gameSessions.numberOfBookings} + 1`,
-        })
-        .where(eq(gameSessions.id, session.gameSessionId));
-    }
-
-    // check if the session is full after incrementing the numberOfBookings
-    for (const session of json) {
-      const gameSession = await db.query.gameSessions.findFirst({
-        where: eq(gameSessions.id, session.gameSessionId),
-      });
-      if (gameSession!.numberOfBookings > gameSession!.maxUsers) {
-        // decrement the numberOfBookings if the session is full
-        for (const filledSession of json) {
-          await db
-            .update(gameSessions)
-            .set({
-              numberOfBookings: sql`${gameSessions.numberOfBookings} - 1`,
-            })
-            .where(eq(gameSessions.id, filledSession.gameSessionId));
-        }
-        return new Response("game session is full", { status: 400 });
-      }
-    }
-
-    // ALL CHECKS SHOULD BE PASSED BY THIS POINT
     await db.transaction(async (tx) => {
-      if (user?.member) {
-        await tx
-          .update(users)
-          .set({
-            remainingSessions: user.remainingSessions - numOfSessions,
-          })
-          .where(eq(users.id, currentUser!.id));
-      }
       for (const session of json) {
-        await tx.insert(bookings).values({
-          userId: currentUser!.id,
-          gameSessionId: session.gameSessionId,
-          difficulty: session.playLevel,
+        const gameSession = await tx.query.gameSessions.findFirst({
+          where: eq(gameSessions.id, session.gameSessionId),
         });
+        await tx.execute(
+          sql`SELECT * FROM ${gameSessions} WHERE ${gameSessions.id} = ${session.gameSessionId} FOR UPDATE;`,
+        );
+        const { count } = await tx.execute(
+          sql`INSERT INTO ${bookings} ("userId", "userType", "gameSessionId", "difficulty")
+              SELECT ${user!.id}, ${user?.member}, ${session.gameSessionId}, ${session.playLevel}
+              WHERE 
+              (CASE
+                WHEN ${user?.member} = TRUE THEN
+                  (SELECT COUNT(*) 
+                    FROM ${bookings} 
+                    WHERE ${bookings.gameSessionId} = ${session.gameSessionId}) < ${gameSession?.capacity}
+                ELSE
+                  (SELECT COUNT(*) 
+                    FROM ${bookings} 
+                    WHERE ${bookings.gameSessionId} = ${session.gameSessionId}) < ${gameSession?.capacity}
+                  AND
+                  (SELECT COUNT(*) 
+                    FROM ${bookings} 
+                    WHERE ${bookings.userType} = FALSE) < ${gameSession?.casualCapacity}
+              END)
+              RETURNING *;
+              `,
+        );
+        if (count !== numOfSessions) {
+          // throw error if not all sessions are able to be booked
+          throw new TransactionRollbackError();
+        }
       }
     });
-
+    console.log("Booked successfully");
     return new Response("bookings created", { status: 201 });
   } catch {
     return new Response("unexpected error", { status: 500 });
