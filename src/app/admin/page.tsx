@@ -1,42 +1,27 @@
+import Link from "next/link";
+
 import { Heading } from "@/components/Heading";
+import { ArrowRight } from "@/components/Icons";
 import { Button } from "@/components/ui/button";
 
-const buttonStyle = {
-  height: "80px",
-  margin: "16px",
-};
-
-const arrowStyle = {
-  marginLeft: "auto",
-  width: "32px",
-  height: "32px",
-};
-
-export default function SelectAdminPage() {
+export default async function AdminDashboardPage() {
   return (
     <div className="flex h-dvh flex-col">
       <div className="flex p-4">
         <Heading>Dashboard</Heading>
       </div>
-      <div className=" mt-6 mb-8 mx-4 justify-center" style={buttonStyle}>
-        <Button large className="w-full">
-          Edit Session Schedule
-          <img
-            src="/images/right_arrow.png"
-            alt="Right Arrow"
-            style={arrowStyle}
-          />
-        </Button>
-        <br />
-        <br />
-        <Button large className="w-full">
-          View Sessions
-          <img
-            src="/images/right_arrow.png"
-            alt="Right Arrow"
-            style={arrowStyle}
-          />
-        </Button>
+      <div className="px-4">
+        <Link href="/admin/session-schedule">
+          <div className="relative h-20 bg-primary text-primary-foreground pl-6 flex items-center text-lg font-medium rounded-sm">
+            Edit Session Schedule
+            <ArrowRight className="absolute right-4 bottom-6 fill-primary-foreground" />
+          </div>
+        </Link>
+
+        <div className="mt-4 relative h-20 bg-primary text-primary-foreground pl-6 flex items-center text-lg font-medium rounded-sm">
+          <Link href="/admin/session-schedule">View Sessions</Link>
+          <ArrowRight className="absolute right-4 bottom-6 fill-primary-foreground" />
+        </div>
       </div>
     </div>
   );
