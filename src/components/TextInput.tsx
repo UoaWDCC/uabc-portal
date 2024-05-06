@@ -1,63 +1,45 @@
-/**
- * @author Angela Guo <aguo921@aucklanduni.ac.nz>
- */
-
 "use client";
 
-import { useState } from "react";
+import type { InputHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { cn } from "@/lib/utils";
 
-type TextInputProps = {
-  label?: string;
-  value: string;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label: string;
   type: string;
-  isError: boolean;
-  backgroundColor?: string;
   className?: string;
-  onChange: (value: string) => void;
-};
+  isError?: boolean;
+}
 
-export const TextInput = (props: TextInputProps) => {
-  const [active, setActive] = useState(false);
-
+export const TextInput = ({
+  label,
+  type,
+  isError,
+  className,
+  ...props
+}: InputProps) => {
   return (
-    <div className={cn("relative h-11", props.className)}>
-      <h2
+    <div className={cn("relative h-11 overflow-x-clip", className)}>
+      <input
+        type={type}
+        placeholder={props.placeholder ? props.placeholder : " "}
         className={twMerge(
-          cn(
-            "absolute left-3 transition-all pointer-events-none z-10",
-            props.backgroundColor,
-          ),
-          active || props.value != ""
-            ? "top-[-0.75rem] px-2 text-sm  text-blue-500"
-            : "top-1.5 cursor-text text-gray-500",
-          props.isError &&
-            "absolute left-3 top-[-0.75rem] px-2 text-sm  text-red-500",
+          "peer w-full border-primary rounded p-2 border outline-none ring-primary ring-inset focus:ring-1 h-full bg-background dark:text-white/70",
+          isError && "border-destructive ring-destructive",
+        )}
+        {...props}
+      />
+      <span
+        className={cn(
+          "absolute top-0 -translate-y-[50%] left-2 transition-all pointer-events-none select-none z-10 bg-background px-1 text-primary text-xs whitespace-nowrap",
+          "peer-focus:top-0 peer-focus:text-primary peer-focus:text-xs peer-focus:px-1 peer-focus:bg-background",
+          "peer-placeholder-shown:top-[50%] peer-placeholder-shown:text-tertiary/70 peer-placeholder-shown:text-base peer-placeholder-shown:px-0 peer-placeholder-shown:bg-transparent",
+          isError && "text-destructive",
         )}
       >
-        {props.label}
-      </h2>
-
-      <input
-        type={props.type}
-        defaultValue={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
-        onFocus={() => setActive(true)}
-        onBlur={() => setActive(false)}
-        className={twMerge(
-          cn(
-            "w-full rounded p-2 border focus:border-2 outline-none h-full",
-            props.backgroundColor,
-          ),
-          active
-            ? "border-blue-500 focus:border-blue-500"
-            : "border-blue-400 focus:border-blue-400",
-          props.isError && "border-red-500 focus:border-red-500",
-        )}
-        required
-      />
+        {label}
+      </span>
     </div>
   );
 };

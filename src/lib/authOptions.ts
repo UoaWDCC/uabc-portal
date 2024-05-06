@@ -3,15 +3,15 @@ import type { NextAuthOptions, User } from "next-auth";
 import type { Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 
-import { getUserFromEmail } from "@/actions/user";
 import { env } from "@/env";
 import { db } from "@/lib/db";
+import { getUserFromEmail } from "@/services/user";
 
 export const authOptions: NextAuthOptions = {
   adapter: DrizzleAdapter(db) as Adapter,
   pages: {
-    signIn: "/auth/login",
-    signOut: "/auth/signout",
+    signIn: "/sessions",
+    signOut: "/auth/login",
     newUser: "/onboard",
   },
   providers: [

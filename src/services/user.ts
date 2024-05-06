@@ -1,6 +1,6 @@
 "server only";
 
-import { unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 import type { User } from "next-auth";
 
 import { CACHE_REVALIDATION_PERIOD } from "@/lib/constants";
@@ -29,8 +29,15 @@ export async function getUserFromEmail(
     },
 
     [`getUserFromEmail:${email}`],
-    { tags: [`user-${email}`], revalidate: CACHE_REVALIDATION_PERIOD },
+    { tags: [userCache.getTag(email)], revalidate: CACHE_REVALIDATION_PERIOD },
   )();
 
   return user ?? null;
 }
+
+export const userCache = {
+  getTag: (email: string) => `user-${email}`,
+  revalidate(email: string): void {
+    revalidateTag(this.getTag(email));
+  },
+};

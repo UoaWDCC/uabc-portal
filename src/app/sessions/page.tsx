@@ -40,7 +40,7 @@ export default function SelectSessionPage() {
           <CgProfile size={40} />
         </Link>
       </div>
-      <div className="flex h-16 items-center justify-between bg-secondary/70 p-4">
+      <div className="flex min-h-16 items-center justify-between bg-secondary/70 p-4">
         <div className="flex items-center">
           <span className="pr-1 font-medium">Hey {firstName}!</span>
           <Image
