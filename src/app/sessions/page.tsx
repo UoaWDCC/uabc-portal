@@ -27,10 +27,11 @@ const fetchUserInfo = async (id: string): Promise<UserResponse> => {
 };
 
 export default async function SelectSessionPage() {
-  const user = await getCurrentUser();
-  const userdata = await fetchUserInfo(user!.id);
+  const currentUser = await getCurrentUser();
+
+  const user = await fetchUserInfo(currentUser!.id);
   return (
-    <div>
+    <div className="h-dvh flex flex-col">
       <div className="flex p-4">
         <Heading>Sessions</Heading>
         <Link href={"/account"} className="ml-auto">
@@ -39,7 +40,7 @@ export default async function SelectSessionPage() {
       </div>
       <div className="flex h-16 items-center justify-between bg-secondary/70 p-4">
         <div className="flex items-center">
-          <span className="pr-1 font-medium">Hey {userdata.firstName}!</span>
+          <span className="pr-1 font-medium">Hey {user.firstName}!</span>
           <Image
             src="/images/BadmintonRacketLogo.png"
             alt="Badminton Racket Logo"
@@ -48,13 +49,11 @@ export default async function SelectSessionPage() {
             height={20}
           />
         </div>
-        {userdata.member && (
-          <PrepaidSessionsCounter
-            remainingSessions={userdata.remainingSessions}
-          />
+        {user.member && (
+          <PrepaidSessionsCounter remainingSessions={user.remainingSessions} />
         )}
       </div>
-      <ClientSessionPage isMember={userdata.member} />
+      <ClientSessionPage isMember={user.member} />
     </div>
   );
 }

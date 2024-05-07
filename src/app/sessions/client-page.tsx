@@ -5,10 +5,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CgProfile } from "react-icons/cg";
 import { twJoin } from "tailwind-merge";
 
 import { SelectSessionList } from "@/components/booking/SelectSessionList/SelectSessionList";
@@ -31,7 +28,7 @@ export default function ClientSessionPage({
   const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
 
   return (
-    <div className="flex h-dvh flex-col">
+    <div className="flex flex-col grow">
       <div className="flex h-16 items-center justify-between p-4">
         <p className="max-w-[70%] font-medium text-sm">
           Please select a badminton session for this week

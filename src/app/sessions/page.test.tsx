@@ -11,19 +11,7 @@ jest.mock("next/navigation", () => ({
 
 describe("Select Sessions page", () => {
   beforeEach(() => {
-    render(
-      <ClientSessionPage
-        firstName="Test"
-        isMember={true}
-        remainingSessions={10}
-      />,
-    );
-  });
-
-  it("should render h1 with the text 'Sessions'", () => {
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Sessions",
-    );
+    render(<ClientSessionPage isMember={true} />);
   });
 
   it("should initially render the button as disabled", () => {
