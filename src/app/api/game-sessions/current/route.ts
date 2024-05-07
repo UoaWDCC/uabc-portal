@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { and, asc, gt, lt, sql } from "drizzle-orm";
 
 import { db } from "@/lib/db";
-import { gameSessions } from "@/lib/db/schema";
+import { bookings, gameSessions } from "@/lib/db/schema";
 
 /**
  * Gets game sessions currently available for booking
@@ -17,10 +17,10 @@ export async function GET() {
         locationName: gameSessions.locationName,
         locationAddress: gameSessions.locationName,
         isFull: sql`(
-          SELECT COUNT(*)
-          FROM bookings
-          WHERE bookings.gameSessionId = gameSessions.id
-        ) = ${gameSessions.maxUsers}`,
+          SELECT COUNT(*) 
+          FROM ${bookings}
+          WHERE ${bookings.gameSessionId} = ${gameSessions.id}
+        ) = ${gameSessions.capacity}`,
       })
       .from(gameSessions)
       .where(
@@ -32,7 +32,7 @@ export async function GET() {
       .orderBy(asc(gameSessions.startTime));
 
     return NextResponse.json(sessions);
-  } catch {
-    return new Response("Internal Server Error", { status: 500 });
+  } catch (error) {
+    return new Response(`Internal Server Error: ${error}`, { status: 500 });
   }
 }
