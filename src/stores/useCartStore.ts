@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
-import type { GameSessionDto } from "@/types/game-session";
-import type { playLevel } from "@/types/types";
+import type { CartGameSession } from "@/types/game-session";
+import type { PlayLevel } from "@/types/types";
 
 interface CartState {
-  cart: GameSessionDto[];
+  cart: CartGameSession[];
 }
 
 interface CartAction {
   updateCart: (cart: CartState["cart"]) => void;
-  updatePlayLevelById: (id: number, playLevel: playLevel) => void;
+  updatePlayLevelById: (id: number, PlayLevel: PlayLevel) => void;
 }
 
 export const useCartStore = create<CartState & CartAction>((set) => ({

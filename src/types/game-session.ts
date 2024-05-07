@@ -1,6 +1,6 @@
-import type { playLevel } from "./types";
+import type { PlayLevel } from "./types";
 
-export interface GameSessionDto {
+export interface CartGameSession {
   id: number;
   weekday: string;
   startTime: string;
@@ -8,5 +8,5 @@ export interface GameSessionDto {
   locationName: string;
   locationAddress: string;
   isFull: boolean;
-  playLevel?: playLevel;
+  playLevel?: PlayLevel;
 }

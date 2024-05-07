@@ -1,10 +1,10 @@
 import React from "react";
 
 import { cn } from "@/lib/utils";
-import type { playLevel } from "@/types/types";
+import type { PlayLevel } from "@/types/types";
 
 interface LevelSelectorButtonProps {
-  name?: playLevel;
+  name?: PlayLevel;
   selected: boolean;
   handleClick: () => void;
 }
