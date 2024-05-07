@@ -115,6 +115,7 @@ export const bookings = pgTable("booking", {
     .references(() => gameSessions.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
   playLevel: playLevelEnum("playLevel").notNull(),
+  isMember: boolean("isMember").notNull(),
 });
 
 // each game session can have one gameSessionSchedule and many bookings
