@@ -9,6 +9,10 @@ export const env = createEnv({
     NEXTAUTH_URL: z.string().min(1),
     NEXTAUTH_SECRET: z.string().min(1),
     ENVIRONMENT: z.string().min(1),
+    ACCESS_KEY: z.string().min(1),
+    SECRET_ACCESS_KEY: z.string().min(1),
+    SENDER_EMAIL_ADDRESS: z.string().min(1),
+    AWS_REGION: z.string().min(1),
   },
   client: {},
   runtimeEnv: {
@@ -18,5 +22,9 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     ENVIRONMENT: process.env.ENVIRONMENT,
+    ACCESS_KEY: process.env.ACCESS_KEY,
+    SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY,
+    SENDER_EMAIL_ADDRESS: process.env.SENDER_EMAIL_ADDRESS,
+    AWS_REGION: process.env.AWS_REGION,
   },
 });
