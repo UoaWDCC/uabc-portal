@@ -109,7 +109,6 @@ export const bookings = pgTable("booking", {
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  userType: boolean("userType").notNull(), // true if user is a member
   gameSessionId: integer("gameSessionId")
     .notNull()
     .references(() => gameSessions.id, { onDelete: "cascade" }),

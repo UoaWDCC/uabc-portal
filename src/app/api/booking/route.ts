@@ -73,7 +73,7 @@ export async function POST(request: Request) {
           sql`SELECT * FROM ${gameSessions} WHERE ${gameSessions.id} = ${session.gameSessionId} FOR UPDATE;`,
         );
         const { count } = await tx.execute(
-          sql`INSERT INTO ${bookings} ("userId", "userType", "gameSessionId", "difficulty")
+          sql`INSERT INTO ${bookings} ("userId", "isMember", "gameSessionId", "difficulty")
               SELECT ${user!.id}, ${user?.member}, ${session.gameSessionId}, ${session.playLevel}
               WHERE 
               (CASE
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
                   AND
                   (SELECT COUNT(*) 
                     FROM ${bookings} 
-                    WHERE ${bookings.userType} = FALSE) < ${gameSession?.casualCapacity}
+                    WHERE ${bookings.isMember} = FALSE) < ${gameSession?.casualCapacity}
               END)
               RETURNING *;
               `,
