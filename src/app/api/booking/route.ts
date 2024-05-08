@@ -132,6 +132,14 @@ export async function POST(request: Request) {
               RETURNING *;
               `,
         );
+        //decrement remaining sessions if user is a member
+        if (user?.member) {
+          await tx.execute(
+            sql`UPDATE ${users}
+            SET ${users.remainingSessions} = ${users.remainingSessions}-1
+            WHERE ${users.id} = ${user!.id};`,
+          );
+        }
         if (count === 0) {
           throw new TransactionRollbackError();
         }
@@ -141,8 +149,11 @@ export async function POST(request: Request) {
   } catch (e) {
     if (e instanceof TransactionRollbackError) {
       return new Response("game session at max capacity", { status: 409 });
+    } else if (e instanceof z.ZodError) {
+      return new Response("invalid json format", { status: 400 });
     } else {
-      return new Response("unexpected error - " + e, { status: 500 });
+      console.error(e);
+      return new Response("unexpected error", { status: 500 });
     }
   }
 }
