@@ -23,6 +23,16 @@ export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
 
+    // leave an example for potential future debugging
+    // const currentUser = {
+    //   id: "f58ca474-ce97-470a-ae7d-639f86fdc96f",
+    //   email: "davidyl2105@gmail.com",
+    //   member: true,
+    //   firstName: "David",
+    //   lastName: "Zhu",
+    //   role: "user",
+    // };
+
     if (!currentUser) return new Response("unauthorized user", { status: 401 });
 
     const bookingSchema = z.array(
@@ -46,17 +56,21 @@ export async function POST(request: Request) {
       });
 
     // find user
-    const user = await db.query.users.findFirst({
+    const user_object = await db.query.users.findFirst({
       where: eq(users.id, currentUser!.id),
     });
+    if (!user_object) return new Response("user not found", { status: 404 });
 
     // check if there are too many sessions in the request
-    if (numOfSessions > (user?.member ? 2 : 1)) {
+    if (numOfSessions > (user_object?.member ? 2 : 1)) {
       return new Response("num_of_sessions exceeds limit", { status: 400 });
     }
 
     // if the user is a member, check if they have enough remaining sessions
-    if (user?.member === true && user.remainingSessions < numOfSessions) {
+    if (
+      user_object?.member === true &&
+      user_object.remainingSessions < numOfSessions
+    ) {
       return new Response("insufficient remaining sessions", { status: 400 });
     }
 
@@ -103,10 +117,10 @@ export async function POST(request: Request) {
         );
         const { count } = await tx.execute(
           sql`INSERT INTO ${bookings} ("userId", "isMember", "gameSessionId", "playLevel")
-              SELECT ${user!.id}, ${user?.member}, ${session.gameSessionId}, ${session.playLevel}
+              SELECT ${user_object!.id}, ${user_object!.member}, ${session.gameSessionId}, ${session.playLevel}
               WHERE 
               (CASE
-                WHEN ${user?.member} = TRUE THEN
+                WHEN ${user_object?.member} = TRUE THEN
                   (SELECT COUNT(*) 
                     FROM ${bookings} 
                     WHERE ${bookings.gameSessionId} = ${session.gameSessionId}) < ${gameSession?.capacity}
@@ -123,13 +137,13 @@ export async function POST(request: Request) {
               `,
         );
         //decrement remaining sessions if user is a member
-        if (user?.member) {
-          await tx.execute(
-            sql`UPDATE ${users}
-            SET ${users.remainingSessions} = ${users.remainingSessions}-1
-            WHERE ${users.id} = ${user!.id};`,
-          );
+        if (user_object?.member) {
+          await tx
+            .update(users)
+            .set({ remainingSessions: user_object.remainingSessions - 1 })
+            .where(eq(users.id, currentUser!.id));
         }
+
         if (count === 0) {
           throw new TransactionRollbackError();
         }
