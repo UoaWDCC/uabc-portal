@@ -109,12 +109,12 @@ export const bookings = pgTable("booking", {
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  isMember: boolean("userType").notNull(), // true if user is a member
   gameSessionId: integer("gameSessionId")
     .notNull()
     .references(() => gameSessions.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
   playLevel: playLevelEnum("playLevel").notNull(),
+  isMember: boolean("isMember").notNull(),
 });
 
 // each game session can have one gameSessionSchedule and many bookings

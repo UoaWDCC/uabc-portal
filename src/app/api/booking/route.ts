@@ -112,7 +112,7 @@ export async function POST(request: Request) {
           sql`SELECT * FROM ${gameSessions} WHERE ${gameSessions.id} = ${session.gameSessionId} FOR UPDATE;`,
         );
         const { count } = await tx.execute(
-          sql`INSERT INTO ${bookings} ("userId", "userType", "gameSessionId", "playLevel")
+          sql`INSERT INTO ${bookings} ("userId", "isMember", "gameSessionId", "playLevel")
               SELECT ${user!.id}, ${user?.member}, ${session.gameSessionId}, ${session.playLevel}
               WHERE 
               (CASE
