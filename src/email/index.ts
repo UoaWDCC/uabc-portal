@@ -20,7 +20,7 @@ export const sendEmail = async (
   const emailHtml = render(Email({ url: templateName }));
 
   const params = {
-    Source: "Kimiavarasteh@gmail.com",
+    Source: env.SENDER_EMAIL,
     Destination: {
       ToAddresses: [recipientEmail],
     },

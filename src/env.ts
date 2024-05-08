@@ -13,6 +13,7 @@ export const env = createEnv({
     SECRET_ACCESS_KEY: z.string().min(1),
     SENDER_EMAIL_ADDRESS: z.string().min(1),
     AWS_REGION: z.string().min(1),
+    SENDER_EMAIL: z.string().min(1),
   },
   client: {},
   runtimeEnv: {
@@ -26,5 +27,6 @@ export const env = createEnv({
     SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY,
     SENDER_EMAIL_ADDRESS: process.env.SENDER_EMAIL_ADDRESS,
     AWS_REGION: process.env.AWS_REGION,
+    SENDER_EMAIL: process.env.SENDER_EMAIL,
   },
 });
