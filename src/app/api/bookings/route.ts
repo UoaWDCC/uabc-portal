@@ -150,7 +150,7 @@ export async function POST(request: Request) {
     if (e instanceof TransactionRollbackError) {
       return new Response("game session at max capacity", { status: 409 });
     } else if (e instanceof z.ZodError) {
-      return new Response("invalid json format", { status: 400 });
+      return new Response(JSON.stringify(e.issues), { status: 400 });
     } else {
       console.error(e);
       return new Response("unexpected error", { status: 500 });
