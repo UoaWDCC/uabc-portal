@@ -65,7 +65,7 @@ export async function POST(request: Request) {
       return new Response("duplicate game session ids", { status: 400 });
     }
 
-    // check if there is already a booking for the user in the game session and if the game session actually exists
+    // check if there is already a booking for the user in the game session and if the game session actually exists and if booking is open
     for (const session of json) {
       const existingBooking = await db.query.bookings.findFirst({
         where: and(
@@ -82,6 +82,14 @@ export async function POST(request: Request) {
       });
       if (!gameSession) {
         return new Response("game session id incorrect", { status: 400 });
+      }
+
+      // check if between bookingOpen and bookingClose
+      if (
+        gameSession.bookingOpen > new Date() ||
+        gameSession.bookingClose < new Date()
+      ) {
+        return new Response("booking is closed", { status: 400 });
       }
     }
 
