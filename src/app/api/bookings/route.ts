@@ -21,25 +21,7 @@ import { getCurrentUser } from "@/lib/session";
 
 export async function POST(request: Request) {
   try {
-    // const currentUser = await getCurrentUser();
-    //test user which is member
-    const currentUser = {
-      id: "f58ca474-ce97-470a-ae7d-639f86fdc96f",
-      email: "davidyl2105@gmail.com",
-      member: true,
-      firstName: "David",
-      lastName: "Zhu",
-      role: "user",
-    };
-    //test user which is not member
-    // const currentUser = {
-    //   id: "8dc124d0-a078-40ab-9fc9-7555a5e886c3",
-    //   email: "davidyl2105@gmail.com",
-    //   member: true,
-    //   firstName: "David",
-    //   lastName: "Zhu",
-    //   role: "user",
-    // };
+    const currentUser = await getCurrentUser();
 
     if (!currentUser) return new Response("unauthorized user", { status: 401 });
 
