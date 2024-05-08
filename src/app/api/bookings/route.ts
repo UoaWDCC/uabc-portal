@@ -23,16 +23,6 @@ export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
 
-    // leave an example for potential future debugging
-    // const currentUser = {
-    //   id: "f58ca474-ce97-470a-ae7d-639f86fdc96f",
-    //   email: "davidyl2105@gmail.com",
-    //   member: true,
-    //   firstName: "David",
-    //   lastName: "Zhu",
-    //   role: "user",
-    // };
-
     if (!currentUser) return new Response("unauthorized user", { status: 401 });
 
     const bookingSchema = z.array(
@@ -136,17 +126,19 @@ export async function POST(request: Request) {
               RETURNING *;
               `,
         );
-        //decrement remaining sessions if user is a member
-        if (user_object?.member) {
-          await tx
-            .update(users)
-            .set({ remainingSessions: user_object.remainingSessions - 1 })
-            .where(eq(users.id, currentUser!.id));
-        }
 
         if (count === 0) {
           throw new TransactionRollbackError();
         }
+      }
+      //decrement remaining sessions if user is a member
+      if (user_object?.member) {
+        await tx
+          .update(users)
+          .set({
+            remainingSessions: user_object.remainingSessions - numOfSessions,
+          })
+          .where(eq(users.id, currentUser!.id));
       }
     });
     return new Response("bookings created", { status: 201 });
