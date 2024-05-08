@@ -31,6 +31,7 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          APP_URL: ${{ secrets.APP_URL }}
           ENVIRONMENT: "DEVELOPMENT"
 
         run: |
