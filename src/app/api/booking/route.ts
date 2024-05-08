@@ -22,6 +22,25 @@ import { getCurrentUser } from "@/lib/session";
 export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
+    //test user which is member
+    // const currentUser = {
+    //   id: "f58ca474-ce97-470a-ae7d-639f86fdc96f",
+    //   email: "davidyl2105@gmail.com",
+    //   member: true,
+    //   firstName: "David",
+    //   lastName: "Zhu",
+    //   role: "user",
+    // };
+    //test user which is not member
+    // const currentUser = {
+    //   id: "8dc124d0-a078-40ab-9fc9-7555a5e886c3",
+    //   email: "davidyl2105@gmail.com",
+    //   member: true,
+    //   firstName: "David",
+    //   lastName: "Zhu",
+    //   role: "user",
+    // };
+
     if (!currentUser) return new Response("unauthorized user", { status: 401 });
 
     const bookingSchema = z.array(
@@ -64,6 +83,26 @@ export async function POST(request: Request) {
       return new Response("duplicate game session ids", { status: 400 });
     }
 
+    // check if there is already a booking for the user in the game session and if the game session actually exists
+    for (const session of json) {
+      const existingBooking = await db.query.bookings.findFirst({
+        where: and(
+          eq(bookings.userId, currentUser!.id),
+          eq(bookings.gameSessionId, session.gameSessionId),
+        ),
+      });
+      if (existingBooking) {
+        return new Response("booking already exists", { status: 400 });
+      }
+
+      const gameSession = await db.query.gameSessions.findFirst({
+        where: eq(gameSessions.id, session.gameSessionId),
+      });
+      if (!gameSession) {
+        return new Response("game session id incorrect", { status: 400 });
+      }
+    }
+
     await db.transaction(async (tx) => {
       for (const session of json) {
         const gameSession = await tx.query.gameSessions.findFirst({
@@ -73,7 +112,7 @@ export async function POST(request: Request) {
           sql`SELECT * FROM ${gameSessions} WHERE ${gameSessions.id} = ${session.gameSessionId} FOR UPDATE;`,
         );
         const { count } = await tx.execute(
-          sql`INSERT INTO ${bookings} ("userId", "userType", "gameSessionId", "difficulty")
+          sql`INSERT INTO ${bookings} ("userId", "userType", "gameSessionId", "playLevel")
               SELECT ${user!.id}, ${user?.member}, ${session.gameSessionId}, ${session.playLevel}
               WHERE 
               (CASE
@@ -88,20 +127,22 @@ export async function POST(request: Request) {
                   AND
                   (SELECT COUNT(*) 
                     FROM ${bookings} 
-                    WHERE ${bookings.userType} = FALSE) < ${gameSession?.casualCapacity}
+                    WHERE ${bookings.isMember} = FALSE) < ${gameSession?.casualCapacity}
               END)
               RETURNING *;
               `,
         );
-        if (count !== numOfSessions) {
-          // throw error if not all sessions are able to be booked
+        if (count === 0) {
           throw new TransactionRollbackError();
         }
       }
     });
-    console.log("Booked successfully");
     return new Response("bookings created", { status: 201 });
-  } catch {
-    return new Response("unexpected error", { status: 500 });
+  } catch (e) {
+    if (e instanceof TransactionRollbackError) {
+      return new Response("game session at max capacity", { status: 409 });
+    } else {
+      return new Response("unexpected error - " + e, { status: 500 });
+    }
   }
 }
