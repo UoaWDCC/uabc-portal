@@ -17,6 +17,15 @@ export async function GET(
 
     const user = await db.query.users.findFirst({
       where: eq(users.id, id),
+      columns: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        member: true,
+        verified: true,
+        remainingSessions: true,
+      },
     });
 
     if (!user) {

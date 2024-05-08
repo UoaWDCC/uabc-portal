@@ -1,5 +1,5 @@
 import { render, screen, userEvent } from "@/tests/test-utils";
-import SelectSessionsPage from "./page";
+import ClientSessionPage from "./client-page";
 
 jest.mock("next/navigation", () => ({
   useRouter() {
@@ -11,13 +11,7 @@ jest.mock("next/navigation", () => ({
 
 describe("Select Sessions page", () => {
   beforeEach(() => {
-    render(<SelectSessionsPage />);
-  });
-
-  it("should render h1 with the text 'Sessions'", () => {
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Sessions",
-    );
+    render(<ClientSessionPage isMember={true} />);
   });
 
   it("should initially render the button as disabled", () => {
@@ -39,7 +33,7 @@ describe("Select Sessions page", () => {
 
   it("should render n sessions selected after click", async () => {
     const user = userEvent.setup();
-    const sessionsSelected = screen.getByText("0 / 2");
+    const sessionsSelected = await screen.findByText("0 / 2");
     const sessionCards = await screen.findAllByTestId("session-card");
 
     await user.click(sessionCards[0]);
