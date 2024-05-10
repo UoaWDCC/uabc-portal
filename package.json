@@ -6,13 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "preview": "next build && next start",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "next lint",
     "db:push": "drizzle-kit push:pg",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "prepare": "husky"
+    "db:studio": "drizzle-kit studio",
+    "storybook": "storybook dev -p 6006"
   },
   "pnpm": {
     "overrides": {
