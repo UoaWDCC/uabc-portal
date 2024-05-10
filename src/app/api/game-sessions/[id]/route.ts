@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { gameSessions } from "@/lib/db/schema";
+import { getCurrentUser } from "@/lib/session";
 import { insertGameSessionSchema } from "@/lib/validators";
 
 const routeContextSchema = z.object({
@@ -44,11 +45,17 @@ export async function GET(
   }
 }
 
-export async function PATCH(
+export async function PUT(
   req: NextRequest,
   context: z.infer<typeof routeContextSchema>,
 ) {
   try {
+    const currentUser = await getCurrentUser();
+
+    if (currentUser?.role != "admin") {
+      return new Response("forbidden route", { status: 403 });
+    }
+
     const result = routeContextSchema.safeParse(context);
 
     if (!result.success)
