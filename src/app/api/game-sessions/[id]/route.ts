@@ -20,7 +20,6 @@ export async function GET(
 ) {
   try {
     const result = routeContextSchema.safeParse(context);
-
     if (!result.success)
       return new Response("Invalid id provided in the request", {
         status: 400,
@@ -53,7 +52,7 @@ export async function PUT(
     const currentUser = await getCurrentUser();
 
     if (currentUser?.role != "admin") {
-      return new Response("forbidden route", { status: 403 });
+      return new Response("Access denied", { status: 403 });
     }
 
     const result = routeContextSchema.safeParse(context);
@@ -91,4 +90,24 @@ export async function PUT(
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  context: z.infer<typeof routeContextSchema>,
+) {
+  const currentUser = await getCurrentUser();
+
+  if (currentUser?.role != "admin") {
+    return new Response("Access denied", { status: 403 });
+  }
+
+  const result = routeContextSchema.safeParse(context);
+  const {
+    params: { id },
+  } = result.data;
+
+  const session = await db.query.gameSessions.findFirst({
+    where: eq(gameSessions.id, id),
+  });
 }
