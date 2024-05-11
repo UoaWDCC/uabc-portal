@@ -105,7 +105,7 @@ export async function DELETE(
   const result = routeContextSchema.safeParse(context);
   const {
     params: { id },
-  } = result.data;
+  } = result;
 
   const session = await db.query.gameSessions.findFirst({
     where: eq(gameSessions.id, id),

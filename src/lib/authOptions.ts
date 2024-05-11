@@ -10,9 +10,9 @@ import { getUserFromEmail } from "@/services/user";
 export const authOptions: NextAuthOptions = {
   adapter: DrizzleAdapter(db) as Adapter,
   pages: {
-    signIn: "/sessions",
-    signOut: "/auth/login",
-    newUser: "/onboard",
+    signIn: "/auth/login",
+    signOut: "/auth/signout",
+    newUser: "/onboard/name",
   },
   providers: [
     GoogleProvider({

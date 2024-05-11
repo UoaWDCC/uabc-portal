@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import { Heading } from "@/components/Heading";
 import { ArrowRight } from "@/components/Icons";
-import { Button } from "@/components/ui/button";
 
 export default async function AdminDashboardPage() {
   return (
