@@ -6,7 +6,9 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { gameSessions } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
-import { insertGameSessionSchema } from "@/lib/validators";
+import {
+  updateGameSessionSchema,
+} from "@/lib/validators";
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -68,7 +70,19 @@ export async function PUT(
 
     const json = await req.json();
 
-    const body = insertGameSessionSchema.parse(json);
+    const body = updateGameSessionSchema.parse(json);
+
+    if (body.startTime > body.endTime) {
+      return new Response("Start time must be less than end time", {
+        status: 400,
+      });
+    }
+
+    if (body.casualCapacity > body.capacity) {
+      return new Response("Casual capacity must be less than capacity", {
+        status: 400,
+      });
+    }
 
     const updatedSession = await db
       .update(gameSessions)
@@ -93,7 +107,7 @@ export async function PUT(
 }
 
 export async function DELETE(
-  req: NextRequest,
+  _req: NextRequest,
   context: z.infer<typeof routeContextSchema>,
 ) {
   const currentUser = await getCurrentUser();
@@ -103,11 +117,27 @@ export async function DELETE(
   }
 
   const result = routeContextSchema.safeParse(context);
+
+  if (!result.success) {
+    return new Response("Invalid id provided in the request", {
+      status: 400,
+    });
+  }
+
   const {
     params: { id },
-  } = result;
+  } = result.data;
 
-  const session = await db.query.gameSessions.findFirst({
-    where: eq(gameSessions.id, id),
-  });
+  const session = await db
+    .delete(gameSessions)
+    .where(eq(gameSessions.id, id))
+    .returning();
+
+  if (session.length === 0) {
+    return new Response(`Game session with id ${id} does not exist.`, {
+      status: 404,
+    });
+  }
+
+  return new Response(null, { status: 204 });
 }

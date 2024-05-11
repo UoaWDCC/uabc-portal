@@ -12,6 +12,15 @@ export const insertGameSessionSchema = createInsertSchema(gameSessions, {
   endTime: z.coerce.date(),
 });
 
+export const updateGameSessionSchema = z.object({
+  startTime: z.coerce.date(),
+  endTime: z.coerce.date(),
+  locationName: z.string(),
+  locationAddress: z.string(),
+  capacity: z.number(),
+  casualCapacity: z.number(),
+});
+
 export const updateUserSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
