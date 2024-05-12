@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { IoArrowBackOutline } from "react-icons/io5";
 
@@ -21,6 +22,22 @@ export default function BookSessionPage() {
   };
 
   const cart = useCartStore((state) => state.cart);
+
+  const sortedSessions = useMemo(() => {
+    return [...cart].sort((a, b) => {
+      const weekdays = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ];
+      return weekdays.indexOf(a.weekday) - weekdays.indexOf(b.weekday);
+    });
+  }, [cart]);
+
   const isPlayLevelSelected = cart.every(
     (session) => session.playLevel !== undefined,
   );
@@ -41,13 +58,11 @@ export default function BookSessionPage() {
         </span>
       </div>
 
-      <div className="mx-5">
-        {cart.map((session) => (
-          <div key={session.id} className="mb-4">
-            <ExpandedSessionCard gameSession={session} />
-          </div>
-        ))}
-      </div>
+      {sortedSessions.map((session) => (
+        <div key={session.id} className="mb-4">
+          <ExpandedSessionCard gameSession={session} />
+        </div>
+      ))}
 
       <div className="mb-10 flex flex-grow">
         <Button
