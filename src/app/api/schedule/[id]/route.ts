@@ -1,3 +1,4 @@
+import { error } from "console";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
@@ -48,7 +49,7 @@ export async function DELETE(
     await db
       .delete(gameSessionSchedules)
       .where(eq(gameSessionSchedules.id, id));
-    return new Response(`Deleted Game Session with id ${id}`, { status: 204 });
+    return new Response(null, { status: 204 });
   } catch {
     return new Response("Internal Server Error", { status: 500 });
   }
