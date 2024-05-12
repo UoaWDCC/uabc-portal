@@ -8,7 +8,8 @@ export async function POST(req: NextRequest) {
   try {
     const newGameSession = await req.json();
     await db.insert(gameSessionSchedules).values(newGameSession);
-    return new Response("Created GameSessionSchedule", { status: 201 });
+    console.log(newGameSession);
+    return NextResponse.json(newGameSession, { status: 201 });
   } catch {
     return new Response("Internal Server Error", { status: 500 });
   }

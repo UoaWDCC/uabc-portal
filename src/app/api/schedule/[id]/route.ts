@@ -1,4 +1,3 @@
-import { error } from "console";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
@@ -78,7 +77,7 @@ export async function PUT(
       .update(gameSessionSchedules)
       .set(updatedGameSession)
       .where(eq(gameSessionSchedules.id, id));
-    return new Response(`Updated Game Session ${id}`, { status: 200 });
+    return NextResponse.json(updatedGameSession);
   } catch {
     return new Response("Internal Server Error", { status: 500 });
   }
