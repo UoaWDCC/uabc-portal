@@ -10,7 +10,7 @@ export default async function AdminDashboardPage() {
         <Heading>Dashboard</Heading>
       </div>
       <div className="px-4">
-        <Link href="/admin/session-schedule">
+        <Link href="/admin/edit-schedule">
           <div className="relative h-20 bg-primary text-primary-foreground pl-6 flex items-center text-lg font-medium rounded-sm">
             Edit Session Schedule
             <ArrowRight className="absolute right-4 bottom-6 fill-primary-foreground" />
