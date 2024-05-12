@@ -1,10 +1,9 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { CgProfile } from "react-icons/cg";
 
 import { PrepaidSessionsCounter } from "@/components/booking/PrepaidSessionsCounter";
 import { Heading } from "@/components/Heading";
+import LogOutButton from "@/components/LogOutButton";
 import { env } from "@/env";
 import { getCurrentUser } from "@/lib/session";
 import ClientSessionPage from "./client-page";
@@ -32,11 +31,9 @@ export default async function SelectSessionPage() {
   const user = await fetchUserInfo(currentUser!.id);
   return (
     <div className="h-dvh flex flex-col">
-      <div className="flex p-4">
+      <div className="flex p-4 items-center justify-between">
         <Heading>Sessions</Heading>
-        <Link href={"/account"} className="ml-auto">
-          <CgProfile size={40} />
-        </Link>
+        <LogOutButton />
       </div>
       <div className="flex h-16 items-center justify-between bg-secondary/70 p-4">
         <div className="flex items-center">
