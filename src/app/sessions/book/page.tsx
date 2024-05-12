@@ -2,20 +2,14 @@
 
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { IoArrowBackOutline } from "react-icons/io5";
 
 import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
+import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/stores/useCartStore";
 
-// import gameSessions from "@/types/game-session";
-
 export default function BookSessionPage() {
   const router = useRouter();
-
-  const handleBackButtonClick = () => {
-    router.back();
-  };
 
   const handleNextButtonClick = () => {
     router.push("/sessions/book/payment");
@@ -44,19 +38,7 @@ export default function BookSessionPage() {
 
   return (
     <div className="flex flex-col h-dvh mx-4 gap-y-4">
-      <div className="flex mt-4 align-middle text-tertiary">
-        <Button
-          variant={"ghost"}
-          className="grid place-items-center mr-4 size-8"
-          size={"icon"}
-          onClick={handleBackButtonClick}
-        >
-          <IoArrowBackOutline size={24} />
-        </Button>
-        <span className="text-lg font-medium leading-none self-center">
-          Select your membership type
-        </span>
-      </div>
+      <NavigationBar subHeading="Select your membership type" />
 
       {sortedSessions.map((session) => (
         <div key={session.id} className="mb-4">
