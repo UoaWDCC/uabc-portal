@@ -73,11 +73,12 @@ export async function PUT(
       });
     }
 
-    await db
+    const res = await db
       .update(gameSessionSchedules)
       .set(updatedGameSession)
-      .where(eq(gameSessionSchedules.id, id));
-    return NextResponse.json(updatedGameSession);
+      .where(eq(gameSessionSchedules.id, id))
+      .returning();
+    return NextResponse.json(res);
   } catch {
     return new Response("Internal Server Error", { status: 500 });
   }

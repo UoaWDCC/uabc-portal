@@ -7,9 +7,11 @@ import { gameSessionSchedules } from "@/lib/db/schema";
 export async function POST(req: NextRequest) {
   try {
     const newGameSession = await req.json();
-    await db.insert(gameSessionSchedules).values(newGameSession);
-    console.log(newGameSession);
-    return NextResponse.json(newGameSession, { status: 201 });
+    const session = await db
+      .insert(gameSessionSchedules)
+      .values(newGameSession)
+      .returning();
+    return NextResponse.json(session, { status: 201 });
   } catch {
     return new Response("Internal Server Error", { status: 500 });
   }
