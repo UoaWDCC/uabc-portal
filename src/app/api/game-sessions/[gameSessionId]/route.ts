@@ -10,7 +10,7 @@ import { updateGameSessionSchema } from "@/lib/validators";
 
 const routeContextSchema = z.object({
   params: z.object({
-    id: z.coerce.number(),
+    gameSessionId: z.coerce.number(),
   }),
 });
 
@@ -26,15 +26,15 @@ export async function GET(
       });
 
     const {
-      params: { id },
+      params: { gameSessionId },
     } = result.data;
 
     const session = await db.query.gameSessions.findFirst({
-      where: eq(gameSessions.id, id),
+      where: eq(gameSessions.id, gameSessionId),
     });
 
     if (!session)
-      return new Response(`No Game Session found with id: ${id}`, {
+      return new Response(`No Game Session found with id: ${gameSessionId}`, {
         status: 404,
       });
 
@@ -63,7 +63,7 @@ export async function PUT(
       });
 
     const {
-      params: { id },
+      params: { gameSessionId },
     } = result.data;
 
     const json = await req.json();
@@ -85,11 +85,11 @@ export async function PUT(
     const updatedSession = await db
       .update(gameSessions)
       .set(body)
-      .where(eq(gameSessions.id, id))
+      .where(eq(gameSessions.id, gameSessionId))
       .returning();
 
     if (!updatedSession.length) {
-      return new Response(`No Game Session found with id: ${id}`, {
+      return new Response(`No Game Session found with id: ${gameSessionId}`, {
         status: 404,
       });
     }
@@ -123,18 +123,21 @@ export async function DELETE(
   }
 
   const {
-    params: { id },
+    params: { gameSessionId },
   } = result.data;
 
   const session = await db
     .delete(gameSessions)
-    .where(eq(gameSessions.id, id))
+    .where(eq(gameSessions.id, gameSessionId))
     .returning();
 
   if (session.length === 0) {
-    return new Response(`Game session with id ${id} does not exist.`, {
-      status: 404,
-    });
+    return new Response(
+      `Game session with id ${gameSessionId} does not exist.`,
+      {
+        status: 404,
+      },
+    );
   }
 
   return new Response(null, { status: 204 });
