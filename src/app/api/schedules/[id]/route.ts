@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { gameSessionSchedules } from "@/lib/db/schema";
@@ -98,7 +99,10 @@ export async function PUT(
       .where(eq(gameSessionSchedules.id, id))
       .returning();
     return NextResponse.json(res);
-  } catch {
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return new Response("Invalid body", { status: 400 });
+    }
     return new Response("Internal Server Error", { status: 500 });
   }
 }
