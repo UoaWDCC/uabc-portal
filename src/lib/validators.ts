@@ -40,3 +40,14 @@ export const insertGameSessionScheduleSchema = createInsertSchema(
     casualCapacity: z.number(),
   },
 );
+
+export const updateGameSessionScheduleSchema = z.object({
+  semesterId: z.number(),
+  weekday: z.string(),
+  startTime: z.string().time(),
+  endTime: z.string().time(),
+  locationName: z.string(),
+  locationAddress: z.string(),
+  capacity: z.number(),
+  casualCapacity: z.number(),
+});

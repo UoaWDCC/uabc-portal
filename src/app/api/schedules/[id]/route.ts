@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { gameSessionSchedules } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
+import { updateGameSessionScheduleSchema } from "@/lib/validators";
 
 export async function GET(
   req: NextRequest,
@@ -50,7 +51,7 @@ export async function DELETE(
 
     if (!gameSessionSchedule) {
       return new Response(`No GameSessionSchedule found for id: ${id}`, {
-        status: 404,
+        status: 400,
       });
     }
 
@@ -78,15 +79,16 @@ export async function PUT(
 
     const { id } = params;
 
-    const updatedGameSession = await req.json();
-
+    const updatedGameSession = updateGameSessionScheduleSchema.parse(
+      await req.json(),
+    );
     const gameSessionSchedule = await db.query.gameSessionSchedules.findFirst({
       where: eq(gameSessionSchedules.id, id),
     });
 
     if (!gameSessionSchedule) {
       return new Response(`No GameSessionSchedule found for id: ${id}`, {
-        status: 404,
+        status: 400,
       });
     }
 
