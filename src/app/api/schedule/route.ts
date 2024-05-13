@@ -3,9 +3,14 @@ import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
 import { gameSessionSchedules } from "@/lib/db/schema";
+import { getCurrentUser } from "@/lib/session";
 
 export async function POST(req: NextRequest) {
   try {
+    const user = await getCurrentUser();
+    if (!user || user.role != "admin") {
+      return new Response("ERROR: Unauthorized request", { status: 403 });
+    }
     const newGameSession = await req.json();
     const session = await db
       .insert(gameSessionSchedules)

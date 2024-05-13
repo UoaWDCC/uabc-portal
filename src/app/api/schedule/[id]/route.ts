@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import { gameSessionSchedules } from "@/lib/db/schema";
+import { getCurrentUser } from "@/lib/session";
 
 export async function GET(
   req: NextRequest,
@@ -33,6 +34,11 @@ export async function DELETE(
   { params }: { params: { id: number } },
 ) {
   try {
+    const user = await getCurrentUser();
+    if (!user || user.role != "admin") {
+      return new Response("ERROR: Unauthorized request", { status: 403 });
+    }
+
     const { id } = params;
 
     const gameSessionSchedule = await db.query.gameSessionSchedules.findFirst({
@@ -59,6 +65,11 @@ export async function PUT(
   { params }: { params: { id: number } },
 ) {
   try {
+    const user = await getCurrentUser();
+    if (!user || user.role != "admin") {
+      return new Response("ERROR: Unauthorized request", { status: 403 });
+    }
+
     const { id } = params;
 
     const updatedGameSession = await req.json();
