@@ -12,7 +12,7 @@ export default function BookSessionPage() {
   const router = useRouter();
 
   const handleNextButtonClick = () => {
-    router.push("/sessions/book/payment");
+    router.push("/sessions/book/confirmation");
   };
 
   const cart = useCartStore((state) => state.cart);
@@ -38,7 +38,7 @@ export default function BookSessionPage() {
 
   return (
     <div className="flex flex-col h-dvh mx-4 gap-y-4">
-      <NavigationBar subHeading="Select your membership type" />
+      <NavigationBar subHeading="Select your level of play" />
 
       {sortedSessions.map((session) => (
         <div key={session.id} className="mb-4">

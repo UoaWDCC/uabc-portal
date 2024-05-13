@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { IoArrowBackOutline } from "react-icons/io5";
 
 import { MembershipTypeSelector } from "@/components/MembershipTypeSelector";
+import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
 import { useOnboardingDetailsStore } from "@/stores/useOnboardingDetailsStore";
 
@@ -12,29 +12,13 @@ const MembershipType = () => {
   const setMember = useOnboardingDetailsStore((state) => state.setMember);
   const router = useRouter();
 
-  const handleBackButtonClick = () => {
-    router.back();
-  };
-
   const handleNextButtonClick = () => {
     router.push("/sessions");
   };
 
   return (
     <div className="flex flex-col h-dvh mx-4 gap-y-4">
-      <div className="flex mt-4 align-middle text-tertiary">
-        <Button
-          variant={"ghost"}
-          className="grid place-items-center mr-4 size-8"
-          size={"icon"}
-          onClick={handleBackButtonClick}
-        >
-          <IoArrowBackOutline size={24} />
-        </Button>
-        <span className="text-lg font-medium leading-none self-center">
-          Select your membership type
-        </span>
-      </div>
+      <NavigationBar subHeading="Select your membership type" />
 
       <MembershipTypeSelector
         selectedMembership={member === true}
