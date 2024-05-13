@@ -35,8 +35,11 @@ export async function DELETE(
 ) {
   try {
     const user = await getCurrentUser();
-    if (!user || user.role != "admin") {
-      return new Response("ERROR: Unauthorized request", { status: 403 });
+    if (!user) {
+      return new Response("ERROR: Unauthorized request", { status: 401 });
+    }
+    if (user.role != "admin") {
+      return new Response("ERROR: No valid permissions", { status: 403 });
     }
 
     const { id } = params;
@@ -66,8 +69,11 @@ export async function PUT(
 ) {
   try {
     const user = await getCurrentUser();
-    if (!user || user.role != "admin") {
-      return new Response("ERROR: Unauthorized request", { status: 403 });
+    if (!user) {
+      return new Response("ERROR: Unauthorized request", { status: 401 });
+    }
+    if (user.role != "admin") {
+      return new Response("ERROR: No valid permissions", { status: 403 });
     }
 
     const { id } = params;
