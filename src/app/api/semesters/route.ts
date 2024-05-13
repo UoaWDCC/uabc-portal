@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(semester, { status: 201 });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return new Response("Invalid body", { status: 400 });
+      return NextResponse.json(err.issues, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }

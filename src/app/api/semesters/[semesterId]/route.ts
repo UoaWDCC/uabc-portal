@@ -10,7 +10,7 @@ import { updateSemesterSchema } from "@/lib/validators";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: number } },
+  { params }: { params: { semesterId: number } },
 ) {
   try {
     const user = await getCurrentUser();
@@ -21,14 +21,16 @@ export async function GET(
       return new Response("ERROR: No valid permissions", { status: 403 });
     }
 
-    const { id } = params;
+    const { semesterId } = params;
 
     const semester = await db.query.semesters.findFirst({
-      where: eq(semesters.id, id),
+      where: eq(semesters.id, semesterId),
     });
 
     if (!semester) {
-      return new Response(`No semester found for id: ${id}`, { status: 404 });
+      return new Response(`No semester found for id: ${semesterId}`, {
+        status: 404,
+      });
     }
 
     return NextResponse.json(semester, { status: 200 });
@@ -39,7 +41,7 @@ export async function GET(
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { id: number } },
+  { params }: { params: { semesterId: number } },
 ) {
   try {
     const user = await getCurrentUser();
@@ -50,19 +52,19 @@ export async function DELETE(
       return new Response("ERROR: No valid permissions", { status: 403 });
     }
 
-    const { id } = params;
+    const { semesterId } = params;
 
     const semester = await db.query.semesters.findFirst({
-      where: eq(semesters.id, id),
+      where: eq(semesters.id, semesterId),
     });
 
     if (!semester) {
-      return new Response(`No semester found for id: ${id}`, {
+      return new Response(`No semester found for id: ${semesterId}`, {
         status: 404,
       });
     }
 
-    await db.delete(semesters).where(eq(semesters.id, id));
+    await db.delete(semesters).where(eq(semesters.id, semesterId));
 
     return new Response(null, { status: 204 });
   } catch {
@@ -72,7 +74,7 @@ export async function DELETE(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: number } },
+  { params }: { params: { semesterId: number } },
 ) {
   try {
     const user = await getCurrentUser();
@@ -83,7 +85,7 @@ export async function PUT(
       return new Response("ERROR: No valid permissions", { status: 403 });
     }
 
-    const { id } = params;
+    const { semesterId } = params;
 
     const updatedSemester = updateSemesterSchema.parse(await req.json());
 
@@ -112,11 +114,11 @@ export async function PUT(
     }
 
     const semester = await db.query.semesters.findFirst({
-      where: eq(semesters.id, id),
+      where: eq(semesters.id, semesterId),
     });
 
     if (!semester) {
-      return new Response(`No semester found for id: ${id}`, {
+      return new Response(`No semester found for id: ${semesterId}`, {
         status: 400,
       });
     }
@@ -124,13 +126,13 @@ export async function PUT(
     const res = await db
       .update(semesters)
       .set(updatedSemester)
-      .where(eq(semesters.id, id))
+      .where(eq(semesters.id, semesterId))
       .returning();
 
     return NextResponse.json(res, { status: 200 });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return new Response("Invalid body", { status: 400 });
+      return NextResponse.json(err.issues, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }

@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { gameSessions, semesters, weekdayEnum } from "./db/schema";
+import { gameSessions, semesters } from "./db/schema";
 
 export const selectGameSessionSchema = createSelectSchema(gameSessions);
 
@@ -22,22 +22,18 @@ export const updateGameSessionSchema = z.object({
 });
 
 export const insertSemesterSchema = createInsertSchema(semesters, {
-  name: z.string(),
   startDate: z.coerce.date(),
   endDate: z.coerce.date(),
   breakStart: z.coerce.date(),
   breakEnd: z.coerce.date(),
-  bookingOpenDay: z.enum(weekdayEnum.enumValues),
   bookingOpenTime: z.string().time(),
 });
 
 export const updateSemesterSchema = z.object({
-  name: z.string(),
   startDate: z.coerce.date(),
   endDate: z.coerce.date(),
   breakStart: z.coerce.date(),
   breakEnd: z.coerce.date(),
-  bookingOpenDay: z.enum(weekdayEnum.enumValues),
   bookingOpenTime: z.string().time(),
 });
 
