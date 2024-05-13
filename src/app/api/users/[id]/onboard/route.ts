@@ -14,10 +14,10 @@ import { userCache } from "@/services/user";
  */
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { userId: string } },
 ) {
   try {
-    const { id } = params;
+    const { userId } = params;
 
     // Validate the body of the request
     const json = await req.json();
@@ -26,13 +26,13 @@ export async function PATCH(
 
     // Check that the current user is defined
     const currentUser = await getCurrentUser();
-    if (!currentUser || id !== currentUser.id) {
+    if (!currentUser || userId !== currentUser.id) {
       return new Response(null, { status: 403 });
     }
 
     // Get the user from the database
     const user = await db.query.users.findFirst({
-      where: eq(users.id, id),
+      where: eq(users.id, userId),
     });
 
     // Check that the user was found in the database
