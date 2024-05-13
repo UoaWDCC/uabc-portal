@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { gameSessionSchedules } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
+import { insertGameSessionScheduleSchema } from "@/lib/validators";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,7 +15,9 @@ export async function POST(req: NextRequest) {
     if (user.role != "admin") {
       return new Response("ERROR: No valid permissions", { status: 403 });
     }
-    const newGameSession = await req.json();
+    const newGameSession = insertGameSessionScheduleSchema.parse(
+      await req.json(),
+    );
     const session = await db
       .insert(gameSessionSchedules)
       .values(newGameSession)

@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { gameSessions } from "./db/schema";
+import { gameSessions, gameSessionSchedules } from "./db/schema";
 
 export const selectGameSessionSchema = createSelectSchema(gameSessions);
 
@@ -26,3 +26,17 @@ export const updateUserSchema = z.object({
   lastName: z.string().min(1),
   member: z.boolean(),
 });
+
+export const insertGameSessionScheduleSchema = createInsertSchema(
+  gameSessionSchedules,
+  {
+    semesterId: z.number(),
+    weekday: z.string(),
+    startTime: z.string().time(),
+    endTime: z.string().time(),
+    locationName: z.string(),
+    locationAddress: z.string(),
+    capacity: z.number(),
+    casualCapacity: z.number(),
+  },
+);
