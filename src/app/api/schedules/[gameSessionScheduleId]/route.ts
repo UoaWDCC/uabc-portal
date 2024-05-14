@@ -13,7 +13,9 @@ export async function GET(
   { params }: { params: { gameSessionScheduleId: number } },
 ) {
   try {
+    console.log(params);
     const { gameSessionScheduleId } = params;
+    console.log(gameSessionScheduleId);
 
     const gameSessionSchedule = await db.query.gameSessionSchedules.findFirst({
       where: eq(gameSessionSchedules.id, gameSessionScheduleId),

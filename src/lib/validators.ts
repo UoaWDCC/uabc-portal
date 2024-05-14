@@ -30,6 +30,7 @@ export const updateUserSchema = z.object({
 export const insertGameSessionScheduleSchema = createInsertSchema(
   gameSessionSchedules,
   {
+    semesterId: z.coerce.number(),
     startTime: z.string().time(),
     endTime: z.string().time(),
   },

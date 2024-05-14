@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
@@ -7,18 +8,23 @@ import { gameSessionSchedules } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
 import { insertGameSessionScheduleSchema } from "@/lib/validators";
 
-export async function POST(req: NextRequest) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { semesterId: number } },
+) {
   try {
-    const user = await getCurrentUser();
+    /*const user = await getCurrentUser();
     if (!user) {
       return new Response("ERROR: Unauthorized request", { status: 401 });
     }
     if (user.role != "admin") {
       return new Response("ERROR: No valid permissions", { status: 403 });
-    }
-    const newGameSession = insertGameSessionScheduleSchema.parse(
-      await req.json(),
-    );
+    }*/
+    const { semesterId } = params;
+    const newGameSession = insertGameSessionScheduleSchema.parse({
+      ...(await req.json()),
+      semesterId: semesterId,
+    });
     const session = await db
       .insert(gameSessionSchedules)
       .values(newGameSession)
@@ -32,9 +38,15 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { semesterId: number } },
+) {
   try {
-    const gameSessions = await db.query.gameSessionSchedules.findMany();
+    const { semesterId } = params;
+    const gameSessions = await db.query.gameSessionSchedules.findMany({
+      where: eq(gameSessionSchedules.semesterId, semesterId),
+    });
 
     return NextResponse.json(gameSessions);
   } catch {
