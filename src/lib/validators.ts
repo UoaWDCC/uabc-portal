@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { gameSessions, gameSessionSchedules } from "./db/schema";
+import { gameSessions, gameSessionSchedules, weekdayEnum } from "./db/schema";
 
 export const selectGameSessionSchema = createSelectSchema(gameSessions);
 
@@ -31,7 +31,7 @@ export const insertGameSessionScheduleSchema = createInsertSchema(
   gameSessionSchedules,
   {
     semesterId: z.number(),
-    weekday: z.string(),
+    weekday: z.enum(weekdayEnum.enumValues),
     startTime: z.string().time(),
     endTime: z.string().time(),
     locationName: z.string(),
@@ -43,7 +43,7 @@ export const insertGameSessionScheduleSchema = createInsertSchema(
 
 export const updateGameSessionScheduleSchema = z.object({
   semesterId: z.number(),
-  weekday: z.string(),
+  weekday: z.enum(weekdayEnum.enumValues),
   startTime: z.string().time(),
   endTime: z.string().time(),
   locationName: z.string(),
