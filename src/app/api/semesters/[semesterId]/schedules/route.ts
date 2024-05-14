@@ -13,13 +13,13 @@ export async function POST(
   { params }: { params: { semesterId: number } },
 ) {
   try {
-    /*const user = await getCurrentUser();
+    const user = await getCurrentUser();
     if (!user) {
       return new Response("ERROR: Unauthorized request", { status: 401 });
     }
     if (user.role != "admin") {
       return new Response("ERROR: No valid permissions", { status: 403 });
-    }*/
+    }
     const { semesterId } = params;
     const newGameSession = insertGameSessionScheduleSchema.parse({
       ...(await req.json()),
