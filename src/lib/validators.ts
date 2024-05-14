@@ -30,14 +30,8 @@ export const updateUserSchema = z.object({
 export const insertGameSessionScheduleSchema = createInsertSchema(
   gameSessionSchedules,
   {
-    semesterId: z.number(),
-    weekday: z.enum(weekdayEnum.enumValues),
     startTime: z.string().time(),
     endTime: z.string().time(),
-    locationName: z.string(),
-    locationAddress: z.string(),
-    capacity: z.number(),
-    casualCapacity: z.number(),
   },
 );
 
