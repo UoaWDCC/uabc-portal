@@ -23,10 +23,7 @@ const bookingSchema = z.array(
 
 export async function POST(request: Request) {
   try {
-    // const currentUser = await getCurrentUser();
-    const currentUser = {
-      id: "f58ca474-ce97-470a-ae7d-639f86fdc96f",
-    };
+    const currentUser = await getCurrentUser();
 
     if (!currentUser) return new Response("unauthorized user", { status: 401 });
 
@@ -34,10 +31,8 @@ export async function POST(request: Request) {
     const json = bookingSchema.parse(await request.json());
     const numOfSessions = json.length;
 
-    // name the below query
-
     if (numOfSessions === 0)
-      return new Response("Must book at least one session", {
+      return new Response("must book at least one session", {
         status: 400,
       });
 
@@ -49,7 +44,6 @@ export async function POST(request: Request) {
 
     const allowedBookingCount = user?.member ? 2 : 1;
 
-    // if user has already booked the maximum allowed sessions for this week
     const [bookingsThisWeek] = await db
       .select({ count: count() })
       .from(bookings)
@@ -61,8 +55,9 @@ export async function POST(request: Request) {
         ),
       );
 
+    // if user has already booked the maximum allowed sessions for this week
     if (bookingsThisWeek.count + numOfSessions > allowedBookingCount) {
-      return new Response("Maximum booking limit exceed", { status: 400 });
+      return new Response("maximum booking limit exceed", { status: 400 });
     }
 
     // if the user is a member, check if they have enough remaining sessions
@@ -75,8 +70,8 @@ export async function POST(request: Request) {
       return new Response("duplicate game session ids", { status: 400 });
     }
 
-    // check if there is already a booking for the user in the game session and if the game session actually exists and if booking is open
     for (const session of json) {
+      // check if there is already a booking for the user in the game session
       const [existingBooking] = await db
         .select()
         .from(bookings)
@@ -88,22 +83,23 @@ export async function POST(request: Request) {
           ),
         );
       if (existingBooking) {
-        return new Response("Booking already exists", { status: 400 });
+        return new Response("booking already exists", { status: 400 });
       }
 
+      // check if gameSession exists
       const gameSession = await db.query.gameSessions.findFirst({
         where: eq(gameSessions.id, session.gameSessionId),
       });
       if (!gameSession) {
-        return new Response("Game session does not exist", { status: 400 });
+        return new Response("game session does not exist", { status: 400 });
       }
 
-      // check if between bookingOpen and bookingClose
+      // check if gameSesson is available for booking
       if (
         gameSession.bookingOpen > new Date() ||
         gameSession.bookingClose < new Date()
       ) {
-        return new Response("Game session is currently available for booking", {
+        return new Response("game session is currently available for booking", {
           status: 400,
         });
       }
