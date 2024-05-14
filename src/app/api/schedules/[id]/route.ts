@@ -110,7 +110,7 @@ export async function PUT(
     return NextResponse.json(res);
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return new Response((err as z.ZodError).issues, { status: 400 });
+      return NextResponse.json((err as z.ZodError).issues, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }
