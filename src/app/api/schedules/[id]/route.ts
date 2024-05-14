@@ -10,19 +10,22 @@ import { updateGameSessionScheduleSchema } from "@/lib/validators";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: number } },
+  { params }: { params: { gameSessionScheduleId: number } },
 ) {
   try {
-    const { id } = params;
+    const { gameSessionScheduleId } = params;
 
     const gameSessionSchedule = await db.query.gameSessionSchedules.findFirst({
-      where: eq(gameSessionSchedules.id, id),
+      where: eq(gameSessionSchedules.id, gameSessionScheduleId),
     });
 
     if (!gameSessionSchedule) {
-      return new Response(`No GameSessionSchedule found for id: ${id}`, {
-        status: 404,
-      });
+      return new Response(
+        `No GameSessionSchedule found for id: ${gameSessionScheduleId}`,
+        {
+          status: 404,
+        },
+      );
     }
 
     return NextResponse.json(gameSessionSchedule);
@@ -33,7 +36,7 @@ export async function GET(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: number } },
+  { params }: { params: { gameSessionScheduleId: number } },
 ) {
   try {
     const user = await getCurrentUser();
@@ -44,21 +47,24 @@ export async function DELETE(
       return new Response("ERROR: No valid permissions", { status: 403 });
     }
 
-    const { id } = params;
+    const { gameSessionScheduleId } = params;
 
     const gameSessionSchedule = await db.query.gameSessionSchedules.findFirst({
-      where: eq(gameSessionSchedules.id, id),
+      where: eq(gameSessionSchedules.id, gameSessionScheduleId),
     });
 
     if (!gameSessionSchedule) {
-      return new Response(`No GameSessionSchedule found for id: ${id}`, {
-        status: 400,
-      });
+      return new Response(
+        `No GameSessionSchedule found for id: ${gameSessionScheduleId}`,
+        {
+          status: 400,
+        },
+      );
     }
 
     await db
       .delete(gameSessionSchedules)
-      .where(eq(gameSessionSchedules.id, id));
+      .where(eq(gameSessionSchedules.id, gameSessionScheduleId));
     return new Response(null, { status: 204 });
   } catch {
     return new Response("Internal Server Error", { status: 500 });
@@ -67,7 +73,7 @@ export async function DELETE(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: number } },
+  { params }: { params: { gameSessionScheduleId: number } },
 ) {
   try {
     const user = await getCurrentUser();
@@ -78,30 +84,33 @@ export async function PUT(
       return new Response("ERROR: No valid permissions", { status: 403 });
     }
 
-    const { id } = params;
+    const { gameSessionScheduleId } = params;
 
     const updatedGameSession = updateGameSessionScheduleSchema.parse(
       await req.json(),
     );
     const gameSessionSchedule = await db.query.gameSessionSchedules.findFirst({
-      where: eq(gameSessionSchedules.id, id),
+      where: eq(gameSessionSchedules.id, gameSessionScheduleId),
     });
 
     if (!gameSessionSchedule) {
-      return new Response(`No GameSessionSchedule found for id: ${id}`, {
-        status: 400,
-      });
+      return new Response(
+        `No GameSessionSchedule found for id: ${gameSessionScheduleId}`,
+        {
+          status: 400,
+        },
+      );
     }
 
     const res = await db
       .update(gameSessionSchedules)
       .set(updatedGameSession)
-      .where(eq(gameSessionSchedules.id, id))
+      .where(eq(gameSessionSchedules.id, gameSessionScheduleId))
       .returning();
     return NextResponse.json(res);
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return new Response("Invalid body", { status: 400 });
+      return new Response((err as z.ZodError).issues, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }
