@@ -2,6 +2,7 @@ import type { AdapterAccount } from "@auth/core/adapters";
 import { relations } from "drizzle-orm";
 import {
   boolean,
+  date,
   integer,
   pgEnum,
   pgTable,
@@ -134,10 +135,10 @@ export const bookingDetails = pgTable(
 export const semesters = pgTable("semester", {
   id: serial("id").primaryKey(),
   name: text("name").unique().notNull(),
-  startDate: timestamp("startDate", { mode: "date" }).notNull(),
-  endDate: timestamp("endDate", { mode: "date" }).notNull(),
-  breakStart: timestamp("breakStart", { mode: "date" }).notNull(),
-  breakEnd: timestamp("breakEnd", { mode: "date" }).notNull(),
+  startDate: date("startDate").notNull(),
+  endDate: date("endDate").notNull(),
+  breakStart: date("breakStart").notNull(),
+  breakEnd: date("breakEnd").notNull(),
   bookingOpenDay: weekdayEnum("bookingOpenDay").notNull(),
   bookingOpenTime: time("bookingOpenTime").notNull(),
 });
@@ -149,7 +150,7 @@ export const gameSessionSchedules = pgTable(
     semesterId: integer("semesterId")
       .notNull()
       .references(() => semesters.id, { onDelete: "cascade" }),
-    weekday: text("weekday").notNull(),
+    weekday: weekdayEnum("weekday").notNull(),
     startTime: time("startTime").notNull(),
     endTime: time("endTime").notNull(),
     locationName: text("locationName").notNull(),

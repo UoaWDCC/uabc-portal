@@ -22,18 +22,18 @@ export const updateGameSessionSchema = z.object({
 });
 
 export const insertSemesterSchema = createInsertSchema(semesters, {
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date(),
-  breakStart: z.coerce.date(),
-  breakEnd: z.coerce.date(),
+  startDate: z.string().date(),
+  endDate: z.string().date(),
+  breakStart: z.string().date(),
+  breakEnd: z.string().date(),
   bookingOpenTime: z.string().time(),
 });
 
 export const updateSemesterSchema = z.object({
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date(),
-  breakStart: z.coerce.date(),
-  breakEnd: z.coerce.date(),
+  startDate: z.string().date(),
+  endDate: z.string().date(),
+  breakStart: z.string().date(),
+  breakEnd: z.string().date(),
   bookingOpenTime: z.string().time(),
 });
 
