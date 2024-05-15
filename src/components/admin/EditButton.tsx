@@ -1,11 +1,11 @@
 import React from "react";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { SquarePen } from "lucide-react";
 
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -25,7 +25,7 @@ export const EditButton = () => {
           <p>Edit</p>s
         </Button>
       </DialogTrigger>
-      <DialogContent className="dark max-w-[375px] rounded-lg">
+      <DialogContent className="dark sm:max-w-[475px] max-w-[375px] rounded-lg">
         <DialogHeader className="*:stroke-foreground">
           <DialogTitle className="text-foreground">
             Edit Semester 1 (2024)

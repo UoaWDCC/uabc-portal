@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Ellipsis, Trash2 } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 
 import { Card } from "@/components/Card";
 import { Button } from "@/components/ui/button";
+import DeleteButton from "./DeleteButton";
 import { EditButton } from "./EditButton";
-import { DialogDemo } from "./Test";
 
 export const SessionCard = () => {
   const [open, setOpen] = useState(false);
@@ -29,13 +29,7 @@ export const SessionCard = () => {
         />
         <div className="absolute w-56 bg-background p-1 flex flex-col z-50 top-4 right-6 rounded-md shadow-lg ring-1 ring-secondary">
           <EditButton />
-          <Button
-            variant="ghost"
-            className="hover:bg-destructive/20 h-8 text-destructive justify-start"
-          >
-            <Trash2 className="w-4 mr-2" />
-            <p>Delete</p>
-          </Button>
+          <DeleteButton />
         </div>
       </>
     );
