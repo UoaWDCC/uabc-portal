@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { Ellipsis, SquarePen, Trash2 } from "lucide-react";
 
 import { Card } from "@/components/Card";
 import { Button } from "@/components/ui/button";
+import EditDialogue from "./EditDialogue";
 
 export const SessionCard = () => {
   const [open, setOpen] = useState(false);
@@ -17,8 +19,6 @@ export const SessionCard = () => {
     setOpen(false);
   };
 
-  const OpenDialogue = () => {};
-
   const Popover = () => {
     return (
       <>
@@ -28,13 +28,18 @@ export const SessionCard = () => {
           onClick={handleClose}
         />
         <div className="absolute w-56 bg-background p-1 flex flex-col z-50 top-4 right-6 rounded-md shadow-lg ring-1 ring-secondary">
-          <Button
-            variant="ghost"
-            className="hover:bg-secondary h-8 text-foreground justify-start"
-          >
-            <SquarePen className="w-4 mr-2" />
-            <p>Edit</p>
-          </Button>
+          <Dialog>
+            <DialogTrigger>
+              <Button
+                variant="ghost"
+                className="hover:bg-secondary h-8 text-foreground justify-start w-full"
+              >
+                <SquarePen className="w-4 mr-2" />
+                <p>Edit</p>
+              </Button>
+            </DialogTrigger>
+            <EditDialogue />
+          </Dialog>
           <Button
             variant="ghost"
             className="hover:bg-destructive/20 h-8 text-destructive justify-start"
@@ -49,26 +54,32 @@ export const SessionCard = () => {
 
   return (
     // todo: switch dummy text with real game-session info
-    <Card className=" relative bg-secondary/20 ring-1 tracking-tight font-medium ring-secondary text-tertiary text-sm has-[:checked]:ring-primary has-[:checked]:ring-2 select-none">
-      <input
-        type="radio"
-        name="session"
-        className="absolute outline top-0 left-0 z-10 w-full h-full bg- opacity-0 cursor-pointer"
-        value="id"
-      />
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg text-foreground whitespace-nowrap">
-          Semester 2 (2024)
-        </h3>
+    <>
+      <Card className=" relative bg-secondary/20 ring-1 tracking-tight font-medium ring-secondary text-tertiary text-sm has-[:checked]:ring-primary has-[:checked]:ring-2 select-none">
+        <input
+          type="radio"
+          name="session"
+          className="absolute outline top-0 left-0 z-10 w-full h-full bg- opacity-0 cursor-pointer"
+          value="id"
+        />
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg text-foreground whitespace-nowrap">
+            Semester 2 (2024)
+          </h3>
 
-        <Button variant="outline" className="w-8 h-6 z-10" onClick={handleOpen}>
-          <Ellipsis className="stroke-tertiary absolute w-4" />
-        </Button>
-        {open && <Popover />}
-      </div>
-      <p className="mt-2">Start date: 22/11/24</p>
-      <p>End date: 22/11/24</p>
-      <p className="mt-4">Break period: 31/09/24 - 16/04/24</p>
-    </Card>
+          <Button
+            variant="outline"
+            className="w-8 h-6 z-10"
+            onClick={handleOpen}
+          >
+            <Ellipsis className="stroke-tertiary absolute w-4" />
+          </Button>
+          {open && <Popover />}
+        </div>
+        <p className="mt-2">Start date: 22/11/24</p>
+        <p>End date: 22/11/24</p>
+        <p className="mt-4">Break period: 31/09/24 - 16/04/24</p>
+      </Card>
+    </>
   );
 };
