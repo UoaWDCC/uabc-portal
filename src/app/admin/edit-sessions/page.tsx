@@ -1,5 +1,4 @@
 import { env } from "process";
-import { Dialog } from "@radix-ui/react-dialog";
 
 import EditSessionsHeader from "@/components/admin/EditSessionsHeader";
 import { SessionCard } from "@/components/admin/SessionCard";

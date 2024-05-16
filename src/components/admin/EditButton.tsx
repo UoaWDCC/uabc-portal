@@ -3,15 +3,8 @@ import { SquarePen } from "lucide-react";
 
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
+import { Dialog, DialogTrigger } from "../ui/dialog";
+import EditDialogue from "./EditDialogue";
 
 export const EditButton = () => {
   return (
@@ -25,29 +18,7 @@ export const EditButton = () => {
           <p>Edit</p>s
         </Button>
       </DialogTrigger>
-      <DialogContent className="dark sm:max-w-[475px] max-w-[375px] rounded-lg">
-        <DialogHeader className="*:stroke-foreground">
-          <DialogTitle className="text-foreground">
-            Edit Semester 1 (2024)
-          </DialogTitle>
-        </DialogHeader>
-        <div className="flex gap-2 *:grow ">
-          <TextInput label="Start Date" type="input" />
-          <TextInput label="End Date" type="input" />
-        </div>
-        <div className="flex gap-2 *:grow *:ring-tertiary/70">
-          <TextInput label="Break start Date" type="input" />
-          <TextInput label="Break start Date" type="input" />
-        </div>
-        <DialogFooter className="flex justify-end gap-2">
-          <DialogClose asChild>
-            <Button variant="outline" className="text-foreground">
-              Cancel
-            </Button>
-          </DialogClose>
-          <Button>Confirm</Button>
-        </DialogFooter>
-      </DialogContent>
+      <EditDialogue />
     </Dialog>
   );
 };
