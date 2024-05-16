@@ -1,7 +1,6 @@
 import React from "react";
 import { SquarePen } from "lucide-react";
 
-import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import EditDialogue from "./EditDialogue";
