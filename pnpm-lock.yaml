@@ -22,7 +22,7 @@ dependencies:
     version: 1.0.2(@types/react@18.2.75)(react@18.2.0)
   '@t3-oss/env-nextjs':
     specifier: ^0.9.2
-    version: 0.9.2(typescript@5.4.4)(zod@3.22.4)
+    version: 0.9.2(typescript@5.4.4)(zod@3.23.8)
   '@tanstack/react-query':
     specifier: ^5.28.4
     version: 5.29.0(react@18.2.0)
@@ -37,7 +37,7 @@ dependencies:
     version: 0.30.7(@types/react@18.2.75)(pg@8.11.5)(postgres@3.4.4)(react@18.2.0)
   drizzle-zod:
     specifier: ^0.5.1
-    version: 0.5.1(drizzle-orm@0.30.7)(zod@3.22.4)
+    version: 0.5.1(drizzle-orm@0.30.7)(zod@3.23.8)
   lucide-react:
     specifier: ^0.358.0
     version: 0.358.0(react@18.2.0)
@@ -75,8 +75,8 @@ dependencies:
     specifier: ^0.9.0
     version: 0.9.0(@types/react-dom@18.2.24)(@types/react@18.2.75)(react-dom@18.2.0)(react@18.2.0)
   zod:
-    specifier: ^3.22.4
-    version: 3.22.4
+    specifier: ^3.23.8
+    version: 3.23.8
   zustand:
     specifier: ^4.5.2
     version: 4.5.2(@types/react@18.2.75)(react@18.2.0)
@@ -4009,7 +4009,7 @@ packages:
     dependencies:
       tslib: 2.6.2
 
-  /@t3-oss/env-core@0.9.2(typescript@5.4.4)(zod@3.22.4):
+  /@t3-oss/env-core@0.9.2(typescript@5.4.4)(zod@3.23.8):
     resolution: {integrity: sha512-KgWXljUTHgO3o7GMZQPAD5+P+HqpauMNNHowlm7V2b9IeMitSUpNKwG6xQrup/xARWHTdxRVIl0mSI4wCevQhQ==}
     peerDependencies:
       typescript: '>=5.0.0'
@@ -4019,10 +4019,10 @@ packages:
         optional: true
     dependencies:
       typescript: 5.4.4
-      zod: 3.22.4
+      zod: 3.23.8
     dev: false
 
-  /@t3-oss/env-nextjs@0.9.2(typescript@5.4.4)(zod@3.22.4):
+  /@t3-oss/env-nextjs@0.9.2(typescript@5.4.4)(zod@3.23.8):
     resolution: {integrity: sha512-dklHrgKLESStNVB67Jdbu6osxDYA+xNKaPBRerlnkEvzbCccSKMvZENx6EZebJuR4snqB3/yRykNMn/bdIAyiQ==}
     peerDependencies:
       typescript: '>=5.0.0'
@@ -4031,9 +4031,9 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@t3-oss/env-core': 0.9.2(typescript@5.4.4)(zod@3.22.4)
+      '@t3-oss/env-core': 0.9.2(typescript@5.4.4)(zod@3.23.8)
       typescript: 5.4.4
-      zod: 3.22.4
+      zod: 3.23.8
     dev: false
 
   /@tanstack/query-core@5.29.0:
@@ -6766,7 +6766,7 @@ packages:
       glob: 8.1.0
       hanji: 0.0.5
       json-diff: 0.9.0
-      zod: 3.22.4
+      zod: 3.23.8
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6857,14 +6857,14 @@ packages:
       react: 18.2.0
     dev: false
 
-  /drizzle-zod@0.5.1(drizzle-orm@0.30.7)(zod@3.22.4):
+  /drizzle-zod@0.5.1(drizzle-orm@0.30.7)(zod@3.23.8):
     resolution: {integrity: sha512-C/8bvzUH/zSnVfwdSibOgFjLhtDtbKYmkbPbUCq46QZyZCH6kODIMSOgZ8R7rVjoI+tCj3k06MRJMDqsIeoS4A==}
     peerDependencies:
       drizzle-orm: '>=0.23.13'
       zod: '*'
     dependencies:
       drizzle-orm: 0.30.7(@types/react@18.2.75)(pg@8.11.5)(postgres@3.4.4)(react@18.2.0)
-      zod: 3.22.4
+      zod: 3.23.8
     dev: false
 
   /duplexify@3.7.1:
@@ -13557,8 +13557,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  /zod@3.22.4:
-    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+  /zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
   /zustand@4.5.2(@types/react@18.2.75)(react@18.2.0):
     resolution: {integrity: sha512-2cN1tPkDVkwCy5ickKrI7vijSjPksFRfqS6237NzT0vqSsztTNnQdHw9mmN7uBdk3gceVXU0a+21jFzFzAc9+g==}
