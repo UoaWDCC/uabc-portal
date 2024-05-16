@@ -25,6 +25,13 @@ export async function POST(
       ...(await req.json()),
       semesterId: semesterId,
     });
+
+    if (newGameSession.startTime >= newGameSession.endTime) {
+      return new Response("Start time must be before end time", {
+        status: 400,
+      });
+    }
+
     const session = await db
       .insert(gameSessionSchedules)
       .values(newGameSession)

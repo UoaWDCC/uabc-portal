@@ -102,6 +102,12 @@ export async function PUT(
       );
     }
 
+    if (updatedGameSession.startTime >= updatedGameSession.endTime) {
+      return new Response("Start time must be before end time", {
+        status: 400,
+      });
+    }
+
     const res = await db
       .update(gameSessionSchedules)
       .set(updatedGameSession)
