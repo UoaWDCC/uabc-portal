@@ -1,5 +1,5 @@
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { TextInput } from "@/components/TextInput";
 import { Button } from "@/components/ui/button";
@@ -19,49 +19,73 @@ type UserResponse = {
 };
 
 const EditDialogue = () => {
-  const { register, handleSubmit } = useForm<UserResponse>({
+  console.log("rendered");
+  return (
+    <DialogContent className="dark sm:max-w-[475px] max-w-[375px] rounded-lg">
+      <DialogHeader className="*:stroke-foreground">
+        <DialogTitle className="text-foreground">
+          Edit Semester 1 (2024)
+        </DialogTitle>
+      </DialogHeader>
+      <EditForm />
+    </DialogContent>
+  );
+};
+
+const EditForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserResponse>({
     defaultValues: {
-      startDate: "asdasd",
-      endDate: "asdasd",
-      breakStart: "asdasd",
-      breakEnd: "asdasd",
+      startDate: "asd",
+      endDate: "",
+      breakStart: "",
+      breakEnd: "",
     },
   });
 
   const onSubmit: SubmitHandler<UserResponse> = (data) => console.log(data);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <DialogContent className="dark sm:max-w-[475px] max-w-[375px] rounded-lg">
-        <DialogHeader className="*:stroke-foreground">
-          <DialogTitle className="text-foreground">
-            Edit Semester 1 (2024)
-          </DialogTitle>
-        </DialogHeader>
+    <>
+      <form
+        className="flex gap-4 flex-col"
+        onSubmit={(e) => {
+          e.preventDefault();
+          console.log(errors);
+          handleSubmit((data) => {
+            console.log("submitted");
+            console.log(data);
+          });
+        }}
+      >
         <div className="flex gap-2 *:grow ">
           <TextInput
             label="Start Date"
             type="input"
-            {...register("startDate", { required: true })}
+            {...register("startDate", { required: "field is required" })}
           />
           <TextInput
             label="End Date"
             type="input"
-            {...register("endDate", { required: true })}
+            {...register("endDate", { required: "field is required" })}
           />
         </div>
         <div className="flex gap-2 *:grow *:ring-tertiary/70">
           <TextInput
             label="Break start Date"
             type="input"
-            // {...register("breakStart", { required: true })}
+            {...register("breakStart", { required: "field is required" })}
           />
           <TextInput
-            label="Break start Date"
+            label="Break end Date"
             type="input"
-            // {...register("breakEnd", { required: true })}
+            {...register("breakEnd", { required: "field is required" })}
           />
         </div>
+        <p className="text-foreground">{errors.breakEnd?.message}</p>
         <DialogFooter className="flex justify-end gap-2">
           <DialogClose asChild>
             <Button variant="outline" className="text-foreground">
@@ -70,8 +94,8 @@ const EditDialogue = () => {
           </DialogClose>
           <Button type="submit">Confirm</Button>
         </DialogFooter>
-      </DialogContent>
-    </form>
+      </form>
+    </>
   );
 };
 
