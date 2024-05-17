@@ -1,7 +1,7 @@
 import { env } from "process";
 
 import EditSessionsHeader from "@/components/admin/EditSessionsHeader";
-import { SessionCard } from "@/components/admin/SessionCard";
+import { SemesterDetailCard } from "@/components/admin/SessionCard";
 import { getCurrentUser } from "@/lib/session";
 
 type UserResponse = {
@@ -30,9 +30,9 @@ const page = async () => {
     <div className="relative flex px-4 min-h-dvh max-w-dvw flex-col bg-background dark overflow-x-hidden">
       <EditSessionsHeader />
       <div className="gap-4 flex flex-col mb-4">
-        <SessionCard />
-        <SessionCard />
-        <SessionCard />
+        <SemesterDetailCard />
+        <SemesterDetailCard />
+        <SemesterDetailCard />
       </div>
     </div>
   );

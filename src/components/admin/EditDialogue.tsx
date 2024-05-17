@@ -3,6 +3,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { TextInput } from "@/components/TextInput";
 import { Button } from "@/components/ui/button";
+import { gameSessionSchedules } from "@/lib/db/schema";
 import {
   DialogClose,
   DialogContent,
@@ -42,7 +43,7 @@ const EditForm = () => {
     formState: { errors },
   } = useForm<UserResponse>({
     defaultValues: {
-      startDate: "asd",
+      startDate: "",
       endDate: "",
       breakStart: "",
       breakEnd: "",
@@ -55,16 +56,21 @@ const EditForm = () => {
     <>
       <form
         className="flex gap-4 flex-col"
-        onSubmit={handleSubmit((data) => {
-          console.log("submitted");
-          console.log(data);
-        })}
+        onSubmit={(e) => {
+          handleSubmit((data) => {
+            console.log("submitted");
+            onSubmit(data);
+          })(e);
+        }}
       >
         <div className="flex gap-2 *:grow ">
           <TextInput
             label="Start Date"
             type="input"
-            {...register("startDate", { required: "field is required" })}
+            {...register("startDate", {
+              required: "field is required",
+              pattern: gameSessionSchedules.startTime,
+            })}
             isError={!!errors.startDate?.message}
           />
           <TextInput
@@ -74,7 +80,7 @@ const EditForm = () => {
             isError={!!errors.endDate?.message}
           />
         </div>
-        <div className="flex gap-2 *:grow *:ring-tertiary/70">
+        <div className="flex gap-2 *:grow">
           <TextInput
             label="Break start Date"
             type="input"

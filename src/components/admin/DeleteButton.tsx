@@ -31,9 +31,11 @@ const DeleteButton = () => {
           </DialogTitle>
         </DialogHeader>
         <DialogFooter className="flex justify-end gap-2">
-          <Button>Cancel</Button>
+          <DialogClose asChild>
+            <Button>Cancel</Button>
+          </DialogClose>
+          {/* todo: send api call to delete schedules */}
           <Button variant="destructive">Delete</Button>
-          <DialogClose asChild></DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

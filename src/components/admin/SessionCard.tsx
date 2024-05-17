@@ -5,10 +5,11 @@ import { Ellipsis } from "lucide-react";
 
 import { Card } from "@/components/Card";
 import { Button } from "@/components/ui/button";
+import PopoverContainer from "../PopoverContainer";
 import DeleteButton from "./DeleteButton";
 import { EditButton } from "./EditButton";
 
-export const SessionCard = () => {
+export const SemesterDetailCard = () => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -21,17 +22,10 @@ export const SessionCard = () => {
 
   const Popover = () => {
     return (
-      <>
-        {/* full screen div to close popover on click */}
-        <div
-          className="h-dvh w-dvw fixed left-0 top-0 z-40"
-          onClick={handleClose}
-        />
-        <div className="absolute w-56 bg-background p-1 flex flex-col z-50 top-4 right-6 rounded-md shadow-lg ring-1 ring-secondary">
-          <EditButton />
-          <DeleteButton />
-        </div>
-      </>
+      <PopoverContainer handleClose={handleClose}>
+        <EditButton />
+        <DeleteButton />
+      </PopoverContainer>
     );
   };
 

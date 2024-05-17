@@ -14,7 +14,7 @@ export const EditButton = () => {
           className="hover:bg-secondary h-8 text-foreground justify-start w-full"
         >
           <SquarePen className="w-4 mr-2" />
-          <p>Edit</p>s
+          <p>Edit</p>
         </Button>
       </DialogTrigger>
       <EditDialogue />
