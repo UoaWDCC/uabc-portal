@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { TextInput } from "@/components/TextInput";
@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
+import { ScheduleContext } from "./SemesterDetailCard";
 
 type UserResponse = {
   startDate: string;
@@ -19,17 +20,12 @@ type UserResponse = {
   breakEnd: string;
 };
 
-let count = 0;
-
 const EditDialogue = () => {
-  count++;
-  console.log("render", count);
+  const { name } = useContext(ScheduleContext);
   return (
     <DialogContent className="dark sm:max-w-[475px] max-w-[375px] rounded-lg">
       <DialogHeader className="*:stroke-foreground">
-        <DialogTitle className="text-foreground">
-          Edit Semester 1 (2024)
-        </DialogTitle>
+        <DialogTitle className="text-foreground">{name}</DialogTitle>
       </DialogHeader>
       <EditForm />
     </DialogContent>
@@ -37,16 +33,19 @@ const EditDialogue = () => {
 };
 
 const EditForm = () => {
+  const { startDate, endDate, breakStart, breakEnd } =
+    useContext(ScheduleContext);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<UserResponse>({
     defaultValues: {
-      startDate: "",
-      endDate: "",
-      breakStart: "",
-      breakEnd: "",
+      startDate: startDate,
+      endDate: endDate,
+      breakStart: breakStart,
+      breakEnd: breakEnd,
     },
   });
 
@@ -69,7 +68,6 @@ const EditForm = () => {
             type="input"
             {...register("startDate", {
               required: "field is required",
-              pattern: gameSessionSchedules.startTime,
             })}
             isError={!!errors.startDate?.message}
           />
