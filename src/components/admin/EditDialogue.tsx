@@ -18,8 +18,11 @@ type UserResponse = {
   breakEnd: string;
 };
 
+let count = 0;
+
 const EditDialogue = () => {
-  console.log("rendered");
+  count++;
+  console.log("render", count);
   return (
     <DialogContent className="dark sm:max-w-[475px] max-w-[375px] rounded-lg">
       <DialogHeader className="*:stroke-foreground">
@@ -52,25 +55,23 @@ const EditForm = () => {
     <>
       <form
         className="flex gap-4 flex-col"
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log(errors);
-          handleSubmit((data) => {
-            console.log("submitted");
-            console.log(data);
-          });
-        }}
+        onSubmit={handleSubmit((data) => {
+          console.log("submitted");
+          console.log(data);
+        })}
       >
         <div className="flex gap-2 *:grow ">
           <TextInput
             label="Start Date"
             type="input"
             {...register("startDate", { required: "field is required" })}
+            isError={!!errors.startDate?.message}
           />
           <TextInput
             label="End Date"
             type="input"
             {...register("endDate", { required: "field is required" })}
+            isError={!!errors.endDate?.message}
           />
         </div>
         <div className="flex gap-2 *:grow *:ring-tertiary/70">
@@ -78,14 +79,15 @@ const EditForm = () => {
             label="Break start Date"
             type="input"
             {...register("breakStart", { required: "field is required" })}
+            isError={!!errors.breakStart?.message}
           />
           <TextInput
             label="Break end Date"
             type="input"
             {...register("breakEnd", { required: "field is required" })}
+            isError={!!errors.breakEnd?.message}
           />
         </div>
-        <p className="text-foreground">{errors.breakEnd?.message}</p>
         <DialogFooter className="flex justify-end gap-2">
           <DialogClose asChild>
             <Button variant="outline" className="text-foreground">
