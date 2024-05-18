@@ -11,8 +11,31 @@ import { useCartStore } from "@/stores/useCartStore";
 export default function BookSessionPage() {
   const router = useRouter();
 
-  const handleNextButtonClick = () => {
-    router.push("/sessions/book/confirmation");
+  const handleConfirmButtonClick = async () => {
+    try {
+      const payload = sortedSessions.map((session) => ({
+        gameSessionId: session.id,
+        playLevel: session.playLevel,
+      }));
+
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        // Navigate to confirmation page on success
+        router.push("/sessions/book/confirmation");
+      } else {
+        // Redirect back to sessions page on failure
+        router.push("/sessions");
+      }
+    } catch (error) {
+      console.error("Error while confirming booking:", error);
+    }
   };
 
   const cart = useCartStore((state) => state.cart);
@@ -49,7 +72,7 @@ export default function BookSessionPage() {
       <div className="mb-10 flex flex-grow">
         <Button
           className="w-full self-end"
-          onClick={handleNextButtonClick}
+          onClick={handleConfirmButtonClick}
           disabled={!isPlayLevelSelected}
         >
           Confirm
