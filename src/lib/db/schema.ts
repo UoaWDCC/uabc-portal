@@ -168,7 +168,7 @@ export const gameSessionRelations = relations(
   gameSessions,
   ({ one, many }) => ({
     gameSessionSchedule: one(gameSessionSchedules, {
-      fields: [gameSessions.id],
+      fields: [gameSessions.gameSessionScheduleId],
       references: [gameSessionSchedules.id],
     }),
     bookingDetails: many(bookingDetails),
