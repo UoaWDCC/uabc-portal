@@ -24,6 +24,10 @@ export async function POST(req: NextRequest) {
 
     const body = insertGameSessionSchema.parse(json);
 
+    if (body.date < new Date()) {
+      return new Response("Date cannot be in the past", { status: 400 });
+    }
+
     await db.insert(gameSessions).values(body);
 
     return NextResponse.json(body, { status: 201 });

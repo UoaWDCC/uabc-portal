@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 
 import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
-import { cn, getShortenedTime, getWeekday } from "@/lib/utils";
+import { cn, convertTo12HourFormat, getWeekday } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
 import { SelectableCard } from "./SelectableCard";
 import SkeletonSelectSessionCard from "./SkeletonSessionCard";
@@ -30,9 +30,9 @@ export function SelectSessionList({
       data?.map((session) => {
         return {
           id: session.id,
-          weekday: getWeekday(session.startTime),
-          startTime: getShortenedTime(session.startTime),
-          endTime: getShortenedTime(session.endTime),
+          weekday: getWeekday(session.date),
+          startTime: convertTo12HourFormat(session.startTime),
+          endTime: convertTo12HourFormat(session.endTime),
           locationName: session.locationName,
           locationAddress: session.locationAddress,
           isFull: session.isFull,

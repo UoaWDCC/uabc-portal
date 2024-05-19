@@ -13,13 +13,14 @@ export const selectGameSessionSchema = createSelectSchema(gameSessions);
 export const insertGameSessionSchema = createInsertSchema(gameSessions, {
   bookingOpen: z.coerce.date(),
   bookingClose: z.coerce.date(),
-  startTime: z.coerce.date(),
-  endTime: z.coerce.date(),
+  date: z.coerce.date(),
+  startTime: z.string().time(),
+  endTime: z.string().time(),
 });
 
 export const updateGameSessionSchema = z.object({
-  startTime: z.coerce.date(),
-  endTime: z.coerce.date(),
+  startTime: z.string().time(),
+  endTime: z.string().time(),
   locationName: z.string(),
   locationAddress: z.string(),
   capacity: z.number(),
@@ -27,19 +28,19 @@ export const updateGameSessionSchema = z.object({
 });
 
 export const insertSemesterSchema = createInsertSchema(semesters, {
-  startDate: z.string().date(),
-  endDate: z.string().date(),
-  breakStart: z.string().date(),
-  breakEnd: z.string().date(),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
+  breakStart: z.coerce.date(),
+  breakEnd: z.coerce.date(),
   bookingOpenTime: z.string().time(),
 });
 
 export const updateSemesterSchema = z.object({
   name: z.string(),
-  startDate: z.string().date(),
-  endDate: z.string().date(),
-  breakStart: z.string().date(),
-  breakEnd: z.string().date(),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
+  breakStart: z.coerce.date(),
+  breakEnd: z.coerce.date(),
   bookingOpenDay: z.enum(weekdayEnum.enumValues),
   bookingOpenTime: z.string().time(),
 });

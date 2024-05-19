@@ -9,7 +9,7 @@ import { getCurrentUser } from "@/lib/session";
 import { updateGameSessionScheduleSchema } from "@/lib/validators";
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: { gameSessionScheduleId: number } },
 ) {
   try {
@@ -35,7 +35,7 @@ export async function GET(
 }
 
 export async function DELETE(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: { gameSessionScheduleId: number } },
 ) {
   try {
