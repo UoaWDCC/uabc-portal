@@ -15,7 +15,7 @@ export async function GET() {
         startTime: gameSessions.startTime,
         endTime: gameSessions.endTime,
         locationName: gameSessions.locationName,
-        locationAddress: gameSessions.locationName,
+        locationAddress: gameSessions.locationAddress,
         isFull: sql`RANDOM() < 0.5`,
       })
       .from(gameSessions)
