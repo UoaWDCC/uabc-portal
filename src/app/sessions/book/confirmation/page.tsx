@@ -5,6 +5,7 @@
 import { ConfirmationBanner } from "@/components/Icons";
 import { ConfirmationIcon } from "@/components/payment/ConfirmationIcon";
 import { ConfirmedSessionCard } from "@/components/payment/ConfirmedSessionCard";
+import { convertTo12HourFormat } from "@/lib/utils";
 
 const sessions = [
   {
@@ -12,16 +13,16 @@ const sessions = [
     weekDay: "Wednesday",
     locationName: "Auckland Badminton Association",
     address: "99 Gillies Avenue, Epsom",
-    startTime: "5:00PM",
-    endTime: "7:00PM",
+    startTime: "17:00:00",
+    endTime: "19:00:00",
   },
   {
     id: 1,
     weekDay: "Friday",
     locationName: "UoA Rec Center",
     address: "7 Wynyard Street, Auckland City",
-    startTime: "7:30PM",
-    endTime: "10:00PM",
+    startTime: "19:30:00",
+    endTime: "22:00:00",
   },
 ];
 
@@ -54,8 +55,8 @@ export default async function ConfirmationPage() {
                 weekDay={session.weekDay}
                 locationName={session.locationName}
                 address={session.address}
-                startTime={session.startTime}
-                endTime={session.endTime}
+                startTime={convertTo12HourFormat(session.startTime)}
+                endTime={convertTo12HourFormat(session.endTime)}
               />
             );
           })}
