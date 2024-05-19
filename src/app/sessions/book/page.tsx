@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
@@ -10,9 +10,12 @@ import { useCartStore } from "@/stores/useCartStore";
 
 export default function BookSessionPage() {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleConfirmButtonClick = async () => {
     try {
+      setIsSubmitting(true);
+
       const payload = sortedSessions.map((session) => ({
         gameSessionId: session.id,
         playLevel: session.playLevel,
@@ -35,6 +38,8 @@ export default function BookSessionPage() {
       }
     } catch (error) {
       console.error("Error while confirming booking:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -73,7 +78,7 @@ export default function BookSessionPage() {
         <Button
           className="w-full self-end"
           onClick={handleConfirmButtonClick}
-          disabled={!isPlayLevelSelected}
+          disabled={!isPlayLevelSelected || isSubmitting} // disable button when submitting data
         >
           Confirm
         </Button>
