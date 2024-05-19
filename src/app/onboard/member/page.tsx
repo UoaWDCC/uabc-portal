@@ -18,7 +18,7 @@ const MembershipType = () => {
 
   return (
     <div className="flex flex-col h-dvh mx-4 gap-y-4">
-      <NavigationBar subHeading="Select your membership type" />
+      <NavigationBar title="Select your membership type" />
 
       <MembershipTypeSelector
         selectedMembership={member === true}
