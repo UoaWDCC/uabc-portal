@@ -6,7 +6,7 @@ import { Ellipsis } from "lucide-react";
 
 import { Card } from "@/components/Card";
 import { Button } from "@/components/ui/button";
-import PopoverContainer from "../PopoverContainer";
+import { PopoverContainer } from "../PopoverContainer";
 import DeleteButton from "./DeleteButton";
 import { EditButton } from "./EditButton";
 
@@ -18,7 +18,6 @@ type DetailCardProps = {
   breakStart: string;
   breakEnd: string;
 };
-
 export const ScheduleContext = createContext<DetailCardProps>({});
 
 export const SemesterDetailCard = ({
@@ -29,20 +28,9 @@ export const SemesterDetailCard = ({
   breakStart,
   breakEnd,
 }: DetailCardProps) => {
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const Popover = () => {
     return (
-      <PopoverContainer handleClose={handleClose}>
-        {/* Props drilling yikes, should probably be replaced with context */}
+      <PopoverContainer>
         <EditButton />
         <DeleteButton />
       </PopoverContainer>
@@ -69,14 +57,10 @@ export const SemesterDetailCard = ({
         <div className="flex items-center justify-between">
           <h3 className="text-lg text-foreground whitespace-nowrap">{name}</h3>
 
-          <Button
-            variant="outline"
-            className="w-8 h-6 z-10"
-            onClick={handleOpen}
-          >
+          <Button variant="outline" className="w-8 h-6 z-10">
             <Ellipsis className="stroke-tertiary absolute w-4" />
           </Button>
-          {open && <Popover />}
+          <Popover />
         </div>
         <p className="mt-2">Start date: {startDate}</p>
         <p>End date: {endDate}</p>
