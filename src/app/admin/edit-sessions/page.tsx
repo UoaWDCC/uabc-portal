@@ -30,8 +30,8 @@ const page = async () => {
   return (
     <div className="relative flex px-4 min-h-dvh max-w-dvw flex-col bg-background dark overflow-x-hidden">
       <EditSessionsHeader />
-      <div className="gap-4 flex flex-col grow mb-4 empty:after:content-['No_semesters_set'] empty:after:text-tertiary empty:after:w-full empty:after:h-full empty:after:grid empty:after:place-items-center empty:after:grow">
-        {/* <SemesterDetailCard
+      <div className="gap-4 flex flex-col empty:grow mb-4 empty:after:content-['No_semesters_set'] empty:after:text-tertiary empty:after:w-full empty:after:h-full empty:after:grid empty:after:place-items-center empty:after:grow empty:after:text-lg empty:after:font-medium">
+        <SemesterDetailCard
           id={1}
           name="Semester 1 (2024)"
           startDate="13/02/24"
@@ -46,7 +46,7 @@ const page = async () => {
           endDate="22/11/24"
           breakStart="31/09/24"
           breakEnd="16/10/24"
-        /> */}
+        />
       </div>
     </div>
   );
