@@ -1,12 +1,17 @@
 "use client";
 
-import { createContext, useState } from "react";
+import { createContext } from "react";
 import Link from "next/link";
 import { Ellipsis } from "lucide-react";
 
 import { Card } from "@/components/Card";
 import { Button } from "@/components/ui/button";
-import { PopoverContainer } from "../PopoverContainer";
+import {
+  Popover,
+  PopoverContainer,
+  PopoverOpen,
+  PopoverOpenButton,
+} from "../popover";
 import DeleteButton from "./DeleteButton";
 import { EditButton } from "./EditButton";
 
@@ -28,7 +33,7 @@ export const SemesterDetailCard = ({
   breakStart,
   breakEnd,
 }: DetailCardProps) => {
-  const Popover = () => {
+  const SemesterPopover = () => {
     return (
       <PopoverContainer>
         <EditButton />
@@ -56,11 +61,12 @@ export const SemesterDetailCard = ({
         /> */}
         <div className="flex items-center justify-between">
           <h3 className="text-lg text-foreground whitespace-nowrap">{name}</h3>
-
-          <Button variant="outline" className="w-8 h-6 z-10">
-            <Ellipsis className="stroke-tertiary absolute w-4" />
-          </Button>
-          <Popover />
+          <Popover>
+            <PopoverOpenButton variant="outline" className="w-8 h-6 z-10">
+              <Ellipsis className="stroke-tertiary absolute w-4" />
+            </PopoverOpenButton>
+            <SemesterPopover />
+          </Popover>
         </div>
         <p className="mt-2">Start date: {startDate}</p>
         <p>End date: {endDate}</p>
