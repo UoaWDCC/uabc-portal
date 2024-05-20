@@ -14,9 +14,16 @@ const MembershipType = () => {
   const firstName = useOnboardingDetailsStore((state) => state.firstName);
   const lastName = useOnboardingDetailsStore((state) => state.lastName);
   const router = useRouter();
+  const isNameProvided =
+    (firstName !== null && lastName !== null) ||
+    (firstName !== "" && lastName !== "") ||
+    (!!firstName && !!lastName);
+  if (!isNameProvided) {
+    router.push("onboard/name");
+  }
 
   const session = useSession();
-  const id = session.data!.user!.id;
+  const id = session.data?.user?.id;
 
   const handleNextButtonClick = async () => {
     try {
