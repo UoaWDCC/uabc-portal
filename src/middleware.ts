@@ -5,8 +5,6 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req });
   const isAuth = !!token;
-  //print out the token first name
-  console.log((token?.profile as { firstName: string })?.firstName);
   const fromUrl = req.nextUrl.pathname;
   const isAuthPage =
     fromUrl.startsWith("/auth/login") || fromUrl.startsWith("/auth/signup");
@@ -24,6 +22,7 @@ export async function middleware(req: NextRequest) {
   }
 
   if (
+    fromUrl.startsWith("/onboard") &&
     token &&
     (token.profile as { firstName: string })?.firstName &&
     token &&
@@ -31,7 +30,15 @@ export async function middleware(req: NextRequest) {
   ) {
     return NextResponse.redirect(new URL("/sessions", req.url));
   }
-
+  if (
+    !fromUrl.startsWith("/onboard") &&
+    (!token || token) &&
+    (token.profile as { firstName: string })?.firstName &&
+    token &&
+    (token.profile as { lastName: string })?.lastName
+  ) {
+    return NextResponse.redirect(new URL("/onboard/name", req.url));
+  }
   return NextResponse.next();
 }
 

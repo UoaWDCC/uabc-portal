@@ -10,6 +10,11 @@ declare module "next-auth" {
     firstName?: string | null;
     lastName?: string | null;
   }
+  declare module "next-auth/jwt" {
+    interface JWT {
+      profile?: User;
+    }
+  }
 
   interface Session {
     user: User;

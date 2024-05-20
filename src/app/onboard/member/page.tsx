@@ -19,19 +19,22 @@ const MembershipType = () => {
   const id = session.data!.user!.id;
 
   const handleNextButtonClick = async () => {
-    const user = session.data!.user!;
-    user.member = member;
-    user.firstName = firstName;
-    user.lastName = lastName;
-    const response = await fetch(`/api/users/${id}/onboard`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ firstName, lastName, member }),
-    });
-    console.log(response);
-    router.push("/sessions");
+    try {
+      const response = await fetch(`/api/users/${id}/onboard`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ firstName, lastName, member }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update user details");
+      }
+      router.push("/sessions");
+    } catch (error) {
+      console.error("An error occurred while updating user details:", error);
+    }
   };
 
   return (
