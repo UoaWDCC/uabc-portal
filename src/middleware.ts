@@ -4,32 +4,16 @@ import { getToken } from "next-auth/jwt";
 
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req });
-  console.log(token);
-
   const isAuth = !!token;
+  //print out the token first name
+  console.log((token?.profile as { firstName: string })?.firstName);
   const fromUrl = req.nextUrl.pathname;
   const isAuthPage =
     fromUrl.startsWith("/auth/login") || fromUrl.startsWith("/auth/signup");
 
   if (isAuthPage) {
-    if (
-      (isAuth! &&
-        (token as { profile: { firstName: string } }).profile.firstName) ||
-      !(token as { profile: { lastName: string } }).profile.lastName
-    ) {
+    if (isAuth) {
       return NextResponse.redirect(new URL("/sessions", req.url));
-    }
-
-    if (
-      (token as { profile: { firstName: string } }).profile.firstName &&
-      (token as { profile: { lastName: string } }).profile.lastName &&
-      (token as { profile: { member: boolean } }).profile.member !== null
-    ) {
-      return NextResponse.redirect(new URL("/sessions", req.url));
-    } else if (
-      (token as { profile: { member: boolean } }).profile.member === null
-    ) {
-      return NextResponse.redirect(new URL("/onboard/membership", req.url));
     }
 
     return null;
@@ -38,23 +22,15 @@ export async function middleware(req: NextRequest) {
   if (!isAuth) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
-  //if last name or first name null redirect to name page
-  //   if (
-  //     !(token as { profile: { firstName: string } }).profile.firstName ||
-  //     !(token as { profile: { lastName: string } }).profile.lastName
-  //   ) {
-  //     return NextResponse.redirect(new URL("/onboard/name", req.url));
-  //   }
 
-  // if (
-  //   (token as { profile: { firstName: string } }).profile.firstName &&
-  //   (token as { profile: { lastName: string } }).profile.lastName &&
-  //   (token as { profile: { member: boolean } }).profile.member !== null
-  // ) {
-  //   return NextResponse.redirect(new URL("/sessions", req.url));
-  // } else if ((token as { profile: { member: boolean } }).profile.member === null) {
-  //   return NextResponse.redirect(new URL("/onboard/membership", req.url));
-  // }
+  if (
+    token &&
+    (token.profile as { firstName: string })?.firstName &&
+    token &&
+    (token.profile as { lastName: string })?.lastName
+  ) {
+    return NextResponse.redirect(new URL("/sessions", req.url));
+  }
 
   return NextResponse.next();
 }
