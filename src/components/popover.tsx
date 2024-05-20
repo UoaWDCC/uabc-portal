@@ -48,12 +48,7 @@ export const PopoverContainer = ({ children }: { children: ReactNode }) => {
 export const PopoverOpenButton = ({ ...props }: ButtonProps) => {
   const { handleOpen } = useContext(PopoverContext);
   return (
-    <Button
-      variant="outline"
-      className="w-8 h-6 z-10"
-      onClick={handleOpen}
-      {...props}
-    >
+    <Button onClick={handleOpen} {...props}>
       {props.children}
     </Button>
   );
