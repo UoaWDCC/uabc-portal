@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 import { MembershipTypeSelector } from "@/components/MembershipTypeSelector";
@@ -19,7 +19,7 @@ const MembershipType = () => {
     (firstName !== "" && lastName !== "") ||
     (!!firstName && !!lastName);
   if (!isNameProvided) {
-    router.push("onboard/name");
+    redirect("onboard/name");
   }
 
   const session = useSession();
