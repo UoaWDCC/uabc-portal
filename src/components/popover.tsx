@@ -16,10 +16,10 @@ type PopoverContextType = {
 const PopoverContext = createContext<PopoverContextType>({});
 
 export const Popover = ({ children }: { children: ReactNode }) => {
-  const [open, isOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const handleOpen = () => isOpen(true);
-  const handleClose = () => isOpen(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <PopoverContext.Provider value={{ open, handleOpen, handleClose }}>
@@ -51,23 +51,5 @@ export const PopoverOpenButton = ({ ...props }: ButtonProps) => {
     <Button onClick={handleOpen} {...props}>
       {props.children}
     </Button>
-  );
-};
-
-export const PopoverOpen = ({ children }: { children: ReactNode }) => {
-  const { handleOpen } = useContext(PopoverContext);
-  return (
-    <div className="w-full h-full" onClick={handleOpen}>
-      {children}
-    </div>
-  );
-};
-
-export const PopoverClose = ({ children }: { children: ReactNode }) => {
-  const { handleClose } = useContext(PopoverContext);
-  return (
-    <div className="w-full h-full" onClick={handleClose}>
-      {children}
-    </div>
   );
 };

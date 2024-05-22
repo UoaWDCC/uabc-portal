@@ -2,7 +2,6 @@ import { env } from "process";
 
 import EditSessionsHeader from "@/components/admin/EditSessionsHeader";
 import { SemesterDetailCard } from "@/components/admin/SemesterDetailCard";
-import { getCurrentUser } from "@/lib/session";
 
 type UserResponse = {
   id: string;
@@ -14,23 +13,21 @@ type UserResponse = {
   remainingSessions: number;
 };
 
-const fetchUserInfo = async (id: string): Promise<UserResponse> => {
-  const response = await fetch(`${env.APP_URL}/api/users/${id}`, {
+const fetchSessions = async (): Promise<UserResponse> => {
+  const response = await fetch(`${env.APP_URL}/api/game-sessions/current`, {
     cache: "no-store",
   });
   return response.json();
 };
 
-const page = async () => {
-  const currentUser = await getCurrentUser();
+export default async function SemestersPage() {
+  const SessionsData = JSON.stringify(await fetchSessions());
 
-  const user = await fetchUserInfo(currentUser!.id);
-
-  console.log(user);
   return (
     <div className="relative flex px-4 min-h-dvh max-w-dvw flex-col bg-background dark overflow-x-hidden">
       <EditSessionsHeader />
       <div className="gap-4 flex flex-col empty:grow mb-4 empty:after:content-['No_semesters_set'] empty:after:text-tertiary empty:after:w-full empty:after:h-full empty:after:grid empty:after:place-items-center empty:after:grow empty:after:text-lg empty:after:font-medium">
+        {SessionsData}
         <SemesterDetailCard
           id={1}
           name="Semester 1 (2024)"
@@ -50,6 +47,4 @@ const page = async () => {
       </div>
     </div>
   );
-};
-
-export default page;
+}
