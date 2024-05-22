@@ -14,16 +14,13 @@ const MembershipType = () => {
   const firstName = useOnboardingDetailsStore((state) => state.firstName);
   const lastName = useOnboardingDetailsStore((state) => state.lastName);
   const router = useRouter();
-  const isNameProvided =
-    (firstName !== null && lastName !== null) ||
-    (firstName !== "" && lastName !== "") ||
-    (!!firstName && !!lastName);
-  if (!isNameProvided) {
-    redirect("onboard/name");
+  const { data, update } = useSession();
+
+  if (!firstName || !lastName) {
+    redirect("onboarding/name");
   }
 
-  const session = useSession();
-  const id = session.data?.user?.id;
+  const id = data?.user?.id;
 
   const handleNextButtonClick = async () => {
     try {
@@ -38,6 +35,13 @@ const MembershipType = () => {
       if (!response.ok) {
         throw new Error("Failed to update user details");
       }
+
+      await update({
+        firstName,
+        lastName,
+        member,
+      });
+
       router.push("/sessions");
     } catch (error) {
       console.error("An error occurred while updating user details:", error);

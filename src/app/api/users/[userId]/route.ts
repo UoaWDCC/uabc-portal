@@ -37,3 +37,22 @@ export async function GET(
     return new Response("Internal Server Error", { status: 500 });
   }
 }
+
+export async function DELETE(
+  _req: NextRequest,
+  { params }: { params: { userId: string } },
+) {
+  try {
+    const { userId } = params;
+
+    const user = await db.delete(users).where(eq(users.id, userId));
+
+    if (!user) {
+      return new Response(`No User found for id: ${userId}`, { status: 404 });
+    }
+
+    return new Response(null, { status: 204 });
+  } catch {
+    return new Response("Internal Server Error", { status: 500 });
+  }
+}

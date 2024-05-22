@@ -8,6 +8,7 @@
     "start": "next start",
     "preview": "next build && next start",
     "test": "jest",
+    "test:e2e": "next build && playwright test",
     "test:watch": "jest --watch",
     "lint": "next lint",
     "db:push": "drizzle-kit push",

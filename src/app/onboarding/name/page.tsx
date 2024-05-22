@@ -19,7 +19,7 @@ export default function NamePage() {
     (state) => state.setLastName,
   );
   const handleNextButtonClick = () => {
-    router.push("/onboard/member");
+    router.push("/onboarding/member");
   };
 
   return (
