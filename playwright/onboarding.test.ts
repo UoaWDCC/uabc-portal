@@ -10,11 +10,12 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.afterEach(async ({ page }) => {
-  page.request
+  // await is necessary so test context is not disposed before the request is completed
+  await page.request
     .get(`/api/auth/session`)
     .then((res) => res.json())
-    .then(({ user }) => {
-      page.request.delete(`/api/auth/users/${user.id}`);
+    .then(async ({ user }) => {
+      await page.request.delete(`/api/auth/users/${user.id}`);
     });
 });
 

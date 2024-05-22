@@ -17,6 +17,7 @@ export const signUpAndLogin = async (
 
   await page.goto("/");
 
+  // page.request stores cookies between requests
   await page.request.post(`/api/auth/callback/credentials`, {
     data: {
       email,
