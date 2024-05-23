@@ -3,7 +3,6 @@
 import React, { useMemo } from "react";
 
 import { useCurrentSemesters } from "@/hooks/query/useCurrentSemesters";
-import SkeletonSessionCard from "../booking/SelectSessionList/SkeletonSessionCard";
 import { SemesterDetailCard } from "./SemesterDetailCard";
 import SkeletonSemesterCard from "./SkeletonSemesterCard";
 
@@ -29,7 +28,6 @@ export const SemestersList = () => {
   if (isLoading || !data) {
     return (
       <>
-        <SkeletonSemesterCard />
         <SkeletonSemesterCard />
         <SkeletonSemesterCard />
       </>
