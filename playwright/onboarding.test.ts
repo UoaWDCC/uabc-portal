@@ -15,7 +15,7 @@ test.afterEach(async ({ page }) => {
     .get(`/api/auth/session`)
     .then((res) => res.json())
     .then(async ({ user }) => {
-      await page.request.delete(`/api/auth/users/${user.id}`);
+      await page.request.delete(`/api/users/${user.id}`);
     });
 });
 

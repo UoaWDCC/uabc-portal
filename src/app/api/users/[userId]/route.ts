@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
+import { getCurrentUser } from "@/lib/session";
 
 /**
  * Get user by id
@@ -44,6 +45,16 @@ export async function DELETE(
 ) {
   try {
     const { userId } = params;
+
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return new Response("ERROR: Unauthorized request", { status: 401 });
+    }
+
+    if (currentUser.id !== userId) {
+      return new Response("ERROR: Invalid permissions", { status: 403 });
+    }
 
     const user = await db.delete(users).where(eq(users.id, userId));
 
