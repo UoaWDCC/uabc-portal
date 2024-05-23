@@ -23,20 +23,19 @@ export async function GET(
       params: { bookingId },
     } = routeContextSchema.parse(context);
 
-    const [userBookings] = await db.query.bookings.findMany({
+    const userBooking = await db.query.bookings.findFirst({
       where: (bookings, { eq }) => eq(bookings.id, bookingId),
       with: {
         bookingDetails: true,
       },
     });
 
-    if (!userBookings?.bookingDetails.length)
-      return new Response("Booking not found", { status: 404 });
+    if (!userBooking) return new Response("Booking not found", { status: 404 });
 
-    if (userBookings.userId !== currentUser.id)
+    if (userBooking.userId !== currentUser.id)
       return new Response("Unauthorized user", { status: 401 });
 
-    return NextResponse.json(userBookings.bookingDetails);
+    return NextResponse.json(userBooking.bookingDetails);
   } catch (e) {
     if (e instanceof z.ZodError) {
       return NextResponse.json(e.issues, { status: 400 });

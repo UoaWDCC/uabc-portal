@@ -143,6 +143,7 @@ export const semesters = pgTable("semester", {
   breakEnd: date("breakEnd", { mode: "date" }).notNull(),
   bookingOpenDay: weekdayEnum("bookingOpenDay").notNull(),
   bookingOpenTime: time("bookingOpenTime").notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
 });
 
 export const gameSessionSchedules = pgTable(

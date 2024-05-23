@@ -17,7 +17,9 @@ export async function GET() {
       return new Response("ERROR: No valid permissions", { status: 403 });
     }
 
-    const semesters = await db.query.semesters.findMany();
+    const semesters = await db.query.semesters.findMany({
+      orderBy: (semesters, { asc }) => asc(semesters.createdAt),
+    });
     return NextResponse.json(semesters, { status: 200 });
   } catch {
     return new Response("Internal Server Error", { status: 500 });
