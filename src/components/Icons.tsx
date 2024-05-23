@@ -22,7 +22,7 @@ export const ArrowRight = (props: IconProps) => (
   <svg
     width="32"
     height="16"
-    viewBox="0 0 32 16"
+    viewBox="1 0 32 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}

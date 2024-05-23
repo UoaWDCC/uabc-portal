@@ -12,10 +12,11 @@ export async function GET() {
     const sessions = await db
       .select({
         id: gameSessions.id,
+        date: gameSessions.date,
         startTime: gameSessions.startTime,
         endTime: gameSessions.endTime,
         locationName: gameSessions.locationName,
-        locationAddress: gameSessions.locationName,
+        locationAddress: gameSessions.locationAddress,
         isFull: sql`RANDOM() < 0.5`,
       })
       .from(gameSessions)
@@ -25,7 +26,7 @@ export async function GET() {
           lt(gameSessions.bookingOpen, new Date()), // bookingOpen is in the past
         ),
       )
-      .orderBy(asc(gameSessions.startTime));
+      .orderBy(asc(gameSessions.date));
 
     return NextResponse.json(sessions);
   } catch {
