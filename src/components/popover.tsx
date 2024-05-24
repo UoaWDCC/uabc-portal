@@ -1,6 +1,7 @@
 import React, {
   createContext,
   useContext,
+  useEffect,
   useState,
   type ReactNode,
 } from "react";
@@ -32,6 +33,18 @@ export const Popover = ({ children }: { children: ReactNode }) => {
 
 export const PopoverContainer = ({ children }: { children: ReactNode }) => {
   const { open, handleClose } = useContext(PopoverContext);
+
+  const handleEscape = (e: KeyboardEvent) => {
+    if (e.key === "Escape") handleClose();
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  });
+
   if (!open) return;
 
   return (
@@ -46,7 +59,6 @@ export const PopoverContainer = ({ children }: { children: ReactNode }) => {
     </>
   );
 };
-
 export const PopoverOpenButton = ({ ...props }: ButtonProps) => {
   const { handleOpen } = useContext(PopoverContext);
   return (

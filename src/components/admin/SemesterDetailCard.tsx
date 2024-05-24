@@ -35,7 +35,7 @@ const UnmemoizedSemesterDetailCard = ({
     >
       <Card className=" relative bg-secondary/20 ring-1 tracking-tight font-medium ring-secondary text-tertiary text-sm select-none">
         <Link
-          href={`edit-sessions/${id}`}
+          href={`semesters/${id}`}
           className="absolute top-0 left-0 w-full h-full z-10"
         />
         <div className="flex items-center justify-between">

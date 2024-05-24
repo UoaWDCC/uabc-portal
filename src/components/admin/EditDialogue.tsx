@@ -54,7 +54,6 @@ const EditForm = () => {
   const displayError = () => {
     const keys: string[] = Object.keys(errors);
     if (keys.length == 0) return;
-
     const err = errors[keys[0] as formValues]?.message;
     return `${keys[0]} ${err}`;
   };
