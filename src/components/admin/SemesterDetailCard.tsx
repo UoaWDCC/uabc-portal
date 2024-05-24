@@ -17,7 +17,9 @@ type DetailCardProps = {
   breakStart: string;
   breakEnd: string;
 };
-export const ScheduleContext = createContext<DetailCardProps>({});
+export const ScheduleContext = createContext<DetailCardProps>(
+  {} as DetailCardProps,
+);
 
 export const SemesterDetailCard = ({
   id,
@@ -28,7 +30,6 @@ export const SemesterDetailCard = ({
   breakEnd,
 }: DetailCardProps) => {
   return (
-    // todo: switch dummy text with real game-session info
     <ScheduleContext.Provider
       value={{ id, name, startDate, endDate, breakStart, breakEnd }}
     >

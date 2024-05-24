@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, type InputHTMLAttributes, type LegacyRef } from "react";
+import { forwardRef, type InputHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { cn } from "@/lib/utils";
@@ -12,11 +12,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   isError?: boolean;
 }
 
-export const TextInput = forwardRef(
-  (
-    { label, type, isError, className, ...props }: InputProps,
-    ref: LegacyRef<HTMLInputElement>,
-  ) => {
+export const TextInput = forwardRef<HTMLInputElement, InputProps>(
+  ({ label, type, isError, className, ...props }: InputProps, ref) => {
     return (
       <div className={cn("relative h-11 overflow-x-clip", className)}>
         <input

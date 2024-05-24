@@ -13,7 +13,9 @@ type PopoverContextType = {
   handleClose: () => void;
 };
 
-const PopoverContext = createContext<PopoverContextType>({});
+const PopoverContext = createContext<PopoverContextType>(
+  {} as PopoverContextType,
+);
 
 export const Popover = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState(false);

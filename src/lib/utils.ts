@@ -33,3 +33,17 @@ export function convertTo12HourFormat(time24: string): string {
   // Return the formatted time string
   return `${hours}:${formattedMinutes}${period}`;
 }
+
+export const validateDate = (date: string) => {
+  // format DD/MM/YY
+  const dateParts: string[] = date.split("/");
+  //simple date validation
+  if (dateParts.length != 3 || dateParts.includes("")) return false;
+  if (2 < dateParts[0].length) return false;
+  if (2 < dateParts[1].length) return false;
+  if (dateParts[2].length != 4) return false;
+
+  // Date(year, month, day),
+  const dateObject = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]);
+  return dateObject.toString() != "Invalid Date";
+};
