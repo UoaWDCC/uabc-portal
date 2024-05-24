@@ -26,8 +26,8 @@ const EditDialogue = () => {
   const { name } = useContext(ScheduleContext);
   return (
     <DialogContent className="dark sm:max-w-[475px] max-w-[375px] rounded-lg">
-      <DialogHeader className="*:stroke-foreground">
-        <DialogTitle className="text-foreground">{name}</DialogTitle>
+      <DialogHeader>
+        <DialogTitle className="text-foreground ">{name}</DialogTitle>
       </DialogHeader>
       <EditForm />
     </DialogContent>

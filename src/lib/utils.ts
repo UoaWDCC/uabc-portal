@@ -39,11 +39,12 @@ export const validateDate = (date: string) => {
   const dateParts: string[] = date.split("/");
   //simple date validation
   if (dateParts.length != 3 || dateParts.includes("")) return false;
-  if (2 < dateParts[0].length) return false;
-  if (2 < dateParts[1].length) return false;
-  if (dateParts[2].length != 4) return false;
+  if (2 < dateParts[0].length) return false; //DD
+  if (2 < dateParts[1].length) return false; //MM
+  if (dateParts[2].length != 4) return false; //YY
 
-  // Date(year, month, day),
-  const dateObject = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]);
+  // Date("year/month/day"),
+  const dateStr = +dateParts[2] + "/" + +dateParts[1] + "/" + +dateParts[0];
+  const dateObject = new Date(dateStr);
   return dateObject.toString() != "Invalid Date";
 };
