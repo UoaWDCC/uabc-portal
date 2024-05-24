@@ -24,11 +24,20 @@ test.describe("Onboarding flow", () => {
     await expect(page).toHaveURL("/onboarding/name");
   });
 
-  // test('should navigate to the member page', async ({ page }) => {
-  //     await page.goto('http://localhost:3000/onboarding/name')
-  //     await page.fill('text=First Name', 'John')
-  //     await page.fill('text=Last Name', 'Doe')
-  //     await page.click('text=Continue')
-  //     await expect(page).toHaveURL('http://localhost:3000/onboarding/member')
-  // })
+  test("should navigate to the member page", async ({ page }) => {
+    await page.goto("/onboard/name");
+    await page.getByRole("textbox").nth(0).fill("John");
+    await page.getByRole("textbox").nth(1).fill("Doe");
+    await page.click("text=Continue");
+    await expect(page).toHaveURL("onboarding/member");
+  });
+  test("should navigate to the session page", async ({ page }) => {
+    await page.goto("/onboard/name");
+    await page.getByRole("textbox").nth(0).fill("John");
+    await page.getByRole("textbox").nth(1).fill("Doe");
+    await page.click("text=Continue");
+    await page.click("text=Prepaid Member");
+    await page.click("text=Next");
+    await expect(page).toHaveURL("sessions");
+  });
 });
