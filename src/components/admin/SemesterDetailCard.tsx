@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext } from "react";
+import { createContext, memo } from "react";
 import Link from "next/link";
 import { Ellipsis } from "lucide-react";
 
@@ -21,7 +21,7 @@ export const ScheduleContext = createContext<DetailCardProps>(
   {} as DetailCardProps,
 );
 
-export const SemesterDetailCard = ({
+const UnmemoizedSemesterDetailCard = ({
   id,
   name,
   startDate,
@@ -59,3 +59,5 @@ export const SemesterDetailCard = ({
     </ScheduleContext.Provider>
   );
 };
+
+export const SemesterDetailCard = memo(UnmemoizedSemesterDetailCard);
