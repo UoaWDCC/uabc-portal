@@ -17,7 +17,7 @@ type DetailCardProps = {
   breakStart: string;
   breakEnd: string;
 };
-export const ScheduleContext = createContext<DetailCardProps>(
+export const SemesterContext = createContext<DetailCardProps>(
   {} as DetailCardProps,
 );
 
@@ -30,7 +30,7 @@ const UnmemoizedSemesterDetailCard = ({
   breakEnd,
 }: DetailCardProps) => {
   return (
-    <ScheduleContext.Provider
+    <SemesterContext.Provider
       value={{ id, name, startDate, endDate, breakStart, breakEnd }}
     >
       <Card className=" relative bg-secondary/20 ring-1 tracking-tight font-medium ring-secondary text-tertiary text-sm select-none">
@@ -40,15 +40,7 @@ const UnmemoizedSemesterDetailCard = ({
         />
         <div className="flex items-center justify-between">
           <h3 className="text-lg text-foreground whitespace-nowrap">{name}</h3>
-          <Popover>
-            <PopoverOpenButton variant="outline" className="w-8 h-6 z-10">
-              <Ellipsis className="stroke-tertiary absolute w-4" />
-            </PopoverOpenButton>
-            <PopoverContainer>
-              <EditButton />
-              <DeleteButton />
-            </PopoverContainer>
-          </Popover>
+          <SemesterPopover />
         </div>
         <p className="mt-2">Start date: {startDate}</p>
         <p>End date: {endDate}</p>
@@ -56,7 +48,21 @@ const UnmemoizedSemesterDetailCard = ({
           Break period: {breakStart} - {breakEnd}
         </p>
       </Card>
-    </ScheduleContext.Provider>
+    </SemesterContext.Provider>
+  );
+};
+
+const SemesterPopover = () => {
+  return (
+    <Popover>
+      <PopoverOpenButton variant="outline" className="w-8 h-6 z-10">
+        <Ellipsis className="stroke-tertiary absolute w-4" />
+      </PopoverOpenButton>
+      <PopoverContainer>
+        <EditButton />
+        <DeleteButton />
+      </PopoverContainer>
+    </Popover>
   );
 };
 

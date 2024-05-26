@@ -6,6 +6,7 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { cn } from "@/lib/utils";
 import { Button, type ButtonProps } from "./ui/button";
 
 type PopoverContextType = {
@@ -45,15 +46,21 @@ export const PopoverContainer = ({ children }: { children: ReactNode }) => {
     };
   });
 
-  if (!open) return;
-
   return (
     <>
       <div
-        className="h-dvh w-dvw fixed left-0 top-0 z-40"
+        className={cn(
+          "h-dvh w-dvw fixed left-0 top-0 z-40",
+          open ? "block" : "hidden",
+        )}
         onClick={handleClose}
       />
-      <div className="absolute w-56 bg-background p-1 flex flex-col z-50 top-4 right-6 rounded-md shadow-lg ring-1 ring-secondary">
+      <div
+        className={cn(
+          "absolute w-56 bg-background p-1 flex flex-col z-50 top-4 right-6 rounded-md shadow-lg ring-1 ring-secondary",
+          open ? "block" : "hidden",
+        )}
+      >
         {children}
       </div>
     </>

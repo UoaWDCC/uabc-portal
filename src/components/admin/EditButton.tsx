@@ -3,7 +3,7 @@ import { SquarePen } from "lucide-react";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogTrigger } from "../ui/dialog";
-import EditDialogue from "./EditDialogue";
+import { SemesterEditDialogue } from "./SemesterEditDialog";
 
 export const EditButton = () => {
   return (
@@ -17,7 +17,7 @@ export const EditButton = () => {
           <p>Edit</p>
         </Button>
       </DialogTrigger>
-      <EditDialogue />
+      <SemesterEditDialogue />
     </Dialog>
   );
 };
