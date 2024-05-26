@@ -1,12 +1,10 @@
 import { expect, test } from "@playwright/test";
 
 import { signUpAndLogin } from "./utils/helper";
-import { users } from "./utils/mock";
-
-const user = users.onboarding[0];
-//user.email = crypto.randomUUID() + "@example.com";
+import { generateMockOnboardingUser } from "./utils/mock";
 
 test.beforeEach(async ({ page }) => {
+  const user = generateMockOnboardingUser();
   await signUpAndLogin(page, user.email, user.password);
 });
 
