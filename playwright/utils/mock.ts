@@ -1,12 +1,17 @@
+const generateEmail = (prefix: string, domain: string) =>
+  `${prefix}${crypto.randomUUID()}@${domain}`;
+
 export const users = {
   onboarding: [
     {
-      email: "onboarding1@uabc.com",
+      email: generateEmail("onboarding", "example.com"),
       password: "iHalLonErFGK$X901R0",
     },
     {
-      email: "onboarding2@uabc.com",
+      email: generateEmail("onboarding", "example.com"),
       password: "231Xh7D&dM8u75EjIYV",
     },
   ],
 };
+
+console.log(users);

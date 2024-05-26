@@ -4,7 +4,7 @@ import { signUpAndLogin } from "./utils/helper";
 import { users } from "./utils/mock";
 
 const user = users.onboarding[0];
-user.email = crypto.randomUUID() + "@example.com";
+//user.email = crypto.randomUUID() + "@example.com";
 
 test.beforeEach(async ({ page }) => {
   await signUpAndLogin(page, user.email, user.password);
