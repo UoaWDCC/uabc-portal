@@ -4,6 +4,7 @@ import { signUpAndLogin } from "./utils/helper";
 import { users } from "./utils/mock";
 
 const user = users.onboarding[0];
+user.email = crypto.randomUUID() + "@example.com";
 
 test.beforeEach(async ({ page }) => {
   await signUpAndLogin(page, user.email, user.password);
@@ -39,5 +40,21 @@ test.describe("Onboarding flow", () => {
     await page.click("text=Prepaid Member");
     await page.click("text=Next");
     await expect(page).toHaveURL("sessions");
+  });
+  test("should fill in first name and last name before continuing", async ({
+    page,
+  }) => {
+    await page.goto("/onboard/name");
+    const continueButton = await page.locator("text=Continue");
+    await expect(continueButton).toBeDisabled();
+  });
+
+  test("should select membership type before continuing", async ({ page }) => {
+    await page.goto("/onboard/name");
+    await page.getByRole("textbox").nth(0).fill("John");
+    await page.getByRole("textbox").nth(1).fill("Doe");
+    await page.click("text=Continue");
+    const nextButton = await page.locator("text=Next");
+    await expect(nextButton).toBeDisabled();
   });
 });
