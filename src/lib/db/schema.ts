@@ -42,6 +42,7 @@ export const users = pgTable("user", {
   remainingSessions: integer("remainingSessions").default(0).notNull(),
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
+  pro: boolean("pro").default(false).notNull(),
   image: text("image"),
   password: text("password"),
 });
@@ -143,6 +144,7 @@ export const semesters = pgTable("semester", {
   breakEnd: date("breakEnd", { mode: "date" }).notNull(),
   bookingOpenDay: weekdayEnum("bookingOpenDay").notNull(),
   bookingOpenTime: time("bookingOpenTime").notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
 });
 
 export const gameSessionSchedules = pgTable(
