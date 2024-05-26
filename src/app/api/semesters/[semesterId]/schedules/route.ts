@@ -1,12 +1,29 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { gameSessionSchedules } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
 import { insertGameSessionScheduleSchema } from "@/lib/validators";
+
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: { semesterId: number } },
+) {
+  try {
+    const { semesterId } = params;
+    const schedules = await db.query.gameSessionSchedules.findMany({
+      where: eq(gameSessionSchedules.semesterId, semesterId),
+      orderBy: asc(gameSessionSchedules.weekday),
+    });
+
+    return NextResponse.json(schedules);
+  } catch {
+    return new Response("Internal Server Error", { status: 500 });
+  }
+}
 
 export async function POST(
   req: NextRequest,
@@ -41,22 +58,6 @@ export async function POST(
     if (err instanceof z.ZodError) {
       return NextResponse.json((err as z.ZodError).issues, { status: 400 });
     }
-    return new Response("Internal Server Error", { status: 500 });
-  }
-}
-
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { semesterId: number } },
-) {
-  try {
-    const { semesterId } = params;
-    const gameSessions = await db.query.gameSessionSchedules.findMany({
-      where: eq(gameSessionSchedules.semesterId, semesterId),
-    });
-
-    return NextResponse.json(gameSessions);
-  } catch {
     return new Response("Internal Server Error", { status: 500 });
   }
 }
