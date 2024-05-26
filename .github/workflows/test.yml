@@ -1,4 +1,4 @@
-name: Run Tests
+name: Tests
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     environment: development
     steps:

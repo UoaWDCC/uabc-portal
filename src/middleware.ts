@@ -27,10 +27,8 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
 
-  if (isOnboardingPage) {
-    if (isOnboarded) {
-      return NextResponse.redirect(new URL("/sessions", req.url));
-    }
+  if (isOnboardingPage && isOnboarded) {
+    return NextResponse.redirect(new URL("/sessions", req.url));
   }
 
   if (!isOnboardingPage && !isOnboarded) {
