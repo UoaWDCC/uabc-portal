@@ -1,11 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { TextInput } from "@/components/TextInput";
 import { UabcHeaderText } from "@/components/UabcHeaderText";
 import { Button } from "@/components/ui/button";
 import { useOnboardingDetailsStore } from "@/stores/useOnboardingDetailsStore";
 
 export default function NamePage() {
+  const router = useRouter();
   const firstName = useOnboardingDetailsStore((state) => state.firstName);
   const lastName = useOnboardingDetailsStore((state) => state.lastName);
 
@@ -15,6 +18,9 @@ export default function NamePage() {
   const updateLastName = useOnboardingDetailsStore(
     (state) => state.setLastName,
   );
+  const handleNextButtonClick = () => {
+    router.push("/onboarding/member");
+  };
 
   return (
     <div className="h-dvh w-dvw">
@@ -43,9 +49,7 @@ export default function NamePage() {
           <Button
             large
             className="w-full"
-            onClick={() => {
-              // Go to membership type selection page
-            }}
+            onClick={handleNextButtonClick}
             disabled={firstName === "" || lastName === "" ? true : false}
           >
             Continue
