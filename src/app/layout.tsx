@@ -5,12 +5,27 @@ import { Providers } from "@/components/Providers";
 
 import "./globals.css";
 
-import type { Viewport } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "UABC Booking Portal",
-  description: "",
+  description:
+    "Book your badminton sessions with the University of Auckland Badminton Club.",
+  icons: {
+    icon: [
+      {
+        media: "(prefers-color-scheme: light)",
+        url: "/images/icon.svg",
+        href: "/svgs/icon.svg",
+      },
+      {
+        media: "(prefers-color-scheme: dark)",
+        url: "/svgs/icon-darkmode.svg",
+        href: "/svgs/icon-darkmode.svg",
+      },
+    ],
+  },
 };
 
 const ProximaNova = localFont({
