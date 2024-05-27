@@ -42,6 +42,8 @@ next-env.d.ts
 
 # env files
 .env
+
+# playwright test files
 /test-results/
 /playwright-report/
 /blob-report/
