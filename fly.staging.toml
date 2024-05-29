@@ -5,16 +5,14 @@ app = 'wdcc-uabc-staging'
 primary_region = 'syd'
 
 [build]
-  # dockerfile contains build time non-sensitive env vars
   dockerfile = "Dockerfile.staging"
 
 [http_service]
-  internal_port = 80
-  force_https = true
+  internal_port = 3000
+  force_https = true  
   auto_stop_machines = true
   auto_start_machines = true
   min_machines_running = 0
-  processes = ['app']
 
 [[vm]]
   cpu_kind = 'shared'
