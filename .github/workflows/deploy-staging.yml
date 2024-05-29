@@ -10,6 +10,7 @@ env:
 jobs:
   deploy:
     name: Deploy app
+    environment: development
     runs-on: ubuntu-latest
     concurrency: deploy-group # optional: ensure only one action runs at a time
     steps:
@@ -20,4 +21,5 @@ jobs:
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy
-        run: flyctl deploy --remote-only --config fly.staging.toml
+        run: >
+          flyctl deploy --remote-only --config fly.staging.toml
