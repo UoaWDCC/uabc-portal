@@ -1,12 +1,12 @@
-name: Tests
-
+name: Lint
 on:
   workflow_call:
-
 jobs:
-  test:
+  build:
+    name: Linters
     runs-on: ubuntu-latest
-    environment: development
+    timeout-minutes: 15
+
     steps:
       - uses: actions/checkout@v4
 
@@ -21,6 +21,5 @@ jobs:
           version: 8
           run_install: true
 
-      - name: Run tests
-        run: |
-          pnpm test
+      - name: Lint
+        run: pnpm lint
