@@ -1,8 +1,9 @@
 name: Deploy Production
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_WEB_PRODUCTION_API_TOKEN }}
 
 jobs:
   deploy:
@@ -10,8 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: deploy-group # optional: ensure only one action runs at a time
     steps:
-      - uses: actions/checkout@v4
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only --config fly.production.toml
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_WEB_PRODUCTION_API_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy
+        run: flyctl deploy --remote-only --config fly.production.toml
