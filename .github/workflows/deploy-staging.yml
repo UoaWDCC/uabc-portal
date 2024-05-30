@@ -22,4 +22,6 @@ jobs:
 
       - name: Deploy
         run: |
-          flyctl deploy --remote-only --config fly.staging.toml --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" --build-arg NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}"
+          flyctl deploy --remote-only --config fly.staging.toml \
+          --build-secret DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+          --build-secret NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}"

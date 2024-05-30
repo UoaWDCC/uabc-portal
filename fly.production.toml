@@ -1,7 +1,7 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'wdcc-uabc-staging'
+app = 'wdcc-uabc'
 primary_region = 'syd'
 
 [build]
