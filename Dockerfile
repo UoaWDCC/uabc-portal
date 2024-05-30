@@ -22,19 +22,18 @@ COPY . .
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 ENV NEXT_TELEMETRY_DISABLED 1
+
+# Set to standalone output for dockerised depoyment
 ENV BUILD_STANDALONE true
 
+ARG APP_URL
+
 ENV ENVIRONMENT "PRODUCTION"
-ENV NEXTAUTH_URL "https://wdcc-uabc-staging.fly.dev"
-ENV APP_URL "https://wdcc-uabc-staging.fly.dev"
+ENV NEXTAUTH_URL ${APP_URL}
+ENV APP_URL ${APP_URL}
+# The below values are set to empty strings as they are not needed at build time.
 ENV GOOGLE_CLIENT_ID " "
 ENV GOOGLE_CLIENT_SECRET " "
-
-# ARG DATABASE_URL
-# ARG NEXTAUTH_SECRET
-
-# ENV DATABASE_URL ${DATABASE_URL}
-# ENV NEXTAUTH_SECRET ${NEXTAUTH_SECRET}
 
 RUN --mount=type=secret,id=DATABASE_URL \
     --mount=type=secret,id=NEXTAUTH_SECRET \
