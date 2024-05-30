@@ -48,7 +48,7 @@ export const SemesterEditDialogue = () => {
         <div className="flex gap-2 *:grow ">
           <TextInput
             label="Start Date"
-            type="input"
+            type="text"
             {...register("startDate", {
               required: "field is required",
               validate: {
@@ -59,7 +59,7 @@ export const SemesterEditDialogue = () => {
           />
           <TextInput
             label="End Date"
-            type="input"
+            type="text"
             {...register("endDate", {
               required: "field is required",
               validate: {
@@ -72,7 +72,7 @@ export const SemesterEditDialogue = () => {
         <div className="flex gap-2 *:grow">
           <TextInput
             label="Break start Date"
-            type="input"
+            type="text"
             {...register("breakStart", {
               required: "field is required",
               validate: {
@@ -83,7 +83,7 @@ export const SemesterEditDialogue = () => {
           />
           <TextInput
             label="Break end Date"
-            type="input"
+            type="text"
             {...register("breakEnd", {
               required: "field is required",
               validate: {

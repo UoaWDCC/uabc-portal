@@ -2,12 +2,12 @@
 
 import { createContext, memo } from "react";
 import Link from "next/link";
-import { Ellipsis } from "lucide-react";
 
 import { Card } from "@/components/Card";
-import { Popover, PopoverContainer, PopoverOpenButton } from "../popover";
-import DeleteButton from "./DeleteButton";
-import { EditButton } from "./EditButton";
+import OptionsPopoverButton from "../OptionButton";
+import { OptionItemPopoverBase } from "../OptionItemPopoverBase";
+import { OptionButtonUtils } from "../OptionsButtonUtils";
+import { SemesterEditDialogue } from "./SemesterEditDialog";
 
 type DetailCardProps = {
   id: number;
@@ -40,7 +40,16 @@ const UnmemoizedSemesterDetailCard = ({
         />
         <div className="flex items-center justify-between">
           <h3 className="text-lg text-foreground whitespace-nowrap">{name}</h3>
-          <SemesterPopover />
+          <OptionsPopoverButton>
+            <OptionItemPopoverBase
+              ButtonElem={<OptionButtonUtils type="edit" />}
+              DialogElem={<SemesterEditDialogue />}
+            />
+            <OptionItemPopoverBase
+              ButtonElem={<OptionButtonUtils type="delete" />}
+              DialogElem={<SemesterEditDialogue />}
+            />
+          </OptionsPopoverButton>
         </div>
         <p className="mt-2">Start date: {startDate}</p>
         <p>End date: {endDate}</p>
@@ -49,20 +58,6 @@ const UnmemoizedSemesterDetailCard = ({
         </p>
       </Card>
     </SemesterContext.Provider>
-  );
-};
-
-const SemesterPopover = () => {
-  return (
-    <Popover>
-      <PopoverOpenButton variant="outline" className="w-8 h-6 z-10">
-        <Ellipsis className="stroke-tertiary absolute w-4" />
-      </PopoverOpenButton>
-      <PopoverContainer>
-        <EditButton />
-        <DeleteButton />
-      </PopoverContainer>
-    </Popover>
   );
 };
 

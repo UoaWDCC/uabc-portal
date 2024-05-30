@@ -15,7 +15,7 @@ type PopoverContextType = {
   handleClose: () => void;
 };
 
-const PopoverContext = createContext<PopoverContextType>(
+export const PopoverContext = createContext<PopoverContextType>(
   {} as PopoverContextType,
 );
 
