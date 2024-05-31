@@ -22,6 +22,7 @@ export const SemesterEditDialogue = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<EditSemesterFormValues>({
     defaultValues: {
@@ -43,7 +44,7 @@ export const SemesterEditDialogue = () => {
     console.log(data);
   // todo add validation for greater and less than for start and end
   return (
-    <DialogCard title={name}>
+    <DialogCard title={name} onClose={() => reset()}>
       <form className="flex gap-4 flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-2 *:grow ">
           <TextInput

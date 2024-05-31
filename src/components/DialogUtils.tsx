@@ -12,12 +12,17 @@ import {
 export const DialogCard = ({
   title,
   children,
+  onClose,
 }: {
   title: string;
   children?: ReactNode;
+  onClose?: () => void;
 }) => {
   return (
-    <DialogContent className="dark sm:max-w-[475px] max-w-[375px] rounded-lg">
+    <DialogContent
+      className="dark sm:max-w-[475px] max-w-[375px] rounded-lg"
+      onCloseAutoFocus={onClose}
+    >
       <DialogHeader>
         <DialogTitle className="text-foreground ">{title}</DialogTitle>
       </DialogHeader>

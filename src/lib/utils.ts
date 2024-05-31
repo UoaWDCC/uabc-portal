@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { z } from "zod";
 
 import type { Weekday } from "@/types/types";
 
@@ -43,8 +44,8 @@ export const validateDate = (date: string) => {
   if (2 < dateParts[1].length) return false; //MM
   if (dateParts[2].length != 4) return false; //YY
 
-  // Date("year/month/day"),
-  const dateStr = +dateParts[2] + "/" + +dateParts[1] + "/" + +dateParts[0];
-  const dateObject = new Date(dateStr);
-  return dateObject.toString() != "Invalid Date";
+  return z.coerce
+    .date()
+    .safeParse(new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`))
+    .success;
 };

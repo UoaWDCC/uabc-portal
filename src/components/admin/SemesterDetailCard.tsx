@@ -7,6 +7,7 @@ import { Card } from "@/components/Card";
 import OptionsPopoverButton from "../OptionButton";
 import { OptionItemPopoverBase } from "../OptionItemPopoverBase";
 import { OptionButtonUtils } from "../OptionsButtonUtils";
+import SemesterDeleteDialog from "./SemesterDeleteDialog";
 import { SemesterEditDialogue } from "./SemesterEditDialog";
 
 type DetailCardProps = {
@@ -47,7 +48,7 @@ const UnmemoizedSemesterDetailCard = ({
             />
             <OptionItemPopoverBase
               ButtonElem={<OptionButtonUtils type="delete" />}
-              DialogElem={<SemesterEditDialogue />}
+              DialogElem={<SemesterDeleteDialog />}
             />
           </OptionsPopoverButton>
         </div>

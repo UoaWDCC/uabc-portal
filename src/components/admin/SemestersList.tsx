@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 
 import { useCurrentSemesters } from "@/hooks/query/useCurrentSemesters";
 import { SemesterDetailCard } from "./SemesterDetailCard";
-import SkeletonSemesterCard from "./SkeletonSemesterCard";
+import { SkeletonSemesterCard } from "./SkeletonSemesterCard";
 
 export const SemestersList = () => {
   const { data, isLoading } = useCurrentSemesters();

@@ -1,6 +1,6 @@
 import { Skeleton } from "../ui/skeleton";
 
-const SkeletonSemesterCard = () => {
+export const SkeletonSemesterCard = () => {
   return (
     <Skeleton className="min-h-36 px-6 py-4 w-full gap-1 flex flex-col relative bg-secondary/20 ring-1 tracking-tight font-medium ring-secondary text-tertiary text-sm select-none">
       <Skeleton className="bg-tertiary/50 w-40 h-6 " />
@@ -10,5 +10,3 @@ const SkeletonSemesterCard = () => {
     </Skeleton>
   );
 };
-
-export default SkeletonSemesterCard;
