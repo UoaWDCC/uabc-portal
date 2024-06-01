@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { stringify } from "csv";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
@@ -13,7 +14,7 @@ const routeContextSchema = z.object({
 });
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   context: z.infer<typeof routeContextSchema>,
 ) {
   try {
@@ -35,7 +36,8 @@ export async function GET(
       return new Response(`No Game Session found with id: ${gameSessionId}`, {
         status: 404,
       });
-    const [players] = await db
+
+    const players = await db
       .select({
         firstName: users.firstName,
         lastName: users.lastName,
@@ -49,12 +51,53 @@ export async function GET(
         eq(gameSessions.id, bookingDetails.gameSessionId),
       )
       .innerJoin(bookings, eq(bookingDetails.bookingId, bookings.id))
-      .rightJoin(users, eq(bookings.userId, users.id))
-      .where(eq(gameSessions.id, gameSessionId))
-      .execute();
+      .innerJoin(users, eq(bookings.userId, users.id))
+      .where(eq(gameSessions.id, gameSessionId));
 
-    return NextResponse.json(players);
-  } catch {
+    const playLevelOrder = {
+      advanced: 1,
+      intermediate: 2,
+      beginner: 3,
+    };
+
+    const sortedPlayers = players.sort((a, b) => {
+      return playLevelOrder[a.playLevel] - playLevelOrder[b.playLevel];
+    });
+
+    const columns = [
+      "First Name",
+      "Last Name",
+      "Email",
+      "Play Level",
+      "Member",
+    ];
+
+    const data = sortedPlayers.map((player) => ({
+      "First Name": player.firstName,
+      "Last Name": player.lastName,
+      Email: player.email,
+      "Play Level": player.playLevel,
+      Member: player.member,
+    }));
+
+    const csvData = await new Promise<string>((resolve, reject) => {
+      stringify(data, { header: true, columns }, (err, output) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(output);
+        }
+      });
+    });
+
+    return new Response(csvData, {
+      headers: {
+        "Content-Type": "text/csv",
+        "Content-Disposition": `attachment; filename="game-session-${gameSessionId}.csv"`,
+      },
+    });
+  } catch (error) {
+    console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }
