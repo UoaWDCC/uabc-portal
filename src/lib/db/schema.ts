@@ -22,13 +22,13 @@ export const playLevelEnum = pgEnum("playLevel", [
 
 export const roleEnum = pgEnum("role", ["admin", "user"]);
 export const weekdayEnum = pgEnum("weekday", [
+  "Sunday",
   "Monday",
   "Tuesday",
   "Wednesday",
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday",
 ]);
 
 export const users = pgTable("user", {
@@ -166,6 +166,11 @@ export const gameSessionSchedules = pgTable(
     unq: unique().on(gss.semesterId, gss.weekday),
   }),
 );
+
+export const gameSessionExceptions = pgTable("gameSessionException", {
+  exceptionId: serial("exceptionId").primaryKey(),
+  gameSessionDate: date("gameSessionDate", { mode: "date" }).unique().notNull(),
+});
 
 // each game session can have one gameSessionSchedule and many bookings
 export const gameSessionRelations = relations(

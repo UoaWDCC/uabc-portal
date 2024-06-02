@@ -2,6 +2,7 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import {
+  gameSessionExceptions,
   gameSessions,
   gameSessionSchedules,
   semesters,
@@ -70,3 +71,11 @@ export const updateGameSessionScheduleSchema = z.object({
   capacity: z.number(),
   casualCapacity: z.number(),
 });
+
+export const insertGameSessionExceptionSchema = createInsertSchema(
+  gameSessionExceptions,
+  {
+    exceptionId: z.coerce.number(),
+    gameSessionDate: z.coerce.date(),
+  },
+);
