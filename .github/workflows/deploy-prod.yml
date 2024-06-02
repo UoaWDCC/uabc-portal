@@ -1,0 +1,26 @@
+name: Deploy Production
+on:
+  workflow_dispatch:
+
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_WEB_PRODUCTION_API_TOKEN }}
+
+jobs:
+  deploy:
+    name: Deploy app
+    environment: production
+    runs-on: ubuntu-latest
+    concurrency: deploy-group # optional: ensure only one action runs at a time
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy
+        run: |
+          flyctl deploy --remote-only --config fly.production.toml \
+          --build-arg APP_URL="${{ secrets.APP_URL }}" \
+          --build-secret DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+          --build-secret NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}"
