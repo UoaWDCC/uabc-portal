@@ -1,11 +1,11 @@
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
-import { stringify } from "csv";
+import { NextRequest, NextResponse } from "next/server";
+import { stringify } from "csv-stringify";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { bookingDetails, bookings, gameSessions, users } from "@/lib/db/schema";
+import { getCurrentUser } from "@/lib/session";
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -18,6 +18,13 @@ export async function GET(
   context: z.infer<typeof routeContextSchema>,
 ) {
   try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return new Response("ERROR: Unauthorized request", { status: 401 });
+    }
+    if (user.role != "admin") {
+      return new Response("ERROR: No valid permissions", { status: 403 });
+    }
     const result = routeContextSchema.safeParse(context);
     if (!result.success)
       return new Response("Invalid id provided in the request", {
@@ -90,7 +97,7 @@ export async function GET(
       });
     });
 
-    return new Response(csvData, {
+    return new NextResponse(csvData, {
       headers: {
         "Content-Type": "text/csv",
         "Content-Disposition": `attachment; filename="game-session-${gameSessionId}.csv"`,
