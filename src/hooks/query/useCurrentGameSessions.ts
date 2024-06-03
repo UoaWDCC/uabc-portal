@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 type GameSessionResponse = {
   id: number;
-  date: Date;
+  date: string;
   startTime: string;
   endTime: string;
   locationName: string;
