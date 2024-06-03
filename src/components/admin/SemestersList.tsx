@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 
 import { useCurrentSemesters } from "@/hooks/query/useCurrentSemesters";
 import { SemesterDetailCard } from "./SemesterDetailCard";
+import { SemesterContextProvider } from "./SemestersContext";
 import { SkeletonSemesterCard } from "./SkeletonSemesterCard";
 
 export const SemestersList = () => {
@@ -12,7 +13,7 @@ export const SemestersList = () => {
   const semesters = useMemo(
     () =>
       data?.map((semester) => {
-        console.log(typeof semester.startDate);
+        console.log(data);
         return {
           id: semester.id,
           name: semester.name,
@@ -20,6 +21,8 @@ export const SemestersList = () => {
           endDate: new Date(semester.endDate).toLocaleDateString("en-NZ"),
           breakStart: new Date(semester.breakStart).toLocaleDateString("en-NZ"),
           breakEnd: new Date(semester.breakEnd).toLocaleDateString("en-NZ"),
+          bookingOpenDay: semester.bookingOpenDay,
+          bookingOpenTime: semester.bookingOpenTime,
         };
       }),
     [data],
@@ -35,15 +38,9 @@ export const SemestersList = () => {
   }
 
   return semesters?.map((semester) => (
-    <SemesterDetailCard
-      key={semester.id}
-      id={semester.id}
-      name={semester.name}
-      startDate={semester.startDate}
-      endDate={semester.endDate}
-      breakStart={semester.breakStart}
-      breakEnd={semester.breakEnd}
-    />
+    <SemesterContextProvider key={semester.id} value={semester}>
+      <SemesterDetailCard />
+    </SemesterContextProvider>
   ));
 };
 

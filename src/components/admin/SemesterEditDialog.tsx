@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
+import { Close, DialogClose } from "@radix-ui/react-dialog";
+import { useQueryClient } from "@tanstack/react-query";
+import { parse } from "date-fns";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { TextInput } from "@/components/TextInput";
 import { validateDate } from "@/lib/utils";
 import { DialogCard, DialogCardFooter } from "../DialogUtils";
-import { SemesterContext } from "./SemesterDetailCard";
+import { PopoverContext } from "../popover";
+import { SemesterContext } from "./SemestersContext";
 
 type EditSemesterFormValues = {
   startDate: string;
@@ -16,8 +20,16 @@ type EditSemesterFormValues = {
 type formValues = "startDate" | "endDate" | "breakStart" | "breakEnd";
 
 export const SemesterEditDialogue = () => {
-  const { name, startDate, endDate, breakStart, breakEnd } =
-    useContext(SemesterContext);
+  const {
+    name,
+    startDate,
+    endDate,
+    breakStart,
+    breakEnd,
+    id: semesterId,
+    bookingOpenDay,
+    bookingOpenTime,
+  } = useContext(SemesterContext);
 
   const {
     register,
@@ -33,6 +45,8 @@ export const SemesterEditDialogue = () => {
     },
   });
 
+  const queryClient = useQueryClient();
+
   const displayError = () => {
     const keys: string[] = Object.keys(errors);
     if (keys.length == 0) return;
@@ -40,8 +54,35 @@ export const SemesterEditDialogue = () => {
     return `${keys[0]} ${err}`;
   };
 
-  const onSubmit: SubmitHandler<EditSemesterFormValues> = (data) =>
-    console.log(data);
+  const onSubmit: SubmitHandler<EditSemesterFormValues> = async (
+    data: EditSemesterFormValues,
+  ) => {
+    const body = JSON.stringify({
+      name,
+      bookingOpenDay,
+      bookingOpenTime,
+      startDate: parse(data.startDate, "dd/MM/yyyy", new Date()), //TODO: Fix incorrect date
+      endDate: parse(data.endDate, "dd/MM/yyyy", new Date()),
+      breakStart: parse(data.breakStart, "dd/MM/yyyy", new Date()),
+      breakEnd: parse(data.breakEnd, "dd/MM/yyyy", new Date()),
+    });
+
+    const res = await fetch(`/api/semesters/${semesterId}`, {
+      method: "PUT",
+      body,
+    });
+
+    if (!res.ok) {
+      console.log("!res ok ");
+
+      //TODO: error popup
+    } else {
+      queryClient.invalidateQueries({ queryKey: ["semesters"] });
+      //TODO: success popup
+      console.log("done");
+    }
+  };
+
   // todo add validation for greater and less than for start and end
   return (
     <DialogCard title={name} onClose={() => reset()}>

@@ -1,15 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 
-type DetailCardProps = {
+type SemesterResponse = {
   id: number;
   name: string;
   startDate: string;
   endDate: string;
   breakStart: string;
   breakEnd: string;
+  bookingOpenDay: string;
+  bookingOpenTime: string;
 };
 
-const fetchSemesters = async (): Promise<DetailCardProps[]> => {
+const fetchSemesters = async (): Promise<SemesterResponse[]> => {
   const response = await fetch(`/api/semesters`, {
     cache: "no-store",
   });
