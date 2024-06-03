@@ -25,7 +25,7 @@ export const SignUp = () => {
     try {
       emailSchema.parse(e.target.value);
     } catch (e) {
-      setEmailSubText(e.errors[0].message);
+      setEmailSubText((e as z.ZodError).errors[0].message);
       setEmailError(true);
     }
   };
@@ -34,7 +34,7 @@ export const SignUp = () => {
     try {
       passwordSchema.parse(e.target.value);
     } catch (e) {
-      setPasswordSubText(e.errors[0].message);
+      setPasswordSubText((e as z.ZodError).errors[0].message);
       setPasswordError(true);
     }
   };
