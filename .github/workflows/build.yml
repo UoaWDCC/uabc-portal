@@ -1,7 +1,8 @@
 name: Build Test
 
 on:
-  pull_request:
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -24,15 +25,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build Next app
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          APP_URL: ${{ secrets.APP_URL }}
-          ENVIRONMENT: "DEVELOPMENT"
+      - name: Create env file
+        run: echo ${{ secrets.UABC_DEV_BACKEND_ENVFILE }} | base64 --decode > .env
 
+      - name: Build Next app
         run: |
           pnpm build

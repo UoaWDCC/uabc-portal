@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 import { MembershipTypeSelector } from "@/components/MembershipTypeSelector";
 import { NavigationBar } from "@/components/NavigationBar";
@@ -10,10 +11,41 @@ import { useOnboardingDetailsStore } from "@/stores/useOnboardingDetailsStore";
 const MembershipType = () => {
   const member = useOnboardingDetailsStore((state) => state.member);
   const setMember = useOnboardingDetailsStore((state) => state.setMember);
+  const firstName = useOnboardingDetailsStore((state) => state.firstName);
+  const lastName = useOnboardingDetailsStore((state) => state.lastName);
   const router = useRouter();
+  const { data, update } = useSession();
 
-  const handleNextButtonClick = () => {
-    router.push("/sessions");
+  if (!firstName || !lastName) {
+    redirect("onboarding/name");
+  }
+
+  const id = data?.user?.id;
+
+  const handleNextButtonClick = async () => {
+    try {
+      const response = await fetch(`/api/users/${id}/onboard`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ firstName, lastName, member }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update user details");
+      }
+
+      await update({
+        firstName,
+        lastName,
+        member,
+      });
+
+      router.push("/sessions");
+    } catch (error) {
+      console.error("An error occurred while updating user details:", error);
+    }
   };
 
   return (

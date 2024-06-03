@@ -35,7 +35,7 @@ export const authOptions: NextAuthOptions = {
         email: {},
         password: {},
       },
-      async authorize(credentials, req): Promise<User | null> {
+      async authorize(credentials): Promise<User | null> {
         const user = await db.query.users.findFirst({
           where: eq(users.email, credentials?.email ?? ""),
         });
