@@ -89,25 +89,33 @@ export async function PUT(
 
     const updatedSemester = updateSemesterSchema.parse(await req.json());
 
-    if (updatedSemester.startDate > updatedSemester.endDate) {
+    if (
+      new Date(updatedSemester.startDate) > new Date(updatedSemester.endDate)
+    ) {
       return new Response("Start date must be less than end date", {
         status: 400,
       });
     }
 
-    if (updatedSemester.breakStart > updatedSemester.breakEnd) {
+    if (
+      new Date(updatedSemester.breakStart) > new Date(updatedSemester.breakEnd)
+    ) {
       return new Response("Break start date must be less than break end date", {
         status: 400,
       });
     }
 
-    if (updatedSemester.breakStart < updatedSemester.startDate) {
+    if (
+      new Date(updatedSemester.breakStart) < new Date(updatedSemester.startDate)
+    ) {
       return new Response("Break start date must be after start date", {
         status: 400,
       });
     }
 
-    if (updatedSemester.breakEnd > updatedSemester.endDate) {
+    if (
+      new Date(updatedSemester.breakEnd) > new Date(updatedSemester.endDate)
+    ) {
       return new Response("Break end date must be before end date", {
         status: 400,
       });

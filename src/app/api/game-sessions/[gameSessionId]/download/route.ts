@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { stringify } from "csv-stringify";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
@@ -14,7 +15,7 @@ const routeContextSchema = z.object({
 });
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   context: z.infer<typeof routeContextSchema>,
 ) {
   try {
