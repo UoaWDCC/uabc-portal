@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { and, eq, gte, lte, or } from "drizzle-orm";
+import { and, eq, gt, gte, lt, lte, or } from "drizzle-orm";
 import z from "zod";
 
 import { db } from "@/lib/db";
@@ -9,9 +9,9 @@ import {
   gameSessions,
   gameSessionSchedules,
   semesters,
-  weekdayEnum,
 } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
+import { getWeekday } from "@/lib/utils";
 import {
   insertGameSessionExceptionSchema,
   insertGameSessionSchema,
@@ -29,54 +29,40 @@ export async function GET(req: NextRequest) {
     }
 
     const date = req.nextUrl.searchParams.get("date");
-
-    if (!date) {
-      return new Response("No date provided in the request", {
-        status: 400,
-      });
-    }
-
-    const gameSessionDate = new Date(date as string);
-
-    if (!gameSessionDate) {
-      return new Response("Invalid date provided in the request", {
-        status: 400,
-      });
-    }
+    const gameSessionDate = z.string().date().parse(date);
 
     const gameSession = await db.query.gameSessions.findFirst({
       where: eq(gameSessions.date, gameSessionDate),
     });
 
     if (gameSession) {
+      // If a game session exists for the date, return it
       return NextResponse.json(gameSession, { status: 200 });
     }
 
-    const [gameSessionSchedule] = await db
-      .select()
-      .from(gameSessionSchedules)
-      .innerJoin(
-        semesters,
-        or(
-          and(
-            gte(semesters.startDate, gameSessionDate),
-            lte(semesters.breakStart, gameSessionDate),
-          ),
-          and(
-            gte(semesters.breakEnd, gameSessionDate),
-            lte(semesters.endDate, gameSessionDate),
-          ),
+    // Check for a schedule on this weekday
+    const semester = await db.query.semesters.findFirst({
+      with: {
+        gameSessionSchedules: {
+          where: eq(gameSessionSchedules.weekday, getWeekday(gameSessionDate)),
+        },
+      },
+      where: or(
+        and(
+          lte(semesters.startDate, gameSessionDate),
+          gt(semesters.breakStart, gameSessionDate),
         ),
-      )
-      .where(
-        eq(
-          gameSessionSchedules.weekday,
-          weekdayEnum.enumValues[(gameSessionDate.getDay() - 1) % 7],
+        and(
+          lt(semesters.breakEnd, gameSessionDate),
+          gte(semesters.endDate, gameSessionDate),
         ),
-      );
+      ),
+    });
+
+    const gameSessionSchedule = semester?.gameSessionSchedules[0];
 
     if (!gameSessionSchedule) {
-      // No game session schedule found for the given weekday within the semester
+      // If no game session schedule found for the weekday within the semester, return
       return new Response(null, { status: 204 });
     }
 
@@ -87,6 +73,7 @@ export async function GET(req: NextRequest) {
     );
 
     if (gameSessionSchedule && !gameSessionException) {
+      // If schedule found and no exception, return the schedule
       return NextResponse.json(gameSessionSchedule, { status: 200 });
     } else {
       return new Response(null, { status: 204 });
@@ -104,17 +91,109 @@ export async function GET(req: NextRequest) {
  */
 export async function POST(req: NextRequest) {
   try {
-    const json = await req.json();
+    const user = await getCurrentUser();
+    if (!user) {
+      return new Response("ERROR: Unauthorized request", { status: 401 });
+    }
+    if (user.role != "admin") {
+      return new Response("ERROR: No valid permissions", { status: 403 });
+    }
 
-    const body = insertGameSessionSchema.parse(json);
+    const gameSessionToInsert = insertGameSessionSchema.parse(await req.json());
 
-    if (new Date(body.date) < new Date()) {
+    if (new Date(gameSessionToInsert.date) < new Date()) {
       return new Response("Date cannot be in the past", { status: 400 });
     }
 
-    await db.insert(gameSessions).values(body);
+    // Check that a record doesn't already exist for this date
+    const gameSession = await db.query.gameSessions.findFirst({
+      where: eq(gameSessions.date, gameSessionToInsert.date),
+    });
 
-    return NextResponse.json(body, { status: 201 });
+    if (gameSession) {
+      return new Response("A game session already exists for this date", {
+        status: 400,
+      });
+    }
+
+    // Check for a schedule on this weekday
+    const semester = await db.query.semesters.findFirst({
+      with: {
+        gameSessionSchedules: {
+          where: eq(
+            gameSessionSchedules.weekday,
+            getWeekday(gameSessionToInsert.date),
+          ),
+        },
+      },
+      where: or(
+        and(
+          lte(semesters.startDate, gameSessionToInsert.date),
+          gt(semesters.breakStart, gameSessionToInsert.date),
+        ),
+        and(
+          lt(semesters.breakEnd, gameSessionToInsert.date),
+          gte(semesters.endDate, gameSessionToInsert.date),
+        ),
+      ),
+    });
+
+    const gameSessionSchedule = semester?.gameSessionSchedules[0];
+
+    if (gameSessionSchedule) {
+      // If a schedule exists, only create record if an exception also exists, otherwise it will be generated
+      const gameSessionException =
+        await db.query.gameSessionExceptions.findFirst({
+          where: eq(
+            gameSessionExceptions.gameSessionDate,
+            gameSessionToInsert.date,
+          ),
+        });
+
+      if (!gameSessionException) {
+        return new Response("No gameSessionException found for this date", {
+          status: 400,
+        });
+      }
+    }
+
+    // Check that the gameSession is valid
+    if (gameSessionToInsert.bookingOpen > new Date(gameSessionToInsert.date)) {
+      return new Response("Booking open must be before the game session date", {
+        status: 400,
+      });
+    }
+
+    if (gameSessionToInsert.bookingClose > new Date(gameSessionToInsert.date)) {
+      return new Response(
+        "Booking close must be before the game session date",
+        {
+          status: 400,
+        },
+      );
+    }
+
+    if (gameSessionToInsert.bookingOpen > gameSessionToInsert.bookingClose) {
+      return new Response("Booking open must be before booking close", {
+        status: 400,
+      });
+    }
+
+    if (gameSessionToInsert.startTime > gameSessionToInsert.endTime) {
+      return new Response("Start time must be before end time", {
+        status: 400,
+      });
+    }
+
+    if (gameSessionToInsert.casualCapacity > gameSessionToInsert.capacity) {
+      return new Response("Casual capacity must be less than capacity", {
+        status: 400,
+      });
+    }
+
+    await db.insert(gameSessions).values(gameSessionToInsert);
+
+    return NextResponse.json(gameSessionToInsert, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError)
       return NextResponse.json(error.issues, { status: 400 });
@@ -134,31 +213,36 @@ export async function DELETE(req: NextRequest) {
     }
 
     const date = req.nextUrl.searchParams.get("date");
+    const gameSessionDate = z.string().date().parse(date);
 
-    if (!date) {
-      return new Response("No date provided in the request", {
-        status: 400,
-      });
-    }
-
-    const gameSessionDate = new Date(date as string);
-
-    if (!gameSessionDate) {
-      return new Response("Invalid date provided in the request", {
-        status: 400,
-      });
-    }
-
+    // Delete the game session if it exists
     const [deletedGameSession] = await db
       .delete(gameSessions)
       .where(eq(gameSessions.date, gameSessionDate))
       .returning();
 
     if (!deletedGameSession) {
-      const gameSessionException = insertGameSessionExceptionSchema.parse({
-        gameSessionDate: gameSessionDate,
-      });
-      await db.insert(gameSessionExceptions).values(gameSessionException);
+      // Create a gameSessionException record if one doesn't exist
+      const gameSessionException =
+        await db.query.gameSessionExceptions.findFirst({
+          where: eq(gameSessionExceptions.gameSessionDate, gameSessionDate),
+        });
+
+      if (gameSessionException) {
+        return new Response(
+          "A gameSessionException already exists for this date",
+          { status: 404 },
+        );
+      } else {
+        const gameSessionExceptionToInsert =
+          insertGameSessionExceptionSchema.parse({
+            gameSessionDate,
+          });
+
+        await db
+          .insert(gameSessionExceptions)
+          .values(gameSessionExceptionToInsert);
+      }
     }
 
     return new Response(null, { status: 204 });
@@ -181,26 +265,35 @@ export async function PUT(req: NextRequest) {
     }
 
     const date = req.nextUrl.searchParams.get("date");
+    const gameSessionDate = z.string().date().parse(date);
 
-    if (!date) {
-      return new Response("No date provided in the request", {
+    const body = await req.json();
+
+    const gameSessionToUpdate = updateGameSessionSchema.parse(body);
+    const gameSessionToInsert = insertGameSessionSchema.parse(body);
+
+    if (gameSessionToInsert.date !== gameSessionDate) {
+      return new Response("Inconsistent dates provided in URL and body", {
         status: 400,
       });
     }
 
-    const gameSessionDate = new Date(date as string);
-
-    if (!gameSessionDate) {
-      return new Response("Invalid date provided in the request", {
+    if (gameSessionToUpdate.startTime > gameSessionToUpdate.endTime) {
+      return new Response("Start time must be less than end time", {
         status: 400,
       });
     }
 
-    const gameSessionUpdate = updateGameSessionSchema.parse(await req.json());
+    if (gameSessionToUpdate.casualCapacity > gameSessionToUpdate.capacity) {
+      return new Response("Casual capacity must be less than capacity", {
+        status: 400,
+      });
+    }
 
+    // If the game session exists, update it and return
     const [updatedGameSession] = await db
       .update(gameSessions)
-      .set(gameSessionUpdate)
+      .set(gameSessionToUpdate)
       .where(eq(gameSessions.date, gameSessionDate))
       .returning();
 
@@ -208,29 +301,66 @@ export async function PUT(req: NextRequest) {
       return new Response(null, { status: 204 });
     }
 
-    // Create a gameSessionException record
-    const gameSessionException = insertGameSessionExceptionSchema.parse({
-      gameSessionDate: gameSessionDate,
-    });
-    await db.insert(gameSessionExceptions).values(gameSessionException);
-
-    // Create a gameSession record with the updated data
-    const gameSessionInsert = insertGameSessionSchema.parse(await req.json());
-
-    if (gameSessionInsert.startTime > gameSessionInsert.endTime) {
-      return new Response("Start time must be less than end time", {
+    // Check the game session is valid
+    if (gameSessionToInsert.bookingOpen > new Date(gameSessionToInsert.date)) {
+      return new Response("Booking open must be before the game session date", {
         status: 400,
       });
     }
 
-    if (gameSessionInsert.casualCapacity > gameSessionInsert.capacity) {
+    if (gameSessionToInsert.bookingClose > new Date(gameSessionToInsert.date)) {
+      return new Response(
+        "Booking close must be before the game session date",
+        {
+          status: 400,
+        },
+      );
+    }
+
+    if (gameSessionToInsert.bookingOpen > gameSessionToInsert.bookingClose) {
+      return new Response("Booking open must be before booking close", {
+        status: 400,
+      });
+    }
+
+    if (gameSessionToInsert.startTime > gameSessionToInsert.endTime) {
+      return new Response("Start time must be before end time", {
+        status: 400,
+      });
+    }
+
+    if (gameSessionToInsert.casualCapacity > gameSessionToInsert.capacity) {
       return new Response("Casual capacity must be less than capacity", {
         status: 400,
       });
     }
 
-    await db.insert(gameSessions).values(gameSessionInsert);
-    return NextResponse.json(gameSessionInsert, { status: 201 });
+    // Create a gameSessionException record if it doesn't exist
+    const gameSessionException = await db.query.gameSessionExceptions.findFirst(
+      {
+        where: eq(gameSessionExceptions.gameSessionDate, gameSessionDate),
+      },
+    );
+
+    if (gameSessionException) {
+      return new Response(
+        "A gameSessionException already exists for this date",
+        { status: 404 },
+      );
+    } else {
+      const gameSessionExceptionToInsert =
+        insertGameSessionExceptionSchema.parse({
+          gameSessionDate: gameSessionDate,
+        });
+
+      await db
+        .insert(gameSessionExceptions)
+        .values(gameSessionExceptionToInsert);
+    }
+
+    // Create a gameSession record with the updated data and return it
+    await db.insert(gameSessions).values(gameSessionToInsert);
+    return NextResponse.json(gameSessionToInsert, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(error.issues, { status: 400 });

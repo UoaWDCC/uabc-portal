@@ -75,7 +75,6 @@ export const updateGameSessionScheduleSchema = z.object({
 export const insertGameSessionExceptionSchema = createInsertSchema(
   gameSessionExceptions,
   {
-    exceptionId: z.coerce.number(),
-    gameSessionDate: z.coerce.date(),
+    gameSessionDate: z.string().date(),
   },
 );
