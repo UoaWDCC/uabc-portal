@@ -13,6 +13,7 @@ import {
   gameSessionScheduleExceptions,
   gameSessionSchedules,
   semesters,
+  weekdayEnum,
 } from "@/lib/db/schema";
 import { insertGameSessionSchema } from "@/lib/validators";
 import { Weekday } from "@/types/types";
@@ -20,7 +21,7 @@ import { Weekday } from "@/types/types";
 async function createGameSessionsForUpcomingWeek() {
   const now = new Date();
   const oneWeekFromNow = addDays(now, 7);
-  const weekdayMap: { [key: number]: Weekday } = {
+  /*const weekdayMap: { [key: number]: Weekday } = {
     0: "Sunday",
     1: "Monday",
     2: "Tuesday",
@@ -28,7 +29,7 @@ async function createGameSessionsForUpcomingWeek() {
     4: "Thursday",
     5: "Friday",
     6: "Saturday",
-  };
+  };*/
 
   // between doesnt work...??
   const activeSemester = await db.query.semesters.findFirst({
@@ -61,7 +62,10 @@ async function createGameSessionsForUpcomingWeek() {
 
       const schedule = await tx.query.gameSessionSchedules.findFirst({
         where: and(
-          eq(gameSessionSchedules.weekday, weekdayMap[dayOfWeek]),
+          eq(
+            gameSessionSchedules.weekday,
+            weekdayEnum.enumValues[(dayOfWeek + 1) % 7],
+          ),
           eq(gameSessionSchedules.semesterId, activeSemester.id),
         ),
       });
