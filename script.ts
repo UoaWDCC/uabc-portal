@@ -39,37 +39,38 @@ async function createGameSessionsForUpcomingWeek() {
   }
 
   const daysOfWeek = eachDayOfInterval({ start: now, end: oneWeekFromNow });
+  await db.transaction(async (tx) => {
+    for (const day of daysOfWeek) {
+      const dayOfWeek = day.getDay();
 
-  for (const day of daysOfWeek) {
-    const dayOfWeek = day.getDay();
+      //check for gameSessionScheduleExceptions and continue if deleted, and if edited then insert that instead and continue
 
-    //check for gameSessionScheduleExceptions and continue if deleted, and if edited then insert that instead and continue
+      const schedule = await tx.query.gameSessionSchedules.findFirst({
+        where: and(
+          eq(gameSessionSchedules.weekday, dayOfWeek),
+          eq(gameSessionSchedules.semesterId, activeSemester.id),
+        ),
+      });
 
-    const schedule = await db.query.gameSessionSchedules.findFirst({
-      where: and(
-        eq(gameSessionSchedules.weekday, dayOfWeek),
-        eq(gameSessionSchedules.semesterId, activeSemester.id),
-      ),
-    });
+      if (!schedule) {
+        console.log(`No schedule found for ${day}`);
+        continue;
+      }
 
-    if (!schedule) {
-      console.log(`No schedule found for ${day}`);
-      continue;
+      await tx.insert(gameSessions).values({
+        bookingOpen: day, //change later placeholder
+        bookingClose: day, //same as above
+        gameSessionScheduleId: schedule.id,
+        date: day,
+        startTime: schedule.startTime,
+        endTime: schedule.endTime,
+        locationName: schedule.locationName,
+        locationAddress: schedule.locationAddress,
+        capacity: schedule.capacity,
+        casualCapacity: schedule.casualCapacity,
+      });
     }
-
-    await db.insert(gameSessions).values({
-      bookingOpen: day, //change later placeholder
-      bookingClose: day, //same as above
-      gameSessionScheduleId: schedule.id,
-      date: day,
-      startTime: schedule.startTime,
-      endTime: schedule.endTime,
-      locationName: schedule.locationName,
-      locationAddress: schedule.locationAddress,
-      capacity: schedule.capacity,
-      casualCapacity: schedule.casualCapacity,
-    });
-  }
+  });
 
   console.log("Game sessions for the upcoming week have been created.");
 }
