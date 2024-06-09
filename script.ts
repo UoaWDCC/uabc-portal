@@ -1,7 +1,7 @@
 import {
   addDays,
   eachDayOfInterval,
-  formatISO,
+  format,
   isWithinInterval,
   subDays,
 } from "date-fns";
@@ -10,13 +10,11 @@ import { and, eq, gte, lte } from "drizzle-orm";
 import { db } from "@/lib/db";
 import {
   gameSessions,
-  gameSessionScheduleExceptions,
   gameSessionSchedules,
   semesters,
   weekdayEnum,
 } from "@/lib/db/schema";
 import { insertGameSessionSchema } from "@/lib/validators";
-import { Weekday } from "@/types/types";
 
 async function createGameSessionsForUpcomingWeek() {
   const now = new Date();
@@ -33,7 +31,10 @@ async function createGameSessionsForUpcomingWeek() {
 
   // between doesnt work...??
   const activeSemester = await db.query.semesters.findFirst({
-    where: and(gte(semesters.startDate, now), lte(semesters.endDate, now)),
+    where: and(
+      lte(semesters.startDate, format(now, "yyyy-mm-dd")),
+      gte(semesters.endDate, format(now, "yyyy-mm-dd")),
+    ),
   });
 
   if (!activeSemester) {
