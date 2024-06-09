@@ -25,8 +25,8 @@ export async function POST(req: NextRequest) {
 
     const activeSemester = await db.query.semesters.findFirst({
       where: and(
-        lte(semesters.startDate, format(now, "yyyy-mm-dd")),
-        gte(semesters.endDate, format(now, "yyyy-mm-dd")),
+        lte(semesters.startDate, format(now, "yyyy-MM-dd")),
+        gte(semesters.endDate, format(now, "yyyy-MM-dd")),
       ),
     });
 
@@ -35,8 +35,6 @@ export async function POST(req: NextRequest) {
     }
 
     if (
-      activeSemester.breakStart &&
-      activeSemester.breakEnd &&
       isWithinInterval(now, {
         start: activeSemester.breakStart,
         end: activeSemester.breakEnd,
