@@ -48,6 +48,7 @@ export async function POST(req: NextRequest) {
     }
 
     const daysOfWeek = eachDayOfInterval({ start: now, end: oneWeekFromNow });
+
     await db.transaction(async (tx) => {
       for (const day of daysOfWeek) {
         const dayOfWeek = day.getDay();
@@ -85,9 +86,10 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    return NextResponse.json({
-      message: "Game sessions for the upcoming week have been created.",
-    });
+    return NextResponse.json(
+      "Game sessions for the upcoming week have been created.",
+      { status: 201 },
+    );
   } catch (err) {
     return NextResponse.json(err, { status: 500 });
   }
