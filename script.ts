@@ -1,5 +1,11 @@
-import { addDays, eachDayOfInterval, isWithinInterval } from "date-fns";
-import { and, eq } from "drizzle-orm";
+import {
+  addDays,
+  eachDayOfInterval,
+  formatISO,
+  isWithinInterval,
+  subDays,
+} from "date-fns";
+import { and, eq, gte, lte } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import {
@@ -8,17 +14,25 @@ import {
   gameSessionSchedules,
   semesters,
 } from "@/lib/db/schema";
+import { insertGameSessionSchema } from "@/lib/validators";
+import { Weekday } from "@/types/types";
 
 async function createGameSessionsForUpcomingWeek() {
   const now = new Date();
   const oneWeekFromNow = addDays(now, 7);
+  const weekdayMap: { [key: number]: Weekday } = {
+    0: "Sunday",
+    1: "Monday",
+    2: "Tuesday",
+    3: "Wednesday",
+    4: "Thursday",
+    5: "Friday",
+    6: "Saturday",
+  };
 
   // between doesnt work...??
   const activeSemester = await db.query.semesters.findFirst({
-    where: isWithinInterval(now, {
-      start: semesters.startDate,
-      end: semesters.endDate,
-    }),
+    where: and(gte(semesters.startDate, now), lte(semesters.endDate, now)),
   });
 
   if (!activeSemester) {
@@ -47,7 +61,7 @@ async function createGameSessionsForUpcomingWeek() {
 
       const schedule = await tx.query.gameSessionSchedules.findFirst({
         where: and(
-          eq(gameSessionSchedules.weekday, dayOfWeek),
+          eq(gameSessionSchedules.weekday, weekdayMap[dayOfWeek]),
           eq(gameSessionSchedules.semesterId, activeSemester.id),
         ),
       });
@@ -57,9 +71,9 @@ async function createGameSessionsForUpcomingWeek() {
         continue;
       }
 
-      await tx.insert(gameSessions).values({
-        bookingOpen: day, //change later placeholder
-        bookingClose: day, //same as above
+      const insertSchedule = insertGameSessionSchema.parse({
+        bookingOpen: subDays(day, 2), //placeholder
+        bookingClose: subDays(day, 1), //placeholder
         gameSessionScheduleId: schedule.id,
         date: day,
         startTime: schedule.startTime,
@@ -69,6 +83,8 @@ async function createGameSessionsForUpcomingWeek() {
         capacity: schedule.capacity,
         casualCapacity: schedule.casualCapacity,
       });
+
+      await tx.insert(gameSessions).values({ ...insertSchedule });
     }
   });
 
