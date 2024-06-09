@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
           casualCapacity: schedule.casualCapacity,
         });
 
-        await tx.insert(gameSessions).values({ ...insertSchedule });
+        await tx.insert(gameSessions).values(insertSchedule);
       }
     });
 
