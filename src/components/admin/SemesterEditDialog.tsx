@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Close, DialogClose } from "@radix-ui/react-dialog";
 import { useQueryClient } from "@tanstack/react-query";
 import { parse } from "date-fns";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -7,7 +6,6 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { TextInput } from "@/components/TextInput";
 import { validateDate } from "@/lib/utils";
 import { DialogCard, DialogCardFooter } from "../DialogUtils";
-import { PopoverContext } from "../popover";
 import { SemesterContext } from "./SemestersContext";
 
 type EditSemesterFormValues = {
@@ -72,8 +70,10 @@ export const SemesterEditDialogue = () => {
       body,
     });
 
+    console.log(body);
     if (!res.ok) {
       console.log("!res ok ");
+      console.log(data);
 
       //TODO: error popup
     } else {
