@@ -8,23 +8,6 @@ import {
   weekdayEnum,
 } from "./db/schema";
 
-export const ZWeekdayEnum = z.enum([
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-  "sunday",
-]);
-
 export const selectGameSessionSchema = createSelectSchema(gameSessions);
 
 export const insertGameSessionSchema = createInsertSchema(gameSessions, {
@@ -79,7 +62,7 @@ export const insertGameSessionScheduleSchema = createInsertSchema(
 
 export const updateGameSessionScheduleSchema = z.object({
   semesterId: z.number(),
-  weekday: ZWeekdayEnum,
+  weekday: z.enum(weekdayEnum.enumValues),
   startTime: z.string().time(),
   endTime: z.string().time(),
   locationName: z.string(),
