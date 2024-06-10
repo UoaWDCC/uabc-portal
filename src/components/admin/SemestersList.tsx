@@ -3,35 +3,35 @@
 import React, { useMemo } from "react";
 
 import { useCurrentSemesters } from "@/hooks/query/useCurrentSemesters";
-import { Button } from "../ui/button";
-import { Toaster } from "../ui/toaster";
-import { useToast } from "../ui/use-toast";
+// import { Button } from "../ui/button";
+// import { Toaster } from "../ui/toaster";
+// import { useToast } from "../ui/use-toast";
 import { SemesterDetailCard } from "./SemesterDetailCard";
 import { SemesterContextProvider } from "./SemestersContext";
 import { SkeletonSemesterCard } from "./SkeletonSemesterCard";
 
 export const SemestersList = () => {
-  const { toast } = useToast();
-  // test
-  if (true) {
-    return (
-      <div className="text-foreground">
-        <Button
-          variant="outline"
-          onClick={() => {
-            toast({
-              variant: "default",
-              title: "Testing!",
-              description: "Toaster button Clicked!",
-            });
-          }}
-        >
-          Show Toast
-        </Button>
-        <Toaster />
-      </div>
-    );
-  }
+  // const { toast } = useToast();
+  // // test
+  // if (true) {
+  //   return (
+  //     <div className="text-foreground">
+  //       <Button
+  //         variant="outline"
+  //         onClick={() => {
+  //           toast({
+  //             variant: "default",
+  //             title: "Testing!",
+  //             description: "Toaster button Clicked!",
+  //           });
+  //         }}
+  //       >
+  //         Show Toast
+  //       </Button>
+  //       <Toaster />
+  //     </div>
+  //   );
+  // }
   const { data, isLoading } = useCurrentSemesters();
 
   const semesters = useMemo(
