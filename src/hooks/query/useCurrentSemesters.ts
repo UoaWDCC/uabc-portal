@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-type SemesterResponse = {
+export type SemesterResponse = {
   id: number;
   name: string;
   startDate: string;

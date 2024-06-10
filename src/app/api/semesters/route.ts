@@ -9,13 +9,13 @@ import { insertSemesterSchema } from "@/lib/validators";
 
 export async function GET() {
   try {
-    // const user = await getCurrentUser();
-    // if (!user) {
-    //   return new Response("ERROR: Unauthorized request", { status: 401 });
-    // }
-    // if (user.role != "admin") {
-    //   return new Response("ERROR: No valid permissions", { status: 403 });
-    // }
+    const user = await getCurrentUser();
+    if (!user) {
+      return new Response("ERROR: Unauthorized request", { status: 401 });
+    }
+    if (user.role != "admin") {
+      return new Response("ERROR: No valid permissions", { status: 403 });
+    }
 
     const semesters = await db.query.semesters.findMany({
       orderBy: (semesters, { asc }) => asc(semesters.createdAt),
