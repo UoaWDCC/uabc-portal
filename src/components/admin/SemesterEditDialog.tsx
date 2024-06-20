@@ -6,6 +6,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { TextInput } from "@/components/TextInput";
 import { validateDate } from "@/lib/utils";
 import { DialogCard, DialogCardFooter } from "../DialogUtils";
+import { useToast } from "../ui/use-toast";
 import { SemesterContext } from "./SemestersContext";
 
 type EditSemesterFormValues = {
@@ -44,6 +45,7 @@ export const SemesterEditDialogue = () => {
   });
 
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const displayError = () => {
     const keys: string[] = Object.keys(errors);
@@ -59,7 +61,7 @@ export const SemesterEditDialogue = () => {
       name,
       bookingOpenDay,
       bookingOpenTime,
-      startDate: parse(data.startDate, "dd/MM/yyyy", new Date()), //TODO: Fix incorrect date
+      startDate: parse(data.startDate, "dd/MM/yyyy", new Date()),
       endDate: parse(data.endDate, "dd/MM/yyyy", new Date()),
       breakStart: parse(data.breakStart, "dd/MM/yyyy", new Date()),
       breakEnd: parse(data.breakEnd, "dd/MM/yyyy", new Date()),
@@ -72,15 +74,21 @@ export const SemesterEditDialogue = () => {
 
     console.log(body);
     if (!res.ok) {
-      console.log("!res ok ");
-      console.log(data);
-
       //TODO: error popup
+      toast({
+        description: "An error occured",
+        variant: "destructive",
+        duration: 300000,
+      });
     } else {
       queryClient.invalidateQueries({ queryKey: ["semesters"] });
       //TODO: success popup
       console.log("done");
+      toast({
+        description: "Data sent!",
+      });
     }
+    console.log(res);
   };
 
   // todo add validation for greater and less than for start and end

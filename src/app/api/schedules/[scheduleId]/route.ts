@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { parse } from "date-fns";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
@@ -65,7 +66,18 @@ export async function PUT(
       );
     }
 
-    if (updatedGameSession.startTime >= updatedGameSession.endTime) {
+    const parsedStartTime = parse(
+      updatedGameSession.startTime,
+      "dd/MM/yyyy",
+      new Date(),
+    );
+    const parsedEndTime = parse(
+      updatedGameSession.startTime,
+      "dd/MM/yyyy",
+      new Date(),
+    );
+    if (parsedStartTime >= parsedEndTime) {
+      console.log("parsedStartTime >= parsedEndTime");
       return new Response("Start time must be before end time", {
         status: 400,
       });
