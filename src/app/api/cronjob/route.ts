@@ -36,7 +36,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json("No active semester found.", { status: 400 });
     }
 
-    if (
+    //removed because the script shoudl be able to be run during sem break, but shouldnt generate sessions during break
+    /*if (
       isWithinInterval(now, {
         start: activeSemester.breakStart,
         end: activeSemester.breakEnd,
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json("Currently in semester break period.", {
         status: 400,
       });
-    }
+    }*/
 
     // Find the day of the week that booking opens
     const dayNow = now.getDay();
@@ -83,6 +84,19 @@ export async function POST(req: NextRequest) {
     // Find the day of the week that booking opens + 7 days (next batch of sessions)
     const startDate = addDays(now, diff);
 
+    // Check if the next batch of sessions is within the semester break
+    if (
+      addDays(startDate, 6) <= new Date(activeSemester.breakEnd) &&
+      startDate >= new Date(activeSemester.breakStart)
+    ) {
+      return NextResponse.json(
+        "No sessions were generated as they are all within the semester break.",
+        {
+          status: 400,
+        },
+      );
+    }
+
     await db.transaction(async (tx) => {
       // For each day in the session week, create a game session
       for (let i: number = 0; i < 7; i++) {
@@ -90,6 +104,13 @@ export async function POST(req: NextRequest) {
 
         if (day > new Date(activeSemester.endDate)) {
           break;
+        }
+
+        if (
+          day >= new Date(activeSemester.breakStart) &&
+          day <= new Date(activeSemester.breakEnd)
+        ) {
+          continue;
         }
 
         const dayOfWeek = day.getDay();
