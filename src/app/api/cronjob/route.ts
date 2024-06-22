@@ -14,9 +14,15 @@ import { insertGameSessionSchema } from "@/lib/validators";
 
 export async function POST(req: NextRequest) {
   try {
-    // get current day and reset to 12am
+    // get current day, correct to NZ timezone and reset to 12am
     let now: Date = new Date();
+    now = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
     now = new Date(now.getTime() - (now.getTime() % (3600 * 24 * 1000)));
+
+    // Testing date
+    //now = new Date(2024,5,1);
+    //now = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+    //console.log(now);
 
     // Find current semester
     const activeSemester = await db.query.semesters.findFirst({
@@ -76,16 +82,18 @@ export async function POST(req: NextRequest) {
 
     // Find the day of the week that booking opens + 7 days (next batch of sessions)
     const startDate = addDays(now, diff);
-    const oneWeekFromStart = addDays(startDate, 7);
-    const daysOfWeek = eachDayOfInterval({ start: now, end: oneWeekFromStart });
 
     await db.transaction(async (tx) => {
       // For each day in the session week, create a game session
-      for (const day of daysOfWeek) {
+      for (let i: number = 0; i < 7; i++) {
+        const day = addDays(startDate, i);
+
         if (day > new Date(activeSemester.endDate)) {
           break;
         }
+
         const dayOfWeek = day.getDay();
+        //console.log(dayOfWeek, weekdayEnum.enumValues[(dayOfWeek + 6) % 7]);
 
         //check for gameSessionScheduleExceptions and continue if deleted, and if edited then insert that instead and continue
 
@@ -94,7 +102,7 @@ export async function POST(req: NextRequest) {
           where: and(
             eq(
               gameSessionSchedules.weekday,
-              weekdayEnum.enumValues[(dayOfWeek + 1) % 7],
+              weekdayEnum.enumValues[(dayOfWeek + 6) % 7],
             ),
             eq(gameSessionSchedules.semesterId, activeSemester.id),
           ),
@@ -106,15 +114,17 @@ export async function POST(req: NextRequest) {
 
         // Calculate booking close time
         const [hours, mins, secs] = schedule.startTime.split(":").map(Number);
+        //console.log(hours, mins, secs);
         const bookingClose = new Date(
           day.getTime() + 3600 * 1000 * hours + 60 * 1000 * mins + 1000 * secs,
         );
 
+        // You will notice that all the dates are "incorrect", but they are stored in UTC timezone, so should be all good
         const insertSchedule = insertGameSessionSchema.parse({
           bookingOpen: startDate,
           bookingClose: bookingClose,
           gameSessionScheduleId: schedule.id,
-          date: day,
+          date: format(day, "yyyy-MM-dd"),
           startTime: schedule.startTime,
           endTime: schedule.endTime,
           locationName: schedule.locationName,
