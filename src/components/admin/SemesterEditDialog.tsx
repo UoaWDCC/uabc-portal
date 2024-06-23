@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { parse } from "date-fns";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { TextInput } from "@/components/TextInput";
-import { validateDate } from "@/lib/utils";
+import { parseDate, validateDate } from "@/lib/utils";
 import { DialogCard, DialogCardFooter } from "../DialogUtils";
 import { useToast } from "../ui/use-toast";
 import { SemesterContext } from "./SemestersContext";
@@ -61,10 +60,10 @@ export const SemesterEditDialogue = () => {
       name,
       bookingOpenDay,
       bookingOpenTime,
-      startDate: parse(data.startDate, "dd/MM/yyyy", new Date()),
-      endDate: parse(data.endDate, "dd/MM/yyyy", new Date()),
-      breakStart: parse(data.breakStart, "dd/MM/yyyy", new Date()),
-      breakEnd: parse(data.breakEnd, "dd/MM/yyyy", new Date()),
+      startDate: parseDate(data.startDate),
+      endDate: parseDate(data.endDate),
+      breakStart: parseDate(data.breakStart),
+      breakEnd: parseDate(data.breakEnd),
     });
 
     const res = await fetch(`/api/semesters/${semesterId}`, {
@@ -72,26 +71,20 @@ export const SemesterEditDialogue = () => {
       body,
     });
 
-    console.log(body);
     if (!res.ok) {
-      //TODO: error popup
       toast({
         description: "An error occured",
         variant: "destructive",
-        duration: 300000,
+        duration: 3000,
       });
     } else {
       queryClient.invalidateQueries({ queryKey: ["semesters"] });
-      //TODO: success popup
-      console.log("done");
       toast({
-        description: "Data sent!",
+        description: "Success! updating...",
       });
     }
-    console.log(res);
   };
 
-  // todo add validation for greater and less than for start and end
   return (
     <DialogCard title={name} onClose={() => reset()}>
       <form className="flex gap-4 flex-col" onSubmit={handleSubmit(onSubmit)}>

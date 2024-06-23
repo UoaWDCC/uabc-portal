@@ -10,6 +10,8 @@ import { SkeletonSemesterCard } from "./SkeletonSemesterCard";
 export const SemestersList = () => {
   const { data, isLoading } = useCurrentSemesters();
 
+  data?.sort((a, b) => a.name.localeCompare(b.name));
+
   const semesters = useMemo(
     () =>
       data?.map((semester) => {

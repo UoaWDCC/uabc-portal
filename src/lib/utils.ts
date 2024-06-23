@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { formatDate, parse } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
@@ -48,4 +49,8 @@ export const validateDate = (date: string) => {
     .date()
     .safeParse(new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`))
     .success;
+};
+
+export const parseDate = (date: string) => {
+  return formatDate(parse(date, "dd/MM/yyyy", new Date()), "yyyy-MM-dd");
 };
