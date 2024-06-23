@@ -10,7 +10,9 @@ import {
   semesters,
   weekdayEnum,
 } from "@/lib/db/schema";
+import { getWeekday } from "@/lib/utils";
 import { insertGameSessionSchema } from "@/lib/validators";
+import { Weekday } from "@/types/types";
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,15 +22,29 @@ export async function POST(req: NextRequest) {
     now = new Date(now.getTime() - (now.getTime() % (3600 * 24 * 1000)));
 
     // Testing date
-    //now = new Date(2024,5,1);
-    //now = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
-    //console.log(now);
+    //now = new Date(2024, 1, 21);
+    //now = new Date(2024, 1, 22);
+    //now = new Date(2024, 2, 28);
+    //now = new Date(2024, 2, 29);
+    //now = new Date(2024, 3, 7);
+    //now = new Date(2024, 3, 8);
+    //now = new Date(2024,5,24);
+    //now = new Date(2024,5,25);
+    now = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+    console.log(now);
+
+    const currentDateUTC = new Date(
+      now.getTime() + now.getTimezoneOffset() * 60000,
+    );
 
     // Find current semester
     const activeSemester = await db.query.semesters.findFirst({
       where: and(
-        lte(semesters.startDate, format(now, "yyyy-MM-dd")),
-        gte(semesters.endDate, format(now, "yyyy-MM-dd")),
+        lte(
+          semesters.startDate,
+          format(addDays(currentDateUTC, 7), "yyyy-MM-dd"),
+        ), //use now or current day?
+        gte(semesters.endDate, format(currentDateUTC, "yyyy-MM-dd")),
       ),
     });
 
@@ -36,58 +52,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json("No active semester found.", { status: 400 });
     }
 
-    //removed because the script shoudl be able to be run during sem break, but shouldnt generate sessions during break
-    /*if (
-      isWithinInterval(now, {
-        start: activeSemester.breakStart,
-        end: activeSemester.breakEnd,
-      })
-    ) {
-      return NextResponse.json("Currently in semester break period.", {
-        status: 400,
-      });
-    }*/
-
-    // Find the day of the week that booking opens
-    const dayNow = now.getDay();
+    //const semesterStartDate = new Date(activeSemester.startDate);
+    const semesterEndDate = new Date(activeSemester.endDate);
+    const semesterBreakStart = new Date(activeSemester.breakStart);
+    const semesterBreakEnd = new Date(activeSemester.breakEnd);
     const bookingOpenDay = activeSemester.bookingOpenDay;
-    let dayNum: number;
-    switch (bookingOpenDay) {
-      case "Monday":
-        dayNum = 1;
-        break;
-      case "Tuesday":
-        dayNum = 2;
-        break;
-      case "Wednesday":
-        dayNum = 3;
-        break;
-      case "Thursday":
-        dayNum = 4;
-        break;
-      case "Friday":
-        dayNum = 5;
-        break;
-      case "Saturday":
-        dayNum = 6;
-        break;
-      default:
-        dayNum = 0;
+    const diff = findDiff(now, bookingOpenDay);
+    const startDate = addDays(currentDateUTC, diff);
+
+    // Check if the next batch of sessions is within the semester break or after the end of semester
+    if (startDate > semesterEndDate) {
+      return NextResponse.json(
+        "No sessions were generated as they are all after the semester end date.",
+        {
+          status: 400,
+        },
+      );
     }
 
-    let diff: number = dayNum + 7 - dayNow;
-
-    if (diff > 7) {
-      diff -= 7;
-    }
-
-    // Find the day of the week that booking opens + 7 days (next batch of sessions)
-    const startDate = addDays(now, diff);
-
-    // Check if the next batch of sessions is within the semester break
     if (
-      addDays(startDate, 6) <= new Date(activeSemester.breakEnd) &&
-      startDate >= new Date(activeSemester.breakStart)
+      addDays(startDate, 6) <= semesterBreakEnd &&
+      startDate >= semesterBreakStart
     ) {
       return NextResponse.json(
         "No sessions were generated as they are all within the semester break.",
@@ -102,29 +87,20 @@ export async function POST(req: NextRequest) {
       for (let i: number = 0; i < 7; i++) {
         const day = addDays(startDate, i);
 
-        if (day > new Date(activeSemester.endDate)) {
+        if (day > semesterEndDate) {
           break;
         }
 
-        if (
-          day >= new Date(activeSemester.breakStart) &&
-          day <= new Date(activeSemester.breakEnd)
-        ) {
+        if (day >= semesterBreakStart && day <= semesterBreakEnd) {
           continue;
         }
-
-        const dayOfWeek = day.getDay();
-        //console.log(dayOfWeek, weekdayEnum.enumValues[(dayOfWeek + 6) % 7]);
 
         //check for gameSessionScheduleExceptions and continue if deleted, and if edited then insert that instead and continue
 
         // Find game session schedule for the day
         const schedule = await tx.query.gameSessionSchedules.findFirst({
           where: and(
-            eq(
-              gameSessionSchedules.weekday,
-              weekdayEnum.enumValues[(dayOfWeek + 6) % 7],
-            ),
+            eq(gameSessionSchedules.weekday, getWeekday(day)),
             eq(gameSessionSchedules.semesterId, activeSemester.id),
           ),
         });
@@ -135,12 +111,10 @@ export async function POST(req: NextRequest) {
 
         // Calculate booking close time
         const [hours, mins, secs] = schedule.startTime.split(":").map(Number);
-        //console.log(hours, mins, secs);
         const bookingClose = new Date(
           day.getTime() + 3600 * 1000 * hours + 60 * 1000 * mins + 1000 * secs,
         );
 
-        // You will notice that all the dates are "incorrect", but they are stored in UTC timezone, so should be all good
         const insertSchedule = insertGameSessionSchema.parse({
           bookingOpen: startDate,
           bookingClose: bookingClose,
@@ -165,4 +139,39 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     return NextResponse.json(err, { status: 500 });
   }
+}
+
+function findDiff(now: Date, bookingOpenDay: Weekday): number {
+  const dayNow = now.getDay();
+  let dayNum: number;
+  switch (bookingOpenDay) {
+    case "Monday":
+      dayNum = 1;
+      break;
+    case "Tuesday":
+      dayNum = 2;
+      break;
+    case "Wednesday":
+      dayNum = 3;
+      break;
+    case "Thursday":
+      dayNum = 4;
+      break;
+    case "Friday":
+      dayNum = 5;
+      break;
+    case "Saturday":
+      dayNum = 6;
+      break;
+    default:
+      dayNum = 0;
+  }
+
+  let diff: number = dayNum + 7 - dayNow;
+
+  if (diff > 7) {
+    diff -= 7;
+  }
+
+  return diff;
 }
