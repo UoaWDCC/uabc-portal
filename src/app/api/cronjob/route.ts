@@ -30,8 +30,8 @@ export async function POST(req: NextRequest) {
     //now = new Date(2024, 3, 8);
     //now = new Date(2024,5,24);
     //now = new Date(2024,5,25);
-    now = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
-    console.log(now);
+    //now = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+    //console.log(now);
 
     const currentDateUTC = new Date(
       now.getTime() + now.getTimezoneOffset() * 60000,
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
         lte(
           semesters.startDate,
           format(addDays(currentDateUTC, 7), "yyyy-MM-dd"),
-        ), //use now or current day?
+        ),
         gte(semesters.endDate, format(currentDateUTC, "yyyy-MM-dd")),
       ),
     });
