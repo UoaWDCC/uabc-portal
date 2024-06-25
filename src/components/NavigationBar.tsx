@@ -25,9 +25,9 @@ export const NavigationBar = ({ title }: NavigationBarProps) => {
       >
         <IoArrowBackOutline size={24} />
       </Button>
-      <span className={cn("text-lg font-medium leading-none self-center")}>
+      <h1 className={cn("text-lg font-medium leading-none self-center")}>
         {title}
-      </span>
+      </h1>
     </div>
   );
 };

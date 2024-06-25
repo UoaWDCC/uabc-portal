@@ -32,6 +32,9 @@
     --destructive: 0 52% 45%; /*hsl(0 52% 45%)*/
     --destructive-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
 
+    --success: 122 47% 43%; /*hsl(122 47% 43%)*/
+    --success-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
+
     --border: 220 6% 90%; /*hsl(220 6% 90%)*/
     --input: 220 7% 82%; /*hsl(220 7% 82%)*/
     --ring: 215 24% 74%; /*hsl(215 24% 74%)*/
