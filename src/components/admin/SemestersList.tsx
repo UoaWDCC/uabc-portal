@@ -15,7 +15,6 @@ export const SemestersList = () => {
   const semesters = useMemo(
     () =>
       data?.map((semester) => {
-        console.log(data);
         return {
           id: semester.id,
           name: semester.name,

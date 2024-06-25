@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { TextInput } from "@/components/TextInput";
 import { parseDate, validateDate } from "@/lib/utils";
-import { DialogCard, DialogCardFooter } from "../DialogUtils";
+import { DialogCard, DialogCardFooter, DialogContext } from "../DialogUtils";
+import { PopoverContext } from "../popover";
 import { useToast } from "../ui/use-toast";
 import { SemesterContext } from "./SemestersContext";
 
@@ -45,6 +46,7 @@ export const SemesterEditDialogue = () => {
 
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { handleClose } = useContext(DialogContext);
 
   const displayError = () => {
     const keys: string[] = Object.keys(errors);
@@ -52,6 +54,25 @@ export const SemesterEditDialogue = () => {
     const err = errors[keys[0] as formValues]?.message;
     return `${keys[0]} ${err}`;
   };
+
+  const mutation = useMutation({
+    mutationFn: async (body: BodyInit) => {
+      const response = await fetch(`/api/semesters/${semesterId}`, {
+        method: "PUT",
+        body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "An error occurred");
+      }
+      console.log(response);
+      return response.json();
+    },
+  });
 
   const onSubmit: SubmitHandler<EditSemesterFormValues> = async (
     data: EditSemesterFormValues,
@@ -66,23 +87,29 @@ export const SemesterEditDialogue = () => {
       breakEnd: parseDate(data.breakEnd),
     });
 
-    const res = await fetch(`/api/semesters/${semesterId}`, {
-      method: "PUT",
-      body,
+    mutation.mutate(body, {
+      onError: () => {
+        toast({
+          description: "An error occured",
+          variant: "destructive",
+          duration: 2000,
+        });
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["semesters"] });
+        toast({
+          description: "Success!",
+          duration: 2000,
+        });
+        handleClose();
+        reset({
+          startDate: data.startDate,
+          endDate: data.endDate,
+          breakStart: data.breakStart,
+          breakEnd: data.breakEnd,
+        });
+      },
     });
-
-    if (!res.ok) {
-      toast({
-        description: "An error occured",
-        variant: "destructive",
-        duration: 3000,
-      });
-    } else {
-      queryClient.invalidateQueries({ queryKey: ["semesters"] });
-      toast({
-        description: "Success! updating...",
-      });
-    }
   };
 
   return (

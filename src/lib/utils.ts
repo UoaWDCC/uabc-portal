@@ -36,21 +36,18 @@ export function convertTo12HourFormat(time24: string): string {
   return `${hours}:${formattedMinutes}${period}`;
 }
 
-export const validateDate = (date: string) => {
-  // format DD/MM/YY
-  const dateParts: string[] = date.split("/");
-  //simple date validation
-  if (dateParts.length != 3 || dateParts.includes("")) return false;
-  if (2 < dateParts[0].length) return false; //DD
-  if (2 < dateParts[1].length) return false; //MM
-  if (dateParts[2].length != 4) return false; //YY
-
-  return z.coerce
-    .date()
-    .safeParse(new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`))
-    .success;
-};
-
 export const parseDate = (date: string) => {
   return formatDate(parse(date, "dd/MM/yyyy", new Date()), "yyyy-MM-dd");
+};
+
+export const parseFormatDate = (date: string) => {
+  return formatDate(parse(date, "dd/MM/yyyy", new Date()), "yyyy-MM-dd");
+};
+
+export const validateDate = (date: string) => {
+  try {
+    return !!formatDate(parse(date, "dd/MM/yyyy", new Date()), "dd/MM/yyyy");
+  } catch (e) {
+    return false;
+  }
 };
