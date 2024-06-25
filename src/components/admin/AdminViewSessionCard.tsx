@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
 
 interface AdminViewSessionCardProps {
-  id: string;
+  id: number;
   title: string;
   startTime: string;
   endTime: string;

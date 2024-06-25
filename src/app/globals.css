@@ -110,9 +110,13 @@
   }
 }
 
-h2 + .InputAdjacentText:focus {
-  top: -0.75rem;
-  font-size: 14px;
-  padding: 0 0.5rem;
-  color: hsl(217, 91%, 60%); /*blue-500*/
+.date-with-dot::after {
+  position: absolute;
+  bottom: 4px;
+  content: "";
+  height: 5px; /* Dot size */
+  width: 5px; /* Dot size */
+  background-color: currentColor;
+  opacity: 25%;
+  border-radius: 100%;
 }

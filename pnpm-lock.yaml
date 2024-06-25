@@ -41,6 +41,9 @@ dependencies:
   csv-stringify:
     specifier: ^6.5.0
     version: 6.5.0
+  date-fns:
+    specifier: ^3.6.0
+    version: 3.6.0
   drizzle-orm:
     specifier: ^0.30.7
     version: 0.30.7(@types/react@18.2.75)(pg@8.11.5)(postgres@3.4.4)(react@18.2.0)
@@ -65,6 +68,9 @@ dependencies:
   react:
     specifier: 18.2.0
     version: 18.2.0
+  react-day-picker:
+    specifier: ^8.10.1
+    version: 8.10.1(date-fns@3.6.0)(react@18.2.0)
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
@@ -6945,6 +6951,10 @@ packages:
       is-data-view: 1.0.1
     dev: true
 
+  /date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
+    dev: false
+
   /debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -11994,6 +12004,16 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: true
+
+  /react-day-picker@8.10.1(date-fns@3.6.0)(react@18.2.0):
+    resolution: {integrity: sha512-TMx7fNbhLk15eqcMt+7Z7S2KF7mfTId/XJDjKE8f+IUcFn0l08/kI4FiYTL/0yuOLmEcbR4Fwe3GJf/NiiMnPA==}
+    peerDependencies:
+      date-fns: ^2.28.0 || ^3.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      date-fns: 3.6.0
+      react: 18.2.0
+    dev: false
 
   /react-docgen-typescript@2.2.2(typescript@5.4.4):
     resolution: {integrity: sha512-tvg2ZtOpOi6QDwsb3GZhOjDkkX0h8Z2gipvTg6OVMUyoYoURhEiRNePT8NZItTVCDh39JJHnLdfCOkzoLbFnTg==}
