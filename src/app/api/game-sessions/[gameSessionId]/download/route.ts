@@ -52,6 +52,7 @@ export async function GET(
         email: users.email,
         playLevel: bookingDetails.playLevel,
         member: users.member,
+        isPro: users.pro,
       })
       .from(gameSessions)
       .innerJoin(
@@ -69,7 +70,14 @@ export async function GET(
     };
 
     const sortedPlayers = players.sort((a, b) => {
-      return playLevelOrder[a.playLevel] - playLevelOrder[b.playLevel];
+      if (a.isPro && !b.isPro) {
+        return -1; // a is pro and comes first
+      } else if (!a.isPro && b.isPro) {
+        return 1; // b is pro and comes first
+      } else {
+        // If both are pro or both are not pro, sort by playLevelOrder
+        return playLevelOrder[a.playLevel] - playLevelOrder[b.playLevel];
+      }
     });
 
     const columns = [
@@ -78,6 +86,7 @@ export async function GET(
       "Email",
       "Play Level",
       "Member",
+      "Pro",
     ];
 
     const data = sortedPlayers.map((player) => ({
@@ -86,6 +95,7 @@ export async function GET(
       Email: player.email,
       "Play Level": player.playLevel,
       Member: player.member,
+      Pro: player.isPro ? "True" : "False",
     }));
 
     const csvData = await new Promise<string>((resolve, reject) => {
