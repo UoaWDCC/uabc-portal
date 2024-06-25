@@ -6,8 +6,8 @@ import { SelectableCard } from "../SelectableCard";
 const session = {
   id: 1,
   weekday: "Monday",
-  startTime: "12:00",
-  endTime: "14:00",
+  startTime: "2:00PM",
+  endTime: "4:00PM",
   locationName: "Location",
   locationAddress: "Address",
   isFull: false,

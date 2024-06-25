@@ -8,7 +8,7 @@ import { GoogleSignIn } from "@/components/auth/GoogleLoginButton";
 import { UabcHeaderText } from "@/components/UabcHeaderText";
 import { UabcLogo } from "@/components/UabcLogo";
 
-export default function Login() {
+export default function LoginPage() {
   const [emailLoginOpen, setEmailLoginOpen] = useState(false);
   return (
     <div className="min-h-dvh w-dvw bg-background px-4 flex-col flex items-center justify-between py-8">

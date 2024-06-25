@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 
 type GameSessionResponse = {
   id: number;
-  startTime: Date;
-  endTime: Date;
+  date: string;
+  startTime: string;
+  endTime: string;
   locationName: string;
   locationAddress: string;
   isFull: boolean;

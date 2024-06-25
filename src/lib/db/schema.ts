@@ -2,6 +2,7 @@ import type { AdapterAccount } from "@auth/core/adapters";
 import { relations } from "drizzle-orm";
 import {
   boolean,
+  date,
   integer,
   pgEnum,
   pgTable,
@@ -41,7 +42,9 @@ export const users = pgTable("user", {
   remainingSessions: integer("remainingSessions").default(0).notNull(),
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
+  pro: boolean("pro").default(false).notNull(),
   image: text("image"),
+  password: text("password"),
 });
 
 export const accounts = pgTable(
@@ -96,8 +99,9 @@ export const gameSessions = pgTable("gameSession", {
   ),
   bookingOpen: timestamp("bookingOpen", { mode: "date" }).notNull(),
   bookingClose: timestamp("bookingClose", { mode: "date" }).notNull(),
-  startTime: timestamp("startTime", { mode: "date" }).notNull(),
-  endTime: timestamp("endTime", { mode: "date" }).notNull(),
+  date: date("date").unique().notNull(),
+  startTime: time("startTime").notNull(),
+  endTime: time("endTime").notNull(),
   locationName: text("locationName").notNull(),
   locationAddress: text("locationAddress").notNull(),
   capacity: integer("capacity").notNull(),
@@ -109,50 +113,38 @@ export const bookings = pgTable("booking", {
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  gameSessionId: integer("gameSessionId")
-    .notNull()
-    .references(() => gameSessions.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
-  playLevel: playLevelEnum("playLevel").notNull(),
 });
 
-// each game session can have one gameSessionSchedule and many bookings
-export const gameSessionRelations = relations(
-  gameSessions,
-  ({ one, many }) => ({
-    gameSessionSchedules: one(gameSessionSchedules, {
-      fields: [gameSessions.id],
-      references: [gameSessionSchedules.id],
+export const bookingDetails = pgTable(
+  "bookingDetail",
+  {
+    bookingId: integer("bookingId")
+      .notNull()
+      .references(() => bookings.id, { onDelete: "cascade" }),
+    gameSessionId: integer("gameSessionId")
+      .notNull()
+      .references(() => gameSessions.id, { onDelete: "cascade" }),
+    playLevel: playLevelEnum("playLevel").notNull(),
+    isMember: boolean("isMember").notNull(),
+  },
+  (table) => ({
+    compoundKey: primaryKey({
+      columns: [table.bookingId, table.gameSessionId],
     }),
-    bookings: many(bookings),
   }),
 );
-
-// each booking can have one game session
-export const bookingSessionRelations = relations(bookings, ({ one }) => ({
-  gameSession: one(gameSessions, {
-    fields: [bookings.gameSessionId],
-    references: [gameSessions.id],
-  }),
-  userSession: one(users, {
-    fields: [bookings.userId],
-    references: [users.id],
-  }),
-}));
-
-export const userSessionRelations = relations(users, ({ many }) => ({
-  bookings: many(bookings),
-}));
 
 export const semesters = pgTable("semester", {
   id: serial("id").primaryKey(),
   name: text("name").unique().notNull(),
-  startDate: timestamp("startDate", { mode: "date" }).notNull(),
-  endDate: timestamp("endDate", { mode: "date" }).notNull(),
-  breakStart: timestamp("breakStart", { mode: "date" }).notNull(),
-  breakEnd: timestamp("breakEnd", { mode: "date" }).notNull(),
+  startDate: date("startDate").notNull(),
+  endDate: date("endDate").notNull(),
+  breakStart: date("breakStart").notNull(),
+  breakEnd: date("breakEnd").notNull(),
   bookingOpenDay: weekdayEnum("bookingOpenDay").notNull(),
   bookingOpenTime: time("bookingOpenTime").notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
 });
 
 export const gameSessionSchedules = pgTable(
@@ -162,7 +154,7 @@ export const gameSessionSchedules = pgTable(
     semesterId: integer("semesterId")
       .notNull()
       .references(() => semesters.id, { onDelete: "cascade" }),
-    weekday: text("weekday").notNull(),
+    weekday: weekdayEnum("weekday").notNull(),
     startTime: time("startTime").notNull(),
     endTime: time("endTime").notNull(),
     locationName: text("locationName").notNull(),
@@ -174,6 +166,45 @@ export const gameSessionSchedules = pgTable(
     unq: unique().on(gss.semesterId, gss.weekday),
   }),
 );
+
+// each game session can have one gameSessionSchedule and many bookings
+export const gameSessionRelations = relations(
+  gameSessions,
+  ({ one, many }) => ({
+    gameSessionSchedule: one(gameSessionSchedules, {
+      fields: [gameSessions.gameSessionScheduleId],
+      references: [gameSessionSchedules.id],
+    }),
+    bookingDetails: many(bookingDetails),
+  }),
+);
+
+// each booking is made by one user
+export const bookingRelations = relations(bookings, ({ one, many }) => ({
+  user: one(users, {
+    fields: [bookings.userId],
+    references: [users.id],
+  }),
+  bookingDetails: many(bookingDetails),
+}));
+
+// each booking detail is associated with one booking and one game session
+export const bookingDetailRelations = relations(bookingDetails, ({ one }) => {
+  return {
+    booking: one(bookings, {
+      fields: [bookingDetails.bookingId],
+      references: [bookings.id],
+    }),
+    gameSession: one(gameSessions, {
+      fields: [bookingDetails.gameSessionId],
+      references: [gameSessions.id],
+    }),
+  };
+});
+
+export const userRelations = relations(users, ({ many }) => ({
+  bookings: many(bookings),
+}));
 
 // One semester is associated with many GameSessionSchedules
 export const semesterRelations = relations(semesters, ({ many }) => ({
