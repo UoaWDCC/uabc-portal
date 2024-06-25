@@ -1,4 +1,4 @@
-import React, { createContext, type ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import { DialogClose, type DialogProps } from "@radix-ui/react-dialog";
 
 import { Button, type ButtonProps } from "./ui/button";
@@ -9,42 +9,23 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 
-interface DialogContextType {
-  handleClose: () => void;
-}
-
-export const DialogContext = createContext<DialogContextType>(
-  {} as { handleClose: () => void },
-);
-
 interface DialogCardProps extends DialogProps {
   title: string;
   children?: ReactNode;
   onClose?: () => void;
 }
 
-export const DialogCard = ({
-  title,
-  children,
-  onClose,
-  ...props
-}: DialogCardProps) => {
-  const handleClose = () => {
-    if (props.onOpenChange) props.onOpenChange(false);
-  };
-
+export const DialogCard = ({ title, children, onClose }: DialogCardProps) => {
   return (
-    <DialogContext.Provider value={{ handleClose }}>
-      <DialogContent
-        className="dark sm:max-w-[475px] max-w-[375px] rounded-lg"
-        onCloseAutoFocus={onClose}
-      >
-        <DialogHeader>
-          <DialogTitle className="text-foreground ">{title}</DialogTitle>
-        </DialogHeader>
-        {children}
-      </DialogContent>
-    </DialogContext.Provider>
+    <DialogContent
+      className="dark sm:max-w-[475px] max-w-[375px] rounded-lg"
+      onCloseAutoFocus={onClose}
+    >
+      <DialogHeader>
+        <DialogTitle className="text-foreground ">{title}</DialogTitle>
+      </DialogHeader>
+      {children}
+    </DialogContent>
   );
 };
 

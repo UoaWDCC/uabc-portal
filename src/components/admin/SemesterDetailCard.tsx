@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { Card } from "@/components/Card";
 import OptionsPopoverButton from "../OptionButton";
-import { OptionItemPopoverBase } from "../OptionItemPopoverBase";
+import { OptionDialogPopoverBase } from "../OptionItemPopoverBase";
 import { OptionButtonUtils } from "../OptionsButtonUtils";
 import SemesterDeleteDialog from "./SemesterDeleteDialog";
 import { SemesterEditDialogue } from "./SemesterEditDialog";
@@ -23,11 +23,11 @@ const UnmemoizedSemesterDetailCard = () => {
       <div className="flex items-center justify-between">
         <h3 className="text-lg text-foreground whitespace-nowrap">{name}</h3>
         <OptionsPopoverButton>
-          <OptionItemPopoverBase
+          <OptionDialogPopoverBase
             ButtonElem={<OptionButtonUtils type="edit" />}
             DialogElem={<SemesterEditDialogue />}
           />
-          <OptionItemPopoverBase
+          <OptionDialogPopoverBase
             ButtonElem={<OptionButtonUtils type="delete" />}
             DialogElem={<SemesterDeleteDialog />}
           />

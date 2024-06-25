@@ -4,8 +4,8 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { TextInput } from "@/components/TextInput";
 import { parseDate, validateDate } from "@/lib/utils";
-import { DialogCard, DialogCardFooter, DialogContext } from "../DialogUtils";
-import { PopoverContext } from "../popover";
+import { DialogCard, DialogCardFooter } from "../DialogUtils";
+import { DialogContext } from "../OptionItemPopoverBase";
 import { useToast } from "../ui/use-toast";
 import { SemesterContext } from "./SemestersContext";
 
@@ -29,6 +29,7 @@ export const SemesterEditDialogue = () => {
     bookingOpenDay,
     bookingOpenTime,
   } = useContext(SemesterContext);
+  const { handleClose } = useContext(DialogContext);
 
   const {
     register,
@@ -46,7 +47,6 @@ export const SemesterEditDialogue = () => {
 
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  const { handleClose } = useContext(DialogContext);
 
   const displayError = () => {
     const keys: string[] = Object.keys(errors);
@@ -69,7 +69,6 @@ export const SemesterEditDialogue = () => {
         const errorData = await response.json();
         throw new Error(errorData.message || "An error occurred");
       }
-      console.log(response);
       return response.json();
     },
   });
@@ -101,13 +100,13 @@ export const SemesterEditDialogue = () => {
           description: "Success!",
           duration: 2000,
         });
-        handleClose();
         reset({
           startDate: data.startDate,
           endDate: data.endDate,
           breakStart: data.breakStart,
           breakEnd: data.breakEnd,
         });
+        handleClose();
       },
     });
   };

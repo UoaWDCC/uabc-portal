@@ -47,7 +47,7 @@ export const parseFormatDate = (date: string) => {
 export const validateDate = (date: string) => {
   try {
     return !!formatDate(parse(date, "dd/MM/yyyy", new Date()), "dd/MM/yyyy");
-  } catch (e) {
+  } catch (_) {
     return false;
   }
 };
