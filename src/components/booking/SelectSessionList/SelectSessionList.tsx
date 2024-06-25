@@ -35,10 +35,12 @@ export function SelectSessionList({
           endTime: convertTo12HourFormat(session.endTime),
           locationName: session.locationName,
           locationAddress: session.locationAddress,
-          isFull: session.isFull,
+          isFull:
+            session.bookingCount >= session.capacity ||
+            (!isMember && session.casualBookingCount >= session.casualCapacity),
         };
       }),
-    [data],
+    [data, isMember],
   );
 
   function handleSessionClick(id: number) {
