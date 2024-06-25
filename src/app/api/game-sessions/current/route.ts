@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { and, asc, gt, lt, sql } from "drizzle-orm";
 
 import { db } from "@/lib/db";
-import { gameSessions } from "@/lib/db/schema";
+import { bookingDetails, gameSessions } from "@/lib/db/schema";
 
 /**
  * Gets game sessions currently available for booking
@@ -17,7 +17,19 @@ export async function GET() {
         endTime: gameSessions.endTime,
         locationName: gameSessions.locationName,
         locationAddress: gameSessions.locationAddress,
-        isFull: sql`RANDOM() < 0.5`,
+        capacity: gameSessions.capacity,
+        casualCapacity: gameSessions.casualCapacity,
+        bookingCount: sql`(
+          SELECT COUNT(*)
+          FROM ${bookingDetails}
+          WHERE ${bookingDetails.gameSessionId} = ${gameSessions.id}
+        )`.mapWith(Number),
+        casualBookingCount: sql`(
+          SELECT COUNT(*)
+          FROM ${bookingDetails}
+          WHERE ${bookingDetails.gameSessionId} = ${gameSessions.id}
+          AND ${bookingDetails.isMember} = false
+        )`.mapWith(Number),
       })
       .from(gameSessions)
       .where(
