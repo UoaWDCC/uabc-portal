@@ -1,5 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
-import { formatDate, parse } from "date-fns";
+import { formatDate, isValid, parse } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
@@ -43,9 +43,5 @@ export const parseDate = (date: string) => {
 
 // Return boolean use to validate date in "dd/MM/yyyy" format
 export const validateDate = (date: string) => {
-  try {
-    return !!formatDate(parse(date, "dd/MM/yyyy", new Date()), "dd/MM/yyyy");
-  } catch (_) {
-    return false;
-  }
+  return isValid(parse(date, "dd/MM/yyyy", new Date()));
 };

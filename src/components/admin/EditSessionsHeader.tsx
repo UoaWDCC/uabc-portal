@@ -27,5 +27,4 @@ const EditSessionsHeader = () => {
     </div>
   );
 };
-
 export default EditSessionsHeader;

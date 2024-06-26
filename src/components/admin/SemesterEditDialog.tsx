@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { z } from "zod";
 
 import { parseDate, validateDate } from "@/lib/utils";
 import { DialogCard, DialogCardFooter, DialogInputField } from "../DialogUtils";
@@ -8,14 +10,24 @@ import { DialogContext } from "../OptionItemPopoverBase";
 import { useToast } from "../ui/use-toast";
 import { SemesterContext } from "./SemestersContext";
 
-type EditSemesterFormValues = {
-  startDate: string;
-  endDate: string;
-  breakStart: string;
-  breakEnd: string;
-};
-
-type formValues = "startDate" | "endDate" | "breakStart" | "breakEnd";
+const formSchema = z.object({
+  startDate: z
+    .string()
+    .min(1, "Field is required")
+    .refine(validateDate, "Invalid date"),
+  endDate: z
+    .string()
+    .min(1, "Field is required")
+    .refine(validateDate, "Invalid date"),
+  breakStart: z
+    .string()
+    .min(1, "Field is required")
+    .refine(validateDate, "Invalid date"),
+  breakEnd: z
+    .string()
+    .min(1, "Field is required")
+    .refine(validateDate, "Invalid date"),
+});
 
 export const SemesterEditDialogue = () => {
   // Contexts
@@ -37,7 +49,8 @@ export const SemesterEditDialogue = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<EditSemesterFormValues>({
+  } = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       startDate,
       endDate,
@@ -68,9 +81,7 @@ export const SemesterEditDialogue = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<EditSemesterFormValues> = async (
-    data: EditSemesterFormValues,
-  ) => {
+  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (data) => {
     const body = JSON.stringify({
       name,
       bookingOpenDay,
@@ -82,18 +93,17 @@ export const SemesterEditDialogue = () => {
     });
 
     mutation.mutate(body, {
-      onError: () => {
+      onError: (e) => {
+        console.log(e);
         toast({
           description: "An error occured",
           variant: "destructive",
-          duration: 2000,
         });
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["semesters"] });
         toast({
           description: "Success!",
-          duration: 2000,
         });
         reset({
           startDate: data.startDate,
@@ -113,23 +123,13 @@ export const SemesterEditDialogue = () => {
           <DialogInputField
             label="Start Date"
             type="text"
-            {...register("startDate", {
-              required: "field is required",
-              validate: {
-                validateDate: (v) => validateDate(v) || "date is invalid",
-              },
-            })}
+            {...register("startDate")}
             errorMessage={errors.startDate?.message}
           />
           <DialogInputField
             label="End Date"
             type="text"
-            {...register("endDate", {
-              required: "field is required",
-              validate: {
-                validateDate: (v) => validateDate(v) || "date is invalid",
-              },
-            })}
+            {...register("endDate")}
             errorMessage={errors.endDate?.message}
           />
         </div>
@@ -137,23 +137,13 @@ export const SemesterEditDialogue = () => {
           <DialogInputField
             label="Break start Date"
             type="text"
-            {...register("breakStart", {
-              required: "field is required",
-              validate: {
-                validateDate: (v) => validateDate(v) || "date is invalid",
-              },
-            })}
+            {...register("breakStart")}
             errorMessage={errors.breakStart?.message}
           />
           <DialogInputField
             label="Break end Date"
             type="text"
-            {...register("breakEnd", {
-              required: "field is required",
-              validate: {
-                validateDate: (v) => validateDate(v) || "date is invalid",
-              },
-            })}
+            {...register("breakEnd")}
             errorMessage={errors.breakEnd?.message}
           />
         </div>
