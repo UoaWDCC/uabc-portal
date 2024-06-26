@@ -1,10 +1,10 @@
 "use client";
 
 import type { InputHTMLAttributes } from "react";
+import { Path, SubmitHandler, useForm, UseFormRegister } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
 import { cn } from "@/lib/utils";
-import InputMessage from "./InputMessage";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -12,7 +12,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   isError?: boolean;
   isSuccess?: boolean;
-  subText?: string;
 }
 
 export const TextInput = ({
@@ -21,7 +20,6 @@ export const TextInput = ({
   isError,
   isSuccess,
   className,
-  subText: subText,
   ...props
 }: InputProps) => {
   return (
@@ -49,12 +47,6 @@ export const TextInput = ({
           {label}
         </span>
       </div>
-      {isError && subText && (
-        <InputMessage isError={isError} inputText={subText} />
-      )}
-      {isSuccess && subText && (
-        <InputMessage isSuccess={isSuccess} inputText={subText} />
-      )}
     </div>
   );
 };

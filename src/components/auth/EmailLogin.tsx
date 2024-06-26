@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import InputMessage from "../InputMessage";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
+
+interface SignUpFormData {
+  email: string;
+  password: string;
+}
 
 const emailSchema = z.string().email();
 
@@ -19,17 +26,20 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
   const [open, setOpen] = useState<boolean>(loginOpen);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setButtonDisabled(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpFormData>();
 
-    const formData = new FormData(e.target as HTMLFormElement);
+  const onSubmit = async (formData: SignUpFormData) => {
+    setButtonDisabled(true);
 
     // Check if email and password are valid
     if (
-      formData.get("email") === "" ||
-      formData.get("password") === "" ||
-      !emailSchema.safeParse(formData.get("email") as string)
+      formData.email === "" ||
+      formData.password === "" ||
+      !emailSchema.safeParse(formData.email)
     ) {
       setError(true);
       setButtonDisabled(false);
@@ -37,8 +47,8 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
     }
 
     const response = await signIn("credentials", {
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
+      email: formData.email,
+      password: formData.password,
       redirect: false,
     });
 
@@ -65,7 +75,7 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
     );
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex-col flex gap-4">
         <span className="text-foreground text-center">
           Login to your account
@@ -75,15 +85,14 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
           label="Email"
           name="email"
           type="email"
-          isError={error}
+          isError={errors.email && errors.email.type == "manual"}
         />
         <TextInput
           className="text-foreground"
           label="Password"
           name="password"
           type="password"
-          isError={error}
-          subText={error ? "Invalid Email or Password" : ""}
+          isError={errors.password && errors.password.type == "manual"}
         />
         <Button large type="submit" disabled={buttonDisabled}>
           Login with Email

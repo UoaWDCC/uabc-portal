@@ -1,9 +1,15 @@
-import React, { useState } from "react";
-import Error from "next/error";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import InputMessage from "../InputMessage";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
+
+interface SignUpFormData {
+  email: string;
+  password: string;
+}
 
 const emailSchema = z.string().email({ message: "Invalid email" });
 const passwordSchema = z
@@ -14,19 +20,24 @@ const passwordSchema = z
   .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" });
 
 export const SignUp = () => {
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [passwordError, setPasswordError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
-  const [emailSubText, setEmailSubText] = useState<string>("");
-  const [passwordSubText, setPasswordSubText] = useState<string>("");
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<SignUpFormData>();
 
   const editEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       emailSchema.parse(e.target.value);
     } catch (e) {
-      setEmailSubText((e as z.ZodError).errors[0].message);
-      setEmailError(true);
+      setError("email", {
+        type: "manual",
+        message: (e as z.ZodError).errors[0].message,
+      });
     }
   };
 
@@ -34,74 +45,96 @@ export const SignUp = () => {
     try {
       passwordSchema.parse(e.target.value);
     } catch (e) {
-      setPasswordSubText((e as z.ZodError).errors[0].message);
-      setPasswordError(true);
+      setError("password", {
+        type: "manual",
+        message: (e as z.ZodError).errors[0].message,
+      });
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (formData: SignUpFormData) => {
     setButtonDisabled(true);
 
-    const formData = new FormData(e.target as HTMLFormElement);
+    console.log(formData);
     const response = await fetch("/api/auth/register", {
       method: "POST",
       body: JSON.stringify({
-        email: formData.get("email"),
-        password: formData.get("password"),
+        email: formData.email,
+        password: formData.password,
       }),
       headers: {
         "Content-Type": "application/json",
       },
     });
 
-    console.log({ response });
-    if (response.status == 200) {
-      setSuccess(true);
-      setEmailError(false);
-      setPasswordError(false);
-      setEmailSubText("");
-      setPasswordSubText("Account Created! Please log in now.");
-    } else if (response.status == 400) {
-      setEmailError(true);
-      setEmailSubText("Email already in use");
-      setPasswordError(true);
-      setPasswordSubText("");
+    if (response.status == 400) {
+      setError("email", {
+        type: "manual",
+        message: "Email already in use",
+      });
+    } else if (response.status == 500) {
+      setError("email", {
+        type: "manual",
+        message: "Internal server error. Please try again.",
+      });
     } else {
-      setEmailError(true);
-      setEmailSubText("");
-      setPasswordError(true);
-      setPasswordSubText("Internal server error");
+      setSuccess(true);
     }
+
     setButtonDisabled(false);
   };
 
+  useEffect(() => {
+    if (errors.email || errors.password) {
+      setSuccess(false);
+    }
+  }),
+    [errors];
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex-col flex gap-4">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex-col flex my-4">
         <span className="text-foreground text-center">Create an Account</span>
         <TextInput
           className="text-foreground"
           label="Email"
           type="email"
-          name="email"
-          isError={emailError}
+          {...register("email")}
+          isError={errors.email && errors.email.type == "manual"}
           isSuccess={success}
-          subText={emailSubText}
           onBlur={editEmail}
         />
+        {errors.email && (
+          <InputMessage isError inputText={errors.email.message} />
+        )}
+      </div>
+      <div className="flex-col flex my-4">
         <TextInput
           className="text-foreground"
           label="Password"
           type="password"
-          name="password"
-          isError={passwordError}
+          {...register("password")}
+          isError={errors.password && errors.password.type == "manual"}
           isSuccess={success}
-          subText={passwordSubText}
           onBlur={editPassword}
         />
-        <Button large type="submit" disabled={buttonDisabled}>
+        {errors.password && (
+          <InputMessage isError inputText={errors.password.message} />
+        )}
+        {success && (
+          <InputMessage
+            isSuccess
+            inputText={"Account Created! Please log in now."}
+          />
+        )}
+      </div>
+      <div className="flex-col flex my-4">
+        <Button
+          className="flex-col flex"
+          large
+          type="submit"
+          disabled={buttonDisabled}
+        >
           Sign Up with Email
         </Button>
       </div>
