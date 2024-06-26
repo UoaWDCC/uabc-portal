@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 
 import { cn } from "@/lib/utils";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   type: string;
   className?: string;

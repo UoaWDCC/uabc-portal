@@ -3,6 +3,7 @@ import { Ellipsis } from "lucide-react";
 
 import { Popover, PopoverContainer, PopoverOpenButton } from "./popover";
 
+// Wrapper component that add a button to trigger options popover
 const OptionsPopoverButton = ({ children }: { children?: ReactNode }) => {
   return (
     <Popover>

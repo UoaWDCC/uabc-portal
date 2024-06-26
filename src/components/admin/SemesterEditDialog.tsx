@@ -2,9 +2,8 @@ import React, { useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
-import { TextInput } from "@/components/TextInput";
 import { parseDate, validateDate } from "@/lib/utils";
-import { DialogCard, DialogCardFooter } from "../DialogUtils";
+import { DialogCard, DialogCardFooter, DialogInputField } from "../DialogUtils";
 import { DialogContext } from "../OptionItemPopoverBase";
 import { useToast } from "../ui/use-toast";
 import { SemesterContext } from "./SemestersContext";
@@ -19,6 +18,7 @@ type EditSemesterFormValues = {
 type formValues = "startDate" | "endDate" | "breakStart" | "breakEnd";
 
 export const SemesterEditDialogue = () => {
+  // Contexts
   const {
     name,
     startDate,
@@ -31,6 +31,7 @@ export const SemesterEditDialogue = () => {
   } = useContext(SemesterContext);
   const { handleClose } = useContext(DialogContext);
 
+  // Hook-forms
   const {
     register,
     handleSubmit,
@@ -45,16 +46,10 @@ export const SemesterEditDialogue = () => {
     },
   });
 
-  const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const displayError = () => {
-    const keys: string[] = Object.keys(errors);
-    if (keys.length == 0) return;
-    const err = errors[keys[0] as formValues]?.message;
-    return `${keys[0]} ${err}`;
-  };
-
+  // React-query
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (body: BodyInit) => {
       const response = await fetch(`/api/semesters/${semesterId}`, {
@@ -113,9 +108,9 @@ export const SemesterEditDialogue = () => {
 
   return (
     <DialogCard title={name} onClose={() => reset()}>
-      <form className="flex gap-4 flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex gap-5 flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-2 *:grow ">
-          <TextInput
+          <DialogInputField
             label="Start Date"
             type="text"
             {...register("startDate", {
@@ -124,9 +119,9 @@ export const SemesterEditDialogue = () => {
                 validateDate: (v) => validateDate(v) || "date is invalid",
               },
             })}
-            isError={!!errors.startDate?.message}
+            errorMessage={errors.startDate?.message}
           />
-          <TextInput
+          <DialogInputField
             label="End Date"
             type="text"
             {...register("endDate", {
@@ -135,11 +130,11 @@ export const SemesterEditDialogue = () => {
                 validateDate: (v) => validateDate(v) || "date is invalid",
               },
             })}
-            isError={!!errors.endDate?.message}
+            errorMessage={errors.endDate?.message}
           />
         </div>
         <div className="flex gap-2 *:grow">
-          <TextInput
+          <DialogInputField
             label="Break start Date"
             type="text"
             {...register("breakStart", {
@@ -148,9 +143,9 @@ export const SemesterEditDialogue = () => {
                 validateDate: (v) => validateDate(v) || "date is invalid",
               },
             })}
-            isError={!!errors.breakStart?.message}
+            errorMessage={errors.breakStart?.message}
           />
-          <TextInput
+          <DialogInputField
             label="Break end Date"
             type="text"
             {...register("breakEnd", {
@@ -159,10 +154,9 @@ export const SemesterEditDialogue = () => {
                 validateDate: (v) => validateDate(v) || "date is invalid",
               },
             })}
-            isError={!!errors.breakEnd?.message}
+            errorMessage={errors.breakEnd?.message}
           />
         </div>
-        <p className="text-destructive select-none">{displayError()}&nbsp;</p>
         <DialogCardFooter type="submit" />
       </form>
     </DialogCard>

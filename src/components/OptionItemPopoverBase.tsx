@@ -24,9 +24,7 @@ export const OptionDialogPopoverBase = ({
   const { handleClose: closePopover } = useContext(PopoverContext);
   const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
   return (
     <DialogContext.Provider value={{ handleClose }}>

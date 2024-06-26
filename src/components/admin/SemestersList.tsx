@@ -34,6 +34,7 @@ export const SemestersList = () => {
       <>
         <SkeletonSemesterCard />
         <SkeletonSemesterCard />
+        <SkeletonSemesterCard />
       </>
     );
   }

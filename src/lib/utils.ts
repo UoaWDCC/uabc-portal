@@ -36,14 +36,12 @@ export function convertTo12HourFormat(time24: string): string {
   return `${hours}:${formattedMinutes}${period}`;
 }
 
+// Return the formatted date in "yyyy-MM-dd" string for zod validation
 export const parseDate = (date: string) => {
   return formatDate(parse(date, "dd/MM/yyyy", new Date()), "yyyy-MM-dd");
 };
 
-export const parseFormatDate = (date: string) => {
-  return formatDate(parse(date, "dd/MM/yyyy", new Date()), "yyyy-MM-dd");
-};
-
+// Return boolean use to validate date in "dd/MM/yyyy" format
 export const validateDate = (date: string) => {
   try {
     return !!formatDate(parse(date, "dd/MM/yyyy", new Date()), "dd/MM/yyyy");
