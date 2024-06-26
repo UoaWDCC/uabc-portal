@@ -11,8 +11,7 @@ export async function middleware(req: NextRequest) {
     token?.profile?.member !== null;
 
   const fromUrl = req.nextUrl.pathname;
-  const isAuthPage =
-    fromUrl.startsWith("/auth/login") || fromUrl.startsWith("/auth/signup");
+  const isAuthPage = fromUrl.startsWith("/auth");
   const isOnboardingPage = fromUrl.startsWith("/onboarding");
 
   if (isAuthPage) {
@@ -39,5 +38,12 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|images|svgs).*)"],
+  matcher: [
+    // "/((?!api|_next/static|_next/image|favicon.ico|images|svgs).*)",
+    "/admin/:path*",
+    "/sessions/:path*",
+    "/onboarding/:path*",
+    "/auth/login",
+    "/auth/signup",
+  ],
 };
