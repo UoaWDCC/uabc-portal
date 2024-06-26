@@ -17,6 +17,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    id: 123,
     title: "Thursday 21st March 2024",
     startTime: "12:00 PM",
     endTime: "1:00 PM",
