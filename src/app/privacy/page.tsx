@@ -1,5 +1,4 @@
 import { Card } from "@/components/Card";
-import { Button } from "@/components/ui/button";
 
 export const metadata = {
   title: "Privacy Policy",

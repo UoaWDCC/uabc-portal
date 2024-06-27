@@ -24,14 +24,14 @@ test.describe("Onboarding flow", () => {
   });
 
   test("should navigate to the member page", async ({ page }) => {
-    await page.goto("/onboard/name");
+    await page.goto("/onboarding/name");
     await page.getByRole("textbox").nth(0).fill("John");
     await page.getByRole("textbox").nth(1).fill("Doe");
     await page.click("text=Continue");
     await expect(page).toHaveURL("onboarding/member");
   });
   test("should navigate to the session page", async ({ page }) => {
-    await page.goto("/onboard/name");
+    await page.goto("/onboarding/name");
     await page.getByRole("textbox").nth(0).fill("John");
     await page.getByRole("textbox").nth(1).fill("Doe");
     await page.click("text=Continue");
@@ -42,13 +42,13 @@ test.describe("Onboarding flow", () => {
   test("should fill in first name and last name before continuing", async ({
     page,
   }) => {
-    await page.goto("/onboard/name");
+    await page.goto("/onboarding/name");
     const continueButton = await page.locator("text=Continue");
     await expect(continueButton).toBeDisabled();
   });
 
   test("should select membership type before continuing", async ({ page }) => {
-    await page.goto("/onboard/name");
+    await page.goto("/onboarding/name");
     await page.getByRole("textbox").nth(0).fill("John");
     await page.getByRole("textbox").nth(1).fill("Doe");
     await page.click("text=Continue");
