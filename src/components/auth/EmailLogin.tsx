@@ -22,7 +22,6 @@ interface EmailLoginProps {
 
 export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
   const router = useRouter();
-  const [error, setError] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(loginOpen);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
 
@@ -30,35 +29,40 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<SignUpFormData>();
 
   const onSubmit = async (formData: SignUpFormData) => {
-    setButtonDisabled(true);
+    try {
+      setButtonDisabled(true);
 
-    // Check if email and password are valid
-    if (
-      formData.email === "" ||
-      formData.password === "" ||
-      !emailSchema.safeParse(formData.email)
-    ) {
-      setError(true);
+      // Check if email and password are valid
+      if (
+        formData.email === "" ||
+        formData.password === "" ||
+        !emailSchema.safeParse(formData.email)
+      ) {
+        throw new Error("Invalid email or password");
+      }
+
+      const response = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      });
+
+      console.log({ response });
+      if (!response?.error) {
+        router.push("/sessions");
+      } else {
+        throw new Error("Invalid email or password");
+      }
+    } catch (e) {
       setButtonDisabled(false);
-      return;
-    }
-
-    const response = await signIn("credentials", {
-      email: formData.email,
-      password: formData.password,
-      redirect: false,
-    });
-
-    console.log({ response });
-    if (!response?.error) {
-      setError(false);
-      router.push("/sessions");
-    } else {
-      setError(true);
-      setButtonDisabled(false);
+      setError("email", {
+        type: "manual",
+        message: "Invalid email or password",
+      });
     }
   };
 
@@ -83,17 +87,18 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
         <TextInput
           className="text-foreground"
           label="Email"
-          name="email"
           type="email"
           isError={errors.email && errors.email.type == "manual"}
+          {...register("email")}
         />
         <TextInput
           className="text-foreground"
           label="Password"
-          name="password"
           type="password"
-          isError={errors.password && errors.password.type == "manual"}
+          isError={errors.email && errors.email.type == "manual"}
+          {...register("password")}
         />
+        <InputMessage isError inputText={errors.email?.message} />
         <Button large type="submit" disabled={buttonDisabled}>
           Login with Email
         </Button>

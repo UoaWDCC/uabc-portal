@@ -1,12 +1,11 @@
 "use client";
 
-import type { InputHTMLAttributes } from "react";
-import { Path, SubmitHandler, useForm, UseFormRegister } from "react-hook-form";
+import { forwardRef, type InputHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { cn } from "@/lib/utils";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   type: string;
   className?: string;
@@ -14,19 +13,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   isSuccess?: boolean;
 }
 
-export const TextInput = ({
-  label,
-  type,
-  isError,
-  isSuccess,
-  className,
-  ...props
-}: InputProps) => {
-  return (
-    <div>
+export const TextInput = forwardRef<HTMLInputElement, InputProps>(
+  (
+    { label, type, isError, className, isSuccess, ...props }: InputProps,
+    ref,
+  ) => {
+    return (
       <div className={cn("relative h-11 overflow-x-clip", className)}>
         <input
-          formNoValidate
           type={type}
           placeholder={props.placeholder ? props.placeholder : " "}
           className={twMerge(
@@ -35,6 +29,7 @@ export const TextInput = ({
               (isSuccess && "border-green-600 ring-green-600"),
           )}
           {...props}
+          ref={ref}
         />
         <span
           className={cn(
@@ -47,6 +42,8 @@ export const TextInput = ({
           {label}
         </span>
       </div>
-    </div>
-  );
-};
+    );
+  },
+);
+
+TextInput.displayName = "TextInput";

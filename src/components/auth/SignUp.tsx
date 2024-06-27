@@ -19,7 +19,7 @@ const passwordSchema = z
   .regex(/[a-z]/, { message: "Password must contain a lowercase letter" })
   .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" });
 
-export const SignUp = () => {
+export const EmailSignUp = () => {
   const [success, setSuccess] = useState<boolean>(false);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
 
@@ -55,7 +55,6 @@ export const SignUp = () => {
   const onSubmit = async (formData: SignUpFormData) => {
     setButtonDisabled(true);
 
-    console.log(formData);
     const response = await fetch("/api/auth/register", {
       method: "POST",
       body: JSON.stringify({
@@ -99,9 +98,9 @@ export const SignUp = () => {
           className="text-foreground"
           label="Email"
           type="email"
-          {...register("email")}
           isError={errors.email && errors.email.type == "manual"}
           isSuccess={success}
+          {...register("email")}
           onBlur={editEmail}
         />
         {errors.email && (
@@ -110,12 +109,12 @@ export const SignUp = () => {
       </div>
       <div className="flex-col flex my-4">
         <TextInput
-          className="text-foreground"
           label="Password"
           type="password"
-          {...register("password")}
           isError={errors.password && errors.password.type == "manual"}
           isSuccess={success}
+          className="text-foreground"
+          {...register("password")}
           onBlur={editPassword}
         />
         {errors.password && (
