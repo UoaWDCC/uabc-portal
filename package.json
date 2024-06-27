@@ -13,6 +13,7 @@
     "lint": "next lint",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
+    "db:seed": "node --env-file=.env -r esbuild-register ./src/lib/db/seed.ts",
     "storybook": "storybook dev -p 6006"
   },
   "pnpm": {
@@ -52,6 +53,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.2.1",
     "@playwright/test": "^1.44.0",
     "@storybook/addon-essentials": "^8.0.5",
@@ -70,6 +72,7 @@
     "@typescript-eslint/eslint-plugin": "^7.3.1",
     "autoprefixer": "^10.4.18",
     "drizzle-kit": "^0.21.1",
+    "esbuild-register": "^3.5.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.1.3",
     "eslint-config-prettier": "^9.1.0",
