@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { formatInTimeZone } from "date-fns-tz";
 import { twMerge } from "tailwind-merge";
 
 import type { Weekday } from "@/types/types";
@@ -32,4 +33,11 @@ export function convertTo12HourFormat(time24: string): string {
 
   // Return the formatted time string
   return `${hours}:${formattedMinutes}${period}`;
+}
+
+/**
+ * Returns a string in the yyyy-MM-dd format in the Pacific/Auckland timezone
+ */
+export function formatInNZST(date: Date | string): string {
+  return formatInTimeZone(new Date(date), "Pacific/Auckland", "yyyy-MM-dd");
 }

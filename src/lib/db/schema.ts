@@ -169,7 +169,14 @@ export const gameSessionSchedules = pgTable(
 
 export const gameSessionExceptions = pgTable("gameSessionException", {
   exceptionId: serial("exceptionId").primaryKey(),
-  gameSessionDate: date("gameSessionDate").unique().notNull(),
+  isDeleted: boolean("isDeleted").default(false).notNull(),
+  date: date("date").unique(),
+  startTime: time("startTime"),
+  endTime: time("endTime"),
+  locationName: text("locationName"),
+  locationAddress: text("locationAddress"),
+  capacity: integer("capacity"),
+  casualCapacity: integer("casualCapacity"),
 });
 
 // each game session can have one gameSessionSchedule and many bookings
