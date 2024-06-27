@@ -19,6 +19,7 @@ export const PopoverContext = createContext<PopoverContextType>(
   {} as PopoverContextType,
 );
 
+// * Wrapper that provide functions to popover items
 export const Popover = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState(false);
 
@@ -32,7 +33,8 @@ export const Popover = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const PopoverContainer = ({ children }: { children: ReactNode }) => {
+// * Menubar that renders on opening the popover
+const PopoverMenubar = ({ children }: { children: ReactNode }) => {
   const { open, handleClose } = useContext(PopoverContext);
 
   const handleEscape = (e: KeyboardEvent) => {
@@ -66,7 +68,9 @@ export const PopoverContainer = ({ children }: { children: ReactNode }) => {
     </>
   );
 };
-export const PopoverOpenButton = ({ ...props }: ButtonProps) => {
+
+// * Popover Trigger button
+const PopoverOpenButton = ({ ...props }: ButtonProps) => {
   const { handleOpen } = useContext(PopoverContext);
   return (
     <Button onClick={handleOpen} {...props}>
@@ -74,3 +78,6 @@ export const PopoverOpenButton = ({ ...props }: ButtonProps) => {
     </Button>
   );
 };
+
+Popover.Trigger = PopoverOpenButton;
+Popover.Menubar = PopoverMenubar;

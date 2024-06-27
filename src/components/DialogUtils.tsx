@@ -1,7 +1,6 @@
 import React, { type ReactNode } from "react";
 import { DialogClose, type DialogProps } from "@radix-ui/react-dialog";
 
-import { type InputProps } from "./TextInput";
 import { Button, type ButtonProps } from "./ui/button";
 import {
   DialogContent,
@@ -42,7 +41,3 @@ export const DialogCardFooter = ({ ...props }: ButtonProps) => {
     </DialogFooter>
   );
 };
-
-interface DialogInputFieldProps extends InputProps {
-  errorMessage?: string;
-}

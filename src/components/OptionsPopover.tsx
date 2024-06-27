@@ -5,18 +5,31 @@ import React, {
   type ReactNode,
 } from "react";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+import { Ellipsis } from "lucide-react";
 
-import { PopoverContext } from "./popover";
+import { Popover, PopoverContext } from "./popover";
 
-type DialogCotnextProps = {
+// * Wrapper component that add a button to trigger options popover
+export const OptionsPopover = ({ children }: { children?: ReactNode }) => {
+  return (
+    <Popover>
+      <Popover.Trigger variant="outline" className="w-8 h-6 z-10">
+        <Ellipsis className="stroke-tertiary absolute w-4" />
+      </Popover.Trigger>
+      <Popover.Menubar>{children}</Popover.Menubar>
+    </Popover>
+  );
+};
+
+export type DialogContextProps = {
   handleClose: () => void;
 };
 
-export const DialogContext = createContext({} as DialogCotnextProps);
+export const OptionsDialogContext = createContext({} as DialogContextProps);
 
 // * Button element is the popover item
 // * Dialog element is the dialog that will be displayed when the popover is clicked
-export const OptionDialogPopoverBase = ({
+export const OptionDialogItem = ({
   DialogElement,
   ButtonElement,
 }: {
@@ -29,7 +42,7 @@ export const OptionDialogPopoverBase = ({
   const handleClose = () => setOpen(false);
 
   return (
-    <DialogContext.Provider value={{ handleClose }}>
+    <OptionsDialogContext.Provider value={{ handleClose }}>
       <Dialog
         onOpenChange={() => {
           closePopover();
@@ -40,6 +53,8 @@ export const OptionDialogPopoverBase = ({
         <DialogTrigger asChild>{ButtonElement}</DialogTrigger>
         {DialogElement}
       </Dialog>
-    </DialogContext.Provider>
+    </OptionsDialogContext.Provider>
   );
 };
+
+OptionsPopover.DialogItem = OptionDialogItem;

@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 
 type OptionTypes = { type: "edit" | "delete" };
 
+// * Cosmetic button components for OptionsPopover
 export const OptionButtonUtils = forwardRef<HTMLButtonElement, OptionTypes>(
   ({ type = "edit", ...props }: OptionTypes, ref) => {
     switch (type) {

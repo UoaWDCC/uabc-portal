@@ -2,7 +2,7 @@ import React from "react";
 
 import { DialogCard, DialogCardFooter } from "../DialogUtils";
 
-const SemesterDeleteDialog = () => {
+export const SemesterDeleteDialog = () => {
   return (
     <DialogCard title="Delete Semester?">
       <p className="text-tertiary">
@@ -12,5 +12,3 @@ const SemesterDeleteDialog = () => {
     </DialogCard>
   );
 };
-
-export default SemesterDeleteDialog;

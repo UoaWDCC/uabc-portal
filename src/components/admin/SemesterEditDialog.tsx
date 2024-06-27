@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { parseDate, validateDate } from "@/lib/utils";
 import { DialogCard, DialogCardFooter } from "../DialogUtils";
-import { DialogContext } from "../OptionItemPopoverBase";
+import { OptionsDialogContext } from "../OptionsPopover";
 import { TextInput } from "../TextInput";
 import { useToast } from "../ui/use-toast";
 import { SemesterContext } from "./SemestersContext";
@@ -42,7 +42,7 @@ export const SemesterEditDialogue = () => {
     bookingOpenDay,
     bookingOpenTime,
   } = useContext(SemesterContext);
-  const { handleClose } = useContext(DialogContext);
+  const { handleClose: closeDialog } = useContext(OptionsDialogContext);
 
   // Hook-forms
   const {
@@ -112,7 +112,7 @@ export const SemesterEditDialogue = () => {
           breakStart: data.breakStart,
           breakEnd: data.breakEnd,
         });
-        handleClose();
+        closeDialog();
       },
     });
   };

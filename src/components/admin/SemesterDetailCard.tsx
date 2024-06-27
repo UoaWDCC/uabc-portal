@@ -4,10 +4,9 @@ import { memo, useContext } from "react";
 import Link from "next/link";
 
 import { Card } from "@/components/Card";
-import OptionsPopoverButton from "../OptionButton";
-import { OptionDialogPopoverBase } from "../OptionItemPopoverBase";
 import { OptionButtonUtils } from "../OptionsButtonUtils";
-import SemesterDeleteDialog from "./SemesterDeleteDialog";
+import { OptionsPopover } from "../OptionsPopover";
+import { SemesterDeleteDialog } from "./SemesterDeleteDialog";
 import { SemesterEditDialogue } from "./SemesterEditDialog";
 import { SemesterContext } from "./SemestersContext";
 
@@ -22,16 +21,16 @@ const UnmemoizedSemesterDetailCard = () => {
       />
       <div className="flex items-center justify-between">
         <h3 className="text-lg text-foreground whitespace-nowrap">{name}</h3>
-        <OptionsPopoverButton>
-          <OptionDialogPopoverBase
+        <OptionsPopover>
+          <OptionsPopover.DialogItem
             ButtonElement={<OptionButtonUtils type="edit" />}
             DialogElement={<SemesterEditDialogue />}
           />
-          <OptionDialogPopoverBase
+          <OptionsPopover.DialogItem
             ButtonElement={<OptionButtonUtils type="delete" />}
             DialogElement={<SemesterDeleteDialog />}
           />
-        </OptionsPopoverButton>
+        </OptionsPopover>
       </div>
       <p className="mt-2">Start date: {startDate}</p>
       <p>End date: {endDate}</p>
