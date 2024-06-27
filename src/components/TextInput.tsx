@@ -10,10 +10,14 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   type: string;
   className?: string;
   isError?: boolean;
+  errorMessage?: string;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, type, isError, className, ...props }: InputProps, ref) => {
+  (
+    { label, type, isError, className, errorMessage, ...props }: InputProps,
+    ref,
+  ) => {
     return (
       <div className={cn("relative h-11 overflow-x-clip", className)}>
         <input
@@ -26,6 +30,9 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
           {...props}
           ref={ref}
         />
+        <span className="absolute -bottom-4 left-0 text-xs text-destructive/80 peer-focus:!text-destructive transition-colors">
+          {errorMessage}
+        </span>
         <span
           className={cn(
             "absolute top-0 -translate-y-[50%] left-2 transition-all pointer-events-none select-none z-10 bg-background px-1 text-primary text-xs whitespace-nowrap",

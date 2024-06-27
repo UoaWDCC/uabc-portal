@@ -1,8 +1,7 @@
-import React, { forwardRef, type ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import { DialogClose, type DialogProps } from "@radix-ui/react-dialog";
-import clsx from "clsx";
 
-import { InputProps, TextInput } from "./TextInput";
+import { type InputProps } from "./TextInput";
 import { Button, type ButtonProps } from "./ui/button";
 import {
   DialogContent,
@@ -47,27 +46,3 @@ export const DialogCardFooter = ({ ...props }: ButtonProps) => {
 interface DialogInputFieldProps extends InputProps {
   errorMessage?: string;
 }
-
-export const DialogInputField = forwardRef<
-  HTMLInputElement,
-  DialogInputFieldProps
->(({ errorMessage, ...props }: DialogInputFieldProps, ref) => {
-  return (
-    <div className="flex-col">
-      <TextInput
-        {...props}
-        isError={!!errorMessage}
-        ref={ref}
-        className={clsx("peer", props.className)}
-      />
-      <p className="h-1 text-xs text-destructive/80 peer-has-[input:focus]:!text-destructive transition-colors">
-        {errorMessage}
-      </p>
-      {/* <p className="absolute left-2 bottom-1.5 h-2 text-xs text-destructive">
-        {errorMessage}
-      </p> */}
-    </div>
-  );
-});
-
-DialogInputField.displayName = "DialogInputField";

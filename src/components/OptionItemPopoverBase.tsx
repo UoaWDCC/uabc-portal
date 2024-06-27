@@ -14,12 +14,14 @@ type DialogCotnextProps = {
 
 export const DialogContext = createContext({} as DialogCotnextProps);
 
+// * Button element is the popover item
+// * Dialog element is the dialog that will be displayed when the popover is clicked
 export const OptionDialogPopoverBase = ({
-  DialogElem,
-  ButtonElem,
+  DialogElement,
+  ButtonElement,
 }: {
-  DialogElem: ReactNode;
-  ButtonElem: ReactNode;
+  DialogElement: ReactNode;
+  ButtonElement: ReactNode;
 }) => {
   const { handleClose: closePopover } = useContext(PopoverContext);
   const [open, setOpen] = useState(false);
@@ -35,8 +37,8 @@ export const OptionDialogPopoverBase = ({
         }}
         open={open}
       >
-        <DialogTrigger asChild>{ButtonElem}</DialogTrigger>
-        {DialogElem}
+        <DialogTrigger asChild>{ButtonElement}</DialogTrigger>
+        {DialogElement}
       </Dialog>
     </DialogContext.Provider>
   );

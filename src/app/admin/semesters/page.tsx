@@ -1,6 +1,5 @@
 import EditSessionsHeader from "@/components/admin/EditSessionsHeader";
-import SemestersList from "@/components/admin/SemestersList";
-import { Toaster } from "@/components/ui/toaster";
+import { SemestersList } from "@/components/admin/SemestersList";
 
 const SemestersPage = () => {
   return (
@@ -8,7 +7,6 @@ const SemestersPage = () => {
       <EditSessionsHeader />
       <div className="gap-4 flex flex-col empty:grow mb-4 empty:after:content-['No_semesters_set'] empty:after:text-tertiary empty:after:w-full empty:after:h-full empty:after:grid empty:after:place-items-center empty:after:grow empty:after:text-lg empty:after:font-medium">
         <SemestersList />
-        <Toaster /> {/* Shadcn global toaster */}
       </div>
     </div>
   );

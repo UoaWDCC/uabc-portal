@@ -45,5 +45,3 @@ export const SemestersList = () => {
     </SemesterContextProvider>
   ));
 };
-
-export default SemestersList;

@@ -5,8 +5,9 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
 import { parseDate, validateDate } from "@/lib/utils";
-import { DialogCard, DialogCardFooter, DialogInputField } from "../DialogUtils";
+import { DialogCard, DialogCardFooter } from "../DialogUtils";
 import { DialogContext } from "../OptionItemPopoverBase";
+import { TextInput } from "../TextInput";
 import { useToast } from "../ui/use-toast";
 import { SemesterContext } from "./SemestersContext";
 
@@ -118,32 +119,36 @@ export const SemesterEditDialogue = () => {
 
   return (
     <DialogCard title={name} onClose={() => reset()}>
-      <form className="flex gap-5 flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex gap-6 flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-2 *:grow ">
-          <DialogInputField
+          <TextInput
             label="Start Date"
             type="text"
             {...register("startDate")}
+            isError={!!errors.startDate?.message}
             errorMessage={errors.startDate?.message}
           />
-          <DialogInputField
+          <TextInput
             label="End Date"
             type="text"
             {...register("endDate")}
+            isError={!!errors.endDate?.message}
             errorMessage={errors.endDate?.message}
           />
         </div>
         <div className="flex gap-2 *:grow">
-          <DialogInputField
+          <TextInput
             label="Break start Date"
             type="text"
             {...register("breakStart")}
+            isError={!!errors.breakStart?.message}
             errorMessage={errors.breakStart?.message}
           />
-          <DialogInputField
+          <TextInput
             label="Break end Date"
             type="text"
             {...register("breakEnd")}
+            isError={!!errors.breakEnd?.message}
             errorMessage={errors.breakEnd?.message}
           />
         </div>
