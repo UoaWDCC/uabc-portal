@@ -28,7 +28,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
     ref,
   ) => {
     return (
-      <div className={cn("relative h-11 overflow-x-clip", className)}>
+      <div className={cn("relative h-11 w-min", className)}>
         <input
           type={type}
           placeholder={props.placeholder ? props.placeholder : " "}
@@ -41,7 +41,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
         />
         {isError && (
-          <span className="absolute -bottom-4 left-0 text-xs text-destructive/80 peer-focus:!text-destructive transition-colors">
+          <span className="absolute h-0 text-xs text-destructive/80 peer-focus:!text-destructive transition-colors w-full align-bottom flex">
             {errorMessage}
           </span>
         )}

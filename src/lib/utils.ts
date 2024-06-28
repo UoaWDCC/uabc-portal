@@ -36,8 +36,20 @@ export function convertTo12HourFormat(time24: string): string {
   return `${hours}:${formattedMinutes}${period}`;
 }
 
+export const parseDateToObject = (date: string) => {
+  return parse(date, "dd/MM/yyyy", new Date());
+};
+
+// compare two dates a - b,
+// a > b return positive int, a < b return negative int, a = b return 0
+export const compareDate = (date1: string, date2: string) => {
+  return (
+    parseDateToObject(date1).getTime() - parseDateToObject(date2).getTime()
+  );
+};
+
 // Return the formatted date in "yyyy-MM-dd" string for zod validation
-export const parseDate = (date: string) => {
+export const parseNzDateToZodDate = (date: string) => {
   return formatDate(parse(date, "dd/MM/yyyy", new Date()), "yyyy-MM-dd");
 };
 

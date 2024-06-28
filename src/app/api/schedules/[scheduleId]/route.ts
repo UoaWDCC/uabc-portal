@@ -66,18 +66,7 @@ export async function PUT(
       );
     }
 
-    const parsedStartTime = parse(
-      updatedGameSession.startTime,
-      "dd/MM/yyyy",
-      new Date(),
-    );
-    const parsedEndTime = parse(
-      updatedGameSession.startTime,
-      "dd/MM/yyyy",
-      new Date(),
-    );
-    if (parsedStartTime >= parsedEndTime) {
-      console.log("parsedStartTime >= parsedEndTime");
+    if (updatedGameSession.startTime >= updatedGameSession.endTime) {
       return new Response("Start time must be before end time", {
         status: 400,
       });

@@ -4,31 +4,44 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
-import { parseDate, validateDate } from "@/lib/utils";
+import { compareDate, parseNzDateToZodDate, validateDate } from "@/lib/utils";
 import { DialogCard, DialogCardFooter } from "../DialogUtils";
 import { OptionsDialogContext } from "../OptionsPopover";
 import { TextInput } from "../TextInput";
 import { useToast } from "../ui/use-toast";
 import { SemesterContext } from "./SemestersContext";
 
-const formSchema = z.object({
-  startDate: z
-    .string()
-    .min(1, "Field is required")
-    .refine(validateDate, "Invalid date"),
-  endDate: z
-    .string()
-    .min(1, "Field is required")
-    .refine(validateDate, "Invalid date"),
-  breakStart: z
-    .string()
-    .min(1, "Field is required")
-    .refine(validateDate, "Invalid date"),
-  breakEnd: z
-    .string()
-    .min(1, "Field is required")
-    .refine(validateDate, "Invalid date"),
-});
+const formSchema = z
+  .object({
+    startDate: z
+      .string()
+      .min(1, "Field is required")
+      .refine(validateDate, "Invalid date"),
+    endDate: z
+      .string()
+      .min(1, "Field is required")
+      .refine(validateDate, "Invalid date"),
+    breakStart: z
+      .string()
+      .min(1, "Field is required")
+      .refine(validateDate, "Invalid date"),
+    breakEnd: z
+      .string()
+      .min(1, "Field is required")
+      .refine(validateDate, "Invalid date"),
+  })
+  .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
+    message: "Start must be less than break start",
+    path: ["startDate"],
+  })
+  .refine((data) => compareDate(data.breakStart, data.breakEnd) < 0, {
+    message: "Break start must be less than break end",
+    path: ["breakStart"],
+  })
+  .refine((data) => compareDate(data.breakEnd, data.endDate) < 0, {
+    message: "End must be greater than break end",
+    path: ["breakEnd"],
+  });
 
 export const SemesterEditDialogue = () => {
   // Contexts
@@ -87,24 +100,26 @@ export const SemesterEditDialogue = () => {
       name,
       bookingOpenDay,
       bookingOpenTime,
-      startDate: parseDate(data.startDate),
-      endDate: parseDate(data.endDate),
-      breakStart: parseDate(data.breakStart),
-      breakEnd: parseDate(data.breakEnd),
+      startDate: parseNzDateToZodDate(data.startDate),
+      endDate: parseNzDateToZodDate(data.endDate),
+      breakStart: parseNzDateToZodDate(data.breakStart),
+      breakEnd: parseNzDateToZodDate(data.breakEnd),
     });
 
     mutation.mutate(body, {
-      onError: (e) => {
-        console.log(e);
+      onError: () => {
         toast({
-          description: "An error occured",
+          title: "Uh oh! Something went wrong",
+          description:
+            "An error occurred while updating the semester. Please try again.",
           variant: "destructive",
         });
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["semesters"] });
         toast({
-          description: "Success!",
+          title: "Success!",
+          description: "Semester details successfully updated",
         });
         reset({
           startDate: data.startDate,
