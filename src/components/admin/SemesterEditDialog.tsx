@@ -31,15 +31,15 @@ const formSchema = z
       .refine(validateDate, "Invalid date"),
   })
   .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
-    message: "Start must be less than break start",
+    message: "Start date must be less than break start date",
     path: ["startDate"],
   })
   .refine((data) => compareDate(data.breakStart, data.breakEnd) < 0, {
-    message: "Break start must be less than break end",
+    message: "Break start date start must be less than break end date",
     path: ["breakStart"],
   })
   .refine((data) => compareDate(data.breakEnd, data.endDate) < 0, {
-    message: "End must be greater than break end",
+    message: "Break end date must be less than end date",
     path: ["breakEnd"],
   });
 
@@ -134,37 +134,41 @@ export const SemesterEditDialogue = () => {
 
   return (
     <DialogCard title={name} onClose={() => reset()}>
-      <form className="flex gap-6 flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex gap-4 flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-2 *:grow ">
           <TextInput
-            label="Start Date"
+            label="Start date"
             type="text"
             {...register("startDate")}
             isError={!!errors.startDate?.message}
             errorMessage={errors.startDate?.message}
+            autoComplete="off"
           />
           <TextInput
-            label="End Date"
+            label="End date"
             type="text"
             {...register("endDate")}
             isError={!!errors.endDate?.message}
             errorMessage={errors.endDate?.message}
+            autoComplete="off"
           />
         </div>
         <div className="flex gap-2 *:grow">
           <TextInput
-            label="Break start Date"
+            label="Break start date"
             type="text"
             {...register("breakStart")}
             isError={!!errors.breakStart?.message}
             errorMessage={errors.breakStart?.message}
+            autoComplete="off"
           />
           <TextInput
-            label="Break end Date"
+            label="Break end date"
             type="text"
             {...register("breakEnd")}
             isError={!!errors.breakEnd?.message}
             errorMessage={errors.breakEnd?.message}
+            autoComplete="off"
           />
         </div>
         <DialogCardFooter type="submit" />
