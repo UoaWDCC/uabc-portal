@@ -4,11 +4,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
+import { OptionsDialogContext } from "@/components/ui/optionsPopover/OptionsPopover";
+import {
+  DialogCard,
+  DialogCardFooter,
+} from "@/components/ui/utils/DialogUtils";
 import { compareDate, parseNzDateToZodDate, validateDate } from "@/lib/utils";
-import { DialogCard, DialogCardFooter } from "../DialogUtils";
-import { OptionsDialogContext } from "../OptionsPopover";
-import { TextInput } from "../TextInput";
-import { useToast } from "../ui/use-toast";
+import { TextInput } from "../../TextInput";
+import { useToast } from "../../ui/use-toast";
 import { SemesterContext } from "./SemestersContext";
 
 const formSchema = z

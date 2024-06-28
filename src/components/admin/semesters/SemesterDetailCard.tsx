@@ -4,8 +4,8 @@ import { memo, useContext } from "react";
 import Link from "next/link";
 
 import { Card } from "@/components/Card";
-import { OptionButtonUtils } from "../OptionsButtonUtils";
-import { OptionsPopover } from "../OptionsPopover";
+import { OptionButtonUtils } from "@/components/ui/optionsPopover/OptionsButtonUtils";
+import { OptionsPopover } from "@/components/ui/optionsPopover/OptionsPopover";
 import { SemesterDeleteDialog } from "./SemesterDeleteDialog";
 import { SemesterEditDialogue } from "./SemesterEditDialog";
 import { SemesterContext } from "./SemestersContext";

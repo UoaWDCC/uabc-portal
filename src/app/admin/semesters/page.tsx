@@ -1,5 +1,5 @@
 import EditSessionsHeader from "@/components/admin/EditSessionsHeader";
-import { SemestersList } from "@/components/admin/SemestersList";
+import { SemestersList } from "@/components/admin/semesters/SemestersList";
 
 const SemestersPage = () => {
   return (

@@ -1,6 +1,9 @@
 import React from "react";
 
-import { DialogCard, DialogCardFooter } from "../DialogUtils";
+import {
+  DialogCard,
+  DialogCardFooter,
+} from "@/components/ui/utils/DialogUtils";
 
 export const SemesterDeleteDialog = () => {
   return (

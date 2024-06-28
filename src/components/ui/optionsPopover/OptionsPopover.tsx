@@ -7,7 +7,7 @@ import React, {
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { Ellipsis } from "lucide-react";
 
-import { Popover, PopoverContext } from "./popover";
+import { Popover, PopoverContext } from "../popover";
 
 // * Wrapper component that add a button to trigger options popover
 export const OptionsPopover = ({ children }: { children?: ReactNode }) => {

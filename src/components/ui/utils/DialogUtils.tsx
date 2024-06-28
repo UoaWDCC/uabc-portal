@@ -1,13 +1,13 @@
 import React, { type ReactNode } from "react";
 import { DialogClose, type DialogProps } from "@radix-ui/react-dialog";
 
-import { Button, type ButtonProps } from "./ui/button";
+import { Button, type ButtonProps } from "../button";
 import {
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "./ui/dialog";
+} from "../dialog";
 
 interface DialogCardProps extends DialogProps {
   title: string;
