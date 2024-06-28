@@ -57,7 +57,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
         {/* has 3 lines(40px) of error message height */}
         <p
           className={twMerge(
-            "max-h-0 text-xs text-destructive/80 peer-has-[input:focus]:!text-destructive transition-[max-height] w-full ease-in-out duration-500",
+            "max-h-0 text-xs text-destructive/80 peer-has-[input:focus]:!text-destructive transition-[max-height] w-full ease-in-out duration-150",
             !!errorMessage && "max-h-10",
           )}
         >

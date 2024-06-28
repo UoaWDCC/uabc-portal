@@ -50,7 +50,10 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
-      drizzle-orm:
+      date-fns:
+    specifier: ^3.6.0
+    version: 3.6.0
+  drizzle-orm:
         specifier: ^0.30.7
         version: 0.30.7(@types/react@18.2.75)(pg@8.11.5)(postgres@3.4.4)(react@18.2.0)
       drizzle-zod:
@@ -105,7 +108,10 @@ importers:
         specifier: ^4.5.2
         version: 4.5.2(@types/react@18.2.75)(react@18.2.0)
     devDependencies:
-      '@ianvs/prettier-plugin-sort-imports':
+      '@faker-js/faker':
+    specifier: ^8.4.1
+    version: 8.4.1
+  '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.2.1
         version: 4.2.1(prettier@3.2.5)
       '@playwright/test':
@@ -159,7 +165,10 @@ importers:
       drizzle-kit:
         specifier: ^0.21.1
         version: 0.21.1
-      eslint:
+      esbuild-register:
+    specifier: ^3.5.0
+    version: 3.5.0(esbuild@0.20.2)
+  eslint:
         specifier: ^8.57.0
         version: 8.57.0
       eslint-config-next:
@@ -1383,6 +1392,11 @@ packages:
   '@eslint/js@8.57.0':
     resolution: {integrity: sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+
+  /@faker-js/faker@8.4.1:
+    resolution: {integrity: sha512-XQ3cU+Q8Uqmrbf2e0cIC/QN43sTBSC8KF12u29Mb47tWrt2hAgBXSgpZMj4Ao8Uk0iJcU99QsOCaIL8934obCg==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
+    dev: true
 
   '@fal-works/esbuild-plugin-global-externals@2.1.2':
     resolution: {integrity: sha512-cEee/Z+I12mZcFJshKcCqC8tuX5hG3s+d+9nZ3LabqKF1vKdF41B92pJVCBggjAGORAeOzyyDDKrZwIkLffeOQ==}
@@ -11514,6 +11528,10 @@ snapshots:
       is-data-view: 1.0.1
 
   date-fns@3.6.0: {}
+
+  /date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
+    dev: false
 
   debug@2.6.9:
     dependencies:

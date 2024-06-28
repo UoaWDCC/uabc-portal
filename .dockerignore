@@ -16,6 +16,9 @@ test-results
 out
 build
 
+# seed
+src/lib/db/seed.ts
+
 # other
 .storybook
 .husky
@@ -28,3 +31,4 @@ build
 .github
 
 .env
+
