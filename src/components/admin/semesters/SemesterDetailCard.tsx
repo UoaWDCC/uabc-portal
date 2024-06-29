@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useContext } from "react";
+import { memo } from "react";
 import Link from "next/link";
 
 import { Card } from "@/components/Card";
@@ -8,11 +8,11 @@ import { OptionButtonUtils } from "@/components/ui/optionsPopover/OptionsButtonU
 import { OptionsPopover } from "@/components/ui/optionsPopover/OptionsPopover";
 import { SemesterDeleteDialog } from "./SemesterDeleteDialog";
 import { SemesterEditDialogue } from "./SemesterEditDialog";
-import { SemesterContext } from "./SemestersContext";
+import { useSemesterContext } from "./SemestersContext";
 
 const UnmemoizedSemesterDetailCard = () => {
   const { id, name, startDate, endDate, breakStart, breakEnd } =
-    useContext(SemesterContext);
+    useSemesterContext();
   return (
     <Card className=" relative bg-secondary/20 ring-1 tracking-tight font-medium ring-secondary text-tertiary text-sm select-none">
       <Link

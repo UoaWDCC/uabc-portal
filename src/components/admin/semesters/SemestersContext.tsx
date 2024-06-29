@@ -1,4 +1,8 @@
-import React, { createContext, type PropsWithChildren } from "react";
+import React, {
+  createContext,
+  useContext,
+  type PropsWithChildren,
+} from "react";
 
 type SemesterDetailCardProps = {
   id: number;
@@ -11,9 +15,19 @@ type SemesterDetailCardProps = {
   bookingOpenTime: string;
 };
 
-export const SemesterContext = createContext<SemesterDetailCardProps>(
+const SemesterContext = createContext<SemesterDetailCardProps>(
   {} as SemesterDetailCardProps,
 );
+
+export const useSemesterContext = () => {
+  const context = useContext(SemesterContext);
+  if (!context) {
+    throw new Error(
+      "useSemesterContext must be used within a SemesterContextProvider",
+    );
+  }
+  return context;
+};
 
 export const SemesterContextProvider = ({
   value,

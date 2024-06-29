@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
-import { OptionsDialogContext } from "@/components/ui/optionsPopover/OptionsPopover";
+import { useOptionsDialogContext } from "@/components/ui/optionsPopover/OptionsPopover";
 import {
   DialogCard,
   DialogCardFooter,
@@ -12,7 +11,7 @@ import {
 import { compareDate, parseNzDateToZodDate, validateDate } from "@/lib/utils";
 import { TextInput } from "../../TextInput";
 import { useToast } from "../../ui/use-toast";
-import { SemesterContext } from "./SemestersContext";
+import { useSemesterContext } from "./SemestersContext";
 
 const formSchema = z
   .object({
@@ -57,8 +56,8 @@ export const SemesterEditDialogue = () => {
     id: semesterId,
     bookingOpenDay,
     bookingOpenTime,
-  } = useContext(SemesterContext);
-  const { handleClose: closeDialog } = useContext(OptionsDialogContext);
+  } = useSemesterContext();
+  const { handleClose: closeDialog } = useOptionsDialogContext();
 
   // Hook-forms
   const {
