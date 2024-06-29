@@ -8,6 +8,8 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
+import { Toaster } from "@/components/ui/toaster";
+
 export const metadata: Metadata = {
   title: "UABC Booking Portal",
   description:
@@ -67,6 +69,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     >
       <body>
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );
