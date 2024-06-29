@@ -20,7 +20,7 @@ const UnmemoizedSemesterDetailCard = () => {
         className="absolute top-0 left-0 w-full h-full z-10"
       />
       <div className="flex items-center justify-between">
-        <h3 className="text-lg text-foreground whitespace-nowrap">{name}</h3>
+        <h3 className="text-lg text-foreground truncate">{name}</h3>
         <OptionsPopover>
           <OptionsPopover.DialogItem
             ButtonElement={<OptionButtonUtils type="edit" />}
