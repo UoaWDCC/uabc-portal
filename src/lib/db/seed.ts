@@ -1,4 +1,4 @@
-import { randomInt } from "crypto";
+import { randomInt, randomUUID } from "crypto";
 import { exit } from "process";
 import { faker } from "@faker-js/faker";
 import { addMonths, format } from "date-fns";
@@ -109,13 +109,14 @@ async function main() {
   await db.insert(schema.bookings).values(bookings);
   console.log("Seeded bookings.");
 
-  for (let i = 0; i < gameSessions.length; i++) {
-    for (let j = 0; j < randomInt(bookings.length / 2, bookings.length); j++) {
+  for (let i = 0; i < bookings.length; i++) {
+    const half = Math.floor(gameSessions.length / 2);
+    for (let j = 0; j < 2 * half; j += half) {
       bookingDetails.push({
-        bookingId: bookings[j].id!,
-        gameSessionId: gameSessions[i].id!,
+        bookingId: bookings[i].id!,
+        gameSessionId: gameSessions[randomInt(j, j + half)].id!,
         playLevel: schema.playLevelEnum.enumValues[randomInt(3)],
-        isMember: users.find((user) => user.id === bookings[j].userId)!.member!,
+        isMember: users.find((user) => user.id === bookings[i].userId)!.member!,
       });
     }
   }
