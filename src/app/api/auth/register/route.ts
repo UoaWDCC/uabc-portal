@@ -43,7 +43,6 @@ export async function POST(request: Request) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(error.issues, { status: 400 });
     } else {
-      console.log(error);
       return new Response("Internal server error", { status: 500 });
     }
   }

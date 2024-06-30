@@ -16,7 +16,7 @@ const cardVariants = cva("rounded-sm px-6 py-4", {
     variant: {
       primary: "bg-primary text-primary-foreground",
       secondary: "bg-secondary text-secondary-foreground",
-      card: "bg-card text-card-foreground",
+      card: "bg-card text-card-foreground border",
     },
   },
   defaultVariants: {

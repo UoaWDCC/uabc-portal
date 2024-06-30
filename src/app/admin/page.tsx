@@ -4,6 +4,10 @@ import { BsPersonFillCheck } from "react-icons/bs";
 import { DashboardButton } from "@/components/admin/DashboardButton";
 import { Heading } from "@/components/Heading";
 
+export const metadata = {
+  title: "Admin Dashboard - UABC Booking Portal",
+};
+
 export default async function AdminDashboardPage() {
   return (
     <div className="flex h-dvh flex-col">

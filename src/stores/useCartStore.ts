@@ -10,6 +10,7 @@ interface CartState {
 interface CartAction {
   updateCart: (cart: CartState["cart"]) => void;
   updatePlayLevelById: (id: number, PlayLevel: PlayLevel) => void;
+  clearCart: () => void;
 }
 
 export const useCartStore = create<CartState & CartAction>((set) => ({
@@ -22,4 +23,5 @@ export const useCartStore = create<CartState & CartAction>((set) => ({
         return session;
       }),
     })),
+  clearCart: () => set(() => ({ cart: [] })),
 }));
