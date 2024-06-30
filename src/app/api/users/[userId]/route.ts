@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
+import { getUserFromId } from "@/services/user";
 
 /**
  * Get user by id
@@ -16,18 +17,7 @@ export async function GET(
   try {
     const { userId } = params;
 
-    const user = await db.query.users.findFirst({
-      where: eq(users.id, userId),
-      columns: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        member: true,
-        verified: true,
-        remainingSessions: true,
-      },
-    });
+    const user = await getUserFromId(userId);
 
     if (!user) {
       return new Response(`No User found for id: ${userId}`, { status: 404 });

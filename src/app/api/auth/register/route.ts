@@ -54,11 +54,7 @@ export async function POST(request: Request) {
         { status: 400, statusText: "Schema Error" },
       );
     } else {
-      console.log(error);
-      return NextResponse.json(
-        { errors: "Internal server error" },
-        { status: 500, statusText: "Internal server error. Please try again." },
-      );
+      return new Response("Internal server error", { status: 500 });
     }
   }
 }

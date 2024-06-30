@@ -28,7 +28,7 @@ export default function ClientSessionPage({
   const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
 
   return (
-    <div className="flex flex-col grow">
+    <>
       <div className="flex h-16 items-center justify-between p-4">
         <p className="max-w-[70%] font-medium text-sm">
           Please select a badminton session for this week
@@ -48,12 +48,11 @@ export default function ClientSessionPage({
       <SelectSessionList
         onLimitReached={() => setShake(true)}
         isMember={isMember}
-        className="mx-4"
+        className="mx-4 grow"
       />
 
-      <div className="mt-6 mb-8 mx-4 flex justify-center">
+      <div className="mt-6 mb-10 mx-4 flex justify-center">
         <Button
-          large
           disabled={sessionsSelected === 0}
           onClick={() => push("/sessions/book")}
           className="w-full"
@@ -61,6 +60,6 @@ export default function ClientSessionPage({
           Next
         </Button>
       </div>
-    </div>
+    </>
   );
 }

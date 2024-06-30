@@ -57,7 +57,12 @@ export function SelectSessionList({
 
   if (isLoading || !sessions) {
     return (
-      <div className="flex grow flex-col gap-3 overflow-y-auto overscroll-contain mx-4">
+      <div
+        className={cn(
+          "flex flex-col gap-3 overflow-y-auto overscroll-contain",
+          className,
+        )}
+      >
         {/* arbitrary number of cards */}
         <SkeletonSelectSessionCard />
         <SkeletonSelectSessionCard />
@@ -70,7 +75,7 @@ export function SelectSessionList({
   return (
     <div
       className={cn(
-        "flex grow flex-col gap-3 overflow-y-auto overscroll-contain",
+        "flex flex-col gap-3 overflow-y-auto overscroll-contain",
         className,
       )}
     >
