@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
 import { NavigationBar } from "@/components/NavigationBar";
@@ -12,38 +12,8 @@ export default function BookSessionPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleConfirmButtonClick = async () => {
-    try {
-      setIsSubmitting(true);
-
-      const payload = sortedSessions.map((session) => ({
-        gameSessionId: session.id,
-        playLevel: session.playLevel,
-      }));
-
-      const response = await fetch("/api/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        // Navigate to confirmation page on success
-        router.push("/sessions/book/confirmation");
-      } else {
-        // Redirect back to sessions page on failure
-        router.push("/sessions");
-      }
-    } catch (error) {
-      console.error("Error while confirming booking:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   const cart = useCartStore((state) => state.cart);
+  const clearCart = useCartStore((state) => state.clearCart);
 
   const sortedSessions = useMemo(() => {
     return [...cart].sort((a, b) => {
@@ -63,6 +33,42 @@ export default function BookSessionPage() {
   const isPlayLevelSelected = cart.every(
     (session) => session.playLevel !== undefined,
   );
+
+  const handleConfirmButtonClick = async () => {
+    try {
+      setIsSubmitting(true);
+
+      const payload = sortedSessions.map((session) => ({
+        gameSessionId: session.id,
+        playLevel: session.playLevel,
+      }));
+
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const { id } = await response.json();
+        router.push(`/booking-confirmation/${id}`);
+        setTimeout(() => clearCart(), 1000); // Clear cart after 1 second to prevent UI updates before redirect
+      } else {
+        throw new Error("Failed to confirm booking");
+      }
+    } catch (error) {
+      console.error("Error while confirming booking:", error);
+      router.push("/sessions");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (!cart.length) {
+    redirect("/sessions");
+  }
 
   return (
     <div className="flex flex-col h-dvh mx-4 gap-y-4">

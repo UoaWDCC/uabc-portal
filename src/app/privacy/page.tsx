@@ -1,7 +1,7 @@
 import { Card } from "@/components/Card";
 
 export const metadata = {
-  title: "Privacy Policy",
+  title: "Privacy Policy - UABC Booking Portal",
   description: "Privacy policy for the UABC Booking Portal",
 };
 

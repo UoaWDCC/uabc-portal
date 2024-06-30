@@ -10,6 +10,7 @@ export const env = createEnv({
     NEXTAUTH_SECRET: z.string().min(1),
     ENVIRONMENT: z.string().min(1),
     APP_URL: z.string().min(1),
+    SQID_SECRET: z.string().min(1),
   },
   client: {},
   runtimeEnv: {
@@ -20,5 +21,6 @@ export const env = createEnv({
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     ENVIRONMENT: process.env.ENVIRONMENT,
     APP_URL: process.env.APP_URL,
+    SQID_SECRET: process.env.SQID_SECRET,
   },
 });

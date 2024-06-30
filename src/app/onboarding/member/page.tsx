@@ -17,7 +17,7 @@ const MembershipType = () => {
   const { data, update } = useSession();
 
   if (!firstName || !lastName) {
-    redirect("onboarding/name");
+    redirect("/onboarding/name");
   }
 
   const id = data?.user?.id;

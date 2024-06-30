@@ -42,6 +42,7 @@ export const config = {
     // "/((?!api|_next/static|_next/image|favicon.ico|images|svgs).*)",
     "/admin/:path*",
     "/sessions/:path*",
+    "/booking-confirmation/:path*",
     "/onboarding/:path*",
     "/auth/login",
     "/auth/signup",
