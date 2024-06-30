@@ -4,7 +4,6 @@ import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import InputMessage from "../InputMessage";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 
@@ -96,9 +95,9 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
           label="Password"
           type="password"
           isError={errors.email && errors.email.type == "manual"}
+          errorMessage={errors.email?.message}
           {...register("password")}
         />
-        <InputMessage isError inputText={errors.email?.message} />
         <Button large type="submit" disabled={buttonDisabled}>
           Login with Email
         </Button>

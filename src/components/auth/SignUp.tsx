@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import InputMessage from "../InputMessage";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 
@@ -92,48 +91,30 @@ export const EmailSignUp = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex-col flex my-4">
+      <div className="flex-col flex gap-4">
         <span className="text-foreground text-center">Create an Account</span>
         <TextInput
           className="text-foreground"
           label="Email"
           type="email"
-          isError={errors.email && errors.email.type == "manual"}
+          isError={!!errors.email}
           isSuccess={success}
+          errorMessage={errors.email?.message}
           {...register("email")}
           onBlur={editEmail}
         />
-        {errors.email && (
-          <InputMessage isError inputText={errors.email.message} />
-        )}
-      </div>
-      <div className="flex-col flex my-4">
         <TextInput
           label="Password"
           type="password"
-          isError={errors.password && errors.password.type == "manual"}
+          isError={!!errors.password}
           isSuccess={success}
+          errorMessage={errors.password?.message}
+          successMessage={"Account Created! Please log in now."}
           className="text-foreground"
           {...register("password")}
           onBlur={editPassword}
         />
-        {errors.password && (
-          <InputMessage isError inputText={errors.password.message} />
-        )}
-        {success && (
-          <InputMessage
-            isSuccess
-            inputText={"Account Created! Please log in now."}
-          />
-        )}
-      </div>
-      <div className="flex-col flex my-4">
-        <Button
-          className="flex-col flex"
-          large
-          type="submit"
-          disabled={buttonDisabled}
-        >
+        <Button large type="submit" disabled={buttonDisabled}>
           Sign Up with Email
         </Button>
       </div>
