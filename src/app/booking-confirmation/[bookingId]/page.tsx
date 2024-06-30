@@ -1,28 +1,21 @@
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import ConfirmationMessage from "@/components/booking/confirmation/ConfirmationMessage";
 import { ConfirmedSessionCard } from "@/components/booking/confirmation/ConfirmedSessionCard";
 import { UabcHeaderText } from "@/components/UabcHeaderText";
 import { buttonVariants } from "@/components/ui/button";
-import { getCurrentUser } from "@/lib/session";
+import type { CurrentUserProps } from "@/lib/hoc/withCurrentUser";
 import { convertTo12HourFormat, getWeekday } from "@/lib/utils";
 import { getBookingBySqid } from "@/services/booking";
 
 export default async function ConfirmationPage({
   params,
-}: {
-  params: { bookingId: string };
-}) {
-  const user = await getCurrentUser();
-
-  if (!user) {
-    redirect("/auth/login");
-  }
-
+  currentUser,
+}: CurrentUserProps & { params: { bookingId: string } }) {
   const booking = await getBookingBySqid(params.bookingId);
 
-  if (!booking || booking.userId !== user.id) {
+  if (!booking || booking.userId !== currentUser.id) {
     notFound();
   }
 
@@ -40,7 +33,10 @@ export default async function ConfirmationPage({
       </div>
 
       <div className="flex flex-col grow items-center justify-center gap-6 py-10 mx-4">
-        <ConfirmationMessage member={user.member!} email={user.email} />
+        <ConfirmationMessage
+          member={currentUser.member!}
+          email={currentUser.email}
+        />
         <Link href="/" className={buttonVariants({ variant: "ghost" })}>
           Return Home
         </Link>

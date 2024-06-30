@@ -9,7 +9,7 @@ export async function getBookingBySqid(bookingSqid: string) {
 
     if (!bookingId) return null;
 
-    const userBooking = await db.query.bookings.findFirst({
+    return db.query.bookings.findFirst({
       where: (bookings, { eq }) => eq(bookings.id, bookingId),
       with: {
         bookingDetails: {
@@ -19,8 +19,6 @@ export async function getBookingBySqid(bookingSqid: string) {
         },
       },
     });
-
-    return userBooking;
   } catch {
     return null;
   }
