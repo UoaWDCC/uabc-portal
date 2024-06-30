@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
     }
 
     const newSemester = insertSemesterSchema.parse(await req.json());
+    return NextResponse.json("hello", { status: 201 }); // * TEST
 
     if (new Date(newSemester.startDate) > new Date(newSemester.endDate)) {
       return new Response("Start date must be less than end date", {

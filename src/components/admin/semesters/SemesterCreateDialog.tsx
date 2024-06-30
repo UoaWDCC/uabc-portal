@@ -1,21 +1,22 @@
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
+import { TextInput } from "@/components/TextInput";
 import { useOptionsDialogContext } from "@/components/ui/optionsPopover/OptionsPopover";
+import { useToast } from "@/components/ui/use-toast";
 import {
   DialogCard,
   DialogCardFooter,
 } from "@/components/ui/utils/DialogUtils";
 import { compareDate, parseNzDateToZodDate, validateDate } from "@/lib/utils";
-import { TextInput } from "../../TextInput";
-import { useToast } from "../../ui/use-toast";
-import { useSemesterContext } from "./SemestersContext";
 
-// Schema
+//Schema
 const formSchema = z
   .object({
+    name: z.string().min(1, "Field is required"),
     startDate: z
       .string()
       .min(1, "Field is required")
@@ -46,18 +47,8 @@ const formSchema = z
     path: ["breakEnd"],
   });
 
-export const SemesterEditDialogue = () => {
-  // Contexts
-  const {
-    name,
-    startDate,
-    endDate,
-    breakStart,
-    breakEnd,
-    id: semesterId,
-    bookingOpenDay,
-    bookingOpenTime,
-  } = useSemesterContext();
+export const SemesterCreateDialog = () => {
+  //Context
   const { handleClose: closeDialog } = useOptionsDialogContext();
 
   // Hook-forms
@@ -69,21 +60,21 @@ export const SemesterEditDialogue = () => {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      startDate,
-      endDate,
-      breakStart,
-      breakEnd,
+      name: "test",
+      startDate: "21/02/2025",
+      endDate: "11/08/2025",
+      breakStart: "7/05/2025",
+      breakEnd: "8/05/2025",
     },
   });
-
   const { toast } = useToast();
 
   // React-query
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (body: BodyInit) => {
-      const response = await fetch(`/api/semesters/${semesterId}`, {
-        method: "PUT",
+      const response = await fetch(`/api/semesters`, {
+        method: "POST",
         body,
         headers: {
           "Content-Type": "application/json",
@@ -98,19 +89,30 @@ export const SemesterEditDialogue = () => {
     },
   });
 
+  /* zod
+  id: z.ZodOptional<z.ZodNumber>;
+    name: z.ZodString;
+    startDate: z.ZodString;
+    endDate: z.ZodString;
+    breakStart: z.ZodString;
+    breakEnd: z.ZodString;
+    bookingOpenDay: z.ZodEnum<...>;
+    bookingOpenTime: z.ZodString;
+    createdAt: z.ZodOptional<...>;
+*/
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (data) => {
     const body = JSON.stringify({
-      name,
-      bookingOpenDay,
-      bookingOpenTime,
+      name: data.name,
       startDate: parseNzDateToZodDate(data.startDate),
       endDate: parseNzDateToZodDate(data.endDate),
       breakStart: parseNzDateToZodDate(data.breakStart),
       breakEnd: parseNzDateToZodDate(data.breakEnd),
+      bookingOpenDay: "Monday",
+      bookingOpenTime: "12:00:00",
+      createdAt: new Date(),
     });
 
     console.log(body);
-
     mutation.mutate(body, {
       onError: () => {
         toast({
@@ -138,8 +140,16 @@ export const SemesterEditDialogue = () => {
   };
 
   return (
-    <DialogCard title={`Edit ${name}`} onClose={() => reset()}>
+    <DialogCard title="Create a new semester">
       <form className="flex gap-4 flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <TextInput
+          label="Name"
+          type="text"
+          {...register("name")}
+          isError={!!errors.name?.message}
+          errorMessage={errors.name?.message}
+          autoComplete="off"
+        />
         <div className="flex gap-2 *:grow ">
           <TextInput
             label="Start date"
@@ -148,6 +158,7 @@ export const SemesterEditDialogue = () => {
             isError={!!errors.startDate?.message}
             errorMessage={errors.startDate?.message}
             autoComplete="off"
+            placeholder="dd/MM/yyyy"
           />
           <TextInput
             label="End date"
@@ -156,6 +167,7 @@ export const SemesterEditDialogue = () => {
             isError={!!errors.endDate?.message}
             errorMessage={errors.endDate?.message}
             autoComplete="off"
+            placeholder="dd/MM/yyyy"
           />
         </div>
         <div className="flex gap-2 *:grow">
@@ -166,6 +178,7 @@ export const SemesterEditDialogue = () => {
             isError={!!errors.breakStart?.message}
             errorMessage={errors.breakStart?.message}
             autoComplete="off"
+            placeholder="dd/MM/yyyy"
           />
           <TextInput
             label="Break end date"
@@ -174,9 +187,10 @@ export const SemesterEditDialogue = () => {
             isError={!!errors.breakEnd?.message}
             errorMessage={errors.breakEnd?.message}
             autoComplete="off"
+            placeholder="dd/MM/yyyy"
           />
         </div>
-        <DialogCardFooter type="submit" primaryText="Update" />
+        <DialogCardFooter type="submit" primaryText="Create" />
       </form>
     </DialogCard>
   );

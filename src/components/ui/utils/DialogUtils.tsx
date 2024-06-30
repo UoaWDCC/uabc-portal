@@ -18,7 +18,7 @@ interface DialogCardProps extends DialogProps {
 export const DialogCard = ({ title, children, onClose }: DialogCardProps) => {
   return (
     <DialogContent
-      className="sm:max-w-[475px] max-w-[375px] rounded-lg"
+      className="sm:max-w-[475px] max-w-[375px] rounded-lg dark"
       onCloseAutoFocus={onClose}
     >
       <DialogHeader>
@@ -29,15 +29,23 @@ export const DialogCard = ({ title, children, onClose }: DialogCardProps) => {
   );
 };
 
-export const DialogCardFooter = ({ ...props }: ButtonProps) => {
+interface DialogCardFooterProps extends ButtonProps {
+  primaryText?: string;
+  secondaryText?: string;
+}
+export const DialogCardFooter = ({
+  primaryText = "Confirm",
+  secondaryText = "Cancel",
+  ...props
+}: DialogCardFooterProps) => {
   return (
     <DialogFooter className="flex gap-2 ">
       <DialogClose asChild>
         <Button variant="outline" className="text-foreground">
-          Cancel
+          {secondaryText}
         </Button>
       </DialogClose>
-      <Button {...props}>Confirm</Button>
+      <Button {...props}>{primaryText}</Button>
     </DialogFooter>
   );
 };

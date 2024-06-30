@@ -1,8 +1,11 @@
 "use client";
 
 import React, { useMemo } from "react";
+import { Dialog } from "@radix-ui/react-dialog";
 
+import { OptionsPopover } from "@/components/ui/optionsPopover/OptionsPopover";
 import { useCurrentSemesters } from "@/hooks/query/useCurrentSemesters";
+import { SemesterCreateDialog } from "./SemesterCreateDialog";
 import { SemesterDetailCard } from "./SemesterDetailCard";
 import { SemesterContextProvider } from "./SemestersContext";
 import { SkeletonSemesterCard } from "./SkeletonSemesterCard";
@@ -38,9 +41,16 @@ export const SemestersList = () => {
     );
   }
 
-  return semesters?.map((semester) => (
-    <SemesterContextProvider key={semester.id} value={semester}>
-      <SemesterDetailCard />
-    </SemesterContextProvider>
-  ));
+  return (
+    <>
+      <Dialog defaultOpen>
+        <SemesterCreateDialog />
+      </Dialog>
+      {semesters?.map((semester) => (
+        <SemesterContextProvider key={semester.id} value={semester}>
+          <SemesterDetailCard />
+        </SemesterContextProvider>
+      ))}
+    </>
+  );
 };
