@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
+import { useToast } from "../ui/use-toast";
 
 interface SignUpFormData {
   email: string;
@@ -22,6 +23,7 @@ const passwordSchema = z
 export const EmailSignUp = () => {
   const [success, setSuccess] = useState<boolean>(false);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
+  const { toast } = useToast();
 
   const {
     register,
@@ -54,9 +56,11 @@ export const EmailSignUp = () => {
         message: "Email already in use",
       });
     } else if (response.status == 500) {
-      setError("email", {
-        type: "manual",
-        message: "Internal server error. Please try again.",
+      toast({
+        title: "Uh oh! Something went wrong",
+        description:
+          "An error occurred while creating your acccount. Please try again.",
+        variant: "destructive",
       });
     } else {
       setSuccess(true);
