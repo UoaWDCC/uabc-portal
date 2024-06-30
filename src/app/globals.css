@@ -113,3 +113,7 @@ h2 + .InputAdjacentText:focus {
   padding: 0 0.5rem;
   color: hsl(217, 91%, 60%); /*blue-500*/
 }
+
+.textStroke {
+  -webkit-text-stroke: 6px hsl(var(--foreground));
+}

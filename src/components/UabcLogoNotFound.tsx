@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 export const UabcLogoNotFound = ({ className }: { className?: string }) => {
   return (
-    <div className={clsx(className, "stroke-foreground/70")}>
+    <div className={clsx(className, "stroke-foreground")}>
       <svg
         width="280"
         height="274"
