@@ -2,12 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 
 type GameSessionResponse = {
   id: number;
-  date: Date;
+  date: string;
   startTime: string;
   endTime: string;
   locationName: string;
   locationAddress: string;
-  isFull: boolean;
+  capacity: number;
+  casualCapacity: number;
+  bookingCount: number;
+  casualBookingCount: number;
 };
 
 const fetchCurrentGameSessions = async (): Promise<GameSessionResponse[]> => {
