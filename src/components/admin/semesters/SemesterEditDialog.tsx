@@ -8,7 +8,7 @@ import {
   DialogCard,
   DialogCardFooter,
 } from "@/components/ui/utils/DialogUtils";
-import { compareDate, parseNzDateToZodDate, validateDate } from "@/lib/utils";
+import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
 import { TextInput } from "../../TextInput";
 import { useToast } from "../../ui/use-toast";
 import { useSemesterContext } from "./SemestersContext";
@@ -102,10 +102,10 @@ export const SemesterEditDialogue = () => {
       name,
       bookingOpenDay,
       bookingOpenTime,
-      startDate: parseNzDateToZodDate(data.startDate),
-      endDate: parseNzDateToZodDate(data.endDate),
-      breakStart: parseNzDateToZodDate(data.breakStart),
-      breakEnd: parseNzDateToZodDate(data.breakEnd),
+      startDate: formatDateInISO(data.startDate),
+      endDate: formatDateInISO(data.endDate),
+      breakStart: formatDateInISO(data.breakStart),
+      breakEnd: formatDateInISO(data.breakEnd),
     });
 
     mutation.mutate(body, {

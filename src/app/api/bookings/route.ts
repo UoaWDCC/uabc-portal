@@ -5,6 +5,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { bookingDetails, bookings, gameSessions, users } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
+import { obfuscateId } from "@/lib/sqid";
 
 /**
  * Creates a booking for the current user
@@ -25,14 +26,15 @@ export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
 
-    if (!currentUser) return new Response("unauthorized user", { status: 401 });
+    if (!currentUser)
+      return new Response("Unauthorized request", { status: 401 });
 
     // parse the input array of objects and check if the user has enough sessions
     const json = bookingSchema.parse(await request.json());
     const numOfSessions = json.length;
 
     if (numOfSessions === 0)
-      return new Response("must book at least one session", {
+      return new Response("Must book at least one session", {
         status: 400,
       });
 
@@ -40,7 +42,7 @@ export async function POST(request: Request) {
     const user = await db.query.users.findFirst({
       where: eq(users.id, currentUser!.id),
     });
-    if (!user) return new Response("user not found", { status: 404 });
+    if (!user) return new Response("User not found", { status: 404 });
 
     const allowedBookingCount = user?.member ? 2 : 1;
 
@@ -57,17 +59,19 @@ export async function POST(request: Request) {
 
     // if user has already booked the maximum allowed sessions for this week
     if (bookingsThisWeek.count + numOfSessions > allowedBookingCount) {
-      return new Response("maximum booking limit exceed", { status: 400 });
+      return new Response("Maximum booking limit exceed", { status: 400 });
     }
 
     // if the user is a member, check if they have enough remaining sessions
     if (user?.member === true && user.remainingSessions < numOfSessions) {
-      return new Response("insufficient remaining sessions", { status: 400 });
+      return new Response("Insufficient remaining prepaid sessions", {
+        status: 400,
+      });
     }
 
     // check if there are duplicate game session ids in the request
     if (numOfSessions == 2 && json[0].gameSessionId == json[1].gameSessionId) {
-      return new Response("duplicate game session ids", { status: 400 });
+      return new Response("Duplicate game session ids", { status: 400 });
     }
 
     for (const session of json) {
@@ -83,7 +87,7 @@ export async function POST(request: Request) {
           ),
         );
       if (existingBooking) {
-        return new Response("booking already exists", { status: 400 });
+        return new Response("Booking already exists", { status: 400 });
       }
 
       // check if gameSession exists
@@ -91,7 +95,7 @@ export async function POST(request: Request) {
         where: eq(gameSessions.id, session.gameSessionId),
       });
       if (!gameSession) {
-        return new Response("game session does not exist", { status: 400 });
+        return new Response("Game session does not exist", { status: 400 });
       }
 
       // check if gameSesson is available for booking
@@ -99,13 +103,16 @@ export async function POST(request: Request) {
         gameSession.bookingOpen > new Date() ||
         gameSession.bookingClose < new Date()
       ) {
-        return new Response("game session is currently available for booking", {
-          status: 400,
-        });
+        return new Response(
+          "Game session is not currently available for booking",
+          {
+            status: 400,
+          },
+        );
       }
     }
 
-    await db.transaction(async (tx) => {
+    const bookingId = await db.transaction(async (tx) => {
       const [{ bookingId }] = await tx
         .insert(bookings)
         .values({
@@ -157,8 +164,11 @@ export async function POST(request: Request) {
           })
           .where(eq(users.id, currentUser!.id));
       }
+
+      return bookingId;
     });
-    return new Response("Booking successfully created", { status: 201 });
+
+    return NextResponse.json({ id: obfuscateId(bookingId) }, { status: 201 });
   } catch (e) {
     if (e instanceof TransactionRollbackError) {
       return new Response("Game session at max capacity", { status: 409 });
