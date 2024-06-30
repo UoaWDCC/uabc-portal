@@ -11,8 +11,6 @@ export async function GET(
   try {
     const currentUser = await getCurrentUser();
 
-    console.log(currentUser);
-
     if (!currentUser)
       return new Response("Unauthorized request", { status: 401 });
 

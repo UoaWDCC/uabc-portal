@@ -15,30 +15,36 @@ export function getWeekday(date: Date | string) {
 }
 
 /**
- * Converts from Military Time to 12-hour format
+ * Converts from military Time to 12-hour format
  */
 export function convertTo12HourFormat(militaryTime: string): string {
   return format(parse(militaryTime, "HH:mm:ss", new Date()), "HH:mma");
 }
 
-export const parseDateToObject = (date: string) => {
+/**
+ * Parses a date string of the format "dd/MM/yyyy" into a Date object.
+ */
+export const parseDate = (date: string) => {
   return parse(date, "dd/MM/yyyy", new Date());
 };
 
-// compare two dates a - b,
-// a > b return positive int, a < b return negative int, a = b return 0
+/**
+ * Compares two dates of the formate "dd/MM/yyyy" and returns the difference in milliseconds.
+ */
 export const compareDate = (date1: string, date2: string) => {
-  return (
-    parseDateToObject(date1).getTime() - parseDateToObject(date2).getTime()
-  );
+  return parseDate(date1).getTime() - parseDate(date2).getTime();
 };
 
-// Return the formatted date in "yyyy-MM-dd" string for zod validation
-export const parseNzDateToZodDate = (date: string) => {
+/**
+ * Formats a date string of the format "dd/MM/yyyy" into "yyyy-MM-dd"
+ */
+export const formatDateInISO = (date: string) => {
   return formatDate(parse(date, "dd/MM/yyyy", new Date()), "yyyy-MM-dd");
 };
 
-// Return boolean use to validate date in "dd/MM/yyyy" format
+/**
+ * Validates a date string of the format "dd/MM/yyyy"
+ */
 export const validateDate = (date: string) => {
   return isValid(parse(date, "dd/MM/yyyy", new Date()));
 };
