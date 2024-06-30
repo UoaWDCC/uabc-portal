@@ -16,7 +16,6 @@ const passwordSchema = z
 
 export async function POST(request: Request) {
   try {
-    console.log(request);
     const { email, password } = await request.json();
 
     //validate email and password

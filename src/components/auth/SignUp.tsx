@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -69,13 +69,6 @@ export const EmailSignUp = () => {
     setButtonDisabled(false);
   };
 
-  useEffect(() => {
-    if (errors.email || errors.password) {
-      setSuccess(false);
-    }
-  }),
-    [errors];
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex-col flex gap-4">
@@ -85,19 +78,21 @@ export const EmailSignUp = () => {
           label="Email"
           type="email"
           isError={!!errors.email}
-          isSuccess={success}
+          isSuccess={!(!!errors.email || !!errors.password) && success}
           errorMessage={errors.email?.message}
           {...register("email")}
+          onChange={() => setSuccess(false)}
         />
         <TextInput
           label="Password"
           type="password"
           isError={!!errors.password}
-          isSuccess={success}
+          isSuccess={!(!!errors.email || !!errors.password) && success}
           errorMessage={errors.password?.message}
           successMessage={"Account Created! Please log in now."}
           className="text-foreground"
           {...register("password")}
+          onChange={() => setSuccess(false)}
         />
         <Button large type="submit" disabled={buttonDisabled}>
           Sign Up with Email

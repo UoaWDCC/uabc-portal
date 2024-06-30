@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -56,7 +56,7 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
       } else {
         throw new Error("Invalid email or password");
       }
-    } catch (e) {
+    } catch {
       setButtonDisabled(false);
       setError("email", {
         type: "manual",
@@ -87,14 +87,14 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
           className="text-foreground"
           label="Email"
           type="email"
-          isError={errors.email && errors.email.type == "manual"}
+          isError={!!errors.email}
           {...register("email")}
         />
         <TextInput
           className="text-foreground"
           label="Password"
           type="password"
-          isError={errors.email && errors.email.type == "manual"}
+          isError={!!errors.email}
           errorMessage={errors.email?.message}
           {...register("password")}
         />
