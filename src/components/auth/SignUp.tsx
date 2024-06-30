@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -27,29 +28,11 @@ export const EmailSignUp = () => {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<SignUpFormData>();
-
-  const editEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      emailSchema.parse(e.target.value);
-    } catch (e) {
-      setError("email", {
-        type: "manual",
-        message: (e as z.ZodError).errors[0].message,
-      });
-    }
-  };
-
-  const editPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      passwordSchema.parse(e.target.value);
-    } catch (e) {
-      setError("password", {
-        type: "manual",
-        message: (e as z.ZodError).errors[0].message,
-      });
-    }
-  };
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(
+      z.object({ email: emailSchema, password: passwordSchema }),
+    ),
+  });
 
   const onSubmit = async (formData: SignUpFormData) => {
     setButtonDisabled(true);
@@ -101,7 +84,6 @@ export const EmailSignUp = () => {
           isSuccess={success}
           errorMessage={errors.email?.message}
           {...register("email")}
-          onBlur={editEmail}
         />
         <TextInput
           label="Password"
@@ -112,7 +94,6 @@ export const EmailSignUp = () => {
           successMessage={"Account Created! Please log in now."}
           className="text-foreground"
           {...register("password")}
-          onBlur={editPassword}
         />
         <Button large type="submit" disabled={buttonDisabled}>
           Sign Up with Email
