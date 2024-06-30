@@ -1,5 +1,4 @@
 import type { AdapterAccount } from "@auth/core/adapters";
-import { relations } from "drizzle-orm";
 import {
   boolean,
   date,
@@ -12,7 +11,6 @@ import {
   time,
   timestamp,
   unique,
-  uuid,
 } from "drizzle-orm/pg-core";
 
 export const playLevelEnum = pgEnum("playLevel", [

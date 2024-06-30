@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 
 import { getCurrentUser } from "@/lib/session";
-import { getBookingById } from "@/services/booking";
+import { getBookingBySqid } from "@/services/booking";
 
 export async function GET(
   _req: NextRequest,
@@ -16,7 +16,7 @@ export async function GET(
     if (!currentUser)
       return new Response("Unauthorized request", { status: 401 });
 
-    const userBooking = await getBookingById(params.bookingId);
+    const userBooking = await getBookingBySqid(params.bookingId);
 
     if (!userBooking) return new Response("Booking not found", { status: 404 });
 

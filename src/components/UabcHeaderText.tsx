@@ -4,11 +4,11 @@ import { cn } from "@/lib/utils";
 
 interface UabcHeaderTextProps {
   className?: string;
-  includeBooking?: boolean;
+  description?: boolean;
 }
 
 export const UabcHeaderText = ({
-  includeBooking,
+  description,
   className,
 }: UabcHeaderTextProps) => (
   <div
@@ -18,7 +18,7 @@ export const UabcHeaderText = ({
     )}
   >
     <span className="text-[4rem] tracking-tight leading-none">UABC</span>
-    {includeBooking && (
+    {description && (
       <>
         <br />
         <span className="text-lg leading-none">booking portal</span>

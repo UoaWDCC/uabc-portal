@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { deobfuscateSqid, obfuscateId } from "@/lib/sqid";
+import { deobfuscateSqid } from "@/lib/sqid";
 
 import "server-only";
 

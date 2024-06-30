@@ -1,4 +1,4 @@
-import { randomInt, randomUUID } from "crypto";
+import { randomInt } from "crypto";
 import { exit } from "process";
 import { faker } from "@faker-js/faker";
 import { addMonths, format } from "date-fns";

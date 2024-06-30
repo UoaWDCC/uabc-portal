@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
 import { NavigationBar } from "@/components/NavigationBar";
@@ -65,6 +65,10 @@ export default function BookSessionPage() {
       setIsSubmitting(false);
     }
   };
+
+  if (!cart.length) {
+    redirect("/sessions");
+  }
 
   return (
     <div className="flex flex-col h-dvh mx-4 gap-y-4">
