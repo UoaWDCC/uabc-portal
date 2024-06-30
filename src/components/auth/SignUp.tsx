@@ -78,7 +78,7 @@ export const EmailSignUp = () => {
           label="Email"
           type="email"
           isError={!!errors.email}
-          isSuccess={!(!!errors.email || !!errors.password) && success}
+          isSuccess={success}
           errorMessage={errors.email?.message}
           {...register("email")}
           onChange={() => setSuccess(false)}
@@ -87,7 +87,7 @@ export const EmailSignUp = () => {
           label="Password"
           type="password"
           isError={!!errors.password}
-          isSuccess={!(!!errors.email || !!errors.password) && success}
+          isSuccess={success}
           errorMessage={errors.password?.message}
           successMessage={"Account Created! Please log in now."}
           className="text-foreground"
