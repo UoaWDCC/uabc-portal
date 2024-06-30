@@ -14,7 +14,7 @@ import { getCurrentUser } from "@/lib/session";
 import { formatInNZST, getWeekday } from "@/lib/utils";
 import {
   insertGameSessionExceptionSchema,
-  insertGameSessionSchema,
+  insertNonNullGameSessionExceptionSchema,
   updateGameSessionSchema,
 } from "@/lib/validators";
 
@@ -128,42 +128,27 @@ export async function POST(req: NextRequest) {
       return new Response("ERROR: No valid permissions", { status: 403 });
     }
 
-    const gameSessionToInsert = insertGameSessionSchema.parse(await req.json());
-    const gameSessionDate = gameSessionToInsert.date;
+    const gameSessionExceptionToInsert =
+      insertNonNullGameSessionExceptionSchema.parse(await req.json());
+    const gameSessionDate = gameSessionExceptionToInsert.date;
 
     if (gameSessionDate < formatInNZST(new Date())) {
       return new Response("Date cannot be in the past", { status: 400 });
     }
 
-    // Check the game session is valid
-    if (formatInNZST(gameSessionToInsert.bookingOpen) > gameSessionDate) {
-      return new Response("Booking open must be before the game session date", {
-        status: 400,
-      });
-    }
-
-    if (formatInNZST(gameSessionToInsert.bookingClose) > gameSessionDate) {
-      return new Response(
-        "Booking close must be before the game session date",
-        {
-          status: 400,
-        },
-      );
-    }
-
-    if (gameSessionToInsert.bookingOpen > gameSessionToInsert.bookingClose) {
-      return new Response("Booking open must be before booking close", {
-        status: 400,
-      });
-    }
-
-    if (gameSessionToInsert.startTime > gameSessionToInsert.endTime) {
+    if (
+      gameSessionExceptionToInsert.startTime >
+      gameSessionExceptionToInsert.endTime
+    ) {
       return new Response("Start time must be before end time", {
         status: 400,
       });
     }
 
-    if (gameSessionToInsert.casualCapacity > gameSessionToInsert.capacity) {
+    if (
+      gameSessionExceptionToInsert.casualCapacity >
+      gameSessionExceptionToInsert.capacity
+    ) {
       return new Response("Casual capacity must be less than capacity", {
         status: 400,
       });
@@ -201,25 +186,33 @@ export async function POST(req: NextRequest) {
 
     const gameSessionSchedule = semester?.gameSessionSchedules[0];
 
-    if (gameSessionSchedule) {
-      // If a schedule exists, only create record if an exception also exists, otherwise it will be generated
-      const gameSessionException =
-        await db.query.gameSessionExceptions.findFirst({
-          where: eq(gameSessionExceptions.date, gameSessionDate),
-        });
+    const gameSessionException = await db.query.gameSessionExceptions.findFirst(
+      {
+        where: eq(gameSessionExceptions.date, gameSessionDate),
+      },
+    );
 
-      if (!gameSessionException) {
-        return new Response("No gameSessionException found for this date", {
-          status: 400,
-        });
-      }
+    // If a schedule exists and (no exception or exception is not a delete exception)
+    if (gameSessionSchedule && !gameSessionException?.isDeleted) {
+      return new Response("A game session already exists for this date", {
+        status: 400,
+      });
     }
 
-    const gameSessionExceptionToInsert =
-      insertGameSessionExceptionSchema.parse(gameSessionToInsert);
+    // If a schedule doesn't exist and (exception is not a delete exception)
+    if (
+      !gameSessionSchedule &&
+      gameSessionException &&
+      !gameSessionException.isDeleted
+    ) {
+      return new Response("Game session already exists for this date", {
+        status: 400,
+      });
+    }
+
     await db.insert(gameSessionExceptions).values(gameSessionExceptionToInsert);
 
-    return NextResponse.json(gameSessionToInsert, { status: 201 });
+    return NextResponse.json(gameSessionExceptionToInsert, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(error.issues, { status: 400 });
@@ -254,7 +247,7 @@ export async function DELETE(req: NextRequest) {
           where: eq(gameSessionExceptions.date, gameSessionDate),
         });
 
-      if (gameSessionException?.isDeleted) {
+      if (!gameSessionException || gameSessionException.isDeleted) {
         return new Response("A gameSession does not exist for this date", {
           status: 404,
         });
@@ -348,7 +341,7 @@ export async function PUT(req: NextRequest) {
       },
     );
 
-    if (gameSessionException?.isDeleted) {
+    if (!gameSessionException || gameSessionException.isDeleted) {
       return new Response("A gameSession does not exist for this date", {
         status: 404,
       });

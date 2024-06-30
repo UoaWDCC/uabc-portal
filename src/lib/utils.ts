@@ -12,6 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 export function getWeekday(date: Date | string) {
   return new Date(date).toLocaleDateString("en-NZ", {
     weekday: "long",
+    timeZone: "Pacific/Auckland",
   }) as Weekday;
 }
 

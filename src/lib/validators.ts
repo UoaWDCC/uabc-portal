@@ -80,3 +80,13 @@ export const insertGameSessionExceptionSchema = createInsertSchema(
     endTime: z.string().time(),
   },
 );
+
+export const insertNonNullGameSessionExceptionSchema = z.object({
+  date: z.string().date(),
+  startTime: z.string().time(),
+  endTime: z.string().time(),
+  locationName: z.string(),
+  locationAddress: z.string(),
+  capacity: z.number(),
+  casualCapacity: z.number(),
+});
