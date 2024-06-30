@@ -6,10 +6,11 @@ import { ConfirmedSessionCard } from "@/components/booking/confirmation/Confirme
 import { UabcHeaderText } from "@/components/UabcHeaderText";
 import { buttonVariants } from "@/components/ui/button";
 import type { CurrentUserProps } from "@/lib/hoc/withCurrentUser";
+import withCurrentUser from "@/lib/hoc/withCurrentUser";
 import { convertTo12HourFormat, getWeekday } from "@/lib/utils";
 import { getBookingBySqid } from "@/services/booking";
 
-export default async function ConfirmationPage({
+async function ConfirmationPage({
   params,
   currentUser,
 }: CurrentUserProps & { params: { bookingId: string } }) {
@@ -60,3 +61,5 @@ export default async function ConfirmationPage({
     </div>
   );
 }
+
+export default withCurrentUser(ConfirmationPage);
