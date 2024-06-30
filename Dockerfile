@@ -34,7 +34,7 @@ ENV APP_URL ${APP_URL}
 # The below values are set to empty strings as they are not needed at build time.
 ENV GOOGLE_CLIENT_ID " "
 ENV GOOGLE_CLIENT_SECRET " "
-ENV SQID_SECRET " "
+ENV SQID_SECRET "ABC"
 
 RUN --mount=type=secret,id=DATABASE_URL \
     --mount=type=secret,id=NEXTAUTH_SECRET \
