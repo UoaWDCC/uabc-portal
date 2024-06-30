@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { format, formatDate, isValid, parse } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import { twMerge } from "tailwind-merge";
 
 import type { Weekday } from "@/types/types";
@@ -11,6 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 export function getWeekday(date: Date | string) {
   return new Date(date).toLocaleDateString("en-NZ", {
     weekday: "long",
+    timeZone: "Pacific/Auckland",
   }) as Weekday;
 }
 
@@ -48,3 +50,10 @@ export const formatDateInISO = (date: string) => {
 export const validateDate = (date: string) => {
   return isValid(parse(date, "dd/MM/yyyy", new Date()));
 };
+
+/**
+ * Returns a string in the yyyy-MM-dd format in the Pacific/Auckland timezone
+ */
+export function formatInNZST(date: Date | string): string {
+  return formatInTimeZone(new Date(date), "Pacific/Auckland", "yyyy-MM-dd");
+}
