@@ -37,6 +37,7 @@ export const EmailSignUp = () => {
   });
 
   const onSubmit = async (formData: SignUpFormData) => {
+    setSuccess(false);
     setButtonDisabled(true);
 
     const response = await fetch("/api/auth/register", {
@@ -78,21 +79,19 @@ export const EmailSignUp = () => {
           label="Email"
           type="email"
           isError={!!errors.email}
-          isSuccess={success}
+          isSuccess={!(!!errors.email || !!errors.password) && success}
           errorMessage={errors.email?.message}
           {...register("email")}
-          onChange={() => setSuccess(false)}
         />
         <TextInput
           label="Password"
           type="password"
           isError={!!errors.password}
-          isSuccess={success}
+          isSuccess={!(!!errors.email || !!errors.password) && success}
           errorMessage={errors.password?.message}
           successMessage={"Account Created! Please log in now."}
           className="text-foreground"
           {...register("password")}
-          onChange={() => setSuccess(false)}
         />
         <Button large type="submit" disabled={buttonDisabled}>
           Sign Up with Email
