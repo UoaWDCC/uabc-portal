@@ -15,10 +15,7 @@ type GameSessionResponse = {
 const fetchGameSessionByDate = async (
   date: string,
 ): Promise<GameSessionResponse | null> => {
-  //   const response = await fetch(`/api/game-sessions?date=${date}`, {
-  //     cache: "no-store",
-  //   });
-  const response = await fetch(`/api/game-sessions/567`, {
+  const response = await fetch(`/api/game-sessions?date=${date}`, {
     cache: "no-store",
   });
   if (response.status === 404) return null;
@@ -30,7 +27,7 @@ const fetchGameSessionByDate = async (
 
 export const useGameSession = (date: string) => {
   const query = useQuery({
-    queryKey: ["game-sessions"],
+    queryKey: ["game-session", date],
     queryFn: () => fetchGameSessionByDate(date),
   });
 

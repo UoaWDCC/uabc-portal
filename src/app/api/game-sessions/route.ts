@@ -1,10 +1,11 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { and, eq, gt, gte, lt, lte, or } from "drizzle-orm";
+import { and, eq, gt, gte, lt, lte, or, sql } from "drizzle-orm";
 import z from "zod";
 
 import { db } from "@/lib/db";
 import {
+  bookingDetails,
   gameSessionExceptions,
   gameSessions,
   gameSessionSchedules,
@@ -36,8 +37,19 @@ export async function GET(req: NextRequest) {
     });
 
     if (existingGameSession) {
+      const [{ attendees }] = await db
+        .select({ attendees: sql<number>`count(*)` })
+        .from(bookingDetails)
+        .innerJoin(
+          gameSessions,
+          eq(bookingDetails.gameSessionId, gameSessions.id),
+        )
+        .where(eq(gameSessions.date, gameSessionDate));
       // If a game session exists for the date, return it
-      return NextResponse.json(existingGameSession, { status: 200 });
+      return NextResponse.json(
+        { ...existingGameSession, attendees },
+        { status: 200 },
+      );
     }
 
     // Check for a schedule on this weekday
@@ -59,11 +71,19 @@ export async function GET(req: NextRequest) {
       ),
     });
 
+    if (!semester?.gameSessionSchedules.length) {
+      return new Response("A gameSession does not exist for this date", {
+        status: 404,
+      });
+    }
+
     const gameSessionSchedule = semester?.gameSessionSchedules[0];
 
     if (!gameSessionSchedule) {
       // If no game session schedule found for the weekday within the semester, return
-      return new Response(null, { status: 204 });
+      return new Response("A gameSession does not exist for this date", {
+        status: 404,
+      });
     }
 
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
@@ -89,6 +109,7 @@ export async function GET(req: NextRequest) {
           locationAddress: gameSessionException.locationAddress,
           capacity: gameSessionException.capacity,
           casualCapacity: gameSessionException.casualCapacity,
+          attendees: 0,
         },
         { status: 200 },
       );
@@ -107,6 +128,7 @@ export async function GET(req: NextRequest) {
         locationAddress: gameSessionSchedule.locationAddress,
         capacity: gameSessionSchedule.capacity,
         casualCapacity: gameSessionSchedule.casualCapacity,
+        attendees: 0,
       },
       { status: 200 },
     );

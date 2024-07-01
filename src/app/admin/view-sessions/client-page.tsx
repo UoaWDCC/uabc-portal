@@ -6,18 +6,14 @@ import { EmptyAdminViewSessionCard } from "@/components/admin/EmptyAdminViewSess
 import { Calendar } from "@/components/ui/calendar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGameSession } from "@/hooks/query/useGameSession";
+import { convertTo12HourFormat } from "@/lib/utils";
 
 export default function ClientViewSessionsPage() {
   const [date, setDate] = React.useState<Date>(new Date());
 
   const { data, isLoading } = useGameSession(format(date, "yyyy-MM-dd"));
 
-  function formatTimeString(timeString: string) {
-    console.log(timeString);
-    return format(parse(timeString, "HH:mm:ss", new Date()), "h:mma");
-  }
-
-  function getState(date: Date) {
+  function getSessionState(date: Date) {
     const now = new Date();
     if (date < now) {
       return "past";
@@ -62,13 +58,13 @@ export default function ClientViewSessionsPage() {
         <AdminViewSessionCard
           id={data.id}
           title={format(date, "eeee do MMMM yyyy")}
-          startTime={formatTimeString(data.startTime)}
-          endTime={formatTimeString(data.endTime)}
+          startTime={convertTo12HourFormat(data.startTime)}
+          endTime={convertTo12HourFormat(data.endTime)}
           locationName={data.locationName}
           locationAddress={data.locationAddress}
           attendees={data.attendees}
           capacity={data.capacity}
-          state={getState(
+          state={getSessionState(
             parse(
               `${data.date} ${data.startTime}`,
               "yyyy-MM-dd HH:mm:ss",
