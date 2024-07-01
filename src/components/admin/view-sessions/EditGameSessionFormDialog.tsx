@@ -1,39 +1,52 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
 import { TextInput } from "@/components/TextInput";
+import { useOptionsDialogContext } from "@/components/ui/options-popover/OptionsPopover";
 import { useToast } from "@/components/ui/use-toast";
 import {
   DialogCard,
   DialogCardFooter,
 } from "@/components/ui/utils/DialogUtils";
+import { useGameSessionContext } from "./GameSessionContext";
 import { formSchema } from "./utils";
 
-interface CreateGameSessionFormDialogProps {
-  title: string;
-  date: string;
-  onSuccess: () => void;
-}
+export default function EditGameSessionFormDialog() {
+  const {
+    date,
+    startTime,
+    endTime,
+    locationName,
+    locationAddress,
+    capacity,
+    casualCapacity,
+  } = useGameSessionContext();
 
-export function CreateGameSessionFormDialog({
-  title,
-  date,
-  onSuccess,
-}: CreateGameSessionFormDialogProps) {
+  const { handleClose } = useOptionsDialogContext();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      startTime: startTime?.slice(0, 5),
+      endTime: endTime?.slice(0, 5),
+      locationName,
+      locationAddress,
+      capacity,
+      casualCapacity,
+    },
   });
 
   const { mutate } = useMutation({
     mutationFn: async (body: BodyInit) => {
-      const response = await fetch(`/api/game-sessions`, {
-        method: "POST",
+      const response = await fetch(`/api/game-sessions?date=${date}`, {
+        method: "PUT",
         body,
         headers: {
           "Content-Type": "application/json",
@@ -60,15 +73,15 @@ export function CreateGameSessionFormDialog({
         queryClient.invalidateQueries({ queryKey: ["game-session", date] });
         toast({
           title: "Success!",
-          description: "Game session created successfully",
+          description: "Game session updated successfully",
         });
-        onSuccess();
+        handleClose();
       },
       onError: () => {
         toast({
           title: "Uh oh! Something went wrong",
           description:
-            "An error occurred while creating the game session. Please try again.",
+            "An error occurred while updating the game session. Please try again.",
           variant: "destructive",
         });
       },
@@ -76,9 +89,9 @@ export function CreateGameSessionFormDialog({
   };
 
   return (
-    <DialogCard title={title}>
+    <DialogCard title={format(date, "eeee do MMMM yyyy")}>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-2 gap-2 ">
+        <div className="grid grid-cols-2 gap-2">
           <TextInput label="Booking Open" type="text" />
           <TextInput label="Booking Close" type="text" />
         </div>

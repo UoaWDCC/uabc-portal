@@ -79,6 +79,12 @@ export async function GET(req: NextRequest) {
       },
     );
 
+    if (gameSessionException?.isDeleted) {
+      return new Response("No game session found for this date", {
+        status: 404,
+      });
+    }
+
     if (gameSessionException && !gameSessionException.isDeleted) {
       return NextResponse.json(
         {
@@ -125,6 +131,7 @@ export async function GET(req: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(error.issues, { status: 400 });
     }
+    console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }
@@ -140,7 +147,11 @@ export async function POST(req: NextRequest) {
     }
 
     const gameSessionExceptionToInsert =
-      insertNonNullGameSessionExceptionSchema.parse(await req.json());
+      insertNonNullGameSessionExceptionSchema.parse({
+        ...(await req.json()),
+        isDeleted: false,
+      });
+
     const gameSessionDate = gameSessionExceptionToInsert.date;
 
     if (gameSessionDate < formatInNZST(new Date())) {
@@ -221,13 +232,20 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    await db.insert(gameSessionExceptions).values(gameSessionExceptionToInsert);
+    await db
+      .insert(gameSessionExceptions)
+      .values(gameSessionExceptionToInsert)
+      .onConflictDoUpdate({
+        target: [gameSessionExceptions.date],
+        set: gameSessionExceptionToInsert,
+      });
 
     return NextResponse.json(gameSessionExceptionToInsert, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(error.issues, { status: 400 });
     }
+    console.error(error);
     return new Response(null, { status: 500 });
   }
 }
@@ -251,39 +269,75 @@ export async function DELETE(req: NextRequest) {
       .where(eq(gameSessions.date, gameSessionDate))
       .returning();
 
-    if (!deletedGameSession) {
-      // Create a gameSessionException record if one doesn't exist
-      const gameSessionException =
-        await db.query.gameSessionExceptions.findFirst({
-          where: eq(gameSessionExceptions.date, gameSessionDate),
-        });
-
-      if (!gameSessionException || gameSessionException.isDeleted) {
-        return new Response("A gameSession does not exist for this date", {
-          status: 404,
-        });
-      }
-
-      const gameSessionExceptionToInsert =
-        insertGameSessionExceptionSchema.parse({
-          isDeleted: true,
-          date: gameSessionDate,
-        });
-
-      await db
-        .insert(gameSessionExceptions)
-        .values(gameSessionExceptionToInsert)
-        .onConflictDoUpdate({
-          target: [gameSessionExceptions.date],
-          set: gameSessionExceptionToInsert,
-        });
+    if (deletedGameSession) {
+      return new Response(null, { status: 204 });
     }
+
+    // Check for a schedule on this weekday
+    const semester = await db.query.semesters.findFirst({
+      with: {
+        gameSessionSchedules: {
+          where: eq(gameSessionSchedules.weekday, getWeekday(gameSessionDate)),
+        },
+      },
+      where: or(
+        and(
+          lte(semesters.startDate, gameSessionDate),
+          gt(semesters.breakStart, gameSessionDate),
+        ),
+        and(
+          lt(semesters.breakEnd, gameSessionDate),
+          gte(semesters.endDate, gameSessionDate),
+        ),
+      ),
+    });
+
+    const gameSessionSchedule = semester?.gameSessionSchedules[0];
+
+    // Create a gameSessionException record if one doesn't exist
+    const gameSessionException = await db.query.gameSessionExceptions.findFirst(
+      {
+        where: eq(gameSessionExceptions.date, gameSessionDate),
+      },
+    );
+
+    if (!!gameSessionException?.isDeleted) {
+      return new Response("A gameSession does not exist for this date", {
+        status: 404,
+      });
+    }
+
+    // If a schedule doesn't exist and (no exception or exception is a delete exception)
+    if (
+      !gameSessionSchedule &&
+      (!gameSessionException || gameSessionException.isDeleted)
+    ) {
+      return new Response("A gameSession does not exist for this date", {
+        status: 404,
+      });
+    }
+
+    const gameSessionExceptionToInsert = insertGameSessionExceptionSchema.parse(
+      {
+        isDeleted: true,
+        date: gameSessionDate,
+      },
+    );
+
+    await db
+      .insert(gameSessionExceptions)
+      .values(gameSessionExceptionToInsert)
+      .onConflictDoUpdate({
+        target: [gameSessionExceptions.date],
+        set: gameSessionExceptionToInsert,
+      });
 
     return new Response(null, { status: 204 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(error.issues, { status: 400 });
     }
+    console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }
@@ -316,8 +370,24 @@ export async function PUT(req: NextRequest) {
       });
     }
 
+    // If the game session exists, update it and return
+    const [updatedGameSession] = await db
+      .update(gameSessions)
+      .set(gameSessionToUpdate)
+      .where(eq(gameSessions.date, gameSessionDate))
+      .returning();
+
+    if (updatedGameSession) {
+      return new Response(null, { status: 204 });
+    }
+
     // Find the semester that the date is in
     const semester = await db.query.semesters.findFirst({
+      with: {
+        gameSessionSchedules: {
+          where: eq(gameSessionSchedules.weekday, getWeekday(gameSessionDate)),
+        },
+      },
       where: or(
         and(
           lte(semesters.startDate, gameSessionDate),
@@ -330,29 +400,28 @@ export async function PUT(req: NextRequest) {
       ),
     });
 
-    if (!semester) {
-      return new Response("No semester found for this date", { status: 400 });
-    }
+    const gameSessionSchedule = semester?.gameSessionSchedules[0];
 
-    // If the game session exists, update it and return
-    const [updatedGameSession] = await db
-      .update(gameSessions)
-      .set(gameSessionToUpdate)
-      .where(eq(gameSessions.date, gameSessionDate))
-      .returning();
-
-    if (updatedGameSession) {
-      return new Response(null, { status: 204 });
-    }
-
-    // Create a gameSessionException record if it doesn't exist
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
       {
         where: eq(gameSessionExceptions.date, gameSessionDate),
       },
     );
 
-    if (!gameSessionException || gameSessionException.isDeleted) {
+    // If a delete exception exists
+    if (!!gameSessionException?.isDeleted) {
+      return new Response("A gameSession does not exist for this date", {
+        status: 404,
+      });
+    }
+
+    // Now either gameSessionException doesn't exist, or it exists and isn't a delete exception
+
+    // If a schedule doesn't exist and (no exception or exception is a delete exception)
+    if (
+      !gameSessionSchedule &&
+      (!gameSessionException || gameSessionException.isDeleted)
+    ) {
       return new Response("A gameSession does not exist for this date", {
         status: 404,
       });
@@ -363,13 +432,20 @@ export async function PUT(req: NextRequest) {
     );
 
     // Insert the gameSessionException record
-    await db.insert(gameSessionExceptions).values(gameSessionExceptionToInsert);
+    await db
+      .insert(gameSessionExceptions)
+      .values(gameSessionExceptionToInsert)
+      .onConflictDoUpdate({
+        target: [gameSessionExceptions.date],
+        set: gameSessionExceptionToInsert,
+      });
 
-    return NextResponse.json(null, { status: 204 });
+    return new Response(null, { status: 204 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(error.issues, { status: 400 });
     }
+    console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }

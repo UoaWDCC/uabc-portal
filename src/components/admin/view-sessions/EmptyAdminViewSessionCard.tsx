@@ -7,21 +7,19 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { CreateGameSessionFormDialog } from "./CreateGameSessionFormDialog";
+import { useGameSessionContext } from "./GameSessionContext";
 
 interface EmptyAdminViewSessionCardProps {
   title: string;
-  date: string;
   className?: string;
 }
 
 export function EmptyAdminViewSessionCard({
   title,
-  date,
   className,
 }: EmptyAdminViewSessionCardProps) {
-  async function handleButtonClick() {}
-
   const [open, setOpen] = useState(false);
+  const { date } = useGameSessionContext();
 
   return (
     <Card
@@ -37,11 +35,7 @@ export function EmptyAdminViewSessionCard({
       </div>
       <Dialog open={open} onOpenChange={() => setOpen(!open)}>
         <DialogTrigger asChild>
-          <Button
-            className="w-full font-semibold border"
-            onClick={handleButtonClick}
-            variant={"ghost"}
-          >
+          <Button className="w-full font-semibold border" variant={"ghost"}>
             Create session
           </Button>
         </DialogTrigger>

@@ -3,6 +3,7 @@ import { format, isToday, parse } from "date-fns";
 
 import { AdminViewSessionCard } from "@/components/admin/view-sessions/AdminViewSessionCard";
 import { EmptyAdminViewSessionCard } from "@/components/admin/view-sessions/EmptyAdminViewSessionCard";
+import { GameSessionProvider } from "@/components/admin/view-sessions/GameSessionContext";
 import { Calendar } from "@/components/ui/calendar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGameSession } from "@/hooks/query/useGameSession";
@@ -51,35 +52,37 @@ export default function ClientViewSessionsPage() {
         // showOutsideDays={false}
         required
       />
-
-      {isLoading ? (
-        <Skeleton className="h-56 w-full shadow-sm sm:w-1/2 lg:w-1/3" />
-      ) : data ? (
-        <AdminViewSessionCard
-          id={data.id}
-          title={format(date, "eeee do MMMM yyyy")}
-          startTime={convertTo12HourFormat(data.startTime)}
-          endTime={convertTo12HourFormat(data.endTime)}
-          locationName={data.locationName}
-          locationAddress={data.locationAddress}
-          attendees={data.attendees}
-          capacity={data.capacity}
-          state={getSessionState(
-            parse(
-              `${data.date} ${data.startTime}`,
-              "yyyy-MM-dd HH:mm:ss",
-              new Date(),
-            ),
-          )}
-          className="w-full shadow-sm sm:w-1/2 lg:w-1/3"
-        />
-      ) : (
-        <EmptyAdminViewSessionCard
-          title={format(date, "eeee do MMMM yyyy")}
-          date={format(date, "yyyy-MM-dd")}
-          className="h-56 w-full shadow-sm sm:w-1/2 lg:w-1/3 xl:w-1/4"
-        />
-      )}
+      <GameSessionProvider
+        value={{ date: format(date, "yyyy-MM-dd"), ...data }}
+      >
+        {isLoading ? (
+          <Skeleton className="h-56 w-full shadow-sm sm:w-1/2 lg:w-1/3" />
+        ) : data ? (
+          <AdminViewSessionCard
+            id={data.id}
+            title={format(date, "eeee do MMMM yyyy")}
+            startTime={convertTo12HourFormat(data.startTime)}
+            endTime={convertTo12HourFormat(data.endTime)}
+            locationName={data.locationName}
+            locationAddress={data.locationAddress}
+            attendees={data.attendees}
+            capacity={data.capacity}
+            state={getSessionState(
+              parse(
+                `${data.date} ${data.startTime}`,
+                "yyyy-MM-dd HH:mm:ss",
+                new Date(),
+              ),
+            )}
+            className="w-full shadow-sm sm:w-1/2 lg:w-1/3"
+          />
+        ) : (
+          <EmptyAdminViewSessionCard
+            title={format(date, "eeee do MMMM yyyy")}
+            className="h-56 w-full shadow-sm sm:w-1/2 lg:w-1/3 xl:w-1/4"
+          />
+        )}
+      </GameSessionProvider>
     </div>
   );
 }

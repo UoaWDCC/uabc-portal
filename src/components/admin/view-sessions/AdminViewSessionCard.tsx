@@ -1,12 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import { Clock, MapPin, Users } from "lucide-react";
 
 import { Card } from "@/components/Card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { OptionButtonUtils } from "@/components/ui/options-popover/OptionsButtonUtils";
+import { OptionsPopover } from "@/components/ui/options-popover/OptionsPopover";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { DeleteGameSessionFormDialog } from "./DeleteGameSessionFormDialog";
+import EditGameSessionFormDialog from "./EditGameSessionFormDialog";
 
 interface AdminViewSessionCardProps {
   id: number;
@@ -34,6 +39,7 @@ export function AdminViewSessionCard({
   className,
 }: AdminViewSessionCardProps) {
   const { toast } = useToast();
+
   async function downloadAttendeesList() {
     const res = await fetch(`/api/game-sessions/${id}/download`);
     if (!res.ok) {
@@ -58,16 +64,23 @@ export function AdminViewSessionCard({
 
   return (
     <Card
-      className={cn("p-4 flex flex-col gap-4 border", className)}
+      className={cn("relative p-4 flex flex-col gap-4 border", className)}
       variant="card"
     >
       <div className="flex justify-between gap-4 items-center">
         <p className="text-lg font-medium leading-none">{title}</p>
         {state === "upcoming" ? (
           //TODO: implement form to edit session
-          <Button variant={"outline"} className="w-8 h-6">
-            ...
-          </Button>
+          <OptionsPopover>
+            <OptionsPopover.DialogItem
+              ButtonElement={<OptionButtonUtils type="edit" />}
+              DialogElement={<EditGameSessionFormDialog />}
+            />
+            <OptionsPopover.DialogItem
+              ButtonElement={<OptionButtonUtils type="delete" />}
+              DialogElement={<DeleteGameSessionFormDialog />}
+            />
+          </OptionsPopover>
         ) : (
           <Badge
             className="select-none pointer-events-none"

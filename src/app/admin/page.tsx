@@ -19,7 +19,7 @@ export default async function AdminDashboardPage() {
           <CalendarDays size={24} className="min-w-6" />
           View Sessions
         </DashboardButton>
-        <DashboardButton href="">
+        <DashboardButton href="admin/semesters">
           <CalendarClock size={24} className="min-w-6" />
           Edit Semester Schedules
         </DashboardButton>
