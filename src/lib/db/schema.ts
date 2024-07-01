@@ -165,3 +165,15 @@ export const gameSessionSchedules = pgTable(
     unq: unique().on(gss.semesterId, gss.weekday),
   }),
 );
+
+export const gameSessionExceptions = pgTable("gameSessionException", {
+  exceptionId: serial("exceptionId").primaryKey(),
+  isDeleted: boolean("isDeleted").default(false).notNull(),
+  date: date("date").unique(),
+  startTime: time("startTime"),
+  endTime: time("endTime"),
+  locationName: text("locationName"),
+  locationAddress: text("locationAddress"),
+  capacity: integer("capacity"),
+  casualCapacity: integer("casualCapacity"),
+});

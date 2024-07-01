@@ -24,7 +24,7 @@ export default function ConfirmationMessage({
         <p className="text-sm font-medium text-tertiary">
           {member ? (
             <>
-              Booking successful! A confirmation has been sent to your email at{" "}
+              Booking successful! A confirmation email has been sent to
               <strong>
                 <u>{email}</u>
               </strong>

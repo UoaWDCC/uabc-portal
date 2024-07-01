@@ -10,6 +10,10 @@ import withCurrentUser from "@/lib/hoc/withCurrentUser";
 import { convertTo12HourFormat, getWeekday } from "@/lib/utils";
 import { getBookingBySqid } from "@/services/booking";
 
+export const metadata = {
+  title: "Booking Confirmation - UABC Booking Portal",
+};
+
 async function ConfirmationPage({
   params,
   currentUser,

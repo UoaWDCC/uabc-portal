@@ -9,6 +9,10 @@ import withCurrentUser from "@/lib/hoc/withCurrentUser";
 import { getUserFromId } from "@/services/user";
 import ClientSessionPage from "./client-page";
 
+export const metadata = {
+  title: "Book Session - UABC Booking Portal",
+};
+
 async function SelectSessionPage({ currentUser }: CurrentUserProps) {
   const user = (await getUserFromId(currentUser.id))!;
 
