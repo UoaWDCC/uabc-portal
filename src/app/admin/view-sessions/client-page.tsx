@@ -1,8 +1,8 @@
 import React from "react";
 import { format, isToday, parse } from "date-fns";
 
-import { AdminViewSessionCard } from "@/components/admin/AdminViewSessionCard";
-import { EmptyAdminViewSessionCard } from "@/components/admin/EmptyAdminViewSessionCard";
+import { AdminViewSessionCard } from "@/components/admin/view-sessions/AdminViewSessionCard";
+import { EmptyAdminViewSessionCard } from "@/components/admin/view-sessions/EmptyAdminViewSessionCard";
 import { Calendar } from "@/components/ui/calendar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGameSession } from "@/hooks/query/useGameSession";
@@ -76,6 +76,7 @@ export default function ClientViewSessionsPage() {
       ) : (
         <EmptyAdminViewSessionCard
           title={format(date, "eeee do MMMM yyyy")}
+          date={format(date, "yyyy-MM-dd")}
           className="h-56 w-full shadow-sm sm:w-1/2 lg:w-1/3 xl:w-1/4"
         />
       )}

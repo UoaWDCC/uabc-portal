@@ -2,11 +2,11 @@
 
 import { Clock, MapPin, Users } from "lucide-react";
 
+import { Card } from "@/components/Card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
-import { Card } from "../Card";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { useToast } from "../ui/use-toast";
 
 interface AdminViewSessionCardProps {
   id: number;

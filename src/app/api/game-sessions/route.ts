@@ -71,20 +71,7 @@ export async function GET(req: NextRequest) {
       ),
     });
 
-    if (!semester?.gameSessionSchedules.length) {
-      return new Response("A gameSession does not exist for this date", {
-        status: 404,
-      });
-    }
-
     const gameSessionSchedule = semester?.gameSessionSchedules[0];
-
-    if (!gameSessionSchedule) {
-      // If no game session schedule found for the weekday within the semester, return
-      return new Response("A gameSession does not exist for this date", {
-        status: 404,
-      });
-    }
 
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
       {
@@ -92,11 +79,7 @@ export async function GET(req: NextRequest) {
       },
     );
 
-    if (gameSessionException) {
-      if (gameSessionException.isDeleted) {
-        return new Response(null, { status: 204 });
-      }
-
+    if (gameSessionException && !gameSessionException.isDeleted) {
       return NextResponse.json(
         {
           date: gameSessionDate,
@@ -113,6 +96,12 @@ export async function GET(req: NextRequest) {
         },
         { status: 200 },
       );
+    }
+
+    if (!gameSessionSchedule) {
+      return new Response("No game session found for this date", {
+        status: 404,
+      });
     }
 
     // If schedule found and no exception, return a gameSession-like object
