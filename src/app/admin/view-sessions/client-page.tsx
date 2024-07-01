@@ -4,8 +4,8 @@ import { format, isToday, parse } from "date-fns";
 import { AdminViewSessionCard } from "@/components/admin/view-sessions/AdminViewSessionCard";
 import { EmptyAdminViewSessionCard } from "@/components/admin/view-sessions/EmptyAdminViewSessionCard";
 import { GameSessionProvider } from "@/components/admin/view-sessions/GameSessionContext";
+import { SkeletonViewSessionCard } from "@/components/admin/view-sessions/SkeletonViewSessionCard";
 import { Calendar } from "@/components/ui/calendar";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useGameSession } from "@/hooks/query/useGameSession";
 import { convertTo12HourFormat } from "@/lib/utils";
 
@@ -56,7 +56,7 @@ export default function ClientViewSessionsPage() {
         value={{ date: format(date, "yyyy-MM-dd"), ...data }}
       >
         {isLoading ? (
-          <Skeleton className="h-56 w-full shadow-sm sm:w-1/2 lg:w-1/3" />
+          <SkeletonViewSessionCard className="min-h-60 w-full shadow-sm sm:w-1/2 lg:w-1/3" />
         ) : data ? (
           <AdminViewSessionCard
             id={data.id}
@@ -74,12 +74,12 @@ export default function ClientViewSessionsPage() {
                 new Date(),
               ),
             )}
-            className="w-full shadow-sm sm:w-1/2 lg:w-1/3"
+            className="min-h-60 w-full shadow-sm sm:w-1/2 lg:w-1/3"
           />
         ) : (
           <EmptyAdminViewSessionCard
             title={format(date, "eeee do MMMM yyyy")}
-            className="h-56 w-full shadow-sm sm:w-1/2 lg:w-1/3 xl:w-1/4"
+            className="min-h-60 w-full shadow-sm sm:w-1/2 lg:w-1/3"
           />
         )}
       </GameSessionProvider>

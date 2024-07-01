@@ -90,7 +90,7 @@ export function AdminViewSessionCard({
           </Badge>
         )}
       </div>
-      <div className="*:flex *:items-center *:gap-x-2 space-y-2 text-sm font-medium text-tertiary mx-1">
+      <div className="grow flex flex-col justify-center *:flex *:items-center *:gap-x-2 space-y-2 text-sm font-medium text-tertiary mx-1">
         <div>
           <Clock size={24} className="min-w-6" />
           <p>
