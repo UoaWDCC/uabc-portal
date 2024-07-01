@@ -13,6 +13,43 @@ export default function BookSessionPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSessionAvailable, setIsSessionAvailable] = useState(true);
 
+  const cart = useCartStore((state) => state.cart);
+
+  useEffect(() => {
+    const checkSessionAvailability = () => {
+      const availability = cart.every((session) => session.isFull !== true);
+      setIsSessionAvailable(availability);
+    };
+
+    checkSessionAvailability();
+  }, [cart]);
+
+  // If cart is empty, redirect back to sessions page
+  useEffect(() => {
+    if (cart.length === 0) {
+      router.push("/sessions");
+    }
+  }, [cart, router]);
+
+  const sortedSessions = useMemo(() => {
+    return [...cart].sort((a, b) => {
+      const weekdays = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ];
+      return weekdays.indexOf(a.weekday) - weekdays.indexOf(b.weekday);
+    });
+  }, [cart]);
+
+  const isPlayLevelSelected = cart.every(
+    (session) => session.playLevel !== undefined,
+  );
+
   const handleConfirmButtonClick = async () => {
     try {
       setIsSubmitting(true);
@@ -43,8 +80,21 @@ export default function BookSessionPage() {
       if (response.ok) {
         // Navigate to confirmation page on success
         router.push("/sessions/book/confirmation");
+      } else if (response.status === 400) {
+        const responseData = await response.json();
+        if (responseData.message === "Game session at max capacity") {
+          const updatedCart = cart.filter((session) => !session.isFull);
+          useCartStore.getState().updateCart(updatedCart);
+
+          alert(
+            "A session was full and has been removed from your cart. Please review and try again.",
+          );
+          console.error(
+            "A session was full and has been removed from your cart.",
+          );
+        }
       } else {
-        // Redirect back to sessions page on failure
+        // Redirect back to sessions page on other failures
         router.push("/sessions");
       }
     } catch (error) {
@@ -53,43 +103,6 @@ export default function BookSessionPage() {
       setIsSubmitting(false);
     }
   };
-
-  const cart = useCartStore((state) => state.cart);
-
-  useEffect(() => {
-    const checkSessionAvailability = () => {
-      const availability = cart.every((session) => session.isFull !== true);
-      setIsSessionAvailable(availability);
-    };
-
-    checkSessionAvailability();
-  }, [cart]);
-
-  // //if cart is empty, redirect back to sessions page
-  useEffect(() => {
-    if (cart.length === 0) {
-      router.push("/sessions");
-    }
-  }, [cart, router]);
-
-  const sortedSessions = useMemo(() => {
-    return [...cart].sort((a, b) => {
-      const weekdays = [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
-      ];
-      return weekdays.indexOf(a.weekday) - weekdays.indexOf(b.weekday);
-    });
-  }, [cart]);
-
-  const isPlayLevelSelected = cart.every(
-    (session) => session.playLevel !== undefined,
-  );
 
   return (
     <div className="flex flex-col h-dvh mx-4 gap-y-4">
@@ -105,7 +118,7 @@ export default function BookSessionPage() {
         <Button
           className="w-full self-end"
           onClick={handleConfirmButtonClick}
-          disabled={!isPlayLevelSelected || isSubmitting} // disable button when submitting data
+          disabled={!isPlayLevelSelected || isSubmitting} // Disable button when submitting data
         >
           Confirm
         </Button>
