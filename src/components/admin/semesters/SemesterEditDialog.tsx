@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
-import { useOptionsDialogContext } from "@/components/ui/optionsPopover/OptionsPopover";
+import { useOptionsDialogContext } from "@/components/ui/options-popover/OptionsPopover";
 import {
   DialogCard,
   DialogCardFooter,

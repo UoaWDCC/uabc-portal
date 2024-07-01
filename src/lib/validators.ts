@@ -89,4 +89,5 @@ export const insertNonNullGameSessionExceptionSchema = z.object({
   locationAddress: z.string(),
   capacity: z.number(),
   casualCapacity: z.number(),
+  isDeleted: z.boolean(),
 });

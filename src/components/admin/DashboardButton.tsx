@@ -10,7 +10,7 @@ interface DashboardButtonProps {
   className?: string;
 }
 
-export default function DashboardButton({
+export function DashboardButton({
   children,
   href,
   className,
