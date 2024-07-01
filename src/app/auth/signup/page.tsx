@@ -1,29 +1,24 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 
 import { BreakLine } from "@/components/auth/BreakLine";
-import { EmailLogin } from "@/components/auth/EmailLogin";
 import { GoogleSignIn } from "@/components/auth/GoogleLoginButton";
+import { EmailSignUp } from "@/components/auth/SignUp";
 
 export default function LoginPage() {
-  const [signInOpen, setSignInOpen] = useState(false);
   return (
     <div className="flex flex-col w-full gap-4 mt-8">
-      <EmailLogin
-        onLoginOpen={() => setSignInOpen(true)}
-        loginOpen={signInOpen}
-      />
+      <EmailSignUp />
       <BreakLine label="or" />
       <GoogleSignIn className="w-full" />
       <p className="text-center text-tertiary dark:text-white text-xs mt-2">
-        Don&apos;t have an account?{" "}
+        Already have an account?{" "}
         <Link
           className="font-bold hover:underline hover:cursor-pointer"
-          href="/auth/signup"
+          href="/auth/login"
         >
-          Sign up
+          Log in
         </Link>
       </p>
     </div>
