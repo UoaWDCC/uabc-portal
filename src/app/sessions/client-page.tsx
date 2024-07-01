@@ -4,7 +4,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { twJoin } from "tailwind-merge";
 
@@ -16,16 +16,35 @@ import { useCartStore } from "@/stores/useCartStore";
 
 interface ClientSessionPageProps {
   isMember: boolean;
+  noOfPrepaidSessions: number;
 }
 
 export default function ClientSessionPage({
   isMember,
+  noOfPrepaidSessions,
 }: ClientSessionPageProps) {
   const { push } = useRouter();
-
   const sessionsSelected = useCartStore((state) => state.cart.length);
   const [shake, setShake] = useState(false);
-  const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
+  const [scrollAndShake, setScrollAndShake] = useState(false);
+
+  const memberMaxSessions = Math.min(MEMBER_MAX_SESSIONS, noOfPrepaidSessions);
+  const maxSessions = isMember ? memberMaxSessions : NON_MEMBER_MAX_SESSIONS;
+
+  useEffect(() => {
+    if (scrollAndShake) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        setShake(true);
+        setScrollAndShake(false);
+      }, 500);
+    }
+  }, [scrollAndShake]);
+
+  const handleLimitReached = () => {
+    setShake(false);
+    setScrollAndShake(true);
+  };
 
   return (
     <div className="flex flex-col grow">
@@ -46,8 +65,9 @@ export default function ClientSessionPage({
       </div>
 
       <SelectSessionList
-        onLimitReached={() => setShake(true)}
+        onLimitReached={handleLimitReached}
         isMember={isMember}
+        memberMaxSessions={memberMaxSessions}
         className="mx-4"
       />
 

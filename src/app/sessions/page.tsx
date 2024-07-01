@@ -6,6 +6,7 @@ import { Heading } from "@/components/Heading";
 import LogOutButton from "@/components/LogOutButton";
 import { env } from "@/env";
 import { getCurrentUser } from "@/lib/session";
+import { useCartStore } from "@/stores/useCartStore";
 import ClientSessionPage from "./client-page";
 
 type UserResponse = {
@@ -50,7 +51,10 @@ export default async function SelectSessionPage() {
           <PrepaidSessionsCounter remainingSessions={user.remainingSessions} />
         )}
       </div>
-      <ClientSessionPage isMember={user.member} />
+      <ClientSessionPage
+        isMember={user.member}
+        noOfPrepaidSessions={user.remainingSessions}
+      />
     </div>
   );
 }

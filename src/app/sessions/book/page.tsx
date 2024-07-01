@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
@@ -11,10 +11,21 @@ import { useCartStore } from "@/stores/useCartStore";
 export default function BookSessionPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSessionAvailable, setIsSessionAvailable] = useState(true);
 
   const handleConfirmButtonClick = async () => {
     try {
       setIsSubmitting(true);
+
+      if (!isSessionAvailable) {
+        alert("One or more sessions are full. Please remove them to proceed.");
+        console.error(
+          "One or more sessions are full. Please remove them to proceed.",
+        );
+        return;
+      }
+
+      console.log(isSessionAvailable);
 
       const payload = sortedSessions.map((session) => ({
         gameSessionId: session.id,
@@ -44,6 +55,22 @@ export default function BookSessionPage() {
   };
 
   const cart = useCartStore((state) => state.cart);
+
+  useEffect(() => {
+    const checkSessionAvailability = () => {
+      const availability = cart.every((session) => session.isFull !== true);
+      setIsSessionAvailable(availability);
+    };
+
+    checkSessionAvailability();
+  }, [cart]);
+
+  // //if cart is empty, redirect back to sessions page
+  useEffect(() => {
+    if (cart.length === 0) {
+      router.push("/sessions");
+    }
+  }, [cart, router]);
 
   const sortedSessions = useMemo(() => {
     return [...cart].sort((a, b) => {
