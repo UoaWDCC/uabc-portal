@@ -106,3 +106,7 @@
     transform: translateX(0);
   }
 }
+
+.textStroke {
+  -webkit-text-stroke: 6px hsl(var(--foreground));
+}

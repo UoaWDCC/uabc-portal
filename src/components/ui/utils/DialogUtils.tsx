@@ -31,7 +31,7 @@ export const DialogCard = ({ title, children, onClose }: DialogCardProps) => {
 
 export const DialogCardFooter = ({ ...props }: ButtonProps) => {
   return (
-    <DialogFooter className="flex gap-2 ">
+    <DialogFooter className="flex gap-2">
       <DialogClose asChild>
         <Button variant="outline" className="text-foreground">
           Cancel
