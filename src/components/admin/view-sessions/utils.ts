@@ -1,6 +1,7 @@
+import { format } from "date-fns";
 import { z } from "zod";
 
-export const formSchema = z
+export const gameSessionFormSchema = z
   .object({
     startTime: z.string().min(1, "Field is required"),
     endTime: z.string().min(1, "Field is required"),
@@ -30,3 +31,6 @@ export const formSchema = z
       path: ["casualCapacity"],
     },
   );
+
+export const formatTitle = (date: string | Date) =>
+  format(new Date(date), "eeee do MMMM yyyy");

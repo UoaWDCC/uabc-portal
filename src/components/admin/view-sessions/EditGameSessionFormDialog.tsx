@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
@@ -12,11 +12,13 @@ import {
   DialogCardFooter,
 } from "@/components/ui/utils/DialogUtils";
 import { useGameSessionContext } from "./GameSessionContext";
-import { formSchema } from "./utils";
+import { gameSessionFormSchema } from "./utils";
 
 export default function EditGameSessionFormDialog() {
   const {
     date,
+    bookingOpen,
+    bookingClose,
     startTime,
     endTime,
     locationName,
@@ -31,8 +33,9 @@ export default function EditGameSessionFormDialog() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+    watch,
+  } = useForm<z.infer<typeof gameSessionFormSchema>>({
+    resolver: zodResolver(gameSessionFormSchema),
     defaultValues: {
       startTime: startTime?.slice(0, 5),
       endTime: endTime?.slice(0, 5),
@@ -61,7 +64,7 @@ export default function EditGameSessionFormDialog() {
 
   const queryClient = useQueryClient();
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = (data: z.infer<typeof gameSessionFormSchema>) => {
     const body = JSON.stringify({
       ...data,
       date,
@@ -92,8 +95,27 @@ export default function EditGameSessionFormDialog() {
     <DialogCard title={format(date, "eeee do MMMM yyyy")}>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-2">
-          <TextInput label="Booking Open" type="text" />
-          <TextInput label="Booking Close" type="text" />
+          <TextInput
+            label="Booking Open"
+            type="text"
+            value={format(new Date(bookingOpen!), "dd/MM/yy hh:mma")}
+            readOnly
+            disabled
+          />
+          <TextInput
+            label="Booking Close"
+            type="text"
+            value={
+              watch("startTime")
+                ? format(
+                    parse(watch("startTime"), "HH:mm", new Date(date)),
+                    "dd/MM/yy hh:mma",
+                  )
+                : format(new Date(bookingClose!), "dd/MM/yy hh:mma")
+            }
+            readOnly
+            disabled
+          />
         </div>
         <div className="grid grid-cols-2 gap-2">
           <TextInput
@@ -102,6 +124,7 @@ export default function EditGameSessionFormDialog() {
             {...register("startTime")}
             isError={!!errors.startTime}
             errorMessage={errors.startTime?.message}
+            autoFocus
           />
           <TextInput
             label="End Time"

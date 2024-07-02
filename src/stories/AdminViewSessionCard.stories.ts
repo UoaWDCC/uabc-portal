@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { AdminViewSessionCard } from "@/components/admin/AdminViewSessionCard";
+import { AdminViewSessionCard } from "@/components/admin/view-sessions/AdminViewSessionCard";
 
 const meta = {
   title: "AdminViewSessionCard",

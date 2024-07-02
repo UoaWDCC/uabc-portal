@@ -50,7 +50,6 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
         redirect: false,
       });
 
-      console.log({ response });
       if (!response?.error) {
         router.push("/sessions");
       } else {

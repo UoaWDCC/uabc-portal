@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Clock, MapPin, Users } from "lucide-react";
 
 import { Card } from "@/components/Card";
@@ -70,7 +69,6 @@ export function AdminViewSessionCard({
       <div className="flex justify-between gap-4 items-center">
         <p className="text-lg font-medium leading-none">{title}</p>
         {state === "upcoming" ? (
-          //TODO: implement form to edit session
           <OptionsPopover>
             <OptionsPopover.DialogItem
               ButtonElement={<OptionButtonUtils type="edit" />}

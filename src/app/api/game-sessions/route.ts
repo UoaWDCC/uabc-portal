@@ -1,5 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { parse } from "date-fns";
+import { fromZonedTime } from "date-fns-tz";
 import { and, eq, gt, gte, lt, lte, or, sql } from "drizzle-orm";
 import z from "zod";
 
@@ -18,6 +20,45 @@ import {
   insertNonNullGameSessionExceptionSchema,
   updateGameSessionSchema,
 } from "@/lib/validators";
+
+function getZonedBookingOpenTime({
+  bookingOpenDay,
+  bookingOpenTime,
+  gameSessionDate,
+}: {
+  bookingOpenDay: string;
+  bookingOpenTime: string;
+  gameSessionDate: string;
+}) {
+  const bookingOpen = parse(
+    `${bookingOpenDay} ${bookingOpenTime}`,
+    "iiii HH:mm:ss",
+    new Date(gameSessionDate),
+  );
+
+  // If the booking open time is after the game session date, set it back a week
+  if (bookingOpen > new Date(gameSessionDate)) {
+    bookingOpen.setDate(bookingOpen.getDate() - 7);
+  }
+
+  return fromZonedTime(bookingOpen, "Pacific/Auckland");
+}
+
+function getZonedBookingCloseTime({
+  gameSessionDate,
+  gameSessionStartTime,
+}: {
+  gameSessionDate: string;
+  gameSessionStartTime: string;
+}) {
+  const bookingClose = parse(
+    `${gameSessionDate} ${gameSessionStartTime}`,
+    "yyyy-MM-dd HH:mm:ss",
+    new Date(gameSessionDate),
+  );
+
+  return fromZonedTime(bookingClose, "Pacific/Auckland");
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -71,7 +112,21 @@ export async function GET(req: NextRequest) {
       ),
     });
 
-    const gameSessionSchedule = semester?.gameSessionSchedules[0];
+    if (!semester) {
+      return NextResponse.json(
+        {
+          exists: false,
+          canCreate: false,
+          message: "No ongoing semester found for this date",
+          data: null,
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
+    const gameSessionSchedule = semester.gameSessionSchedules[0];
 
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
       {
@@ -79,51 +134,95 @@ export async function GET(req: NextRequest) {
       },
     );
 
+    const bookingOpen = getZonedBookingOpenTime({
+      bookingOpenDay: semester.bookingOpenDay,
+      bookingOpenTime: semester.bookingOpenTime,
+      gameSessionDate,
+    });
+
     if (gameSessionException?.isDeleted) {
-      return new Response("No game session found for this date", {
-        status: 404,
-      });
+      return NextResponse.json(
+        {
+          exists: false,
+          canCreate: true,
+          message: "No game session found for this date",
+          data: {
+            semesterName: semester.name,
+            bookingOpen,
+          },
+        },
+        {
+          status: 404,
+        },
+      );
     }
 
     if (gameSessionException && !gameSessionException.isDeleted) {
       return NextResponse.json(
         {
-          date: gameSessionDate,
-          gameSessionScheduleId: null,
-          bookingOpen: null,
-          bookingClose: null,
-          startTime: gameSessionException.startTime,
-          endTime: gameSessionException.endTime,
-          locationName: gameSessionException.locationName,
-          locationAddress: gameSessionException.locationAddress,
-          capacity: gameSessionException.capacity,
-          casualCapacity: gameSessionException.casualCapacity,
-          attendees: 0,
+          exists: true,
+          canCreate: true,
+          data: {
+            date: gameSessionDate,
+            semesterName: semester.name,
+            gameSessionScheduleId: null,
+            bookingOpen,
+            bookingClose: getZonedBookingCloseTime({
+              gameSessionDate,
+              gameSessionStartTime: gameSessionException.startTime!,
+            }),
+            startTime: gameSessionException.startTime,
+            endTime: gameSessionException.endTime,
+            locationName: gameSessionException.locationName,
+            locationAddress: gameSessionException.locationAddress,
+            capacity: gameSessionException.capacity,
+            casualCapacity: gameSessionException.casualCapacity,
+            attendees: 0,
+          },
         },
         { status: 200 },
       );
     }
 
     if (!gameSessionSchedule) {
-      return new Response("No game session found for this date", {
-        status: 404,
-      });
+      return NextResponse.json(
+        {
+          exists: false,
+          canCreate: true,
+          message: "No game session found for this date",
+          data: {
+            semesterName: semester.name,
+            bookingOpen,
+          },
+        },
+        {
+          status: 404,
+        },
+      );
     }
 
     // If schedule found and no exception, return a gameSession-like object
     return NextResponse.json(
       {
-        date: gameSessionDate,
-        gameSessionScheduleId: null,
-        bookingOpen: null,
-        bookingClose: null,
-        startTime: gameSessionSchedule.startTime,
-        endTime: gameSessionSchedule.endTime,
-        locationName: gameSessionSchedule.locationName,
-        locationAddress: gameSessionSchedule.locationAddress,
-        capacity: gameSessionSchedule.capacity,
-        casualCapacity: gameSessionSchedule.casualCapacity,
-        attendees: 0,
+        exists: true,
+        canCreate: true,
+        data: {
+          date: gameSessionDate,
+          semesterName: semester.name,
+          gameSessionScheduleId: null,
+          bookingOpen,
+          bookingClose: getZonedBookingCloseTime({
+            gameSessionDate,
+            gameSessionStartTime: gameSessionSchedule.startTime,
+          }),
+          startTime: gameSessionSchedule.startTime,
+          endTime: gameSessionSchedule.endTime,
+          locationName: gameSessionSchedule.locationName,
+          locationAddress: gameSessionSchedule.locationAddress,
+          capacity: gameSessionSchedule.capacity,
+          casualCapacity: gameSessionSchedule.casualCapacity,
+          attendees: 0,
+        },
       },
       { status: 200 },
     );
@@ -205,6 +304,10 @@ export async function POST(req: NextRequest) {
         ),
       ),
     });
+
+    if (!semester) {
+      return new Response("No semester found for this date", { status: 404 });
+    }
 
     const gameSessionSchedule = semester?.gameSessionSchedules[0];
 

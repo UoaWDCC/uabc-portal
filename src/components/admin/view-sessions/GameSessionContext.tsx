@@ -4,19 +4,41 @@ import React, {
   type PropsWithChildren,
 } from "react";
 
-type GameSessionResponse = {
+// type GameSessionExists = {
+//   exists: true;
+//   id: number;
+//   bookingOpen: string;
+//   bookingClose: string;
+//   startTime: string;
+//   endTime: string;
+//   locationName: string;
+//   locationAddress: string;
+//   capacity: number;
+//   casualCapacity: number;
+//   attendees: number;
+// };
+
+// type GameSessionContextType = {
+//   date: string;
+//   exists: boolean;
+// } & (GameSessionExists | { exists: false });
+
+type GameSessionContextType = {
   date: string;
-  id?: number | undefined;
-  startTime?: string | undefined;
-  endTime?: string | undefined;
-  locationName?: string | undefined;
-  locationAddress?: string | undefined;
-  capacity?: number | undefined;
-  casualCapacity?: number | undefined;
+  canCreate: boolean;
+  bookingOpen?: string;
+  bookingClose?: string;
+  id?: number;
+  startTime?: string;
+  endTime?: string;
+  locationName?: string;
+  locationAddress?: string;
+  capacity?: number;
+  casualCapacity?: number;
 };
 
-const GameSessionContext = createContext<GameSessionResponse>(
-  {} as GameSessionResponse,
+const GameSessionContext = createContext<GameSessionContextType>(
+  {} as GameSessionContextType,
 );
 
 export const useGameSessionContext = () => {
@@ -32,7 +54,7 @@ export const useGameSessionContext = () => {
 export const GameSessionProvider = ({
   value,
   children,
-}: PropsWithChildren<{ value: GameSessionResponse }>) => {
+}: PropsWithChildren<{ value: GameSessionContextType }>) => {
   return (
     <GameSessionContext.Provider value={value}>
       {children}

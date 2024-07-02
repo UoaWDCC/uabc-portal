@@ -25,12 +25,19 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
       errorMessage,
       isSuccess,
       successMessage,
+      disabled,
       ...props
     }: InputProps,
     ref,
   ) => {
     return (
-      <div className={cn("flex flex-col w-full", className)}>
+      <div
+        className={cn(
+          "flex flex-col w-full disabled:opacity-30",
+          disabled && "opacity-50 pointer-events-none",
+          className,
+        )}
+      >
         <div className="relative peer h-11">
           <input
             type={type}
