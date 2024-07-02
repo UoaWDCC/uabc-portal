@@ -25,7 +25,7 @@ interface DialogCardProps extends DialogProps {
 export const DialogCard = ({ title, children, onClose }: DialogCardProps) => {
   return (
     <DialogContent
-      className="sm:max-w-[475px] max-w-[375px] rounded-lg dark"
+      className="sm:max-w-[475px] max-w-[375px] rounded-lg"
       onCloseAutoFocus={onClose}
     >
       <DialogHeader>

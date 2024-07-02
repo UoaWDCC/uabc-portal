@@ -11,7 +11,7 @@ import {
   DialogCardFooter,
   useDialogContext,
 } from "@/components/ui/utils/DialogUtils";
-import { compareDate, parseNzDateToZodDate, validateDate } from "@/lib/utils";
+import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
 
 //Schema
 const formSchema = z
@@ -35,15 +35,15 @@ const formSchema = z
       .refine(validateDate, "Invalid date"),
   })
   .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
-    message: "Start date must be less than break start date",
+    message: "Start date must be before than break start date",
     path: ["startDate"],
   })
   .refine((data) => compareDate(data.breakStart, data.breakEnd) < 0, {
-    message: "Break start date start must be less than break end date",
+    message: "Break start date start must be before than break end date",
     path: ["breakStart"],
   })
   .refine((data) => compareDate(data.breakEnd, data.endDate) < 0, {
-    message: "Break end date must be less than end date",
+    message: "Break end date must be before than end date",
     path: ["breakEnd"],
   });
 
@@ -56,16 +56,10 @@ export const SemesterCreateDialog = () => {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "test",
-      startDate: "21/02/2025",
-      endDate: "11/08/2025",
-      breakStart: "7/05/2025",
-      breakEnd: "8/05/2025",
-    },
   });
   const { toast } = useToast();
 
@@ -83,6 +77,10 @@ export const SemesterCreateDialog = () => {
 
       if (!response.ok) {
         await response.text().then((text) => {
+          // todo: handle this better somehow
+          if (text == "This name already exists, please pick another") {
+            setError("name", { message: text });
+          }
           throw new Error(text || "An has error occurred");
         });
       }
@@ -93,10 +91,10 @@ export const SemesterCreateDialog = () => {
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (data) => {
     const newSemester = JSON.stringify({
       name: data.name,
-      startDate: parseNzDateToZodDate(data.startDate),
-      endDate: parseNzDateToZodDate(data.endDate),
-      breakStart: parseNzDateToZodDate(data.breakStart),
-      breakEnd: parseNzDateToZodDate(data.breakEnd),
+      startDate: formatDateInISO(data.startDate),
+      endDate: formatDateInISO(data.endDate),
+      breakStart: formatDateInISO(data.breakStart),
+      breakEnd: formatDateInISO(data.breakEnd),
       bookingOpenDay: "Monday",
       bookingOpenTime: "12:00:00",
       createAt: "2022-01-01T00:00:00.000Z",
