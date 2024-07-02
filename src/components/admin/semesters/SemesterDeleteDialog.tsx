@@ -17,12 +17,19 @@ export const SemesterDeleteDialog = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async () => {
-      return await fetch(`/api/semesters/${semesterId}`, {
+      const response = await fetch(`/api/semesters/${semesterId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
       });
+
+      if (!response.ok) {
+        await response.text().then((text) => {
+          throw new Error(text || "An error has occurred");
+        });
+      }
+      return response;
     },
   });
 
@@ -62,6 +69,7 @@ export const SemesterDeleteDialog = () => {
           variant="destructive"
           primaryText="Delete"
           secondaryText="No, Cancel"
+          isPending={mutation.isPending}
         />
       </form>
     </DialogCard>

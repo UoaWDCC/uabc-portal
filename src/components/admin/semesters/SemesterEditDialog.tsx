@@ -91,13 +91,11 @@ export const SemesterEditDialogue = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "An error occurred");
+        await response.text().then((text) => {
+          throw new Error(text || "An error has occurred");
+        });
       }
       return response.json();
-    },
-    onError: (e) => {
-      console.log(e);
     },
   });
 
@@ -178,7 +176,11 @@ export const SemesterEditDialogue = () => {
             autoComplete="off"
           />
         </div>
-        <DialogCardFooter type="submit" primaryText="Update" />
+        <DialogCardFooter
+          type="submit"
+          primaryText="Update"
+          isPending={mutation.isPending}
+        />
       </form>
     </DialogCard>
   );

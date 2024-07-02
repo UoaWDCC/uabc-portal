@@ -82,8 +82,9 @@ export const SemesterCreateDialog = () => {
       });
 
       if (!response.ok) {
-        console.log(response);
-        throw new Error(response.statusText || "An error occurred");
+        await response.text().then((text) => {
+          throw new Error(text || "An has error occurred");
+        });
       }
       return response.json();
     },
@@ -102,7 +103,7 @@ export const SemesterCreateDialog = () => {
     });
 
     mutation.mutate(newSemester, {
-      onError: (e) => {
+      onError: () => {
         toast({
           title: "Uh oh! Something went wrong",
           description: `${e.message}.`,
@@ -177,7 +178,11 @@ export const SemesterCreateDialog = () => {
             placeholder="dd/MM/yyyy"
           />
         </div>
-        <DialogCardFooter type="submit" primaryText="Create" />
+        <DialogCardFooter
+          type="submit"
+          primaryText="Create"
+          isPending={mutation.isPending}
+        />
       </form>
     </DialogCard>
   );

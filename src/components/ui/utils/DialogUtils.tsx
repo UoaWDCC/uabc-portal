@@ -5,6 +5,7 @@ import React, {
   type ReactNode,
 } from "react";
 import { DialogClose, type DialogProps } from "@radix-ui/react-dialog";
+import clsx from "clsx";
 
 import { Button, type ButtonProps } from "../button";
 import {
@@ -36,10 +37,12 @@ export const DialogCard = ({ title, children, onClose }: DialogCardProps) => {
 };
 
 interface DialogCardFooterProps extends ButtonProps {
+  isPending?: boolean;
   primaryText?: string;
   secondaryText?: string;
 }
 export const DialogCardFooter = ({
+  isPending,
   primaryText = "Confirm",
   secondaryText = "Cancel",
   ...props
@@ -47,11 +50,19 @@ export const DialogCardFooter = ({
   return (
     <DialogFooter className="flex gap-2 ">
       <DialogClose asChild>
-        <Button variant="outline" className="text-foreground">
+        <Button variant="outline" className="text-foreground select-none">
           {secondaryText}
         </Button>
       </DialogClose>
-      <Button {...props}>{primaryText}</Button>
+      <Button
+        {...props}
+        className={clsx(
+          "transition-all duration-200 select-none",
+          isPending && "pointer-events-none opacity-70",
+        )}
+      >
+        {primaryText}
+      </Button>
     </DialogFooter>
   );
 };
