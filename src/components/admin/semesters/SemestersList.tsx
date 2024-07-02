@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { Dialog } from "@radix-ui/react-dialog";
 
-import { OptionsPopover } from "@/components/ui/optionsPopover/OptionsPopover";
+import { DialogBase } from "@/components/ui/utils/DialogUtils";
 import { useCurrentSemesters } from "@/hooks/query/useCurrentSemesters";
 import { SemesterCreateDialog } from "./SemesterCreateDialog";
 import { SemesterDetailCard } from "./SemesterDetailCard";
@@ -43,9 +42,9 @@ export const SemestersList = () => {
 
   return (
     <>
-      <Dialog defaultOpen>
+      <DialogBase defaultOpen>
         <SemesterCreateDialog />
-      </Dialog>
+      </DialogBase>
       {semesters?.map((semester) => (
         <SemesterContextProvider key={semester.id} value={semester}>
           <SemesterDetailCard />

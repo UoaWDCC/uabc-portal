@@ -3,10 +3,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
-import { useOptionsDialogContext } from "@/components/ui/optionsPopover/OptionsPopover";
 import {
   DialogCard,
   DialogCardFooter,
+  useDialogContext,
 } from "@/components/ui/utils/DialogUtils";
 import { compareDate, parseNzDateToZodDate, validateDate } from "@/lib/utils";
 import { TextInput } from "../../TextInput";
@@ -58,7 +58,7 @@ export const SemesterEditDialogue = () => {
     bookingOpenDay,
     bookingOpenTime,
   } = useSemesterContext();
-  const { handleClose: closeDialog } = useOptionsDialogContext();
+  const { handleClose: closeDialog } = useDialogContext();
 
   // Hook-forms
   const {
@@ -96,6 +96,9 @@ export const SemesterEditDialogue = () => {
       }
       return response.json();
     },
+    onError: (e) => {
+      console.log(e);
+    },
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (data) => {
@@ -109,10 +112,9 @@ export const SemesterEditDialogue = () => {
       breakEnd: parseNzDateToZodDate(data.breakEnd),
     });
 
-    console.log(body);
-
     mutation.mutate(body, {
-      onError: () => {
+      onError: (e) => {
+        console.log(e);
         toast({
           title: "Uh oh! Something went wrong",
           description:

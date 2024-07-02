@@ -5,11 +5,11 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
 import { TextInput } from "@/components/TextInput";
-import { useOptionsDialogContext } from "@/components/ui/optionsPopover/OptionsPopover";
 import { useToast } from "@/components/ui/use-toast";
 import {
   DialogCard,
   DialogCardFooter,
+  useDialogContext,
 } from "@/components/ui/utils/DialogUtils";
 import { compareDate, parseNzDateToZodDate, validateDate } from "@/lib/utils";
 
@@ -49,7 +49,7 @@ const formSchema = z
 
 export const SemesterCreateDialog = () => {
   //Context
-  const { handleClose: closeDialog } = useOptionsDialogContext();
+  const { handleClose: closeDialog } = useDialogContext();
 
   // Hook-forms
   const {
@@ -73,7 +73,7 @@ export const SemesterCreateDialog = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (body: BodyInit) => {
-      const response = await fetch(`/api/semesters`, {
+      const response = await fetch("/api/semesters", {
         method: "POST",
         body,
         headers: {
@@ -82,26 +82,15 @@ export const SemesterCreateDialog = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "An error occurred");
+        console.log(response);
+        throw new Error(response.statusText || "An error occurred");
       }
       return response.json();
     },
   });
 
-  /* zod
-  id: z.ZodOptional<z.ZodNumber>;
-    name: z.ZodString;
-    startDate: z.ZodString;
-    endDate: z.ZodString;
-    breakStart: z.ZodString;
-    breakEnd: z.ZodString;
-    bookingOpenDay: z.ZodEnum<...>;
-    bookingOpenTime: z.ZodString;
-    createdAt: z.ZodOptional<...>;
-*/
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (data) => {
-    const body = JSON.stringify({
+    const newSemester = JSON.stringify({
       name: data.name,
       startDate: parseNzDateToZodDate(data.startDate),
       endDate: parseNzDateToZodDate(data.endDate),
@@ -109,16 +98,14 @@ export const SemesterCreateDialog = () => {
       breakEnd: parseNzDateToZodDate(data.breakEnd),
       bookingOpenDay: "Monday",
       bookingOpenTime: "12:00:00",
-      createdAt: new Date(),
+      createAt: "2022-01-01T00:00:00.000Z",
     });
 
-    console.log(body);
-    mutation.mutate(body, {
-      onError: () => {
+    mutation.mutate(newSemester, {
+      onError: (e) => {
         toast({
           title: "Uh oh! Something went wrong",
-          description:
-            "An error occurred while updating the semester. Please try again.",
+          description: `${e.message}.`,
           variant: "destructive",
         });
       },
