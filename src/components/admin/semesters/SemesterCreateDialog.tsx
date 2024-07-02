@@ -103,7 +103,7 @@ export const SemesterCreateDialog = () => {
     });
 
     mutation.mutate(newSemester, {
-      onError: () => {
+      onError: (e) => {
         toast({
           title: "Uh oh! Something went wrong",
           description: `${e.message}.`,

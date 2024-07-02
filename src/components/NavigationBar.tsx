@@ -16,7 +16,7 @@ export const NavigationBar = ({ title }: NavigationBarProps) => {
     router.back();
   };
   return (
-    <div className="flex mt-4 align-middle text-tertiary">
+    <div className="flex my-4 align-middle text-tertiary">
       <Button
         variant={"ghost"}
         className={cn("grid place-items-center mr-4 size-8")}

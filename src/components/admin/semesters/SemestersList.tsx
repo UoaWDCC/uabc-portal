@@ -2,9 +2,7 @@
 
 import React, { useMemo } from "react";
 
-import { DialogBase } from "@/components/ui/utils/DialogUtils";
 import { useCurrentSemesters } from "@/hooks/query/useCurrentSemesters";
-import { SemesterCreateDialog } from "./SemesterCreateDialog";
 import { SemesterDetailCard } from "./SemesterDetailCard";
 import { SemesterContextProvider } from "./SemestersContext";
 import { SkeletonSemesterCard } from "./SkeletonSemesterCard";
@@ -42,9 +40,6 @@ export const SemestersList = () => {
 
   return (
     <>
-      <DialogBase defaultOpen>
-        <SemesterCreateDialog />
-      </DialogBase>
       {semesters?.map((semester) => (
         <SemesterContextProvider key={semester.id} value={semester}>
           <SemesterDetailCard />
