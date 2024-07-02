@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
@@ -58,6 +59,18 @@ export async function POST(req: NextRequest) {
 
     if (new Date(newSemester.breakEnd) > new Date(newSemester.endDate)) {
       return new Response("Break end date must be before end date", {
+        status: 400,
+      });
+    }
+
+    const findName = await db
+      .select()
+      .from(semesters)
+      .where(eq(semesters.name, newSemester.name))
+      .limit(1);
+
+    if (findName.length != 0) {
+      return new Response("This name already exists, please pick another", {
         status: 400,
       });
     }

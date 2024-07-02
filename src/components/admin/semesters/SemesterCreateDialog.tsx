@@ -1,21 +1,22 @@
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
+import { TextInput } from "@/components/TextInput";
+import { useToast } from "@/components/ui/use-toast";
 import {
   DialogCard,
   DialogCardFooter,
   useDialogContext,
 } from "@/components/ui/utils/DialogUtils";
 import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
-import { TextInput } from "../../TextInput";
-import { useToast } from "../../ui/use-toast";
-import { useSemesterContext } from "./SemestersContext";
 
-// Schema
+//Schema
 const formSchema = z
   .object({
+    name: z.string().min(1, "Field is required"),
     startDate: z
       .string()
       .min(1, "Field is required")
@@ -34,30 +35,20 @@ const formSchema = z
       .refine(validateDate, "Invalid date"),
   })
   .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
-    message: "Start date must be less than break start date",
+    message: "Start date must be before than break start date",
     path: ["startDate"],
   })
   .refine((data) => compareDate(data.breakStart, data.breakEnd) < 0, {
-    message: "Break start date start must be less than break end date",
+    message: "Break start date start must be before than break end date",
     path: ["breakStart"],
   })
   .refine((data) => compareDate(data.breakEnd, data.endDate) < 0, {
-    message: "Break end date must be less than end date",
+    message: "Break end date must be before than end date",
     path: ["breakEnd"],
   });
 
-export const SemesterEditDialogue = () => {
-  // Contexts
-  const {
-    name,
-    startDate,
-    endDate,
-    breakStart,
-    breakEnd,
-    id: semesterId,
-    bookingOpenDay,
-    bookingOpenTime,
-  } = useSemesterContext();
+export const SemesterCreateDialog = () => {
+  //Context
   const { handleClose: closeDialog } = useDialogContext();
 
   // Hook-forms
@@ -65,25 +56,19 @@ export const SemesterEditDialogue = () => {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      startDate,
-      endDate,
-      breakStart,
-      breakEnd,
-    },
   });
-
   const { toast } = useToast();
 
   // React-query
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (body: BodyInit) => {
-      const response = await fetch(`/api/semesters/${semesterId}`, {
-        method: "PUT",
+      const response = await fetch("/api/semesters", {
+        method: "POST",
         body,
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +77,11 @@ export const SemesterEditDialogue = () => {
 
       if (!response.ok) {
         await response.text().then((text) => {
-          throw new Error(text || "An error has occurred");
+          // todo: handle this better somehow
+          if (text == "This name already exists, please pick another") {
+            setError("name", { message: text });
+          }
+          throw new Error(text || "An has error occurred");
         });
       }
       return response.json();
@@ -100,23 +89,22 @@ export const SemesterEditDialogue = () => {
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (data) => {
-    const body = JSON.stringify({
-      name,
-      bookingOpenDay,
-      bookingOpenTime,
+    const newSemester = JSON.stringify({
+      name: data.name,
       startDate: formatDateInISO(data.startDate),
       endDate: formatDateInISO(data.endDate),
       breakStart: formatDateInISO(data.breakStart),
       breakEnd: formatDateInISO(data.breakEnd),
+      bookingOpenDay: "Monday",
+      bookingOpenTime: "12:00:00",
+      createAt: "2022-01-01T00:00:00.000Z",
     });
 
-    mutation.mutate(body, {
+    mutation.mutate(newSemester, {
       onError: (e) => {
-        console.log(e);
         toast({
           title: "Uh oh! Something went wrong",
-          description:
-            "An error occurred while updating the semester. Please try again.",
+          description: `${e.message}.`,
           variant: "destructive",
         });
       },
@@ -138,8 +126,16 @@ export const SemesterEditDialogue = () => {
   };
 
   return (
-    <DialogCard title={`Edit ${name}`} onClose={() => reset()}>
+    <DialogCard title="Create a new semester">
       <form className="flex gap-4 flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <TextInput
+          label="Name"
+          type="text"
+          {...register("name")}
+          isError={!!errors.name?.message}
+          errorMessage={errors.name?.message}
+          autoComplete="off"
+        />
         <div className="flex gap-2 *:grow ">
           <TextInput
             label="Start date"
@@ -148,6 +144,7 @@ export const SemesterEditDialogue = () => {
             isError={!!errors.startDate?.message}
             errorMessage={errors.startDate?.message}
             autoComplete="off"
+            placeholder="dd/MM/yyyy"
           />
           <TextInput
             label="End date"
@@ -156,6 +153,7 @@ export const SemesterEditDialogue = () => {
             isError={!!errors.endDate?.message}
             errorMessage={errors.endDate?.message}
             autoComplete="off"
+            placeholder="dd/MM/yyyy"
           />
         </div>
         <div className="flex gap-2 *:grow">
@@ -166,6 +164,7 @@ export const SemesterEditDialogue = () => {
             isError={!!errors.breakStart?.message}
             errorMessage={errors.breakStart?.message}
             autoComplete="off"
+            placeholder="dd/MM/yyyy"
           />
           <TextInput
             label="Break end date"
@@ -174,11 +173,12 @@ export const SemesterEditDialogue = () => {
             isError={!!errors.breakEnd?.message}
             errorMessage={errors.breakEnd?.message}
             autoComplete="off"
+            placeholder="dd/MM/yyyy"
           />
         </div>
         <DialogCardFooter
           type="submit"
-          primaryText="Update"
+          primaryText="Create"
           isPending={mutation.isPending}
         />
       </form>

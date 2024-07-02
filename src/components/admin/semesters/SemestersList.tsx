@@ -38,9 +38,13 @@ export const SemestersList = () => {
     );
   }
 
-  return semesters?.map((semester) => (
-    <SemesterContextProvider key={semester.id} value={semester}>
-      <SemesterDetailCard />
-    </SemesterContextProvider>
-  ));
+  return (
+    <>
+      {semesters?.map((semester) => (
+        <SemesterContextProvider key={semester.id} value={semester}>
+          <SemesterDetailCard />
+        </SemesterContextProvider>
+      ))}
+    </>
+  );
 };
