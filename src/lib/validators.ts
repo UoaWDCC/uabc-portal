@@ -2,6 +2,7 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import {
+  gameSessionExceptions,
   gameSessions,
   gameSessionSchedules,
   semesters,
@@ -63,6 +64,25 @@ export const insertGameSessionScheduleSchema = createInsertSchema(
 export const updateGameSessionScheduleSchema = z.object({
   semesterId: z.number(),
   weekday: z.enum(weekdayEnum.enumValues),
+  startTime: z.string().time(),
+  endTime: z.string().time(),
+  locationName: z.string(),
+  locationAddress: z.string(),
+  capacity: z.number(),
+  casualCapacity: z.number(),
+});
+
+export const insertGameSessionExceptionSchema = createInsertSchema(
+  gameSessionExceptions,
+  {
+    date: z.string().date(),
+    startTime: z.string().time(),
+    endTime: z.string().time(),
+  },
+);
+
+export const insertNonNullGameSessionExceptionSchema = z.object({
+  date: z.string().date(),
   startTime: z.string().time(),
   endTime: z.string().time(),
   locationName: z.string(),
