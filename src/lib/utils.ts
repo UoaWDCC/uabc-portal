@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
-import { formatDate, isValid, parse } from "date-fns";
+import { format, formatDate, isValid, parse } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import { twMerge } from "tailwind-merge";
-import { z } from "zod";
 
 import type { Weekday } from "@/types/types";
 
@@ -12,48 +12,48 @@ export function cn(...inputs: ClassValue[]) {
 export function getWeekday(date: Date | string) {
   return new Date(date).toLocaleDateString("en-NZ", {
     weekday: "long",
+    timeZone: "Pacific/Auckland",
   }) as Weekday;
 }
 
-export function convertTo12HourFormat(time24: string): string {
-  // Split the input string into hours and minutes
-  const [hoursStr, minutesStr] = time24.split(":");
-
-  // Convert the hours and minutes to numbers
-  let hours = parseInt(hoursStr);
-  const minutes = parseInt(minutesStr);
-
-  // Determine if it's AM or PM
-  const period = hours >= 12 ? "PM" : "AM";
-
-  // Convert hours from 24-hour time to 12-hour time
-  hours = hours % 12 || 12; // Convert '0' hour to '12'
-
-  // Format the minutes to ensure two digits
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes.toString();
-
-  // Return the formatted time string
-  return `${hours}:${formattedMinutes}${period}`;
+/**
+ * Converts from military Time to 12-hour format
+ */
+export function convertTo12HourFormat(militaryTime: string): string {
+  return format(parse(militaryTime, "HH:mm:ss", new Date()), "HH:mma");
 }
 
-export const parseDateToObject = (date: string) => {
+/**
+ * Parses a date string of the format "dd/MM/yyyy" into a Date object.
+ */
+export const parseDate = (date: string) => {
   return parse(date, "dd/MM/yyyy", new Date());
 };
 
-// compare two dates a - b,
-// a > b return positive int, a < b return negative int, a = b return 0
+/**
+ * Compares two dates of the formate "dd/MM/yyyy" and returns the difference in milliseconds.
+ */
 export const compareDate = (date1: string, date2: string) => {
-  return (
-    parseDateToObject(date1).getTime() - parseDateToObject(date2).getTime()
-  );
+  return parseDate(date1).getTime() - parseDate(date2).getTime();
 };
 
-// Return the formatted date in "yyyy-MM-dd" string for zod validation
-export const parseNzDateToZodDate = (date: string) => {
+/**
+ * Formats a date string of the format "dd/MM/yyyy" into "yyyy-MM-dd"
+ */
+export const formatDateInISO = (date: string) => {
   return formatDate(parse(date, "dd/MM/yyyy", new Date()), "yyyy-MM-dd");
 };
 
-// Return boolean use to validate date in "dd/MM/yyyy" format
+/**
+ * Validates a date string of the format "dd/MM/yyyy"
+ */
 export const validateDate = (date: string) => {
   return isValid(parse(date, "dd/MM/yyyy", new Date()));
 };
+
+/**
+ * Returns a string in the yyyy-MM-dd format in the Pacific/Auckland timezone
+ */
+export function formatInNZST(date: Date | string): string {
+  return formatInTimeZone(new Date(date), "Pacific/Auckland", "yyyy-MM-dd");
+}

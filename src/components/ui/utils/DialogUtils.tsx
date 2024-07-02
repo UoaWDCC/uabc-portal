@@ -48,7 +48,7 @@ export const DialogCardFooter = ({
   ...props
 }: DialogCardFooterProps) => {
   return (
-    <DialogFooter className="flex gap-2 ">
+    <DialogFooter className="flex gap-2">
       <DialogClose asChild>
         <Button variant="outline" className="text-foreground select-none">
           {secondaryText}

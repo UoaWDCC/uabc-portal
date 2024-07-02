@@ -12,6 +12,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   isError?: boolean;
   errorMessage?: string;
   isSuccess?: boolean;
+  successMessage?: string;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, InputProps>(
@@ -23,6 +24,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
       className,
       errorMessage,
       isSuccess,
+      successMessage,
       ...props
     }: InputProps,
     ref,
@@ -59,11 +61,17 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
         {/* has 3 lines(40px) of error message height */}
         <p
           className={twMerge(
-            "max-h-0 text-xs text-destructive/80 peer-has-[input:focus]:!text-destructive transition-[max-height] w-full ease-in-out duration-150",
-            !!errorMessage && "max-h-10",
+            "max-h-0 text-xs transition-[max-height] w-full ease-in-out duration-150",
+            ((!!errorMessage && isError) || (!!successMessage && isSuccess)) &&
+              "max-h-10",
+            isError &&
+              "text-destructive/80 peer-has[input:focus]:!text-destructive",
+            isSuccess &&
+              "text-green-600/80 peer-has[input:focus]:!text-green-600",
           )}
         >
-          {errorMessage}&nbsp;
+          {isError ? errorMessage : ""}&nbsp;
+          {isSuccess ? successMessage : ""}&nbsp;
         </p>
       </div>
     );
