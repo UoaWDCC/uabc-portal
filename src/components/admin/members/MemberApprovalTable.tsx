@@ -9,11 +9,12 @@ import {
 } from "@/components/ui/table";
 import { usePendingMembers } from "@/hooks/query/usePendingMembers";
 import { MemberApprovalTableRow } from "./MemberApprovalTableRow";
+import { SkeletonMemberApprovalTable } from "./SkeletonMemberApprovalTable";
 
 export function MemberApprovalTable({ className }: { className?: string }) {
   const { data: pendingMembers, isLoading } = usePendingMembers();
 
-  if (isLoading || !pendingMembers) return <p>Loading...</p>;
+  if (isLoading || !pendingMembers) return <SkeletonMemberApprovalTable />;
 
   return (
     <div className="rounded border">
@@ -22,7 +23,7 @@ export function MemberApprovalTable({ className }: { className?: string }) {
           <TableRow>
             <TableHead className="w-[200px]">Name</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead>Set Prepaid Sessions</TableHead>
+            <TableHead className="w-[200px]">Set Prepaid Sessions</TableHead>
             <TableHead className="w-[200px]">Approve</TableHead>
           </TableRow>
         </TableHeader>

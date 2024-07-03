@@ -42,7 +42,7 @@ export const useApproveUserMutation = (queryClient: QueryClient) => {
     onSuccess: () => {
       toast({
         title: "Success!",
-        description: "User has been approved.",
+        description: "User has been successfully approved.",
       });
     },
     onError: (_error, _variables, context) => {
@@ -88,7 +88,7 @@ export const useRejectUserMutation = (queryClient: QueryClient) => {
     onSuccess: () => {
       toast({
         title: "Success!",
-        description: "User has been rejected.",
+        description: "User has been successfully rejected.",
       });
     },
     onError: (_error, _variables, context) => {
