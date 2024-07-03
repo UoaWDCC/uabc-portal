@@ -3,6 +3,7 @@
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
+import { flexRender, Row } from "@tanstack/react-table";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -13,11 +14,11 @@ import {
   useApproveUserMutation,
   useRejectUserMutation,
 } from "@/hooks/mutations/user";
+import { Member } from "./MemberApprovalTable";
 
 interface MemberApprovalTableRowProps {
-  id: string;
-  name: string;
-  email: string;
+  row: Row<Member>;
+  userId: string;
 }
 
 const formSchema = z.object({
@@ -28,9 +29,8 @@ const formSchema = z.object({
 });
 
 export function MemberApprovalTableRow({
-  id: userId,
-  name,
-  email,
+  row,
+  userId,
 }: MemberApprovalTableRowProps) {
   const {
     register,
@@ -57,9 +57,12 @@ export function MemberApprovalTableRow({
 
   return (
     <TableRow>
-      <TableCell className="font-medium">{name}</TableCell>
-      <TableCell>{email}</TableCell>
-      <TableCell className="text-right">
+      {row.getVisibleCells().map((cell) => (
+        <TableCell key={cell.id}>
+          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        </TableCell>
+      ))}
+      <TableCell>
         <form onSubmit={handleSubmit(handleApproveClick)}>
           <TextInput
             type="number"

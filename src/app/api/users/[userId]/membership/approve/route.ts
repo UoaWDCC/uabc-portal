@@ -5,6 +5,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
+import { userCache } from "@/services/user";
 
 const approveUserSchema = z.object({
   prepaidSessions: z.number(),
@@ -30,7 +31,7 @@ export async function PATCH(
 
   const { prepaidSessions } = approveUserSchema.parse(body);
 
-  const user = await db
+  const [user] = await db
     .update(users)
     .set({ verified: true, remainingSessions: prepaidSessions })
     .where(eq(users.id, userId))
@@ -41,6 +42,8 @@ export async function PATCH(
       status: 404,
     });
   }
+
+  userCache.revalidate(user.email);
 
   // TODO: Send email to user
 

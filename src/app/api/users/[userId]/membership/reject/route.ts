@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
+import { userCache } from "@/services/user";
 
 export async function PATCH(
   _req: NextRequest,
@@ -21,7 +22,7 @@ export async function PATCH(
 
   const { userId } = params;
 
-  const user = await db
+  const [user] = await db
     .update(users)
     .set({ member: false })
     .where(eq(users.id, userId))
@@ -32,6 +33,8 @@ export async function PATCH(
       status: 404,
     });
   }
+
+  userCache.revalidate(user.email);
 
   // TODO: Send email to user
 

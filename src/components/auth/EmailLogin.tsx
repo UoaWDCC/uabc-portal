@@ -50,7 +50,6 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
         redirect: false,
       });
 
-      console.log({ response });
       if (!response?.error) {
         router.push("/sessions");
       } else {
@@ -79,8 +78,8 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex-col flex gap-4">
-        <span className="text-foreground text-center">
+      <div className="flex flex-col gap-4">
+        <span className="text-center text-foreground">
           Login to your account
         </span>
         <TextInput
