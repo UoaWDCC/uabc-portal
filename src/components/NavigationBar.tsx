@@ -13,15 +13,20 @@ interface NavigationBarProps {
 
 export const NavigationBar = ({ title, className }: NavigationBarProps) => {
   return (
-    <div className={clsx(className, "flex mt-4 align-middle text-tertiary")}>
+    <div
+      className={clsx(
+        className,
+        "flex border-b p-4 align-middle text-tertiary",
+      )}
+    >
       <BackButton
         variant={"ghost"}
-        className={cn("grid place-items-center mr-4 size-8")}
+        className={cn("mr-4 grid size-8 place-items-center")}
         size={"icon"}
       >
         <IoArrowBackOutline size={24} />
       </BackButton>
-      <span className={cn("text-lg font-medium leading-none self-center")}>
+      <span className={cn("self-center text-lg font-medium leading-none")}>
         {title}
       </span>
     </div>

@@ -75,6 +75,12 @@ export async function GET(req: NextRequest) {
 
     const fetchedUsers = await db.query.users.findMany({
       where: and(...userEqConditions),
+      columns: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+      },
     });
 
     return NextResponse.json(fetchedUsers);
