@@ -46,14 +46,10 @@ export async function POST(request: Request) {
       status: 200,
       statusText: "User registered successfully",
     });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { errors: error.issues },
-        { status: 400, statusText: "Schema Error" },
-      );
-    } else {
-      return new Response("Internal server error", { status: 500 });
+  } catch (e) {
+    if (e instanceof z.ZodError) {
+      return NextResponse.json({ errors: e.errors }, { status: 400 });
     }
+    return new Response("Internal server error", { status: 500 });
   }
 }

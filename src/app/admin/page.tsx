@@ -14,7 +14,7 @@ export default async function AdminDashboardPage() {
       <div className="flex p-4">
         <Heading>Dashboard</Heading>
       </div>
-      <div className="px-4 flex flex-col gap-4">
+      <div className="flex flex-col gap-4 px-4">
         <DashboardButton href="">
           <CalendarDays size={24} className="min-w-6" />
           View Sessions

@@ -112,7 +112,7 @@ export async function GET(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.issues, { status: 400 });
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }
@@ -215,7 +215,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(gameSessionExceptionToInsert, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.issues, { status: 400 });
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     return new Response(null, { status: 500 });
   }
@@ -271,7 +271,7 @@ export async function DELETE(req: NextRequest) {
     return new Response(null, { status: 204 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.issues, { status: 400 });
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }
@@ -357,7 +357,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(null, { status: 204 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.issues, { status: 400 });
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }

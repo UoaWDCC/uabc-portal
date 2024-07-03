@@ -96,9 +96,9 @@ export async function PUT(
 
     return new Response(null, { status: 204 });
   } catch (error) {
-    if (error instanceof z.ZodError)
-      return NextResponse.json(error.issues, { status: 400 });
-
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
+    }
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }

@@ -24,7 +24,7 @@ export async function GET(
     return NextResponse.json(userBooking.bookingDetails);
   } catch (e) {
     if (e instanceof z.ZodError) {
-      return NextResponse.json(e.issues, { status: 400 });
+      return NextResponse.json({ errors: e.issues }, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }

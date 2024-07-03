@@ -77,9 +77,9 @@ export async function PUT(
       .where(eq(gameSessionSchedules.id, scheduleId))
       .returning();
     return NextResponse.json(res);
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return NextResponse.json((err as z.ZodError).issues, { status: 400 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }

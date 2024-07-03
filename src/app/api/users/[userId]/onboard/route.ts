@@ -19,44 +19,44 @@ export async function PATCH(
   try {
     const { userId } = params;
 
-    // Validate the body of the request
-    const json = await req.json();
-
-    const { firstName, lastName, member } = updateUserSchema.parse(json);
-
-    // Check that the current user is defined
     const currentUser = await getCurrentUser();
-    if (!currentUser || userId !== currentUser.id) {
-      return new Response(null, { status: 403 });
+
+    if (!currentUser) {
+      return new Response("ERROR: Unauthorized request", { status: 401 });
     }
 
-    // Get the user from the database
+    if (currentUser.id !== userId) {
+      return new Response("ERROR: No valid permissions", { status: 403 });
+    }
+
+    const body = await req.json();
+
+    const { firstName, lastName, member } = updateUserSchema.parse(body);
+
     const user = await db.query.users.findFirst({
       where: eq(users.id, userId),
     });
 
-    // Check that the user was found in the database
     if (!user) {
       return new Response(`No User found for id: ${currentUser.id}`, {
         status: 404,
       });
     }
 
-    // Update the user in the database
     await db
       .update(users)
       .set({ firstName, lastName, member })
       .where(eq(users.id, currentUser.id));
 
-    // Revalidate the user tag
     userCache.revalidate(currentUser.email);
 
     return new Response(null, {
       status: 204,
     });
   } catch (error) {
-    if (error instanceof z.ZodError)
-      return NextResponse.json(error.issues, { status: 400 });
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
+    }
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }

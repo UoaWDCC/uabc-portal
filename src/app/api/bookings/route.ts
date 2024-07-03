@@ -169,13 +169,13 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ id: obfuscateId(bookingId) }, { status: 201 });
-  } catch (e) {
-    if (e instanceof TransactionRollbackError) {
+  } catch (error) {
+    if (error instanceof TransactionRollbackError) {
       return new Response("Game session at max capacity", { status: 409 });
-    } else if (e instanceof z.ZodError) {
-      return NextResponse.json(e.issues, { status: 400 });
+    } else if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     } else {
-      console.error(e);
+      console.error(error);
       return new Response("Internal server error", { status: 500 });
     }
   }

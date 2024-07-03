@@ -54,9 +54,9 @@ export async function POST(
       .values(newGameSession)
       .returning();
     return NextResponse.json(session, { status: 201 });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return NextResponse.json((err as z.ZodError).issues, { status: 400 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }
