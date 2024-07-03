@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
+
 export type PendingMemberResponse = {
   id: string;
   firstName: string;
@@ -16,7 +18,7 @@ const fetchPendingMembers = async (): Promise<PendingMemberResponse[]> => {
 
 export const usePendingMembers = () => {
   const query = useQuery({
-    queryKey: ["pending-members"],
+    queryKey: [QUERY_KEY.PendingMembers],
     queryFn: fetchPendingMembers,
   });
 

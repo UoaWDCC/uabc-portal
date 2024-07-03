@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { usePendingMembers } from "@/hooks/query/usePendingMembers";
-import { MemberApprovalRow } from "./MemberApprovalRow";
+import { MemberApprovalTableRow } from "./MemberApprovalTableRow";
 
 export function MemberApprovalTable({ className }: { className?: string }) {
   const { data: pendingMembers, isLoading } = usePendingMembers();
@@ -28,12 +28,12 @@ export function MemberApprovalTable({ className }: { className?: string }) {
         </TableHeader>
         <TableBody>
           {pendingMembers.map((pendingMember) => (
-            <MemberApprovalRow
+            <MemberApprovalTableRow
               key={pendingMember.id}
               id={pendingMember.id}
               name={`${pendingMember.firstName} ${pendingMember.lastName}`}
               email={pendingMember.email}
-            ></MemberApprovalRow>
+            ></MemberApprovalTableRow>
           ))}
         </TableBody>
       </Table>

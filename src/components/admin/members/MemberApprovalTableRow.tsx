@@ -2,14 +2,19 @@
 
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { TextInput } from "@/components/TextInput";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
+import {
+  useApproveUserMutation,
+  useRejectUserMutation,
+} from "@/hooks/mutations/user";
 
-interface MemberApprovalRowProps {
+interface MemberApprovalTableRowProps {
   id: string;
   name: string;
   email: string;
@@ -22,11 +27,11 @@ const formSchema = z.object({
     .pipe(z.coerce.number().positive()),
 });
 
-export function MemberApprovalRow({
+export function MemberApprovalTableRow({
   id: userId,
   name,
   email,
-}: MemberApprovalRowProps) {
+}: MemberApprovalTableRowProps) {
   const {
     register,
     handleSubmit,
@@ -35,12 +40,19 @@ export function MemberApprovalRow({
     resolver: zodResolver(formSchema),
   });
 
+  const queryClient = useQueryClient();
+
+  const { mutate: approveUser } = useApproveUserMutation(queryClient);
+  const { mutate: rejectUser } = useRejectUserMutation(queryClient);
+
   const handleRejectClick = () => {
-    console.log("Rejecting user with id: ", userId);
+    rejectUser({ userId });
   };
 
-  const handleApproveClick = () => {
-    console.log("Approving user with id: ", userId);
+  const handleApproveClick = ({
+    prepaidSessions,
+  }: z.infer<typeof formSchema>) => {
+    approveUser({ userId, prepaidSessions });
   };
 
   return (
