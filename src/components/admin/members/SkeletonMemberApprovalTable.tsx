@@ -1,5 +1,3 @@
-import { TextInput } from "@/components/TextInput";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -32,11 +30,14 @@ export function SkeletonMemberApprovalTable() {
                 <Skeleton className="h-4 w-48 bg-tertiary/20" />
               </TableCell>
               <TableCell className="text-right">
-                <TextInput type="number" className="h-10 w-[200px]" />
+                {/* <TextInput type="number" className="h-10 w-[200px]" /> */}
+                <Skeleton className="h-10 w-[200px] bg-tertiary/20" />
               </TableCell>
               <TableCell className="flex w-[200px] gap-2">
-                <Button variant={"destructive"}>Reject</Button>
-                <Button>Approve</Button>
+                <Skeleton className="h-10 w-[74px] bg-tertiary/20" />
+                <Skeleton className="h-10 w-[88px] bg-tertiary/20" />
+                {/* <Button variant={"destructive"}>Reject</Button>
+                <Button>Approve</Button> */}
               </TableCell>
             </TableRow>
           ))}

@@ -1,24 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import type { ColumnDef } from "@tanstack/react-table";
 import {
-  flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import {
   Table,
   TableBody,
@@ -29,44 +17,26 @@ import {
 } from "@/components/ui/table";
 import { usePendingMembers } from "@/hooks/query/usePendingMembers";
 import { SkeletonMemberApprovalTable } from "../SkeletonMemberApprovalTable";
+import { columns } from "./columns";
 import { MemberApprovalTablePagination } from "./MemberApprovalTablePagination";
 import { MemberApprovalTableRow } from "./MemberApprovalTableRow";
 
-export type Member = {
-  id: string;
-  name: string;
-  email: string;
-};
+export function MemberApprovalTable({ className }: { className?: string }) {
+  const { data, isLoading } = usePendingMembers();
 
-export const columns: ColumnDef<Member>[] = [
-  {
-    accessorKey: "id",
-    header: "Id",
-  },
-  {
-    accessorKey: "name",
-    header: "Name",
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-  },
-];
-
-export function MemberApprovalTable({
-  data,
-  className,
-}: {
-  data: Member[];
-  className?: string;
-}) {
   const [pagination, setPagination] = useState({
-    pageIndex: 0, //initial page index
-    pageSize: 10, //default page size
+    pageIndex: 0,
+    pageSize: 10,
   });
 
+  const pendingMembers = data?.map((member) => ({
+    id: member.id,
+    name: `${member.firstName} ${member.lastName}`,
+    email: member.email,
+  }));
+
   const table = useReactTable({
-    data,
+    data: pendingMembers ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -75,12 +45,15 @@ export function MemberApprovalTable({
         id: false,
       },
     },
-    onPaginationChange: setPagination, //update the pagination state when internal APIs mutate the pagination state
+    onPaginationChange: setPagination,
     state: {
-      //...
       pagination,
     },
   });
+
+  if (isLoading) {
+    return <SkeletonMemberApprovalTable />;
+  }
 
   return (
     <div className="rounded border">

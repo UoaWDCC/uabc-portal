@@ -55,7 +55,7 @@ export function MemberApprovalTablePagination({
                 </PaginationLink>
               </PaginationItem>
             ))
-          : pageIndex > pageCount - Math.ceil(PAGINATION_BUTTON_COUNT / 2)
+          : pageIndex > pageCount - Math.ceil(PAGINATION_BUTTON_COUNT / 2) - 1
             ? Array.from({ length: PAGINATION_BUTTON_COUNT }).map(
                 (_, index) => {
                   const itemPageIndex =
@@ -87,7 +87,11 @@ export function MemberApprovalTablePagination({
                 )
               : Array.from({ length: PAGINATION_BUTTON_COUNT }).map(
                   (_, index) => {
-                    const itemPageIndex = pageIndex - 2 + index;
+                    const itemPageIndex =
+                      pageIndex -
+                      Math.ceil(PAGINATION_BUTTON_COUNT / 2) +
+                      index +
+                      1;
                     return (
                       <PaginationItem key={itemPageIndex}>
                         <PaginationLink

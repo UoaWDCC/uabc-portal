@@ -1,19 +1,7 @@
-"use client";
-
 import { MemberApprovalTable } from "@/components/admin/members/MemberApprovalTable/MemberApprovalTable";
-import { SkeletonMemberApprovalTable } from "@/components/admin/members/SkeletonMemberApprovalTable";
 import { NavigationBar } from "@/components/NavigationBar";
-import { usePendingMembers } from "@/hooks/query/usePendingMembers";
 
 export default function AdminMembersPage() {
-  const { data, isLoading } = usePendingMembers();
-
-  const pendingMembers = data?.map((member) => ({
-    id: member.id,
-    name: `${member.firstName} ${member.lastName}`,
-    email: member.email,
-  }));
-
   return (
     <div className="flex min-h-dvh flex-col">
       <NavigationBar title="Members" />
@@ -23,11 +11,7 @@ export default function AdminMembersPage() {
           <p className="text-muted-foreground">
             Here&apos;s a list of members currently awaiting approval
           </p>
-          {isLoading || !pendingMembers ? (
-            <SkeletonMemberApprovalTable />
-          ) : (
-            <MemberApprovalTable data={pendingMembers} className="grow" />
-          )}
+          <MemberApprovalTable />
         </div>
       </div>
     </div>

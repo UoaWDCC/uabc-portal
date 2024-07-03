@@ -30,8 +30,8 @@ dependencies:
     specifier: ^0.9.2
     version: 0.9.2(typescript@5.4.4)(zod@3.23.8)
   '@tanstack/react-query':
-    specifier: ^5.28.4
-    version: 5.29.0(react@18.2.0)
+    specifier: ^5.49.2
+    version: 5.49.2(react@18.2.0)
   '@tanstack/react-table':
     specifier: ^8.19.2
     version: 8.19.2(react-dom@18.2.0)(react@18.2.0)
@@ -136,6 +136,9 @@ devDependencies:
   '@storybook/test':
     specifier: ^8.0.5
     version: 8.0.6(@types/jest@29.5.12)(jest@29.7.0)
+  '@tanstack/react-query-devtools':
+    specifier: ^5.49.2
+    version: 5.49.2(@tanstack/react-query@5.49.2)(react@18.2.0)
   '@testing-library/jest-dom':
     specifier: ^6.4.2
     version: 6.4.2(@types/jest@29.5.12)(jest@29.7.0)
@@ -4571,18 +4574,31 @@ packages:
       zod: 3.23.8
     dev: false
 
-  /@tanstack/query-core@5.29.0:
-    resolution: {integrity: sha512-WgPTRs58hm9CMzEr5jpISe8HXa3qKQ8CxewdYZeVnA54JrPY9B1CZiwsCoLpLkf0dGRZq+LcX5OiJb0bEsOFww==}
-    dev: false
+  /@tanstack/query-core@5.49.1:
+    resolution: {integrity: sha512-JnC9ndmD1KKS01Rt/ovRUB1tmwO7zkyXAyIxN9mznuJrcNtOrkmOnQqdJF2ib9oHzc2VxHomnEG7xyfo54Npkw==}
 
-  /@tanstack/react-query@5.29.0(react@18.2.0):
-    resolution: {integrity: sha512-yxlhHB73jaBla6h5B6zPaGmQjokkzAhMHN4veotkPNiQ3Ac/mCxgABRZPsJJrgCTvhpcncBZcDBFxaR2B37vug==}
+  /@tanstack/query-devtools@5.49.1:
+    resolution: {integrity: sha512-9mBtuq76fp+OE780ImoNG109bM7lucZ9MLPLzAkQ2OMx+X6s3BfVATySTxm1Mrtui3qJIFo05ZI4zv9A44+GAg==}
+    dev: true
+
+  /@tanstack/react-query-devtools@5.49.2(@tanstack/react-query@5.49.2)(react@18.2.0):
+    resolution: {integrity: sha512-ARQ8GXaTcwXyXIv215sfFqT9s87Jj8vP8jAc9LlC28M+4RbexfBRvm+cra3Cn/xlXJrUEjijf+vUf1Ju9F1XJQ==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.49.2
+      react: ^18 || ^19
+    dependencies:
+      '@tanstack/query-devtools': 5.49.1
+      '@tanstack/react-query': 5.49.2(react@18.2.0)
+      react: 18.2.0
+    dev: true
+
+  /@tanstack/react-query@5.49.2(react@18.2.0):
+    resolution: {integrity: sha512-6rfwXDK9BvmHISbNFuGd+wY3P44lyW7lWiA9vIFGT/T0P9aHD1VkjTvcM4SDAIbAQ9ygEZZoLt7dlU1o3NjMVA==}
     peerDependencies:
       react: ^18.0.0
     dependencies:
-      '@tanstack/query-core': 5.29.0
+      '@tanstack/query-core': 5.49.1
       react: 18.2.0
-    dev: false
 
   /@tanstack/react-table@8.19.2(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-itoSIAkA/Vsg+bjY23FSemcTyPhc5/1YjYyaMsr9QSH/cdbZnQxHVWrpWn0Sp2BWN71qkzR7e5ye8WuMmwyOjg==}

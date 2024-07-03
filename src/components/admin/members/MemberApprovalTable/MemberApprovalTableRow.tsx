@@ -3,7 +3,8 @@
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { flexRender, Row } from "@tanstack/react-table";
+import type { Row } from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -14,7 +15,7 @@ import {
   useApproveUserMutation,
   useRejectUserMutation,
 } from "@/hooks/mutations/user";
-import { Member } from "./MemberApprovalTable";
+import type { Member } from "./columns";
 
 interface MemberApprovalTableRowProps {
   row: Row<Member>;
