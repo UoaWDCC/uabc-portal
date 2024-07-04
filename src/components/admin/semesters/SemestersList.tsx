@@ -25,7 +25,7 @@ export const SemestersList = () => {
           bookingOpenTime: semester.bookingOpenTime,
         };
       }),
-    [data],
+    [data]
   );
 
   if (isLoading || !data) {

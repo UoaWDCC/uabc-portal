@@ -65,9 +65,9 @@ export async function POST(req: NextRequest) {
     const semester = await db.insert(semesters).values(newSemester).returning();
 
     return NextResponse.json(semester, { status: 201 });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return NextResponse.json(err.issues, { status: 400 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }

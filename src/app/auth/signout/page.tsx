@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export default function SignOutPage() {
   return (
-    <div className="h-dvh grid place-items-center">
+    <div className="grid h-dvh place-items-center">
       <Button onClick={() => signOut()}>Sign Out</Button>
     </div>
   );

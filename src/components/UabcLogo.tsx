@@ -5,7 +5,7 @@ export const UabcLogo = ({ className }: { className?: string }) => (
     <Image
       src="/svgs/logo-darkmode.svg"
       alt="uabc logo"
-      className="dark:block hidden"
+      className="hidden dark:block"
       width={250}
       height={250}
       draggable={false}
@@ -13,7 +13,7 @@ export const UabcLogo = ({ className }: { className?: string }) => (
     <Image
       src="/svgs/logo.svg"
       alt="uabc logo"
-      className="dark:hidden block"
+      className="block dark:hidden"
       width={250}
       height={250}
       draggable={false}

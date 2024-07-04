@@ -33,7 +33,7 @@ function getZonedBookingOpenTime({
   const bookingOpen = parse(
     `${bookingOpenDay} ${bookingOpenTime}`,
     "iiii HH:mm:ss",
-    new Date(gameSessionDate),
+    new Date(gameSessionDate)
   );
 
   // If the booking open time is after the game session date, set it back a week
@@ -54,7 +54,7 @@ function getZonedBookingCloseTime({
   const bookingClose = parse(
     `${gameSessionDate} ${gameSessionStartTime}`,
     "yyyy-MM-dd HH:mm:ss",
-    new Date(gameSessionDate),
+    new Date(gameSessionDate)
   );
 
   return fromZonedTime(bookingClose, "Pacific/Auckland");
@@ -83,13 +83,13 @@ export async function GET(req: NextRequest) {
         .from(bookingDetails)
         .innerJoin(
           gameSessions,
-          eq(bookingDetails.gameSessionId, gameSessions.id),
+          eq(bookingDetails.gameSessionId, gameSessions.id)
         )
         .where(eq(gameSessions.date, gameSessionDate));
       // If a game session exists for the date, return it
       return NextResponse.json(
         { ...existingGameSession, attendees },
-        { status: 200 },
+        { status: 200 }
       );
     }
 
@@ -103,12 +103,12 @@ export async function GET(req: NextRequest) {
       where: or(
         and(
           lte(semesters.startDate, gameSessionDate),
-          gt(semesters.breakStart, gameSessionDate),
+          gt(semesters.breakStart, gameSessionDate)
         ),
         and(
           lt(semesters.breakEnd, gameSessionDate),
-          gte(semesters.endDate, gameSessionDate),
-        ),
+          gte(semesters.endDate, gameSessionDate)
+        )
       ),
     });
 
@@ -122,7 +122,7 @@ export async function GET(req: NextRequest) {
         },
         {
           status: 404,
-        },
+        }
       );
     }
 
@@ -131,7 +131,7 @@ export async function GET(req: NextRequest) {
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
       {
         where: eq(gameSessionExceptions.date, gameSessionDate),
-      },
+      }
     );
 
     const bookingOpen = getZonedBookingOpenTime({
@@ -153,7 +153,7 @@ export async function GET(req: NextRequest) {
         },
         {
           status: 404,
-        },
+        }
       );
     }
 
@@ -180,7 +180,7 @@ export async function GET(req: NextRequest) {
             attendees: 0,
           },
         },
-        { status: 200 },
+        { status: 200 }
       );
     }
 
@@ -197,7 +197,7 @@ export async function GET(req: NextRequest) {
         },
         {
           status: 404,
-        },
+        }
       );
     }
 
@@ -224,11 +224,11 @@ export async function GET(req: NextRequest) {
           attendees: 0,
         },
       },
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.issues, { status: 400 });
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });
@@ -296,12 +296,12 @@ export async function POST(req: NextRequest) {
       where: or(
         and(
           lte(semesters.startDate, gameSessionDate),
-          gt(semesters.breakStart, gameSessionDate),
+          gt(semesters.breakStart, gameSessionDate)
         ),
         and(
           lt(semesters.breakEnd, gameSessionDate),
-          gte(semesters.endDate, gameSessionDate),
-        ),
+          gte(semesters.endDate, gameSessionDate)
+        )
       ),
     });
 
@@ -314,7 +314,7 @@ export async function POST(req: NextRequest) {
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
       {
         where: eq(gameSessionExceptions.date, gameSessionDate),
-      },
+      }
     );
 
     // If a schedule exists and (no exception or exception is not a delete exception)
@@ -346,7 +346,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(gameSessionExceptionToInsert, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.issues, { status: 400 });
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     console.error(error);
     return new Response(null, { status: 500 });
@@ -386,12 +386,12 @@ export async function DELETE(req: NextRequest) {
       where: or(
         and(
           lte(semesters.startDate, gameSessionDate),
-          gt(semesters.breakStart, gameSessionDate),
+          gt(semesters.breakStart, gameSessionDate)
         ),
         and(
           lt(semesters.breakEnd, gameSessionDate),
-          gte(semesters.endDate, gameSessionDate),
-        ),
+          gte(semesters.endDate, gameSessionDate)
+        )
       ),
     });
 
@@ -401,7 +401,7 @@ export async function DELETE(req: NextRequest) {
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
       {
         where: eq(gameSessionExceptions.date, gameSessionDate),
-      },
+      }
     );
 
     if (!!gameSessionException?.isDeleted) {
@@ -424,7 +424,7 @@ export async function DELETE(req: NextRequest) {
       {
         isDeleted: true,
         date: gameSessionDate,
-      },
+      }
     );
 
     await db
@@ -438,7 +438,7 @@ export async function DELETE(req: NextRequest) {
     return new Response(null, { status: 204 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.issues, { status: 400 });
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });
@@ -494,12 +494,12 @@ export async function PUT(req: NextRequest) {
       where: or(
         and(
           lte(semesters.startDate, gameSessionDate),
-          gt(semesters.breakStart, gameSessionDate),
+          gt(semesters.breakStart, gameSessionDate)
         ),
         and(
           lt(semesters.breakEnd, gameSessionDate),
-          gte(semesters.endDate, gameSessionDate),
-        ),
+          gte(semesters.endDate, gameSessionDate)
+        )
       ),
     });
 
@@ -508,7 +508,7 @@ export async function PUT(req: NextRequest) {
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
       {
         where: eq(gameSessionExceptions.date, gameSessionDate),
-      },
+      }
     );
 
     // If a delete exception exists
@@ -531,7 +531,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const gameSessionExceptionToInsert = insertGameSessionExceptionSchema.parse(
-      { ...gameSessionToUpdate, date: gameSessionDate },
+      { ...gameSessionToUpdate, date: gameSessionDate }
     );
 
     // Insert the gameSessionException record
@@ -546,7 +546,7 @@ export async function PUT(req: NextRequest) {
     return new Response(null, { status: 204 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.issues, { status: 400 });
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });

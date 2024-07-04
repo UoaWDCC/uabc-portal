@@ -2,8 +2,11 @@
   "tabWidth": 2,
   "semi": true,
   "singleQuote": false,
-
-  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "trailingComma": "es5",
+  "plugins": [
+    "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
   "importOrder": [
     "^(react/(.*)$)|^(react$)",
     "^(next/(.*)$)|^(next$)",

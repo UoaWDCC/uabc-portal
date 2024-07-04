@@ -58,7 +58,7 @@ export const insertGameSessionScheduleSchema = createInsertSchema(
     semesterId: z.coerce.number(),
     startTime: z.string().time(),
     endTime: z.string().time(),
-  },
+  }
 );
 
 export const updateGameSessionScheduleSchema = z.object({
@@ -78,7 +78,7 @@ export const insertGameSessionExceptionSchema = createInsertSchema(
     date: z.string().date(),
     startTime: z.string().time(),
     endTime: z.string().time(),
-  },
+  }
 );
 
 export const insertNonNullGameSessionExceptionSchema = z.object({

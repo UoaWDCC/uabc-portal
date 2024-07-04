@@ -14,13 +14,13 @@ const UnmemoizedSemesterDetailCard = () => {
   const { id, name, startDate, endDate, breakStart, breakEnd } =
     useSemesterContext();
   return (
-    <Card className=" relative bg-secondary/20 ring-1 tracking-tight font-medium ring-secondary text-tertiary text-sm select-none">
+    <Card className=" relative select-none bg-secondary/20 text-sm font-medium tracking-tight text-tertiary ring-1 ring-secondary">
       <Link
         href={`semesters/${id}`}
-        className="absolute top-0 left-0 w-full h-full z-10"
+        className="absolute left-0 top-0 z-10 h-full w-full"
       />
       <div className="flex items-center justify-between">
-        <h3 className="text-lg text-foreground truncate">{name}</h3>
+        <h3 className="truncate text-lg text-foreground">{name}</h3>
         <OptionsPopover>
           <OptionsPopover.DialogItem
             ButtonElement={<OptionButtonUtils type="edit" />}

@@ -40,7 +40,7 @@ export function SelectSessionList({
             (!isMember && session.casualBookingCount >= session.casualCapacity),
         };
       }),
-    [data, isMember],
+    [data, isMember]
   );
 
   function handleSessionClick(id: number) {
@@ -60,7 +60,7 @@ export function SelectSessionList({
       <div
         className={cn(
           "flex flex-col gap-3 overflow-y-auto overscroll-contain",
-          className,
+          className
         )}
       >
         {/* arbitrary number of cards */}
@@ -76,7 +76,7 @@ export function SelectSessionList({
     <div
       className={cn(
         "flex flex-col gap-3 overflow-y-auto overscroll-contain",
-        className,
+        className
       )}
     >
       {sessions.map((session) => (

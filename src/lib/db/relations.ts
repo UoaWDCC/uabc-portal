@@ -18,7 +18,7 @@ export const gameSessionRelations = relations(
       references: [gameSessionSchedules.id],
     }),
     bookingDetails: many(bookingDetails),
-  }),
+  })
 );
 
 // each booking is made by one user
@@ -62,5 +62,5 @@ export const gameSessionScheduleRelations = relations(
       references: [semesters.id],
     }),
     gameSessions: many(gameSessions),
-  }),
+  })
 );

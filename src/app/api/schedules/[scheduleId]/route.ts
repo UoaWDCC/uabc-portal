@@ -10,7 +10,7 @@ import { updateGameSessionScheduleSchema } from "@/lib/validators";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { scheduleId: number } },
+  { params }: { params: { scheduleId: number } }
 ) {
   try {
     const { scheduleId } = params;
@@ -24,7 +24,7 @@ export async function GET(
         `No GameSessionSchedule found for id: ${scheduleId}`,
         {
           status: 404,
-        },
+        }
       );
     }
 
@@ -36,7 +36,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { scheduleId: number } },
+  { params }: { params: { scheduleId: number } }
 ) {
   try {
     const user = await getCurrentUser();
@@ -50,7 +50,7 @@ export async function PUT(
     const { scheduleId } = params;
 
     const updatedGameSession = updateGameSessionScheduleSchema.parse(
-      await req.json(),
+      await req.json()
     );
     const gameSessionSchedule = await db.query.gameSessionSchedules.findFirst({
       where: eq(gameSessionSchedules.id, scheduleId),
@@ -61,7 +61,7 @@ export async function PUT(
         `No GameSessionSchedule found for id: ${scheduleId}`,
         {
           status: 400,
-        },
+        }
       );
     }
 
@@ -77,9 +77,9 @@ export async function PUT(
       .where(eq(gameSessionSchedules.id, scheduleId))
       .returning();
     return NextResponse.json(res);
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return NextResponse.json((err as z.ZodError).issues, { status: 400 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }
@@ -87,7 +87,7 @@ export async function PUT(
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { scheduleId: number } },
+  { params }: { params: { scheduleId: number } }
 ) {
   try {
     const user = await getCurrentUser();
@@ -109,7 +109,7 @@ export async function DELETE(
         `No GameSessionSchedule found for id: ${scheduleId}`,
         {
           status: 400,
-        },
+        }
       );
     }
 

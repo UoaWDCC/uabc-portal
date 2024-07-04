@@ -84,7 +84,7 @@ async function main() {
         faker.date.between({
           from: new Date("2020-01-01"),
           to: new Date("2025-12-31"),
-        }),
+        })
       ),
       startTime: "12:00:00",
       endTime: "14:00:00",

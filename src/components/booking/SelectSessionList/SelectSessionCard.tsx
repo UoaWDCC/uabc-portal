@@ -31,8 +31,8 @@ function UnmemoizedSelectSessionCard({
   return (
     <Card
       className={cn(
-        "min-h-24 flex align-middle leading-5",
-        isDisabled && "opacity-40",
+        "flex min-h-24 align-middle leading-5",
+        isDisabled && "opacity-40"
       )}
       variant={isSelected ? "primary" : "secondary"}
     >
@@ -44,7 +44,7 @@ function UnmemoizedSelectSessionCard({
         <span
           className={twJoin(
             isSelected ? "text-primary-foreground/70" : "text-tertiary",
-            "text-sm",
+            "text-sm"
           )}
         >
           {location} <br />
@@ -56,7 +56,7 @@ function UnmemoizedSelectSessionCard({
       {isSelected && (
         <div className="flex grow justify-end">
           <IoCheckmarkCircle
-            className="self-center ml-1"
+            className="ml-1 self-center"
             color="white"
             size={30}
           />

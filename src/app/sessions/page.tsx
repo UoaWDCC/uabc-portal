@@ -17,8 +17,8 @@ async function SelectSessionPage({ currentUser }: CurrentUserProps) {
   const user = (await getUserFromId(currentUser.id))!;
 
   return (
-    <div className="h-dvh flex flex-col">
-      <div className="flex p-4 items-center justify-between">
+    <div className="flex h-dvh flex-col">
+      <div className="flex items-center justify-between p-4">
         <Heading>Sessions</Heading>
         <LogOutButton />
       </div>

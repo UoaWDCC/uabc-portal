@@ -16,14 +16,14 @@ type SemesterDetailCardProps = {
 };
 
 const SemesterContext = createContext<SemesterDetailCardProps>(
-  {} as SemesterDetailCardProps,
+  {} as SemesterDetailCardProps
 );
 
 export const useSemesterContext = () => {
   const context = useContext(SemesterContext);
   if (!context) {
     throw new Error(
-      "useSemesterContext must be used within a SemesterContextProvider",
+      "useSemesterContext must be used within a SemesterContextProvider"
     );
   }
   return context;

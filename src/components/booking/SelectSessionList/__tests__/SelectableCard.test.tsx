@@ -20,7 +20,7 @@ describe("SelectableCard", () => {
         session={session}
         checked={false}
         handleSessionClick={() => {}}
-      />,
+      />
     );
     const card = screen.getByTestId("session-card");
 
@@ -36,7 +36,7 @@ describe("SelectableCard", () => {
         session={{ ...session, isFull: true }}
         checked={false}
         handleSessionClick={() => {}}
-      />,
+      />
     );
     const card = screen.getByTestId("session-card");
 
@@ -52,7 +52,7 @@ describe("SelectableCard", () => {
         session={session}
         checked={false}
         handleSessionClick={handleSessionClick}
-      />,
+      />
     );
     const card = screen.getByTestId("session-card");
 

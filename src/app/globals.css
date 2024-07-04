@@ -120,3 +120,7 @@
   opacity: 25%;
   border-radius: 100%;
 }
+
+.textStroke {
+  -webkit-text-stroke: 6px hsl(var(--foreground));
+}

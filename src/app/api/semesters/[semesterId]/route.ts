@@ -10,7 +10,7 @@ import { updateSemesterSchema } from "@/lib/validators";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { semesterId: number } },
+  { params }: { params: { semesterId: number } }
 ) {
   try {
     const user = await getCurrentUser();
@@ -41,7 +41,7 @@ export async function GET(
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { semesterId: number } },
+  { params }: { params: { semesterId: number } }
 ) {
   try {
     const user = await getCurrentUser();
@@ -74,7 +74,7 @@ export async function DELETE(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { semesterId: number } },
+  { params }: { params: { semesterId: number } }
 ) {
   try {
     const user = await getCurrentUser();
@@ -138,9 +138,9 @@ export async function PUT(
       .returning();
 
     return NextResponse.json(res, { status: 200 });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return NextResponse.json(err.issues, { status: 400 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }

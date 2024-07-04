@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CartClearer } from "@/components/booking/confirmation/CartClearer";
 import ConfirmationMessage from "@/components/booking/confirmation/ConfirmationMessage";
 import { ConfirmedSessionCard } from "@/components/booking/confirmation/ConfirmedSessionCard";
 import { UabcHeaderText } from "@/components/UabcHeaderText";
@@ -25,19 +26,19 @@ async function ConfirmationPage({
   }
 
   const sessions = booking.bookingDetails.map(
-    (bookingDetail) => bookingDetail.gameSession,
+    (bookingDetail) => bookingDetail.gameSession
   );
 
   return (
-    <div className="flex flex-col min-h-dvh">
-      <div className="relative h-32 flex justify-center items-center overflow-hidden">
-        <div className="absolute bg-secondary h-full w-[120%] md:w-[110%] rounded-b-[50%] -z-10"></div>
+    <div className="flex min-h-dvh flex-col">
+      <div className="relative flex h-32 items-center justify-center overflow-hidden">
+        <div className="absolute -z-10 h-full w-[120%] rounded-b-[50%] bg-secondary md:w-[110%]"></div>
         <Link href="/">
           <UabcHeaderText className="mt-4" />
         </Link>
       </div>
 
-      <div className="flex flex-col grow items-center justify-center gap-6 py-10 mx-4">
+      <div className="mx-4 flex grow flex-col items-center justify-center gap-6 py-10">
         <ConfirmationMessage
           member={currentUser.member!}
           email={currentUser.email}
@@ -47,7 +48,7 @@ async function ConfirmationPage({
         </Link>
       </div>
 
-      <div className="flex flex-col bg-primary p-4 pt-5 pb-6 gap-4">
+      <div className="flex flex-col gap-4 bg-primary p-4 pb-6 pt-5">
         <p className="text-xl font-semibold text-primary-foreground">
           Rackets at the ready!
         </p>
@@ -62,6 +63,7 @@ async function ConfirmationPage({
           />
         ))}
       </div>
+      <CartClearer />
     </div>
   );
 }
