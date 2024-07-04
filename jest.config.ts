@@ -10,6 +10,7 @@ const config: Config = {
   preset: "ts-jest",
   coverageProvider: "v8",
   testEnvironment: "<rootDir>/src/tests/jsdom-extended.js",
+  testPathIgnorePatterns: ["<rootDir>/playwright"],
   setupFilesAfterEnv: ["<rootDir>/src/tests/setup-jest.ts"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",

@@ -2,12 +2,12 @@
 
 import { signOut } from "next-auth/react";
 
-const SignInPage = () => {
+import { Button } from "@/components/ui/button";
+
+export default function SignOutPage() {
   return (
-    <div className="size-full">
-      <button onClick={() => signOut()}>Sign out</button>
+    <div className="grid h-dvh place-items-center">
+      <Button onClick={() => signOut()}>Sign Out</Button>
     </div>
   );
-};
-
-export default SignInPage;
+}

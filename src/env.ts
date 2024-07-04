@@ -14,6 +14,8 @@ export const env = createEnv({
     SENDER_EMAIL_ADDRESS: z.string().min(1),
     AWS_REGION: z.string().min(1),
     SENDER_EMAIL: z.string().min(1),
+    APP_URL: z.string().min(1),
+    SQID_SECRET: z.string().min(1),
   },
   client: {},
   runtimeEnv: {
@@ -28,5 +30,7 @@ export const env = createEnv({
     SENDER_EMAIL_ADDRESS: process.env.SENDER_EMAIL_ADDRESS,
     AWS_REGION: process.env.AWS_REGION,
     SENDER_EMAIL: process.env.SENDER_EMAIL,
+    APP_URL: process.env.APP_URL,
+    SQID_SECRET: process.env.SQID_SECRET,
   },
 });

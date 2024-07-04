@@ -3,20 +3,31 @@
  */
 
 import type { PropsWithChildren } from "react";
+import { cva } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-interface CardProps {
-  className?: string;
-  onClick?: () => void;
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: "primary" | "secondary" | "card";
 }
 
+const cardVariants = cva("rounded-sm px-6 py-4", {
+  variants: {
+    variant: {
+      primary: "bg-primary text-primary-foreground",
+      secondary: "bg-secondary text-secondary-foreground",
+      card: "bg-card text-card-foreground border",
+    },
+  },
+  defaultVariants: {
+    variant: "secondary",
+  },
+});
+
 export const Card = ({
-  onClick,
   className,
+  variant,
   children,
 }: PropsWithChildren<CardProps>) => (
-  <div onClick={onClick} className={cn("rounded-sm", className)}>
-    {children}
-  </div>
+  <div className={cn(cardVariants({ variant }), className)}>{children}</div>
 );

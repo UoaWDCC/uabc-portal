@@ -9,18 +9,6 @@ import { twJoin } from "tailwind-merge";
 import { cn } from "@/lib/utils";
 import { Card } from "../../Card";
 
-const backgroundColorMap = new Map([
-  ["default", "bg-secondary"],
-  ["selected", "bg-primary"],
-  ["disabled", "bg-secondary"],
-]);
-
-const textColorMap = new Map([
-  ["default", "text-secondary-foreground"],
-  ["selected", "text-primary-foreground"],
-  ["disabled", "text-secondary-foreground"],
-]);
-
 type SelectSessionCardStatus = "default" | "selected" | "disabled";
 
 interface SelectSessionCardProps {
@@ -31,42 +19,51 @@ interface SelectSessionCardProps {
   status: SelectSessionCardStatus;
 }
 
-const UnmemoizedSelectSessionCard = ({
+function UnmemoizedSelectSessionCard({
   day,
   startTime,
   endTime,
   status,
   location,
-}: SelectSessionCardProps) => (
-  <Card
-    className={cn(
-      "border px-6 py-4 min-h-24 flex font-medium align-middle",
-      backgroundColorMap.get(status),
-      status === "disabled" && "opacity-40",
-    )}
-  >
-    <div className={twJoin(textColorMap.get(status), "leading-5")}>
-      <span className="text-lg leading-6">
-        {day} {status === "disabled" && "(Session Full)"}
-      </span>
-      <br />
-      <span className="opacity-70">
-        {location} <br />
-        <span className="uppercase tracking-tight">
-          {startTime} - {endTime}
-        </span>
-      </span>
-    </div>
-    <div className="flex grow justify-end">
-      {status === "selected" && (
-        <IoCheckmarkCircle
-          className="self-center ml-1"
-          color="white"
-          size={30}
-        />
+}: SelectSessionCardProps) {
+  const isSelected = status === "selected";
+  const isDisabled = status === "disabled";
+  return (
+    <Card
+      className={cn(
+        "flex min-h-24 align-middle leading-5",
+        isDisabled && "opacity-40"
       )}
-    </div>
-  </Card>
-);
+      variant={isSelected ? "primary" : "secondary"}
+    >
+      <div>
+        <span className="text-lg font-medium leading-5">
+          {day} {isDisabled && "(Session Full)"}
+        </span>
+        <br />
+        <span
+          className={twJoin(
+            isSelected ? "text-primary-foreground/70" : "text-tertiary",
+            "text-sm"
+          )}
+        >
+          {location} <br />
+          <span className="uppercase">
+            {startTime} - {endTime}
+          </span>
+        </span>
+      </div>
+      {isSelected && (
+        <div className="flex grow justify-end">
+          <IoCheckmarkCircle
+            className="ml-1 self-center"
+            color="white"
+            size={30}
+          />
+        </div>
+      )}
+    </Card>
+  );
+}
 
 export const SelectSessionCard = memo(UnmemoizedSelectSessionCard);

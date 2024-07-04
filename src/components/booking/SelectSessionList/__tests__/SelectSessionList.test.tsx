@@ -4,32 +4,6 @@ import { SelectSessionList } from "@/components/booking/SelectSessionList/Select
 import type { UserEvent } from "@/tests/test-utils";
 import { render, screen, userEvent } from "@/tests/test-utils";
 
-// this data is mocked with msw
-// jest.mock("@/hooks/query/useCurrentGameSessions", () => ({
-//   useCurrentGameSessions: jest.fn().mockReturnValue({
-//     data: [
-//       {
-//         id: 4,
-//         isFull: false,
-//       },
-//       {
-//         id: 3,
-//         isFull: false,
-//       },
-//       {
-//         id: 2,
-//         isFull: false,
-//       },
-//       {
-//         id: 1,
-//         isFull: true,
-//       },
-//     ],
-//     isLoading: false,
-//     error: {},
-//   }),
-// }));
-
 describe("SelectSessionList", () => {
   let user: UserEvent;
 
@@ -51,7 +25,7 @@ describe("SelectSessionList", () => {
     beforeEach(async () => {
       onLimitReached = jest.fn();
       render(
-        <SelectSessionList isMember={true} onLimitReached={onLimitReached} />,
+        <SelectSessionList isMember={true} onLimitReached={onLimitReached} />
       );
       sessionCards = await screen.findAllByTestId("session-card");
     });
@@ -90,7 +64,7 @@ describe("SelectSessionList", () => {
     beforeEach(async () => {
       onLimitReached = jest.fn();
       render(
-        <SelectSessionList isMember={true} onLimitReached={onLimitReached} />,
+        <SelectSessionList isMember={true} onLimitReached={onLimitReached} />
       );
       sessionCards = await screen.findAllByTestId("session-card");
     });
@@ -120,7 +94,7 @@ describe("SelectSessionList", () => {
     beforeEach(async () => {
       onLimitReached = jest.fn();
       render(
-        <SelectSessionList isMember={false} onLimitReached={onLimitReached} />,
+        <SelectSessionList isMember={false} onLimitReached={onLimitReached} />
       );
       sessionCards = await screen.findAllByTestId("session-card");
     });

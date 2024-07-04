@@ -1,59 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { signIn } from "next-auth/react";
+import Link from "next/link";
 
-import { Button } from "@/components/Button";
-import { TextInput } from "@/components/TextInput";
+import { BreakLine } from "@/components/auth/BreakLine";
+import { EmailLogin } from "@/components/auth/EmailLogin";
+import { GoogleSignIn } from "@/components/auth/GoogleLoginButton";
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPass] = useState("");
-  const [isError, setError] = useState(false);
-
+export default function LoginPage() {
+  const [signInOpen, setSignInOpen] = useState(false);
   return (
-    <div>
-      <div className="flex h-screen flex-col items-center justify-center">
-        <Image
-          src={"/UABC_logo.png"}
-          width={500}
-          height={500}
-          alt="UABC Logo"
-          priority
-        />
-
-        <label className="p-8 text-center">
-          {" "}
-          {isError
-            ? "Incorrect email or password. Please try again:"
-            : "Please login:"}{" "}
-        </label>
-        <div>
-          <TextInput
-            label="Email"
-            value={email}
-            type="email"
-            isError={isError}
-            onChange={setEmail}
-          />
-          <TextInput
-            label="Password"
-            value={password}
-            type="password"
-            isError={isError}
-            onChange={setPass}
-          />
-
-          <Button
-            onClick={() => {
-              signIn("google");
-            }}
-          >
-            login
-          </Button>
-        </div>
-      </div>
+    <div className="mt-8 flex w-full flex-col gap-4">
+      <EmailLogin
+        onLoginOpen={() => setSignInOpen(true)}
+        loginOpen={signInOpen}
+      />
+      <BreakLine label="or" />
+      <GoogleSignIn className="w-full" />
+      <p className="mt-2 text-center text-xs text-tertiary dark:text-white">
+        Don&apos;t have an account?{" "}
+        <Link
+          className="font-bold hover:cursor-pointer hover:underline"
+          href="/auth/signup"
+        >
+          Sign up
+        </Link>
+      </p>
     </div>
   );
 }

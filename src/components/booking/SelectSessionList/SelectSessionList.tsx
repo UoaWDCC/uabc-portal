@@ -3,9 +3,10 @@
 import { useMemo } from "react";
 
 import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
-import { cn, getShortenedTime, getWeekday } from "@/lib/utils";
+import { cn, convertTo12HourFormat, getWeekday } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
 import { SelectableCard } from "./SelectableCard";
+import SkeletonSelectSessionCard from "./SkeletonSessionCard";
 
 interface SelectSessionListProps {
   isMember: boolean;
@@ -29,15 +30,17 @@ export function SelectSessionList({
       data?.map((session) => {
         return {
           id: session.id,
-          weekday: getWeekday(session.startTime),
-          startTime: getShortenedTime(session.startTime),
-          endTime: getShortenedTime(session.endTime),
+          weekday: getWeekday(session.date),
+          startTime: convertTo12HourFormat(session.startTime),
+          endTime: convertTo12HourFormat(session.endTime),
           locationName: session.locationName,
           locationAddress: session.locationAddress,
-          isFull: session.isFull,
+          isFull:
+            session.bookingCount >= session.capacity ||
+            (!isMember && session.casualBookingCount >= session.casualCapacity),
         };
       }),
-    [data],
+    [data, isMember]
   );
 
   function handleSessionClick(id: number) {
@@ -53,14 +56,27 @@ export function SelectSessionList({
   }
 
   if (isLoading || !sessions) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        className={cn(
+          "flex flex-col gap-3 overflow-y-auto overscroll-contain",
+          className
+        )}
+      >
+        {/* arbitrary number of cards */}
+        <SkeletonSelectSessionCard />
+        <SkeletonSelectSessionCard />
+        <SkeletonSelectSessionCard />
+        <SkeletonSelectSessionCard />
+      </div>
+    );
   }
 
   return (
     <div
       className={cn(
-        "flex grow flex-col gap-3 overflow-y-auto overscroll-contain",
-        className,
+        "flex flex-col gap-3 overflow-y-auto overscroll-contain",
+        className
       )}
     >
       {sessions.map((session) => (

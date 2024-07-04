@@ -2,15 +2,19 @@ import { useQuery } from "@tanstack/react-query";
 
 type GameSessionResponse = {
   id: number;
-  startTime: Date;
-  endTime: Date;
+  date: string;
+  startTime: string;
+  endTime: string;
   locationName: string;
   locationAddress: string;
-  isFull: boolean;
+  capacity: number;
+  casualCapacity: number;
+  bookingCount: number;
+  casualBookingCount: number;
 };
 
 const fetchCurrentGameSessions = async (): Promise<GameSessionResponse[]> => {
-  const response = await fetch(`/api/game-session/current`, {
+  const response = await fetch(`/api/game-sessions/current`, {
     cache: "no-store",
   });
   return response.json();

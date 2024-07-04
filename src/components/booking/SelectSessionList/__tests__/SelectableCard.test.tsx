@@ -6,8 +6,8 @@ import { SelectableCard } from "../SelectableCard";
 const session = {
   id: 1,
   weekday: "Monday",
-  startTime: "12:00",
-  endTime: "14:00",
+  startTime: "2:00PM",
+  endTime: "4:00PM",
   locationName: "Location",
   locationAddress: "Address",
   isFull: false,
@@ -20,7 +20,7 @@ describe("SelectableCard", () => {
         session={session}
         checked={false}
         handleSessionClick={() => {}}
-      />,
+      />
     );
     const card = screen.getByTestId("session-card");
 
@@ -36,7 +36,7 @@ describe("SelectableCard", () => {
         session={{ ...session, isFull: true }}
         checked={false}
         handleSessionClick={() => {}}
-      />,
+      />
     );
     const card = screen.getByTestId("session-card");
 
@@ -52,7 +52,7 @@ describe("SelectableCard", () => {
         session={session}
         checked={false}
         handleSessionClick={handleSessionClick}
-      />,
+      />
     );
     const card = screen.getByTestId("session-card");
 

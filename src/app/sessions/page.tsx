@@ -1,48 +1,30 @@
-/**
- * @author David Zhu <dzhu292@aucklanduni.ac.nz>
- */
-
-"use client";
-
-import { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { CgProfile } from "react-icons/cg";
-import { twJoin } from "tailwind-merge";
 
 import { PrepaidSessionsCounter } from "@/components/booking/PrepaidSessionsCounter";
-import { SelectSessionList } from "@/components/booking/SelectSessionList/SelectSessionList";
-import { Button } from "@/components/Button";
-import { CountIndicator } from "@/components/CountIndicator";
 import { Heading } from "@/components/Heading";
-import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
-import { useCartStore } from "@/stores/useCartStore";
+import { LogOutButton } from "@/components/LogOutButton";
+import type { CurrentUserProps } from "@/lib/hoc/withCurrentUser";
+import withCurrentUser from "@/lib/hoc/withCurrentUser";
+import { getUserFromId } from "@/services/user";
+import ClientSessionPage from "./client-page";
 
-const remainingSessions = 11;
-const isMember = true;
-const firstName = "David";
+export const metadata = {
+  title: "Book Session - UABC Booking Portal",
+};
 
-const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
-
-export default function SelectSessionPage() {
-  const { push } = useRouter();
-
-  const sessionsSelected = useCartStore((state) => state.cart.length);
-
-  const [shake, setShake] = useState(false);
+async function SelectSessionPage({ currentUser }: CurrentUserProps) {
+  const user = (await getUserFromId(currentUser.id))!;
 
   return (
     <div className="flex h-dvh flex-col">
-      <div className="flex py-4 pl-6">
+      <div className="flex items-center justify-between p-4">
         <Heading>Sessions</Heading>
-        <Link href={"/account"} className="ml-auto mr-4">
-          <CgProfile size={40} />
-        </Link>
+        <LogOutButton />
       </div>
       <div className="flex h-16 items-center justify-between bg-secondary/70 p-4">
         <div className="flex items-center">
-          <span className="pr-1 font-medium">Hey {firstName}!</span>
+          <span className="pr-1 font-medium">Hey {user?.firstName}!</span>
           <Image
             src="/images/BadmintonRacketLogo.png"
             alt="Badminton Racket Logo"
@@ -51,41 +33,13 @@ export default function SelectSessionPage() {
             height={20}
           />
         </div>
-        {isMember && (
-          <PrepaidSessionsCounter remainingSessions={remainingSessions} />
+        {user?.member && (
+          <PrepaidSessionsCounter remainingSessions={user.remainingSessions} />
         )}
       </div>
-      <div className="flex h-16 items-center justify-between p-4">
-        <p className="max-w-[70%] font-medium leading-5">
-          Please select a badminton session for this week
-        </p>
-        <CountIndicator
-          className={twJoin(
-            "w-16",
-            shake &&
-              "error-shake border-2 border-solid border-destructive text-destructive",
-          )}
-          onAnimationEnd={() => setShake(false)}
-        >
-          {sessionsSelected} / {maxSessions}
-        </CountIndicator>
-      </div>
-
-      <SelectSessionList
-        onLimitReached={() => setShake(true)}
-        isMember={isMember}
-        className="mx-4"
-      />
-
-      <div className="mt-6 mb-8 mx-4 flex justify-center">
-        <Button
-          disabled={sessionsSelected === 0}
-          onClick={() => push("/sessions/book")}
-          className="w-full"
-        >
-          Next
-        </Button>
-      </div>
+      <ClientSessionPage isMember={user.member!} />
     </div>
   );
 }
+
+export default withCurrentUser(SelectSessionPage);

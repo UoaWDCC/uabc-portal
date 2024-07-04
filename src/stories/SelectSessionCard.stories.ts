@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { SelectSessionCard } from "@/components/booking/SelectSessionList/SelectSessionCard";
+import { getWeekday } from "@/lib/utils";
 
 const meta = {
   title: "SelectSessionCard",
@@ -22,30 +23,30 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    weekday: "Monday",
-    startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
-    endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    day: getWeekday(new Date()),
+    startTime: "2:00PM",
+    endTime: "4:00PM",
+    location: "Location",
     status: "default",
-    locationName: "Location",
   },
 };
 
 export const Selected: Story = {
   args: {
-    weekday: "Monday",
-    startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
-    endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    day: getWeekday(new Date()),
+    startTime: "2:00PM",
+    endTime: "4:00PM",
+    location: "Location",
     status: "selected",
-    locationName: "Location",
   },
 };
 
 export const Disabled: Story = {
   args: {
-    weekday: "Monday",
-    startTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
-    endTime: new Date().toLocaleTimeString([], { timeStyle: "short" }),
+    day: getWeekday(new Date()),
+    startTime: "2:00PM",
+    endTime: "4:00PM",
+    location: "Location",
     status: "disabled",
-    locationName: "Location",
   },
 };
