@@ -13,7 +13,7 @@ export default function ConfirmationMessage({
   return (
     <div className="w-full max-w-96 text-pretty">
       {member ? (
-        <BsCheckCircle size={120} className="mx-auto text-green-600" />
+        <BsCheckCircle size={120} className="mx-auto text-success" />
       ) : (
         <BsClock size={120} className="mx-auto text-yellow-500" />
       )}
