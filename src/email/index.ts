@@ -1,8 +1,7 @@
-import { SES } from "@aws-sdk/client-ses";
-import { render } from "@react-email/render";
+import type { Message } from "@aws-sdk/client-ses";
+import { SendEmailCommand, SES } from "@aws-sdk/client-ses";
 
 import { env } from "@/env";
-import { Email } from "./templates/Email";
 
 const SES_CONFIG = {
   credentials: {
@@ -11,37 +10,21 @@ const SES_CONFIG = {
   },
   region: env.AWS_REGION,
 };
-const ses = new SES(SES_CONFIG);
 
-export const sendEmail = async (
-  templateName: string,
-  recipientEmail: string,
-) => {
-  const emailHtml = render(Email({ url: templateName }));
+export const client = new SES(SES_CONFIG);
 
-  const params = {
-    Source: env.SENDER_EMAIL,
+export const createSendEmailCommand = ({
+  toAddress,
+  template,
+}: {
+  toAddress: string;
+  template: Message;
+}) => {
+  return new SendEmailCommand({
     Destination: {
-      ToAddresses: [recipientEmail],
+      ToAddresses: [toAddress],
     },
-    Message: {
-      Body: {
-        Html: {
-          Charset: "UTF-8",
-          Data: emailHtml,
-        },
-      },
-      Subject: {
-        Charset: "UTF-8",
-        Data: "hello world",
-      },
-    },
-  };
-
-  try {
-    const res = await ses.sendEmail(params);
-    console.log("Email has been sent", res); // Log the response for debugging purposes
-  } catch (error) {
-    console.error("Error sending email!:", error);
-  }
+    Message: template,
+    Source: env.SENDER_EMAIL_ADDRESS,
+  });
 };
