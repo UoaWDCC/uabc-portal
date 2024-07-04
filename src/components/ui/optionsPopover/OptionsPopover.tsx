@@ -21,20 +21,20 @@ export type DialogContextProps = {
   handleClose: () => void;
 };
 
-// * Button element is the popover item
-// * Dialog element is the dialog that will be displayed when the popover is clicked
+// * Button component is a button on the popover that will trigger dialog
+// * Dialog component is the dialog that will be displayed when the popover is clicked
 export const OptionDialogItem = ({
-  DialogElement,
-  ButtonElement,
+  DialogComponent,
+  ButtonComponent,
 }: {
-  DialogElement: ReactNode;
-  ButtonElement: ReactNode;
+  DialogComponent: ReactNode;
+  ButtonComponent: ReactNode;
 }) => {
   const { handleClose: closePopover } = useContext(PopoverContext);
   return (
     <DialogBase onOpenChange={() => closePopover()}>
-      <DialogTrigger asChild>{ButtonElement}</DialogTrigger>
-      {DialogElement}
+      <DialogTrigger asChild>{ButtonComponent}</DialogTrigger>
+      {DialogComponent}
     </DialogBase>
   );
 };

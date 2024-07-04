@@ -23,12 +23,12 @@ const UnmemoizedSemesterDetailCard = () => {
         <h3 className="text-lg text-foreground truncate">{name}</h3>
         <OptionsPopover>
           <OptionsPopover.DialogItem
-            ButtonElement={<OptionButtonUtils type="edit" />}
-            DialogElement={<SemesterEditDialogue />}
+            ButtonComponent={<OptionButtonUtils type="edit" />}
+            DialogComponent={<SemesterEditDialogue />}
           />
           <OptionsPopover.DialogItem
-            ButtonElement={<OptionButtonUtils type="delete" />}
-            DialogElement={<SemesterDeleteDialog />}
+            ButtonComponent={<OptionButtonUtils type="delete" />}
+            DialogComponent={<SemesterDeleteDialog />}
           />
         </OptionsPopover>
       </div>

@@ -35,23 +35,21 @@ const formSchema = z
       .refine(validateDate, "Invalid date"),
   })
   .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
-    message: "Start date must be before than break start date",
+    message: "Start date must be before break start date",
     path: ["startDate"],
   })
   .refine((data) => compareDate(data.breakStart, data.breakEnd) < 0, {
-    message: "Break start date start must be before than break end date",
+    message: "Break start date start must be before break end date",
     path: ["breakStart"],
   })
   .refine((data) => compareDate(data.breakEnd, data.endDate) < 0, {
-    message: "Break end date must be before than end date",
+    message: "Break end date must be before end date",
     path: ["breakEnd"],
   });
 
 export const SemesterCreateDialog = () => {
-  //Context
   const { handleClose: closeDialog } = useDialogContext();
 
-  // Hook-forms
   const {
     register,
     handleSubmit,
@@ -63,7 +61,6 @@ export const SemesterCreateDialog = () => {
   });
   const { toast } = useToast();
 
-  // React-query
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (body: BodyInit) => {
@@ -77,8 +74,7 @@ export const SemesterCreateDialog = () => {
 
       if (!response.ok) {
         await response.text().then((text) => {
-          // todo: handle this better somehow
-          if (text == "This name already exists, please pick another") {
+          if (response.statusText == "nameError") {
             setError("name", { message: text });
           }
           throw new Error(text || "An has error occurred");
@@ -97,7 +93,6 @@ export const SemesterCreateDialog = () => {
       breakEnd: formatDateInISO(data.breakEnd),
       bookingOpenDay: "Monday",
       bookingOpenTime: "12:00:00",
-      createAt: "2022-01-01T00:00:00.000Z",
     });
 
     mutation.mutate(newSemester, {
@@ -112,7 +107,7 @@ export const SemesterCreateDialog = () => {
         queryClient.invalidateQueries({ queryKey: ["semesters"] });
         toast({
           title: "Success!",
-          description: "Semester details successfully updated",
+          description: "successfully created semester",
         });
         reset({
           startDate: data.startDate,

@@ -5,8 +5,8 @@ import React, {
   type ReactNode,
 } from "react";
 import { DialogClose, type DialogProps } from "@radix-ui/react-dialog";
-import clsx from "clsx";
 
+import { cn } from "@/lib/utils";
 import { Button, type ButtonProps } from "../button";
 import {
   Dialog,
@@ -56,7 +56,7 @@ export const DialogCardFooter = ({
       </DialogClose>
       <Button
         {...props}
-        className={clsx(
+        className={cn(
           "transition-all duration-200 select-none",
           isPending && "pointer-events-none opacity-70",
         )}
@@ -89,7 +89,7 @@ interface DialogBase extends DialogProps {
 }
 export const DialogBase = ({
   children,
-  onOpenChange,
+  onOpenChange = () => {},
   ...props
 }: DialogBase) => {
   const [open, setOpen] = useState(props.defaultOpen || false);
@@ -101,7 +101,7 @@ export const DialogBase = ({
       <Dialog
         onOpenChange={() => {
           setOpen(!open);
-          onOpenChange && onOpenChange();
+          onOpenChange();
         }}
         open={open}
         {...props}

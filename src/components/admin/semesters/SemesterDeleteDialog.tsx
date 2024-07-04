@@ -19,9 +19,6 @@ export const SemesterDeleteDialog = () => {
     mutationFn: async () => {
       const response = await fetch(`/api/semesters/${semesterId}`, {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
 
       if (!response.ok) {
@@ -62,13 +59,16 @@ export const SemesterDeleteDialog = () => {
       </p>
       <div className="bg-destructive/20 w-full p-4 rounded-lg select-none">
         <p className="font-bold text-destructive">Warning</p>
-        <p className="text-sm text-destructive">This action is irreversible.</p>
+        <p className="text-sm text-destructive">
+          By deleting this semester, all related game session schedules to it
+          will also be deleted. This action is irreversible.
+        </p>
       </div>
       <form onSubmit={onSubmit}>
         <DialogCardFooter
           variant="destructive"
           primaryText="Delete"
-          secondaryText="No, Cancel"
+          secondaryText="Cancel"
           isPending={mutation.isPending}
         />
       </form>

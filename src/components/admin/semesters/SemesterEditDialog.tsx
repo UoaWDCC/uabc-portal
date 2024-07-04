@@ -34,15 +34,15 @@ const formSchema = z
       .refine(validateDate, "Invalid date"),
   })
   .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
-    message: "Start date must be less than break start date",
+    message: "Start date must be before break start date",
     path: ["startDate"],
   })
   .refine((data) => compareDate(data.breakStart, data.breakEnd) < 0, {
-    message: "Break start date start must be less than break end date",
+    message: "Break start date start must be before break end date",
     path: ["breakStart"],
   })
   .refine((data) => compareDate(data.breakEnd, data.endDate) < 0, {
-    message: "Break end date must be less than end date",
+    message: "Break end date must be before end date",
     path: ["breakEnd"],
   });
 

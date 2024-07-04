@@ -63,15 +63,14 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const findName = await db
-      .select()
-      .from(semesters)
-      .where(eq(semesters.name, newSemester.name))
-      .limit(1);
+    const existingSemester = await db.query.semesters.findFirst({
+      where: eq(semesters.name, newSemester.name),
+    });
 
-    if (findName.length != 0) {
+    if (existingSemester) {
       return new Response("This name already exists, please pick another", {
         status: 400,
+        statusText: "nameError",
       });
     }
 
