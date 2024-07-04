@@ -26,7 +26,7 @@ export const MembershipTypeSelector = ({
   <label>
     <Card
       variant={selectedMembership ? "primary" : "secondary"}
-      className={cn("flex flex-col shadow cursor-pointer hover:opacity-90")}
+      className={cn("flex cursor-pointer flex-col shadow hover:opacity-90")}
     >
       <input
         type="radio"

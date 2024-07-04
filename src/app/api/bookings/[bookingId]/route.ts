@@ -6,7 +6,7 @@ import { getBookingBySqid } from "@/services/booking";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { bookingId: string } },
+  { params }: { params: { bookingId: string } }
 ) {
   try {
     const currentUser = await getCurrentUser();

@@ -9,7 +9,7 @@ import { getUserFromId } from "@/services/user";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { userId: string } },
+  { params }: { params: { userId: string } }
 ) {
   try {
     const { userId } = params;
@@ -38,7 +38,7 @@ export async function GET(
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { userId: string } },
+  { params }: { params: { userId: string } }
 ) {
   try {
     const { userId } = params;

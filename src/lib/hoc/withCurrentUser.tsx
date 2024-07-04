@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "../session";
 
 const withCurrentUser = <T,>(
-  Component: React.ComponentType<T & CurrentUserProps>,
+  Component: React.ComponentType<T & CurrentUserProps>
 ) => {
   const WrappedComponent = async (props: T) => {
     const currentUser = await getCurrentUser();

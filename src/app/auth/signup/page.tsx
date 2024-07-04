@@ -8,14 +8,14 @@ import { EmailSignUp } from "@/components/auth/SignUp";
 
 export default function LoginPage() {
   return (
-    <div className="flex flex-col w-full gap-4 mt-8">
+    <div className="mt-8 flex w-full flex-col gap-4">
       <EmailSignUp />
       <BreakLine label="or" />
       <GoogleSignIn className="w-full" />
-      <p className="text-center text-tertiary dark:text-white text-xs mt-2">
+      <p className="mt-2 text-center text-xs text-tertiary dark:text-white">
         Already have an account?{" "}
         <Link
-          className="font-bold hover:underline hover:cursor-pointer"
+          className="font-bold hover:cursor-pointer hover:underline"
           href="/auth/login"
         >
           Log in

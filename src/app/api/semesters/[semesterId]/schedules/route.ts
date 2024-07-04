@@ -10,7 +10,7 @@ import { insertGameSessionScheduleSchema } from "@/lib/validators";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { semesterId: number } },
+  { params }: { params: { semesterId: number } }
 ) {
   try {
     const { semesterId } = params;
@@ -27,7 +27,7 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { semesterId: number } },
+  { params }: { params: { semesterId: number } }
 ) {
   try {
     const user = await getCurrentUser();

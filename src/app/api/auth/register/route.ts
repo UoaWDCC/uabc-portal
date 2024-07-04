@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     if (user)
       return NextResponse.json(
         { errors: "Email already in use" },
-        { status: 400, statusText: "Email already in use" },
+        { status: 400, statusText: "Email already in use" }
       );
 
     const costFactor = 12;

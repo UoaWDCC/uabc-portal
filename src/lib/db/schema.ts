@@ -67,7 +67,7 @@ export const accounts = pgTable(
     compoundKey: primaryKey({
       columns: [account.provider, account.providerAccountId],
     }),
-  }),
+  })
 );
 
 export const sessions = pgTable("session", {
@@ -87,14 +87,14 @@ export const verificationTokens = pgTable(
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  }),
+  })
 );
 
 export const gameSessions = pgTable("gameSession", {
   id: serial("id").primaryKey(),
   gameSessionScheduleId: integer("gameSessionScheduleId").references(
     () => gameSessionSchedules.id,
-    { onDelete: "set null" },
+    { onDelete: "set null" }
   ),
   bookingOpen: timestamp("bookingOpen", { mode: "date" }).notNull(),
   bookingClose: timestamp("bookingClose", { mode: "date" }).notNull(),
@@ -131,7 +131,7 @@ export const bookingDetails = pgTable(
     compoundKey: primaryKey({
       columns: [table.bookingId, table.gameSessionId],
     }),
-  }),
+  })
 );
 
 export const semesters = pgTable("semester", {
@@ -163,7 +163,7 @@ export const gameSessionSchedules = pgTable(
   },
   (gss) => ({
     unq: unique().on(gss.semesterId, gss.weekday),
-  }),
+  })
 );
 
 export const gameSessionExceptions = pgTable("gameSessionException", {

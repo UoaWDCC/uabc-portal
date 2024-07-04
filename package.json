@@ -24,6 +24,10 @@
   "dependencies": {
     "@auth/core": "^0.28.1",
     "@auth/drizzle-adapter": "^0.8.1",
+    "@aws-sdk/client-ses": "^3.569.0",
+    "@react-email/button": "^0.0.15",
+    "@react-email/html": "^0.0.8",
+    "@react-email/render": "^0.0.13",
     "@hookform/resolvers": "^3.6.0",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",

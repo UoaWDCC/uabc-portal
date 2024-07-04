@@ -27,7 +27,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
       successMessage,
       ...props
     }: InputProps,
-    ref,
+    ref
   ) => {
     return (
       <div className={cn("flex w-full flex-col text-left", className)}>
@@ -38,7 +38,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
             className={twMerge(
               "peer h-full w-full rounded border border-primary bg-background p-2 outline-none ring-inset ring-primary focus:ring-1 dark:text-white/70",
               (isError && "border-destructive ring-destructive") ||
-                (isSuccess && "border-green-600 ring-green-600"),
+                (isSuccess && "border-green-600 ring-green-600")
             )}
             {...props}
             ref={ref}
@@ -50,7 +50,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
               "peer-placeholder-shown:top-[50%] peer-placeholder-shown:bg-transparent peer-placeholder-shown:px-0 peer-placeholder-shown:text-base peer-placeholder-shown:text-tertiary/70",
               (isError &&
                 "!text-destructive/70 peer-focus:!text-destructive") ||
-                (isSuccess && "!text-green-600/70 peer-focus:!text-green-600"),
+                (isSuccess && "!text-green-600/70 peer-focus:!text-green-600")
             )}
           >
             {label}
@@ -67,7 +67,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
               isError &&
                 "peer-has[input:focus]:!text-destructive text-destructive/80",
               isSuccess &&
-                "peer-has[input:focus]:!text-green-600 text-green-600/80",
+                "peer-has[input:focus]:!text-green-600 text-green-600/80"
             )}
           >
             {isError && errorMessage}&nbsp;
@@ -76,7 +76,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
 TextInput.displayName = "TextInput";

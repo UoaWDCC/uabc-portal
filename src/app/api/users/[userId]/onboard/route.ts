@@ -14,7 +14,7 @@ import { userCache } from "@/services/user";
  */
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { userId: string } },
+  { params }: { params: { userId: string } }
 ) {
   try {
     const { userId } = params;

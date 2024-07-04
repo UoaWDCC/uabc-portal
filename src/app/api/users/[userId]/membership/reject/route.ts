@@ -8,7 +8,7 @@ import { userCache } from "@/services/user";
 
 export async function PATCH(
   _req: NextRequest,
-  { params }: { params: { userId: string } },
+  { params }: { params: { userId: string } }
 ) {
   const currentUser = await getCurrentUser();
 

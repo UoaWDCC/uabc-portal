@@ -50,12 +50,12 @@ export async function GET(req: NextRequest) {
       where: or(
         and(
           lte(semesters.startDate, gameSessionDate),
-          gt(semesters.breakStart, gameSessionDate),
+          gt(semesters.breakStart, gameSessionDate)
         ),
         and(
           lt(semesters.breakEnd, gameSessionDate),
-          gte(semesters.endDate, gameSessionDate),
-        ),
+          gte(semesters.endDate, gameSessionDate)
+        )
       ),
     });
 
@@ -69,7 +69,7 @@ export async function GET(req: NextRequest) {
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
       {
         where: eq(gameSessionExceptions.date, gameSessionDate),
-      },
+      }
     );
 
     if (gameSessionException) {
@@ -90,7 +90,7 @@ export async function GET(req: NextRequest) {
           capacity: gameSessionException.capacity,
           casualCapacity: gameSessionException.casualCapacity,
         },
-        { status: 200 },
+        { status: 200 }
       );
     }
 
@@ -108,7 +108,7 @@ export async function GET(req: NextRequest) {
         capacity: gameSessionSchedule.capacity,
         casualCapacity: gameSessionSchedule.casualCapacity,
       },
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -175,12 +175,12 @@ export async function POST(req: NextRequest) {
       where: or(
         and(
           lte(semesters.startDate, gameSessionDate),
-          gt(semesters.breakStart, gameSessionDate),
+          gt(semesters.breakStart, gameSessionDate)
         ),
         and(
           lt(semesters.breakEnd, gameSessionDate),
-          gte(semesters.endDate, gameSessionDate),
-        ),
+          gte(semesters.endDate, gameSessionDate)
+        )
       ),
     });
 
@@ -189,7 +189,7 @@ export async function POST(req: NextRequest) {
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
       {
         where: eq(gameSessionExceptions.date, gameSessionDate),
-      },
+      }
     );
 
     // If a schedule exists and (no exception or exception is not a delete exception)
@@ -310,12 +310,12 @@ export async function PUT(req: NextRequest) {
       where: or(
         and(
           lte(semesters.startDate, gameSessionDate),
-          gt(semesters.breakStart, gameSessionDate),
+          gt(semesters.breakStart, gameSessionDate)
         ),
         and(
           lt(semesters.breakEnd, gameSessionDate),
-          gte(semesters.endDate, gameSessionDate),
-        ),
+          gte(semesters.endDate, gameSessionDate)
+        )
       ),
     });
 
@@ -338,7 +338,7 @@ export async function PUT(req: NextRequest) {
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
       {
         where: eq(gameSessionExceptions.date, gameSessionDate),
-      },
+      }
     );
 
     if (!gameSessionException || gameSessionException.isDeleted) {
@@ -348,7 +348,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const gameSessionExceptionToInsert = insertGameSessionExceptionSchema.parse(
-      { ...gameSessionToUpdate, date: gameSessionDate },
+      { ...gameSessionToUpdate, date: gameSessionDate }
     );
 
     // Insert the gameSessionException record

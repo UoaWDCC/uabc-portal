@@ -13,11 +13,11 @@ export const UabcHeaderText = ({
 }: UabcHeaderTextProps) => (
   <div
     className={cn(
-      "text-center font-proxima font-bold text-primary dark:text-white leading-none",
-      className,
+      "text-center font-proxima font-bold leading-none text-primary dark:text-white",
+      className
     )}
   >
-    <span className="text-[4rem] tracking-tight leading-none">UABC</span>
+    <span className="text-[4rem] leading-none tracking-tight">UABC</span>
     {description && (
       <>
         <br />

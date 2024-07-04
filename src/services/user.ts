@@ -22,7 +22,7 @@ export async function getUserFromId(userId: string) {
 }
 
 export async function getUserFromEmail(
-  email: string | null | undefined,
+  email: string | null | undefined
 ): Promise<User | null> {
   if (!email) {
     return null;
@@ -44,7 +44,7 @@ export async function getUserFromEmail(
     },
 
     [`getUserFromEmail:${email}`],
-    { tags: [userCache.getTag(email)], revalidate: CACHE_REVALIDATION_PERIOD },
+    { tags: [userCache.getTag(email)], revalidate: CACHE_REVALIDATION_PERIOD }
   )();
 
   return user ?? null;

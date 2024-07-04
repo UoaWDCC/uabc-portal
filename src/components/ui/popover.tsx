@@ -16,7 +16,7 @@ type PopoverContextType = {
 };
 
 export const PopoverContext = createContext<PopoverContextType>(
-  {} as PopoverContextType,
+  {} as PopoverContextType
 );
 
 // * Wrapper that provide functions to popover items
@@ -52,15 +52,15 @@ const PopoverMenubar = ({ children }: { children: ReactNode }) => {
     <>
       <div
         className={cn(
-          "h-dvh w-dvw fixed left-0 top-0 z-40",
-          open ? "block" : "hidden",
+          "fixed left-0 top-0 z-40 h-dvh w-dvw",
+          open ? "block" : "hidden"
         )}
         onClick={handleClose}
       />
       <div
         className={cn(
-          "absolute w-56 bg-background p-1 flex flex-col z-50 top-4 right-6 rounded-md shadow-lg ring-1 ring-secondary",
-          open ? "block" : "hidden",
+          "absolute right-6 top-4 z-50 flex w-56 flex-col rounded-md bg-background p-1 shadow-lg ring-1 ring-secondary",
+          open ? "block" : "hidden"
         )}
       >
         {children}

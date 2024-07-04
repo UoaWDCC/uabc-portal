@@ -13,8 +13,8 @@ import { Popover, PopoverContext } from "../popover";
 export const OptionsPopover = ({ children }: { children?: ReactNode }) => {
   return (
     <Popover>
-      <Popover.Trigger variant="outline" className="w-8 h-6 z-10">
-        <Ellipsis className="stroke-tertiary absolute w-4" />
+      <Popover.Trigger variant="outline" className="z-10 h-6 w-8">
+        <Ellipsis className="absolute w-4 stroke-tertiary" />
       </Popover.Trigger>
       <Popover.Menubar>{children}</Popover.Menubar>
     </Popover>
@@ -31,7 +31,7 @@ export const useOptionsDialogContext = () => {
   const context = useContext(OptionsDialogContext);
   if (!context) {
     throw new Error(
-      "useOptionsDialogContext must be used within a OptionsDialogContextProvider",
+      "useOptionsDialogContext must be used within a OptionsDialogContextProvider"
     );
   }
   return context;

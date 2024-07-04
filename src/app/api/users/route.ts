@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
     }
 
     const searchParams = getSearchParamsSchema.parse(
-      Object.fromEntries(req.nextUrl.searchParams),
+      Object.fromEntries(req.nextUrl.searchParams)
     );
 
     const paramToUserProp = {
@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
       if (userProp !== undefined && value !== undefined) {
         if (key === "email-verified") {
           userEqConditions.push(
-            value ? not(isNull(userProp)) : isNull(userProp),
+            value ? not(isNull(userProp)) : isNull(userProp)
           );
         } else {
           userEqConditions.push(eq(userProp, value));

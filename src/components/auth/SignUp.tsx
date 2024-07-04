@@ -32,7 +32,7 @@ export const EmailSignUp = () => {
     formState: { errors },
   } = useForm<SignUpFormData>({
     resolver: zodResolver(
-      z.object({ email: emailSchema, password: passwordSchema }),
+      z.object({ email: emailSchema, password: passwordSchema })
     ),
   });
 

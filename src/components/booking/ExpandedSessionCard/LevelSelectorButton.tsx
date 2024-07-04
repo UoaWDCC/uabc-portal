@@ -16,10 +16,10 @@ export const LevelSelectorButton = ({
 }: LevelSelectorButtonProps) => (
   <button
     className={cn(
-      "h-12 rounded capitalize text-sm font-medium break-words p-1",
+      "h-12 break-words rounded p-1 text-sm font-medium capitalize",
       selected
         ? "bg-primary text-primary-foreground"
-        : "bg-white text-tertiary hover:bg-tertiary/10 hover:text-tertiary",
+        : "bg-white text-tertiary hover:bg-tertiary/10 hover:text-tertiary"
     )}
     onClick={handleClick}
   >

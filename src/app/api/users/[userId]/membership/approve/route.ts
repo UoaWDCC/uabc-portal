@@ -13,7 +13,7 @@ const approveUserSchema = z.object({
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { userId: string } },
+  { params }: { params: { userId: string } }
 ) {
   const currentUser = await getCurrentUser();
 

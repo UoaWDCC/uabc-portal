@@ -7,13 +7,13 @@ export const metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-dvh flex justify-center">
+    <div className="flex min-h-dvh justify-center">
       <Card
         variant="card"
-        className="p-4 pt-6 sm:m-8 md:w-3/4 md:p-12 lg:w-1/2 text-pretty flex flex-col gap-y-2"
+        className="flex flex-col gap-y-2 text-pretty p-4 pt-6 sm:m-8 md:w-3/4 md:p-12 lg:w-1/2"
       >
         <h1 className="text-3xl font-extrabold">Privacy Policy</h1>
-        <p className="text-tertiary my-4">
+        <p className="my-4 text-tertiary">
           Effective date: <strong>27th of June, 2024</strong>
         </p>
         <p>
@@ -24,29 +24,29 @@ export default function PrivacyPolicyPage() {
           disclosure of personal data when you use our App and the choices you
           have associated with that data.
         </p>
-        <h2 className="text-2xl font-bold mt-4">
+        <h2 className="mt-4 text-2xl font-bold">
           Information Collection and Use
         </h2>
-        <h3 className="text-xl font-bold mt-2">Data we collect</h3>
+        <h3 className="mt-2 text-xl font-bold">Data we collect</h3>
         <p>
           While using our App, we may ask you to provide us with certain
           personally identifiable information that can be used to contact or
           identify you (&quot;Personal Data&quot;). Personally identifiable
           information may include, but is not limited to:
         </p>
-        <ul className="list-disc ml-8">
+        <ul className="ml-8 list-disc">
           <li>Email address</li>
           <li>First name and last name</li>
           <li>Hashed Passwords</li>
         </ul>
-        <h3 className="text-xl font-bold mt-2">How we use your data</h3>
+        <h3 className="mt-2 text-xl font-bold">How we use your data</h3>
         <p>We use the collected data in order to:</p>
-        <ul className="list-disc ml-8">
+        <ul className="ml-8 list-disc">
           <li>Provide and maintain the App</li>
           <li>Let you engage with the App</li>
           <li>Email you with information such as booking confirmations</li>
         </ul>
-        <h3 className="text-xl font-bold mt-2">Data Security and Retention</h3>
+        <h3 className="mt-2 text-xl font-bold">Data Security and Retention</h3>
         <p>
           We prioritize the security of your data and take reasonable steps to
           protect it from unauthorized access, disclosure, alteration, and
@@ -57,12 +57,12 @@ export default function PrivacyPolicyPage() {
           account with us or as otherwise necessary to provide you with our
           services.
         </p>
-        <h3 className="text-xl font-bold mt-2">Information Sharing</h3>
+        <h3 className="mt-2 text-xl font-bold">Information Sharing</h3>
         <p>
           We do not share your personal information with third parties unless
           required by law or as necessary to provide our services.
         </p>
-        <h3 className="text-xl font-bold mt-2">Cookies and tracking</h3>
+        <h3 className="mt-2 text-xl font-bold">Cookies and tracking</h3>
         <p>
           Cookies are small text files that are placed on your computer by the
           websites that you visit. They are widely used in order to make
@@ -70,7 +70,7 @@ export default function PrivacyPolicyPage() {
           information to the owners of the site.
         </p>
         <p>We use the following types of Cookies:</p>
-        <ul className="list-disc ml-8">
+        <ul className="ml-8 list-disc">
           <li>
             <strong>Required Cookies:</strong> Certain cookies are required for
             the App to function. When you log in to the App, authentication
@@ -88,14 +88,14 @@ export default function PrivacyPolicyPage() {
           settings. However, this may limit your ability to use certain features
           of the App.
         </p>
-        <h3 className="text-xl font-bold mt-2">
+        <h3 className="mt-2 text-xl font-bold">
           Changes to This Privacy Policy{" "}
         </h3>
         <p>
           We may update our Privacy Policy from time to time. We will notify you
           of any changes by posting the new Privacy Policy on this page.
         </p>
-        <h3 className="text-xl font-bold mt-2">Contact Information</h3>
+        <h3 className="mt-2 text-xl font-bold">Contact Information</h3>
         If you have any questions about this Privacy Policy, please do not
         hesitate to contact us at:
         <p className="mt-4">

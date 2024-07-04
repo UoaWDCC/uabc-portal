@@ -136,7 +136,7 @@ export const SemesterEditDialogue = () => {
 
   return (
     <DialogCard title={name} onClose={() => reset()}>
-      <form className="flex gap-4 flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-2 *:grow ">
           <TextInput
             label="Start date"

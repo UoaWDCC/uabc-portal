@@ -13,10 +13,10 @@ export default function NamePage() {
   const lastName = useOnboardingDetailsStore((state) => state.lastName);
 
   const updateFirstName = useOnboardingDetailsStore(
-    (state) => state.setFirstName,
+    (state) => state.setFirstName
   );
   const updateLastName = useOnboardingDetailsStore(
-    (state) => state.setLastName,
+    (state) => state.setLastName
   );
   const handleNextButtonClick = () => {
     router.push("/onboarding/member");
@@ -24,11 +24,11 @@ export default function NamePage() {
 
   return (
     <div className="h-dvh w-dvw">
-      <div className="mx-4 flex flex-col h-full justify-between">
+      <div className="mx-4 flex h-full flex-col justify-between">
         <div className="pt-4">
           <UabcHeaderText />
         </div>
-        <div className="py-6 flex flex-col gap-6">
+        <div className="flex flex-col gap-6 py-6">
           <p className="text-center">What&apos;s your name?</p>
           <TextInput
             label="First Name"

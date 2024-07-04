@@ -16,7 +16,7 @@ export const NavigationBar = ({ title, className }: NavigationBarProps) => {
     <div
       className={clsx(
         className,
-        "flex border-b p-4 align-middle text-tertiary",
+        "flex border-b p-4 align-middle text-tertiary"
       )}
     >
       <BackButton

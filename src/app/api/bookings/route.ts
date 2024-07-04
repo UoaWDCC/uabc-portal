@@ -19,7 +19,7 @@ const bookingSchema = z.array(
       z.literal("intermediate"),
       z.literal("advanced"),
     ]),
-  }),
+  })
 );
 
 export async function POST(request: Request) {
@@ -53,8 +53,8 @@ export async function POST(request: Request) {
       .where(
         and(
           eq(bookings.userId, currentUser!.id),
-          sql`date_trunc('week', ${bookings.createdAt}) = date_trunc('week', CURRENT_DATE)`,
-        ),
+          sql`date_trunc('week', ${bookings.createdAt}) = date_trunc('week', CURRENT_DATE)`
+        )
       );
 
     // if user has already booked the maximum allowed sessions for this week
@@ -83,8 +83,8 @@ export async function POST(request: Request) {
         .where(
           and(
             eq(bookings.userId, user.id),
-            eq(bookingDetails.gameSessionId, session.gameSessionId),
-          ),
+            eq(bookingDetails.gameSessionId, session.gameSessionId)
+          )
         );
       if (existingBooking) {
         return new Response("Booking already exists", { status: 400 });
@@ -107,7 +107,7 @@ export async function POST(request: Request) {
           "Game session is not currently available for booking",
           {
             status: 400,
-          },
+          }
         );
       }
     }
@@ -125,7 +125,7 @@ export async function POST(request: Request) {
           where: eq(gameSessions.id, session.gameSessionId),
         });
         await tx.execute(
-          sql`SELECT * FROM ${gameSessions} WHERE ${gameSessions.id} = ${session.gameSessionId} FOR UPDATE;`,
+          sql`SELECT * FROM ${gameSessions} WHERE ${gameSessions.id} = ${session.gameSessionId} FOR UPDATE;`
         );
 
         const { count } = await tx.execute(
@@ -147,7 +147,7 @@ export async function POST(request: Request) {
                     WHERE ${bookingDetails.isMember} = FALSE) < ${gameSession?.casualCapacity}
               END)
               RETURNING *;
-              `,
+              `
         );
 
         if (count === 0) {

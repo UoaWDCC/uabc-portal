@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 export const signUpAndLogin = async (
   page: Page,
   email: string,
-  password: string,
+  password: string
 ): Promise<void> => {
   await page.request.post(`/api/auth/register`, {
     data: {

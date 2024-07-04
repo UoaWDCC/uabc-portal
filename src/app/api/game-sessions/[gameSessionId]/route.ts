@@ -16,7 +16,7 @@ const routeContextSchema = z.object({
 
 export async function GET(
   _req: NextRequest,
-  context: z.infer<typeof routeContextSchema>,
+  context: z.infer<typeof routeContextSchema>
 ) {
   try {
     const result = routeContextSchema.safeParse(context);
@@ -46,7 +46,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  context: z.infer<typeof routeContextSchema>,
+  context: z.infer<typeof routeContextSchema>
 ) {
   try {
     const currentUser = await getCurrentUser();
@@ -106,7 +106,7 @@ export async function PUT(
 
 export async function DELETE(
   _req: NextRequest,
-  context: z.infer<typeof routeContextSchema>,
+  context: z.infer<typeof routeContextSchema>
 ) {
   const currentUser = await getCurrentUser();
 
@@ -136,7 +136,7 @@ export async function DELETE(
       `Game session with id ${gameSessionId} does not exist.`,
       {
         status: 404,
-      },
+      }
     );
   }
 

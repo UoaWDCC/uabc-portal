@@ -34,7 +34,7 @@ export const useApproveUserMutation = (queryClient: QueryClient) => {
       queryClient.setQueryData(
         [QUERY_KEY.PendingMembers],
         (old: PendingMemberResponse[]) =>
-          old.filter((member) => member.id !== userId),
+          old.filter((member) => member.id !== userId)
       );
 
       return { previousMembers };
@@ -48,7 +48,7 @@ export const useApproveUserMutation = (queryClient: QueryClient) => {
     onError: (_error, _variables, context) => {
       queryClient.setQueryData(
         [QUERY_KEY.PendingMembers],
-        context?.previousMembers,
+        context?.previousMembers
       );
       toast({
         title: "Uh oh! Something went wrong",
@@ -80,7 +80,7 @@ export const useRejectUserMutation = (queryClient: QueryClient) => {
       queryClient.setQueryData(
         [QUERY_KEY.PendingMembers],
         (old: PendingMemberResponse[]) =>
-          old.filter((member) => member.id !== userId),
+          old.filter((member) => member.id !== userId)
       );
 
       return { previousMembers };
@@ -94,7 +94,7 @@ export const useRejectUserMutation = (queryClient: QueryClient) => {
     onError: (_error, _variables, context) => {
       queryClient.setQueryData(
         [QUERY_KEY.PendingMembers],
-        context?.previousMembers,
+        context?.previousMembers
       );
       toast({
         title: "Uh oh! Something went wrong",
