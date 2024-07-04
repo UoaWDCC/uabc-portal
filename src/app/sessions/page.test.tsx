@@ -11,7 +11,7 @@ jest.mock("next/navigation", () => ({
 
 describe("Select Sessions page", () => {
   beforeEach(() => {
-    render(<ClientSessionPage isMember={true} />);
+    render(<ClientSessionPage isMember={true} prepaidSessionsRemaining={2} />);
   });
 
   it("should initially render the button as disabled", () => {

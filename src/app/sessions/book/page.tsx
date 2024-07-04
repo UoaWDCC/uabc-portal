@@ -6,6 +6,7 @@ import { redirect, useRouter } from "next/navigation";
 import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
 import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
+import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
 import { useCartStore } from "@/stores/useCartStore";
 
 export default function BookSessionPage() {
@@ -13,6 +14,8 @@ export default function BookSessionPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const cart = useCartStore((state) => state.cart);
+  const updateCart = useCartStore((state) => state.updateCart);
+  const { data, isLoading } = useCurrentGameSessions();
 
   const sortedSessions = useMemo(() => {
     return [...cart].sort((a, b) => {
@@ -53,8 +56,19 @@ export default function BookSessionPage() {
       if (response.ok) {
         const { id } = await response.json();
         router.push(`/booking-confirmation/${id}`);
-      } else {
-        throw new Error("Failed to confirm booking");
+      } else if (response.status === 409) {
+        const responseData = await response.json();
+        if (responseData.message === "Game session at max capacity") {
+          for (let i = 0; i < cart.length; i++) {
+            const session = cart[i];
+            if (!data!.some((dataSession) => dataSession.id === session.id)) {
+              handleSessionLimitReached(session.id);
+            }
+            console.log("a Session is full");
+          }
+        } else {
+          throw new Error("Failed to confirm booking");
+        }
       }
     } catch (error) {
       console.error("Error while confirming booking:", error);
@@ -66,6 +80,10 @@ export default function BookSessionPage() {
 
   if (!cart.length) {
     redirect("/sessions");
+  }
+
+  function handleSessionLimitReached(id: number) {
+    updateCart(cart.filter((session) => session.id !== id));
   }
 
   return (
@@ -82,7 +100,7 @@ export default function BookSessionPage() {
         <Button
           className="w-full self-end"
           onClick={handleConfirmButtonClick}
-          disabled={!isPlayLevelSelected || isSubmitting} // disable button when submitting data
+          disabled={!isPlayLevelSelected || isSubmitting}
         >
           Confirm
         </Button>

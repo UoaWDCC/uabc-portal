@@ -11,16 +11,18 @@ import SkeletonSelectSessionCard from "./SkeletonSessionCard";
 interface SelectSessionListProps {
   isMember: boolean;
   onLimitReached: () => void;
+  memberMaxSessions: number;
   className?: string;
 }
 
 export function SelectSessionList({
   onLimitReached,
   isMember,
+  memberMaxSessions,
   className,
 }: SelectSessionListProps) {
   const { data, isLoading } = useCurrentGameSessions();
-  const maxSessions: number = isMember ? 2 : 1;
+  const maxSessions: number = isMember ? memberMaxSessions : 1;
   const cart = useCartStore((state) => state.cart);
   const updateCart = useCartStore((state) => state.updateCart);
   const sessionsSelected = cart.length;
