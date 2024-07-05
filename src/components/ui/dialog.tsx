@@ -27,6 +27,8 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
+// A modified version of the default dialog that includes a context for closing function
+//https://www.radix-ui.com/docs/primitives/components/dialog
 export type DialogContextProps = {
   handleClose: () => void;
 };
@@ -48,7 +50,6 @@ interface DialogProperties
   children?: React.ReactNode;
   onOpenChange?: () => void;
 }
-
 const Dialog = ({
   children,
   onOpenChange = () => {},

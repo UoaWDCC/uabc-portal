@@ -10,6 +10,10 @@ interface DialogCardFooterProps extends ButtonProps {
   primaryText?: string;
   secondaryText?: string;
 }
+
+// Footer component for confirmation or for form submission
+// mainly used for api requests so isPending should be provided for ux
+
 export const DialogButtonsFooter = ({
   isPending,
   primaryText = "Confirm",
@@ -19,14 +23,12 @@ export const DialogButtonsFooter = ({
   return (
     <DialogFooter className="flex gap-2">
       <DialogClose asChild>
-        <Button variant="outline" className="text-foreground select-none">
-          {secondaryText}
-        </Button>
+        <Button variant="outline">{secondaryText}</Button>
       </DialogClose>
       <Button
         {...props}
         className={cn(
-          "transition-all duration-200 select-none",
+          "transition-all duration-200",
           isPending && "pointer-events-none opacity-70",
         )}
       >
