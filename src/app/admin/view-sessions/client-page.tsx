@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { format, isToday, parse } from "date-fns";
+import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { addMonths, format, isToday, parse, subMonths } from "date-fns";
 
 import { AdminViewSessionCard } from "@/components/admin/view-sessions/AdminViewSessionCard";
 import { EmptyAdminViewSessionCard } from "@/components/admin/view-sessions/EmptyAdminViewSessionCard";
@@ -8,13 +9,28 @@ import { SkeletonViewSessionCard } from "@/components/admin/view-sessions/Skelet
 import { formatTitle } from "@/components/admin/view-sessions/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  prefetchActiveDates,
+  useActiveDates,
+} from "@/hooks/query/game-session";
 import { useGameSession } from "@/hooks/query/useGameSession";
 import { cn, convertTo12HourFormat } from "@/lib/utils";
 
 export default function ClientViewSessionsPage() {
   const [date, setDate] = useState<Date>(new Date());
 
+  const queryClient = useQueryClient();
+
   const { data, isLoading } = useGameSession(format(date, "yyyy-MM-dd"));
+
+  const [monthDate, setMonth] = useState(new Date());
+
+  const { data: activeDates } = useActiveDates(monthDate);
+
+  useEffect(() => {
+    prefetchActiveDates(subMonths(monthDate, 1), queryClient);
+    prefetchActiveDates(addMonths(monthDate, 1), queryClient);
+  }, [monthDate, queryClient]);
 
   function getSessionState(date: Date) {
     const now = new Date();
@@ -27,30 +43,26 @@ export default function ClientViewSessionsPage() {
     return "ongoing";
   }
 
-  const datesWithSessions: Date[] = [
-    new Date("2024-06-05"),
-    new Date("2024-06-18"),
-    new Date("2024-06-26"),
-    new Date("2024-06-28"),
-  ];
+  const datesWithSessions: Date[] =
+    activeDates?.map((date) => new Date(date)) ?? [];
 
   return (
-    <div className="flex flex-col items-center justify-center gap-y-6 grow my-4">
+    <div className="my-4 flex grow flex-col items-center justify-center gap-y-6">
       <Calendar
-        className="border rounded-md shadow-sm flex flex-col"
+        className="flex flex-col rounded-md border shadow-sm"
         classNames={{
           month: "space-y-4",
           nav_button: cn(
             buttonVariants({ variant: "outline" }),
-            "size-7 sm:size-8 md:size-10 bg-transparent p-0 opacity-50 hover:opacity-100",
+            "size-7 sm:size-8 md:size-10 bg-transparent p-0 opacity-50 hover:opacity-100"
           ),
           caption_label: "text-sm sm:text-base md:text-lg font-medium",
           head_cell:
             "text-muted-foreground rounded-md w-9 sm:w-10 md:w-12 font-normal text-[0.8rem]",
-          cell: "size-9 sm:size-10 md:size-12 p-0",
+          cell: "size-9 sm:size-10 md:size-12 p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
           day: cn(
             buttonVariants({ variant: "ghost" }),
-            "size-9 sm:size-10 md:size-12 p-0 font-normal text-base aria-selected:opacity-100",
+            "size-9 sm:size-10 md:size-12 p-0 font-normal text-base aria-selected:opacity-100"
           ),
           day_today: isToday(date) ? "" : "bg-accent text-accent-foreground",
           day_selected:
@@ -63,6 +75,7 @@ export default function ClientViewSessionsPage() {
         mode="single"
         selected={date}
         onSelect={(date) => setDate(date ?? new Date())}
+        onMonthChange={setMonth}
         required
       />
       <GameSessionProvider
@@ -72,7 +85,7 @@ export default function ClientViewSessionsPage() {
           ...data?.data,
         }}
       >
-        <div className="*:min-h-60 w-full shadow-sm sm:w-1/2 sm:min-w-[400px] lg:w-1/3">
+        <div className="w-full shadow-sm *:min-h-60 sm:w-1/2 sm:min-w-[400px] lg:w-1/3">
           {isLoading ? (
             <SkeletonViewSessionCard />
           ) : data?.exists ? (
@@ -89,8 +102,8 @@ export default function ClientViewSessionsPage() {
                 parse(
                   `${data.data.date} ${data.data.startTime}`,
                   "yyyy-MM-dd HH:mm:ss",
-                  new Date(),
-                ),
+                  new Date()
+                )
               )}
             />
           ) : (

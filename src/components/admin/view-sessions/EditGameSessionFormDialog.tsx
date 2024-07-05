@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { format, parse } from "date-fns";
+import { format, getMonth, getYear, parse } from "date-fns";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
@@ -11,6 +11,8 @@ import {
   DialogCard,
   DialogCardFooter,
 } from "@/components/ui/utils/DialogUtils";
+import { useEditGameSessionMutation } from "@/hooks/mutations/game-sessions";
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useGameSessionContext } from "./GameSessionContext";
 import { gameSessionFormSchema } from "./utils";
 
@@ -46,19 +48,7 @@ export default function EditGameSessionFormDialog() {
     },
   });
 
-  const { mutate } = useMutation({
-    mutationFn: async (body: BodyInit) => {
-      const response = await fetch(`/api/game-sessions?date=${date}`, {
-        method: "PUT",
-        body,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) throw new Error();
-    },
-  });
+  const { mutate } = useEditGameSessionMutation();
 
   const { toast } = useToast();
 
@@ -71,24 +61,29 @@ export default function EditGameSessionFormDialog() {
       startTime: `${data.startTime}:00`,
       endTime: `${data.endTime}:00`,
     });
-    mutate(body, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["game-session", date] });
-        toast({
-          title: "Success!",
-          description: "Game session updated successfully",
-        });
-        handleClose();
-      },
-      onError: () => {
-        toast({
-          title: "Uh oh! Something went wrong",
-          description:
-            "An error occurred while updating the game session. Please try again.",
-          variant: "destructive",
-        });
-      },
-    });
+    mutate(
+      { date, body },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY.GAME_SESSION, date],
+          });
+          toast({
+            title: "Success!",
+            description: "Game session updated successfully",
+          });
+          handleClose();
+        },
+        onError: () => {
+          toast({
+            title: "Uh oh! Something went wrong",
+            description:
+              "An error occurred while updating the game session. Please try again.",
+            variant: "destructive",
+          });
+        },
+      }
+    );
   };
 
   return (
@@ -109,7 +104,7 @@ export default function EditGameSessionFormDialog() {
               watch("startTime")
                 ? format(
                     parse(watch("startTime"), "HH:mm", new Date(date)),
-                    "dd/MM/yy hh:mma",
+                    "dd/MM/yy hh:mma"
                   )
                 : format(new Date(bookingClose!), "dd/MM/yy hh:mma")
             }

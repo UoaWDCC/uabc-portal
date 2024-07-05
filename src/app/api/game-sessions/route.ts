@@ -88,7 +88,14 @@ export async function GET(req: NextRequest) {
         .where(eq(gameSessions.date, gameSessionDate));
       // If a game session exists for the date, return it
       return NextResponse.json(
-        { ...existingGameSession, attendees },
+        {
+          exists: true,
+          canCreate: true,
+          data: {
+            ...existingGameSession,
+            attendees,
+          },
+        },
         { status: 200 }
       );
     }

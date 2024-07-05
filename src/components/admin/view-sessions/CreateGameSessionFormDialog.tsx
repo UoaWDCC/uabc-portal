@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { format, parse } from "date-fns";
+import { format, getMonth, getYear, parse } from "date-fns";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
@@ -10,6 +10,8 @@ import {
   DialogCard,
   DialogCardFooter,
 } from "@/components/ui/utils/DialogUtils";
+import { useCreateGameSessionMutation } from "@/hooks/mutations/game-sessions";
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useGameSessionContext } from "./GameSessionContext";
 import { formatTitle, gameSessionFormSchema } from "./utils";
 
@@ -31,19 +33,7 @@ export function CreateGameSessionFormDialog({
     resolver: zodResolver(gameSessionFormSchema),
   });
 
-  const { mutate } = useMutation({
-    mutationFn: async (body: BodyInit) => {
-      const response = await fetch(`/api/game-sessions`, {
-        method: "POST",
-        body,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) throw new Error();
-    },
-  });
+  const { mutate } = useCreateGameSessionMutation();
 
   const { toast } = useToast();
 
@@ -58,7 +48,12 @@ export function CreateGameSessionFormDialog({
     });
     mutate(body, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["game-session", date] });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.GAME_SESSION, date],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.ACTIVE_DATES, getYear(date), getMonth(date)],
+        });
         toast({
           title: "Success!",
           description: "Game session created successfully",
@@ -79,7 +74,7 @@ export function CreateGameSessionFormDialog({
   return (
     <DialogCard title={formatTitle(date)}>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-2 gap-2 ">
+        <div className="grid grid-cols-2 gap-2">
           <TextInput
             label="Booking Open"
             type="text"
@@ -94,7 +89,7 @@ export function CreateGameSessionFormDialog({
               watch("startTime") &&
               format(
                 parse(watch("startTime"), "HH:mm", new Date(date)),
-                "dd/MM/yy hh:mma",
+                "dd/MM/yy hh:mma"
               )
             }
             disabled
