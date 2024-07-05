@@ -3,11 +3,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
-import { useDialogContext } from "@/components/ui/dialog";
 import {
-  DialogCard,
-  DialogCardFooter,
-} from "@/components/ui/utils/DialogUtils";
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  useDialogContext,
+} from "@/components/ui/dialog";
+import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
 import { TextInput } from "../../TextInput";
 import { useToast } from "../../ui/use-toast";
@@ -137,7 +139,10 @@ export const SemesterEditDialogue = () => {
   };
 
   return (
-    <DialogCard title={`Edit ${name}`} onClose={() => reset()}>
+    <DialogContent onCloseAutoFocus={() => reset()}>
+      <DialogHeader>
+        <DialogTitle>Edit {name}</DialogTitle>
+      </DialogHeader>
       <form className="flex gap-4 flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-2 *:grow ">
           <TextInput
@@ -175,12 +180,12 @@ export const SemesterEditDialogue = () => {
             autoComplete="off"
           />
         </div>
-        <DialogCardFooter
+        <DialogButtonsFooter
           type="submit"
           primaryText="Update"
           isPending={mutation.isPending}
         />
       </form>
-    </DialogCard>
+    </DialogContent>
   );
 };

@@ -1,38 +1,16 @@
-import React, { type ReactNode } from "react";
-import { DialogClose, type DialogProps } from "@radix-ui/react-dialog";
+import React from "react";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 import { cn } from "@/lib/utils";
 import { Button, type ButtonProps } from "../button";
-import {
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../dialog";
-
-interface DialogCardProps extends DialogProps {
-  title: string;
-  children?: ReactNode;
-  onClose?: () => void;
-}
-
-export const DialogCard = ({ title, children, onClose }: DialogCardProps) => {
-  return (
-    <DialogContent onCloseAutoFocus={onClose}>
-      <DialogHeader>
-        <DialogTitle>{title}</DialogTitle>
-      </DialogHeader>
-      {children}
-    </DialogContent>
-  );
-};
+import { DialogFooter } from "../dialog";
 
 interface DialogCardFooterProps extends ButtonProps {
   isPending?: boolean;
   primaryText?: string;
   secondaryText?: string;
 }
-export const DialogCardFooter = ({
+export const DialogButtonsFooter = ({
   isPending,
   primaryText = "Confirm",
   secondaryText = "Cancel",

@@ -5,12 +5,14 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
 import { TextInput } from "@/components/TextInput";
-import { useDialogContext } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
 import {
-  DialogCard,
-  DialogCardFooter,
-} from "@/components/ui/utils/DialogUtils";
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  useDialogContext,
+} from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
+import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
 
 //Schema
@@ -121,7 +123,10 @@ export const SemesterCreateDialog = () => {
   };
 
   return (
-    <DialogCard title="Create a new semester">
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Create a new semester</DialogTitle>
+      </DialogHeader>
       <form className="flex gap-4 flex-col" onSubmit={handleSubmit(onSubmit)}>
         <TextInput
           label="Name"
@@ -171,12 +176,12 @@ export const SemesterCreateDialog = () => {
             placeholder="dd/MM/yyyy"
           />
         </div>
-        <DialogCardFooter
+        <DialogButtonsFooter
           type="submit"
           primaryText="Create"
           isPending={mutation.isPending}
         />
       </form>
-    </DialogCard>
+    </DialogContent>
   );
 };

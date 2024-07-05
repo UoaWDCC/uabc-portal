@@ -1,12 +1,14 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useDialogContext } from "@/components/ui/dialog";
-import { toast } from "@/components/ui/use-toast";
 import {
-  DialogCard,
-  DialogCardFooter,
-} from "@/components/ui/utils/DialogUtils";
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  useDialogContext,
+} from "@/components/ui/dialog";
+import { toast } from "@/components/ui/use-toast";
+import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { useSemesterContext } from "./SemestersContext";
 
 export const SemesterDeleteDialog = () => {
@@ -30,8 +32,7 @@ export const SemesterDeleteDialog = () => {
     },
   });
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleDelete = () => {
     mutation.mutate(undefined, {
       onError: () => {
         toast({
@@ -53,7 +54,10 @@ export const SemesterDeleteDialog = () => {
   };
 
   return (
-    <DialogCard title={`Delete ${name}?`}>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Delete {name}?</DialogTitle>
+      </DialogHeader>
       <p className="text-tertiary">
         Are you sure you want to delete this semester?
       </p>
@@ -64,14 +68,13 @@ export const SemesterDeleteDialog = () => {
           will also be deleted. This action is irreversible.
         </p>
       </div>
-      <form onSubmit={onSubmit}>
-        <DialogCardFooter
-          variant="destructive"
-          primaryText="Delete"
-          secondaryText="Cancel"
-          isPending={mutation.isPending}
-        />
-      </form>
-    </DialogCard>
+      <DialogButtonsFooter
+        variant="destructive"
+        primaryText="Delete"
+        secondaryText="Cancel"
+        isPending={mutation.isPending}
+        onClick={handleDelete}
+      />
+    </DialogContent>
   );
 };
