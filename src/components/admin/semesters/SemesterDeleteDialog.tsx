@@ -1,11 +1,11 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { useDialogContext } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
 import {
   DialogCard,
   DialogCardFooter,
-  useDialogContext,
 } from "@/components/ui/utils/DialogUtils";
 import { useSemesterContext } from "./SemestersContext";
 

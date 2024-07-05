@@ -4,13 +4,12 @@ import React from "react";
 import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { DialogTrigger } from "@/components/ui/dialog";
-import { DialogBase } from "@/components/ui/utils/DialogUtils";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { SemesterCreateDialog } from "./SemesterCreateDialog";
 
 const SemesterCreateButton = () => {
   return (
-    <DialogBase>
+    <Dialog>
       <DialogTrigger asChild>
         <Button
           variant="outline"
@@ -20,7 +19,7 @@ const SemesterCreateButton = () => {
         </Button>
       </DialogTrigger>
       <SemesterCreateDialog />
-    </DialogBase>
+    </Dialog>
   );
 };
 

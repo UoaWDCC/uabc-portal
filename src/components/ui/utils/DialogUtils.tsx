@@ -1,15 +1,9 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  type ReactNode,
-} from "react";
+import React, { type ReactNode } from "react";
 import { DialogClose, type DialogProps } from "@radix-ui/react-dialog";
 
 import { cn } from "@/lib/utils";
 import { Button, type ButtonProps } from "../button";
 import {
-  Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -24,12 +18,9 @@ interface DialogCardProps extends DialogProps {
 
 export const DialogCard = ({ title, children, onClose }: DialogCardProps) => {
   return (
-    <DialogContent
-      className="sm:max-w-[475px] max-w-[375px] rounded-lg"
-      onCloseAutoFocus={onClose}
-    >
+    <DialogContent onCloseAutoFocus={onClose}>
       <DialogHeader>
-        <DialogTitle className="text-foreground ">{title}</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
       </DialogHeader>
       {children}
     </DialogContent>
@@ -69,45 +60,4 @@ export const DialogCardFooter = ({
 
 export type DialogContextProps = {
   handleClose: () => void;
-};
-
-const DialogUtilsContext = createContext({} as DialogContextProps);
-
-export const useDialogContext = () => {
-  const context = useContext(DialogUtilsContext);
-  if (!context) {
-    throw new Error(
-      "useDialogContext must be used within a DialogUtilsContextProvider",
-    );
-  }
-  return context;
-};
-
-interface DialogBase extends DialogProps {
-  children?: ReactNode;
-  onOpenChange?: () => void;
-}
-export const DialogBase = ({
-  children,
-  onOpenChange = () => {},
-  ...props
-}: DialogBase) => {
-  const [open, setOpen] = useState(props.defaultOpen || false);
-
-  const handleClose = () => setOpen(false);
-
-  return (
-    <DialogUtilsContext.Provider value={{ handleClose }}>
-      <Dialog
-        onOpenChange={() => {
-          setOpen(!open);
-          onOpenChange();
-        }}
-        open={open}
-        {...props}
-      >
-        {children}
-      </Dialog>
-    </DialogUtilsContext.Provider>
-  );
 };

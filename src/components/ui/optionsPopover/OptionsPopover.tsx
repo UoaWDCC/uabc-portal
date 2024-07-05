@@ -2,8 +2,8 @@ import React, { useContext, type ReactNode } from "react";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Ellipsis } from "lucide-react";
 
+import { Dialog } from "../dialog";
 import { Popover, PopoverContext } from "../popover";
-import { DialogBase } from "../utils/DialogUtils";
 
 // * Wrapper component that add a button to trigger options popover
 export const OptionsPopover = ({ children }: { children?: ReactNode }) => {
@@ -32,10 +32,10 @@ export const OptionDialogItem = ({
 }) => {
   const { handleClose: closePopover } = useContext(PopoverContext);
   return (
-    <DialogBase onOpenChange={() => closePopover()}>
+    <Dialog onOpenChange={() => closePopover()}>
       <DialogTrigger asChild>{ButtonComponent}</DialogTrigger>
       {DialogComponent}
-    </DialogBase>
+    </Dialog>
   );
 };
 

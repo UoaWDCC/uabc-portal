@@ -5,11 +5,11 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
 import { TextInput } from "@/components/TextInput";
+import { useDialogContext } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import {
   DialogCard,
   DialogCardFooter,
-  useDialogContext,
 } from "@/components/ui/utils/DialogUtils";
 import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
 

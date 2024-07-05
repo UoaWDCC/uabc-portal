@@ -3,10 +3,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
+import { useDialogContext } from "@/components/ui/dialog";
 import {
   DialogCard,
   DialogCardFooter,
-  useDialogContext,
 } from "@/components/ui/utils/DialogUtils";
 import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
 import { TextInput } from "../../TextInput";
@@ -78,7 +78,6 @@ export const SemesterEditDialogue = () => {
 
   const { toast } = useToast();
 
-  // React-query
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (body: BodyInit) => {
