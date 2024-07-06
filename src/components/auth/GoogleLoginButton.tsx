@@ -11,8 +11,8 @@ export const GoogleSignIn = ({ className }: GoogleSignInProps) => {
   return (
     <button
       className={cn(
-        "flex min-w-72 select-none cursor-pointer justify-center gap-4 rounded items-center hover:opacity-90 bg-white h-11 font-semibold border-2 border-tertiary text-tertiary",
-        className,
+        "flex h-11 min-w-72 cursor-pointer select-none items-center justify-center gap-4 rounded border-2 border-tertiary bg-white font-semibold text-tertiary hover:opacity-90",
+        className
       )}
       onClick={() => {
         signIn("google");

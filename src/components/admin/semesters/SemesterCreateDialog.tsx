@@ -111,12 +111,7 @@ export const SemesterCreateDialog = () => {
           title: "Success!",
           description: "successfully created semester",
         });
-        reset({
-          startDate: data.startDate,
-          endDate: data.endDate,
-          breakStart: data.breakStart,
-          breakEnd: data.breakEnd,
-        });
+        reset();
         closeDialog();
       },
     });
@@ -127,7 +122,7 @@ export const SemesterCreateDialog = () => {
       <DialogHeader>
         <DialogTitle>Create a new semester</DialogTitle>
       </DialogHeader>
-      <form className="flex gap-4 flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <TextInput
           label="Name"
           type="text"

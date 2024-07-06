@@ -22,18 +22,18 @@ export const NavigationBar = ({
     <div
       className={clsx(
         className,
-        "flex justify-between mt-4 align-middle text-tertiary",
+        "mt-4 flex justify-between align-middle text-tertiary"
       )}
     >
       <div className="flex">
         <BackButton
-          variant={"ghost"}
-          className={cn("grid place-items-center mr-4 size-8")}
-          size={"icon"}
+          variant="ghost"
+          className={cn("mr-4 grid size-8 place-items-center")}
+          size="icon"
         >
           <IoArrowBackOutline size={24} />
         </BackButton>
-        <span className={cn("text-lg font-medium leading-none self-center")}>
+        <span className={cn("self-center text-lg font-medium leading-none")}>
           {title}
         </span>
       </div>

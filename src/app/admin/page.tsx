@@ -14,16 +14,16 @@ export default async function AdminDashboardPage() {
       <div className="flex p-4">
         <Heading>Dashboard</Heading>
       </div>
-      <div className="px-4 flex flex-col gap-4">
+      <div className="flex flex-col gap-4 px-4">
         <DashboardButton href="">
           <CalendarDays size={24} className="min-w-6" />
           View Sessions
         </DashboardButton>
-        <DashboardButton href="">
+        <DashboardButton href="admin/semesters">
           <CalendarClock size={24} className="min-w-6" />
           Edit Semester Schedules
         </DashboardButton>
-        <DashboardButton href="">
+        <DashboardButton href="admin/members">
           <BsPersonFillCheck size={24} className="min-w-6" /> Members
         </DashboardButton>
       </div>

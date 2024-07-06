@@ -34,6 +34,10 @@ ENV APP_URL ${APP_URL}
 # The below values are set to empty strings as they are not needed at build time.
 ENV GOOGLE_CLIENT_ID " "
 ENV GOOGLE_CLIENT_SECRET " "
+ENV ACCESS_KEY " "
+ENV SECRET_ACCESS_KEY " "
+ENV SENDER_EMAIL_ADDRESS "user@example.com"
+ENV AWS_REGION " "
 ENV SQID_SECRET "ABC"
 
 RUN --mount=type=secret,id=DATABASE_URL \

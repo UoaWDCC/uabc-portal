@@ -29,7 +29,7 @@ export const DialogButtonsFooter = ({
         {...props}
         className={cn(
           "transition-all duration-200",
-          isPending && "pointer-events-none opacity-70",
+          isPending && "pointer-events-none opacity-70"
         )}
       >
         {primaryText}

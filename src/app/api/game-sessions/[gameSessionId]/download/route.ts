@@ -16,7 +16,7 @@ const routeContextSchema = z.object({
 
 export async function GET(
   _req: NextRequest,
-  context: z.infer<typeof routeContextSchema>,
+  context: z.infer<typeof routeContextSchema>
 ) {
   try {
     const user = await getCurrentUser();
@@ -57,7 +57,7 @@ export async function GET(
       .from(gameSessions)
       .innerJoin(
         bookingDetails,
-        eq(gameSessions.id, bookingDetails.gameSessionId),
+        eq(gameSessions.id, bookingDetails.gameSessionId)
       )
       .innerJoin(bookings, eq(bookingDetails.bookingId, bookings.id))
       .innerJoin(users, eq(bookings.userId, users.id))

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -32,7 +32,7 @@ export const EmailSignUp = () => {
     formState: { errors },
   } = useForm<SignUpFormData>({
     resolver: zodResolver(
-      z.object({ email: emailSchema, password: passwordSchema }),
+      z.object({ email: emailSchema, password: passwordSchema })
     ),
   });
 
@@ -72,8 +72,8 @@ export const EmailSignUp = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex-col flex gap-4">
-        <span className="text-foreground text-center">Create an Account</span>
+      <div className="flex flex-col gap-4">
+        <span className="text-center text-foreground">Create an Account</span>
         <TextInput
           className="text-foreground"
           label="Email"

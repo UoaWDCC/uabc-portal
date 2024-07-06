@@ -13,7 +13,6 @@ export default function BookSessionPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const cart = useCartStore((state) => state.cart);
-  const clearCart = useCartStore((state) => state.clearCart);
 
   const sortedSessions = useMemo(() => {
     return [...cart].sort((a, b) => {
@@ -31,7 +30,7 @@ export default function BookSessionPage() {
   }, [cart]);
 
   const isPlayLevelSelected = cart.every(
-    (session) => session.playLevel !== undefined,
+    (session) => session.playLevel !== undefined
   );
 
   const handleConfirmButtonClick = async () => {
@@ -54,7 +53,6 @@ export default function BookSessionPage() {
       if (response.ok) {
         const { id } = await response.json();
         router.push(`/booking-confirmation/${id}`);
-        setTimeout(() => clearCart(), 1000); // Clear cart after 1 second to prevent UI updates before redirect
       } else {
         throw new Error("Failed to confirm booking");
       }
@@ -71,7 +69,7 @@ export default function BookSessionPage() {
   }
 
   return (
-    <div className="flex flex-col h-dvh mx-4 gap-y-4">
+    <div className="mx-4 flex h-dvh flex-col gap-y-4">
       <NavigationBar title="Select your level of play" />
 
       {sortedSessions.map((session) => (

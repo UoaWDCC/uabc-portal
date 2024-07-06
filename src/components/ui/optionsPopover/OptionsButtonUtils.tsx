@@ -13,11 +13,11 @@ export const OptionButtonUtils = forwardRef<HTMLButtonElement, OptionTypes>(
         return (
           <Button
             variant="ghost"
-            className="hover:bg-secondary h-8 text-foreground justify-start w-full"
+            className="h-8 w-full justify-start text-foreground hover:bg-secondary"
             ref={ref}
             {...props}
           >
-            <SquarePen className="w-4 mr-2" />
+            <SquarePen className="mr-2 w-4" />
             <p>Edit</p>
           </Button>
         );
@@ -26,16 +26,16 @@ export const OptionButtonUtils = forwardRef<HTMLButtonElement, OptionTypes>(
         return (
           <Button
             variant="ghost"
-            className="hover:bg-destructive/20 h-8 text-destructive w-full justify-start"
+            className="h-8 w-full justify-start text-destructive hover:bg-destructive/20"
             ref={ref}
             {...props}
           >
-            <Trash2 className="w-4 mr-2" />
+            <Trash2 className="mr-2 w-4" />
             <p>Delete</p>
           </Button>
         );
     }
-  },
+  }
 );
 
 OptionButtonUtils.displayName = "OptionButtonUtils";

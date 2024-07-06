@@ -35,8 +35,8 @@ export async function GET() {
       .where(
         and(
           gt(gameSessions.bookingClose, new Date()), // bookingClose is in the future
-          lt(gameSessions.bookingOpen, new Date()), // bookingOpen is in the past
-        ),
+          lt(gameSessions.bookingOpen, new Date()) // bookingOpen is in the past
+        )
       )
       .orderBy(asc(gameSessions.date));
 
