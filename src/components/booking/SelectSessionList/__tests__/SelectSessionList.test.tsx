@@ -12,7 +12,13 @@ describe("SelectSessionList", () => {
   });
 
   it("should render 4 items in the the session list", async () => {
-    render(<SelectSessionList isMember={true} onLimitReached={() => {}} />);
+    render(
+      <SelectSessionList
+        isMember={true}
+        onLimitReached={() => {}}
+        maxSessions={0}
+      />
+    );
     const sessionCards = await screen.findAllByTestId("session-card");
 
     expect(sessionCards.length).toBe(4);
@@ -25,7 +31,11 @@ describe("SelectSessionList", () => {
     beforeEach(async () => {
       onLimitReached = jest.fn();
       render(
-        <SelectSessionList isMember={true} onLimitReached={onLimitReached} />
+        <SelectSessionList
+          isMember={true}
+          onLimitReached={onLimitReached}
+          maxSessions={2}
+        />
       );
       sessionCards = await screen.findAllByTestId("session-card");
     });
@@ -64,7 +74,11 @@ describe("SelectSessionList", () => {
     beforeEach(async () => {
       onLimitReached = jest.fn();
       render(
-        <SelectSessionList isMember={true} onLimitReached={onLimitReached} />
+        <SelectSessionList
+          isMember={true}
+          onLimitReached={onLimitReached}
+          maxSessions={2}
+        />
       );
       sessionCards = await screen.findAllByTestId("session-card");
     });
@@ -94,7 +108,11 @@ describe("SelectSessionList", () => {
     beforeEach(async () => {
       onLimitReached = jest.fn();
       render(
-        <SelectSessionList isMember={false} onLimitReached={onLimitReached} />
+        <SelectSessionList
+          isMember={false}
+          onLimitReached={onLimitReached}
+          maxSessions={1}
+        />
       );
       sessionCards = await screen.findAllByTestId("session-card");
     });
