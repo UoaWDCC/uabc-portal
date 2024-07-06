@@ -6,6 +6,7 @@ import { redirect, useRouter } from "next/navigation";
 import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
 import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { useCartStore } from "@/stores/useCartStore";
 
 export default function BookSessionPage() {
@@ -13,6 +14,7 @@ export default function BookSessionPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const cart = useCartStore((state) => state.cart);
+  const { toast } = useToast();
 
   const sortedSessions = useMemo(() => {
     return [...cart].sort((a, b) => {
@@ -54,7 +56,15 @@ export default function BookSessionPage() {
         const { id } = await response.json();
         router.push(`/booking-confirmation/${id}`);
       } else if (response.status === 409) {
-        redirect("/sessions");
+        toast({
+          title: "Uh oh! Something went wrong!",
+          description:
+            "An error occurred while updating the semester. Please try again.",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          router.push("/sessions");
+        }, 3000);
       } else {
         throw new Error("Failed to confirm booking");
       }

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 
+import { useToast } from "@/components/ui/use-toast";
 import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
 import { cn, convertTo12HourFormat, getWeekday } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
@@ -11,20 +12,20 @@ import SkeletonSelectSessionCard from "./SkeletonSessionCard";
 interface SelectSessionListProps {
   isMember: boolean;
   onLimitReached: () => void;
-  memberMaxSessions: number;
+  maxSessions: number;
   className?: string;
 }
 
 export function SelectSessionList({
   onLimitReached,
   isMember,
-  memberMaxSessions,
+  maxSessions,
   className,
 }: SelectSessionListProps) {
   const { data, isLoading } = useCurrentGameSessions();
-  const maxSessions: number = isMember ? memberMaxSessions : 1;
   const cart = useCartStore((state) => state.cart);
   const updateCart = useCartStore((state) => state.updateCart);
+  const { toast } = useToast();
 
   const sessions = useMemo(
     () =>
@@ -50,6 +51,12 @@ export function SelectSessionList({
         const session = sessions.find(
           (session) => session.id === cartSession.id
         );
+        if (session?.isFull) {
+          toast({
+            title: "A session is full",
+            description: "Please select another session",
+          });
+        }
         return session && !session.isFull;
       });
 
@@ -57,7 +64,7 @@ export function SelectSessionList({
         updateCart(updatedCart);
       }
     }
-  }, [sessions]);
+  }, [sessions]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleSessionClick(id: number) {
     const isInCart = cart.some((session) => session.id === id);

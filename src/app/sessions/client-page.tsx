@@ -54,7 +54,7 @@ export default function ClientSessionPage({
       <SelectSessionList
         onLimitReached={() => setShake(true)}
         isMember={isMember}
-        memberMaxSessions={memberMaxSessions}
+        maxSessions={maxSessions}
         className="mx-4 grow"
       />
 
