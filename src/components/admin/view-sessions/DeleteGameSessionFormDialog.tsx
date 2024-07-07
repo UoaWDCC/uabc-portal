@@ -1,19 +1,17 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { DialogContent, DialogTitle } from "@radix-ui/react-dialog";
+import { useQueryClient } from "@tanstack/react-query";
 import { getMonth, getYear } from "date-fns";
 
-import { useOptionsDialogContext } from "@/components/ui/options-popover/OptionsPopover";
+import { DialogHeader, useDialogContext } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
-import {
-  DialogCard,
-  DialogCardFooter,
-} from "@/components/ui/utils/DialogUtils";
+import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { useDeleteGameSessionMutation } from "@/hooks/mutations/game-sessions";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useGameSessionContext } from "./GameSessionContext";
 
 export const DeleteGameSessionFormDialog = () => {
   const { date } = useGameSessionContext();
-  const { handleClose } = useOptionsDialogContext();
+  const { handleClose } = useDialogContext();
 
   const { toast } = useToast();
 
@@ -48,11 +46,14 @@ export const DeleteGameSessionFormDialog = () => {
   };
 
   return (
-    <DialogCard title="Delete Game Session?">
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Delete Game Session?</DialogTitle>
+      </DialogHeader>
       <p className="text-tertiary">
         Are you sure you want to delete this session?
       </p>
-      <DialogCardFooter variant="destructive" onClick={handleSubmit} />
-    </DialogCard>
+      <DialogButtonsFooter variant="destructive" onClick={handleSubmit} />
+    </DialogContent>
   );
 };

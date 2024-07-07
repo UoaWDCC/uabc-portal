@@ -1,12 +1,8 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  type ReactNode,
-} from "react";
-import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+import React, { useContext, type ReactNode } from "react";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Ellipsis } from "lucide-react";
 
+import { Dialog } from "../dialog";
 import { Popover, PopoverContext } from "../popover";
 
 // * Wrapper component that add a button to trigger options popover
@@ -25,45 +21,21 @@ export type DialogContextProps = {
   handleClose: () => void;
 };
 
-export const OptionsDialogContext = createContext({} as DialogContextProps);
-
-export const useOptionsDialogContext = () => {
-  const context = useContext(OptionsDialogContext);
-  if (!context) {
-    throw new Error(
-      "useOptionsDialogContext must be used within a OptionsDialogContextProvider"
-    );
-  }
-  return context;
-};
-
-// * Button element is the popover item
-// * Dialog element is the dialog that will be displayed when the popover is clicked
+// * Button component is a button on the popover that will trigger dialog
+// * Dialog component is the dialog that will be displayed when the popover is clicked
 export const OptionDialogItem = ({
-  DialogElement,
-  ButtonElement,
+  DialogComponent,
+  ButtonComponent,
 }: {
-  DialogElement: ReactNode;
-  ButtonElement: ReactNode;
+  DialogComponent: ReactNode;
+  ButtonComponent: ReactNode;
 }) => {
   const { handleClose: closePopover } = useContext(PopoverContext);
-  const [open, setOpen] = useState(false);
-
-  const handleClose = () => setOpen(false);
-
   return (
-    <OptionsDialogContext.Provider value={{ handleClose }}>
-      <Dialog
-        onOpenChange={() => {
-          closePopover();
-          setOpen(!open);
-        }}
-        open={open}
-      >
-        <DialogTrigger asChild>{ButtonElement}</DialogTrigger>
-        {DialogElement}
-      </Dialog>
-    </OptionsDialogContext.Provider>
+    <Dialog onOpenChange={() => closePopover()}>
+      <DialogTrigger asChild>{ButtonComponent}</DialogTrigger>
+      {DialogComponent}
+    </Dialog>
   );
 };
 

@@ -1,40 +1,43 @@
-import React, { type ReactNode } from "react";
-import { DialogClose, type DialogProps } from "@radix-ui/react-dialog";
+import React from "react";
+import { DialogClose } from "@radix-ui/react-dialog";
 
+import { cn } from "@/lib/utils";
 import { Button, type ButtonProps } from "../button";
-import {
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../dialog";
+import { DialogFooter } from "../dialog";
 
-interface DialogCardProps extends DialogProps {
-  title: string;
-  children?: ReactNode;
-  onClose?: () => void;
+interface DialogCardFooterProps extends ButtonProps {
+  isPending?: boolean;
+  primaryText?: string;
+  secondaryText?: string;
 }
 
-export const DialogCard = ({ title, children, onClose }: DialogCardProps) => {
-  return (
-    <DialogContent className="rounded-lg" onCloseAutoFocus={onClose}>
-      <DialogHeader>
-        <DialogTitle className="text-foreground">{title}</DialogTitle>
-      </DialogHeader>
-      {children}
-    </DialogContent>
-  );
-};
+// Footer component for confirmation or for form submission
+// mainly used for api requests so isPending should be provided for ux
 
-export const DialogCardFooter = ({ ...props }: ButtonProps) => {
+export const DialogButtonsFooter = ({
+  isPending,
+  primaryText = "Confirm",
+  secondaryText = "Cancel",
+  ...props
+}: DialogCardFooterProps) => {
   return (
     <DialogFooter className="flex gap-2">
       <DialogClose asChild>
-        <Button variant="outline" className="text-foreground">
-          Cancel
-        </Button>
+        <Button variant="outline">{secondaryText}</Button>
       </DialogClose>
-      <Button {...props}>Confirm</Button>
+      <Button
+        {...props}
+        className={cn(
+          "transition-all duration-200",
+          isPending && "pointer-events-none opacity-70"
+        )}
+      >
+        {primaryText}
+      </Button>
     </DialogFooter>
   );
+};
+
+export type DialogContextProps = {
+  handleClose: () => void;
 };

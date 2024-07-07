@@ -1,20 +1,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { DialogContent } from "@radix-ui/react-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format, getMonth, getYear, parse } from "date-fns";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
 import { TextInput } from "@/components/TextInput";
-import { useOptionsDialogContext } from "@/components/ui/options-popover/OptionsPopover";
-import { useToast } from "@/components/ui/use-toast";
 import {
-  DialogCard,
-  DialogCardFooter,
-} from "@/components/ui/utils/DialogUtils";
+  DialogHeader,
+  DialogTitle,
+  useDialogContext,
+} from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
+import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { useEditGameSessionMutation } from "@/hooks/mutations/game-sessions";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useGameSessionContext } from "./GameSessionContext";
-import { gameSessionFormSchema } from "./utils";
+import { formatTitle, gameSessionFormSchema } from "./utils";
 
 export default function EditGameSessionFormDialog() {
   const {
@@ -29,7 +31,7 @@ export default function EditGameSessionFormDialog() {
     casualCapacity,
   } = useGameSessionContext();
 
-  const { handleClose } = useOptionsDialogContext();
+  const { handleClose } = useDialogContext();
 
   const {
     register,
@@ -87,7 +89,10 @@ export default function EditGameSessionFormDialog() {
   };
 
   return (
-    <DialogCard title={format(date, "eeee do MMMM yyyy")}>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{formatTitle(date)}</DialogTitle>
+      </DialogHeader>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-2">
           <TextInput
@@ -159,8 +164,8 @@ export default function EditGameSessionFormDialog() {
             errorMessage={errors.casualCapacity?.message}
           />
         </div>
-        <DialogCardFooter type="submit" />
+        <DialogButtonsFooter type="submit" />
       </form>
-    </DialogCard>
+    </DialogContent>
   );
 }

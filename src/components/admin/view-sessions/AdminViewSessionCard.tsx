@@ -63,32 +63,32 @@ export function AdminViewSessionCard({
 
   return (
     <Card
-      className={cn("relative p-4 flex flex-col gap-4 border", className)}
+      className={cn("relative flex flex-col gap-4 border", className)}
       variant="card"
     >
-      <div className="flex justify-between gap-4 items-center">
+      <div className="flex items-center justify-between gap-4">
         <p className="text-lg font-medium leading-none">{title}</p>
         {state === "upcoming" ? (
           <OptionsPopover>
             <OptionsPopover.DialogItem
-              ButtonElement={<OptionButtonUtils type="edit" />}
-              DialogElement={<EditGameSessionFormDialog />}
+              ButtonComponent={<OptionButtonUtils type="edit" />}
+              DialogComponent={<EditGameSessionFormDialog />}
             />
             <OptionsPopover.DialogItem
-              ButtonElement={<OptionButtonUtils type="delete" />}
-              DialogElement={<DeleteGameSessionFormDialog />}
+              ButtonComponent={<OptionButtonUtils type="delete" />}
+              DialogComponent={<DeleteGameSessionFormDialog />}
             />
           </OptionsPopover>
         ) : (
           <Badge
-            className="select-none pointer-events-none"
+            className="pointer-events-none select-none"
             variant={state === "ongoing" ? "success" : "tertiary"}
           >
             {state === "ongoing" ? "Ongoing" : "Past"}
           </Badge>
         )}
       </div>
-      <div className="grow flex flex-col justify-center *:flex *:items-center *:gap-x-2 space-y-2 text-sm font-medium text-tertiary mx-1">
+      <div className="mx-1 flex grow flex-col justify-center space-y-2 text-sm font-medium text-tertiary *:flex *:items-center *:gap-x-2">
         <div>
           <Clock size={24} className="min-w-6" />
           <p>

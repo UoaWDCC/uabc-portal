@@ -1,15 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { format, getMonth, getYear, parse } from "date-fns";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
 import { TextInput } from "@/components/TextInput";
-import { useToast } from "@/components/ui/use-toast";
 import {
-  DialogCard,
-  DialogCardFooter,
-} from "@/components/ui/utils/DialogUtils";
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
+import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { useCreateGameSessionMutation } from "@/hooks/mutations/game-sessions";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useGameSessionContext } from "./GameSessionContext";
@@ -72,7 +74,10 @@ export function CreateGameSessionFormDialog({
   };
 
   return (
-    <DialogCard title={formatTitle(date)}>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{formatTitle(date)}</DialogTitle>
+      </DialogHeader>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-2">
           <TextInput
@@ -143,8 +148,8 @@ export function CreateGameSessionFormDialog({
             errorMessage={errors.casualCapacity?.message}
           />
         </div>
-        <DialogCardFooter type="submit" />
+        <DialogButtonsFooter type="submit" />
       </form>
-    </DialogCard>
+    </DialogContent>
   );
 }
