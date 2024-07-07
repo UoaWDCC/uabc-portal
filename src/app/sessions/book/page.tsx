@@ -57,19 +57,21 @@ export default function BookSessionPage() {
         router.push(`/booking-confirmation/${id}`);
       } else if (response.status === 409) {
         toast({
-          title: "Uh oh! Something went wrong!",
+          title: "Something went wrong.",
           description:
-            "An error occurred while updating the semester. Please try again.",
-          variant: "destructive",
+            "A session has become full. Please select another session.",
         });
-        setTimeout(() => {
-          router.push("/sessions");
-        }, 3000);
+        router.push("/sessions");
       } else {
         throw new Error("Failed to confirm booking");
       }
     } catch (error) {
       console.error("Error while confirming booking:", error);
+      toast({
+        title: "Something went wrong.",
+        description:
+          "An error occurred while confirming your booking. Please try again.",
+      });
       router.push("/sessions");
     } finally {
       setIsSubmitting(false);

@@ -51,12 +51,6 @@ export function SelectSessionList({
         const session = sessions.find(
           (session) => session.id === cartSession.id
         );
-        if (session?.isFull) {
-          toast({
-            title: "A session is full",
-            description: "Please select another session",
-          });
-        }
         return session && !session.isFull;
       });
 
@@ -64,7 +58,7 @@ export function SelectSessionList({
         updateCart(updatedCart);
       }
     }
-  }, [sessions]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [sessions]);
 
   function handleSessionClick(id: number) {
     const isInCart = cart.some((session) => session.id === id);
