@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { isPast } from "date-fns";
 
 import { Card } from "@/components/Card";
 import { Button } from "@/components/ui/button";
@@ -24,28 +25,35 @@ export function EmptyAdminViewSessionCard() {
         variant: "destructive",
       });
     }
+    if (isPast(date)) {
+      toast({
+        title: "Date is in the past",
+        description: "You can't create game sessions for dates in the past.",
+        variant: "destructive",
+      });
+    }
   }
 
   return (
     <Card
-      className="p-4 flex flex-col gap-4 border text-tertiary/70"
+      className="flex flex-col gap-4 border p-4 text-tertiary/70"
       variant="card"
     >
-      <div className="grow text-lg font-medium grid place-content-center text-center">
+      <div className="grid grow place-content-center text-center text-lg font-medium">
         No sessions found on <br />
         {formatTitle(date)}
       </div>
       <Dialog open={open} onOpenChange={() => setOpen(!open)}>
         <DialogTrigger asChild>
           <Button
-            className="w-full font-semibold border"
+            className="w-full border font-semibold"
             variant={"ghost"}
             onClick={handleButtonClick}
           >
             Create session
           </Button>
         </DialogTrigger>
-        {canCreate && (
+        {canCreate && !isPast(date) && (
           <CreateGameSessionFormDialog onSuccess={() => setOpen(false)} />
         )}
       </Dialog>
