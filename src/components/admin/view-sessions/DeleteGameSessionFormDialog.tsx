@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getMonth, getYear } from "date-fns";
 
 import { useOptionsDialogContext } from "@/components/ui/options-popover/OptionsPopover";
 import { useToast } from "@/components/ui/use-toast";
@@ -6,6 +7,8 @@ import {
   DialogCard,
   DialogCardFooter,
 } from "@/components/ui/utils/DialogUtils";
+import { useDeleteGameSessionMutation } from "@/hooks/mutations/game-sessions";
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useGameSessionContext } from "./GameSessionContext";
 
 export const DeleteGameSessionFormDialog = () => {
@@ -16,20 +19,17 @@ export const DeleteGameSessionFormDialog = () => {
 
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
-    mutationFn: async (date: string) => {
-      const response = await fetch(`/api/game-sessions?date=${date}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) throw new Error();
-    },
-  });
+  const { mutate } = useDeleteGameSessionMutation();
 
   const handleSubmit = async () => {
     mutate(date, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["game-session", date] });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.GAME_SESSION, date],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.ACTIVE_DATES, getYear(date), getMonth(date)],
+        });
         toast({
           title: "Success!",
           description: "Game session deleted successfully",

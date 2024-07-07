@@ -169,7 +169,7 @@ export const gameSessionSchedules = pgTable(
 export const gameSessionExceptions = pgTable("gameSessionException", {
   exceptionId: serial("exceptionId").primaryKey(),
   isDeleted: boolean("isDeleted").default(false).notNull(),
-  date: date("date").unique(),
+  date: date("date").unique().notNull(),
   startTime: time("startTime"),
   endTime: time("endTime"),
   locationName: text("locationName"),
