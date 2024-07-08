@@ -24,7 +24,7 @@ const NotFoundPage = () => {
         </p>
       </div>
       <div className="flex w-dvw flex-col gap-4 p-4">
-        <Link href="/sessions">
+        <Link href="/">
           <Button className="w-full font-bold">Back to home</Button>
         </Link>
       </div>
