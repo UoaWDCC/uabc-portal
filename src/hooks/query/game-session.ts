@@ -1,4 +1,5 @@
-import { QueryClient, useQuery } from "@tanstack/react-query";
+import type { QueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { addDays, endOfMonth, format, startOfMonth, subDays } from "date-fns";
 
 import { QUERY_KEY } from "@/lib/utils/queryKeys";

@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
-import { PendingMemberResponse } from "../query/usePendingMembers";
+import type { PendingMemberResponse } from "../query/usePendingMembers";
 
 export const useApproveUserMutation = (queryClient: QueryClient) => {
   const mutation = useMutation({
