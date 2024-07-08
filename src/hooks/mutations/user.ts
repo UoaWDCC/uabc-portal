@@ -25,14 +25,16 @@ export const useApproveUserMutation = (queryClient: QueryClient) => {
     },
 
     onMutate: async ({ userId }) => {
-      await queryClient.cancelQueries({ queryKey: [QUERY_KEY.PendingMembers] });
+      await queryClient.cancelQueries({
+        queryKey: [QUERY_KEY.PENDING_MEMBERS],
+      });
 
       const previousMembers = queryClient.getQueryData([
-        QUERY_KEY.PendingMembers,
+        QUERY_KEY.PENDING_MEMBERS,
       ]);
 
       queryClient.setQueryData(
-        [QUERY_KEY.PendingMembers],
+        [QUERY_KEY.PENDING_MEMBERS],
         (old: PendingMemberResponse[]) =>
           old.filter((member) => member.id !== userId)
       );
@@ -47,7 +49,7 @@ export const useApproveUserMutation = (queryClient: QueryClient) => {
     },
     onError: (_error, _variables, context) => {
       queryClient.setQueryData(
-        [QUERY_KEY.PendingMembers],
+        [QUERY_KEY.PENDING_MEMBERS],
         context?.previousMembers
       );
       toast({
@@ -71,14 +73,16 @@ export const useRejectUserMutation = (queryClient: QueryClient) => {
       if (!response.ok) throw new Error(response.statusText);
     },
     onMutate: async ({ userId }) => {
-      await queryClient.cancelQueries({ queryKey: [QUERY_KEY.PendingMembers] });
+      await queryClient.cancelQueries({
+        queryKey: [QUERY_KEY.PENDING_MEMBERS],
+      });
 
       const previousMembers = queryClient.getQueryData([
-        QUERY_KEY.PendingMembers,
+        QUERY_KEY.PENDING_MEMBERS,
       ]);
 
       queryClient.setQueryData(
-        [QUERY_KEY.PendingMembers],
+        [QUERY_KEY.PENDING_MEMBERS],
         (old: PendingMemberResponse[]) =>
           old.filter((member) => member.id !== userId)
       );
@@ -93,7 +97,7 @@ export const useRejectUserMutation = (queryClient: QueryClient) => {
     },
     onError: (_error, _variables, context) => {
       queryClient.setQueryData(
-        [QUERY_KEY.PendingMembers],
+        [QUERY_KEY.PENDING_MEMBERS],
         context?.previousMembers
       );
       toast({

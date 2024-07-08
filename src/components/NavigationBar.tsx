@@ -1,7 +1,6 @@
 "use client";
 
 import { type ReactNode } from "react";
-import clsx from "clsx";
 import { IoArrowBackOutline } from "react-icons/io5";
 
 import { BackButton } from "@/components/BackButton";
@@ -20,20 +19,20 @@ export const NavigationBar = ({
 }: NavigationBarProps) => {
   return (
     <div
-      className={clsx(
-        className,
-        "mt-4 flex justify-between align-middle text-tertiary"
+      className={cn(
+        "mt-4 flex justify-between align-middle text-tertiary",
+        className
       )}
     >
       <div className="flex">
         <BackButton
           variant="ghost"
-          className={cn("mr-4 grid size-8 place-items-center")}
+          className="mr-4 grid size-8 place-items-center"
           size="icon"
         >
           <IoArrowBackOutline size={24} />
         </BackButton>
-        <span className={cn("self-center text-lg font-medium leading-none")}>
+        <span className="self-center text-lg font-medium leading-none">
           {title}
         </span>
       </div>

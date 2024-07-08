@@ -131,7 +131,7 @@ export const SemesterCreateDialog = () => {
           errorMessage={errors.name?.message}
           autoComplete="off"
         />
-        <div className="flex gap-2 *:grow ">
+        <div className="flex gap-2 *:grow">
           <TextInput
             label="Start date"
             type="text"

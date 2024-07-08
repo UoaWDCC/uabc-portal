@@ -13,9 +13,9 @@ const SemesterCreateButton = () => {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="border-2 aspect-square border-secondary"
+          className="aspect-square border-2 border-secondary"
         >
-          <Plus className="absolute stroke-foreground w-5" />
+          <Plus className="absolute w-5 stroke-foreground" />
         </Button>
       </DialogTrigger>
       <SemesterCreateDialog />

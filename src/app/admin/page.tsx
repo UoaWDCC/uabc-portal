@@ -1,7 +1,7 @@
 import { CalendarClock, CalendarDays } from "lucide-react";
 import { BsPersonFillCheck } from "react-icons/bs";
 
-import DashboardButton from "@/components/admin/DashboardButton";
+import { DashboardButton } from "@/components/admin/DashboardButton";
 import { Heading } from "@/components/Heading";
 
 export const metadata = {
@@ -15,7 +15,7 @@ export default async function AdminDashboardPage() {
         <Heading>Dashboard</Heading>
       </div>
       <div className="flex flex-col gap-4 px-4">
-        <DashboardButton href="">
+        <DashboardButton href="admin/view-sessions">
           <CalendarDays size={24} className="min-w-6" />
           View Sessions
         </DashboardButton>

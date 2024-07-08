@@ -61,7 +61,7 @@ export const SemesterDeleteDialog = () => {
       <p className="text-tertiary">
         Are you sure you want to delete this semester?
       </p>
-      <div className="bg-destructive/20 w-full p-4 rounded-lg select-none">
+      <div className="w-full select-none rounded-lg bg-destructive/20 p-4">
         <p className="font-bold text-destructive">Warning</p>
         <p className="text-sm text-destructive">
           By deleting this semester, all related game session schedules to it

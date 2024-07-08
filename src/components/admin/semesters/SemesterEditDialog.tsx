@@ -112,8 +112,7 @@ export const SemesterEditDialogue = () => {
     });
 
     mutation.mutate(body, {
-      onError: (e) => {
-        console.log(e);
+      onError: () => {
         toast({
           title: "Uh oh! Something went wrong",
           description:
@@ -144,7 +143,7 @@ export const SemesterEditDialogue = () => {
         <DialogTitle>Edit {name}</DialogTitle>
       </DialogHeader>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex gap-2 *:grow ">
+        <div className="flex gap-2 *:grow">
           <TextInput
             label="Start date"
             type="text"
