@@ -25,7 +25,8 @@ const searchParamsSchema = z.object({
     .transform((val) => {
       if (!val) return new Date();
       return new Date(val);
-    }),
+    })
+    .pipe(z.date()),
 });
 
 export default function ClientViewSessionsPage() {

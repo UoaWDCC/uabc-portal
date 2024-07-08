@@ -112,8 +112,7 @@ export const SemesterEditDialogue = () => {
     });
 
     mutation.mutate(body, {
-      onError: (e) => {
-        console.log(e);
+      onError: () => {
         toast({
           title: "Uh oh! Something went wrong",
           description:

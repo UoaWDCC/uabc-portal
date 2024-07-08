@@ -7,7 +7,6 @@ import { QUERY_KEY } from "@/lib/utils/queryKeys";
 type ActiveDatesResponse = string[];
 
 async function fetchActiveDates(date: Date): Promise<ActiveDatesResponse> {
-  console.log("fetched", date.getMonth());
   const startDate = subDays(startOfMonth(date), 7);
   const endDate = addDays(endOfMonth(date), 7);
 
