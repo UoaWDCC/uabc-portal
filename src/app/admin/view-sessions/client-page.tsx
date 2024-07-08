@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
@@ -14,7 +16,7 @@ import { Calendar } from "@/components/ui/calendar";
 import {
   prefetchActiveDates,
   useActiveDates,
-} from "@/hooks/query/game-session";
+} from "@/hooks/query/active-dates";
 import { useGameSession } from "@/hooks/query/useGameSession";
 import { cn, convertTo12HourFormat } from "@/lib/utils";
 
