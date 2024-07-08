@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
@@ -62,12 +63,23 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    const existingSemester = await db.query.semesters.findFirst({
+      where: eq(semesters.name, newSemester.name),
+    });
+
+    if (existingSemester) {
+      return new Response("This name already exists, please pick another", {
+        status: 400,
+        statusText: "nameError",
+      });
+    }
+
     const semester = await db.insert(semesters).values(newSemester).returning();
 
     return NextResponse.json(semester, { status: 201 });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return NextResponse.json(err.issues, { status: 400 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }

@@ -17,7 +17,7 @@ const MembershipType = () => {
   const { data, update } = useSession();
 
   if (!firstName || !lastName) {
-    redirect("onboarding/name");
+    redirect("/onboarding/name");
   }
 
   const id = data?.user?.id;
@@ -49,7 +49,7 @@ const MembershipType = () => {
   };
 
   return (
-    <div className="flex flex-col h-dvh mx-4 gap-y-4">
+    <div className="mx-4 flex h-dvh flex-col gap-y-4">
       <NavigationBar title="Select your membership type" />
 
       <MembershipTypeSelector

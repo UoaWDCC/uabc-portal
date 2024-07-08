@@ -32,6 +32,9 @@
     --destructive: 0 52% 45%; /*hsl(0 52% 45%)*/
     --destructive-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
 
+    --success: 122 47% 43%; /*hsl(122 47% 43%)*/
+    --success-foreground: 0 0% 98%; /*hsl(0 0% 98%)*/
+
     --border: 220 6% 90%; /*hsl(220 6% 90%)*/
     --input: 220 7% 82%; /*hsl(220 7% 82%)*/
     --ring: 215 24% 74%; /*hsl(215 24% 74%)*/
@@ -107,9 +110,17 @@
   }
 }
 
-h2 + .InputAdjacentText:focus {
-  top: -0.75rem;
-  font-size: 14px;
-  padding: 0 0.5rem;
-  color: hsl(217, 91%, 60%); /*blue-500*/
+.date-with-dot::after {
+  position: absolute;
+  bottom: 4px;
+  content: "";
+  height: 5px; /* Dot size */
+  width: 5px; /* Dot size */
+  background-color: currentColor;
+  opacity: 25%;
+  border-radius: 100%;
+}
+
+.textStroke {
+  -webkit-text-stroke: 6px hsl(var(--foreground));
 }

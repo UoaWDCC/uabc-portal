@@ -4,9 +4,8 @@ import { and, asc, gt, lt, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { bookingDetails, gameSessions } from "@/lib/db/schema";
 
-/**
- * Gets game sessions currently available for booking
- */
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const sessions = await db
@@ -35,8 +34,8 @@ export async function GET() {
       .where(
         and(
           gt(gameSessions.bookingClose, new Date()), // bookingClose is in the future
-          lt(gameSessions.bookingOpen, new Date()), // bookingOpen is in the past
-        ),
+          lt(gameSessions.bookingOpen, new Date()) // bookingOpen is in the past
+        )
       )
       .orderBy(asc(gameSessions.date));
 

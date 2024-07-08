@@ -1,4 +1,4 @@
-"server only";
+import "server-only";
 
 import { revalidateTag, unstable_cache } from "next/cache";
 import type { User } from "next-auth";
@@ -6,8 +6,23 @@ import type { User } from "next-auth";
 import { CACHE_REVALIDATION_PERIOD } from "@/lib/constants";
 import { db } from "@/lib/db";
 
+export async function getUserFromId(userId: string) {
+  return db.query.users.findFirst({
+    where: (users, { eq }) => eq(users.id, userId),
+    columns: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      member: true,
+      verified: true,
+      remainingSessions: true,
+    },
+  });
+}
+
 export async function getUserFromEmail(
-  email: string | null | undefined,
+  email: string | null | undefined
 ): Promise<User | null> {
   if (!email) {
     return null;
@@ -29,7 +44,7 @@ export async function getUserFromEmail(
     },
 
     [`getUserFromEmail:${email}`],
-    { tags: [userCache.getTag(email)], revalidate: CACHE_REVALIDATION_PERIOD },
+    { tags: [userCache.getTag(email)], revalidate: CACHE_REVALIDATION_PERIOD }
   )();
 
   return user ?? null;

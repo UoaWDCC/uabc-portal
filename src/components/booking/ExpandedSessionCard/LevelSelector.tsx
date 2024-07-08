@@ -18,21 +18,21 @@ const PLAY_LEVELS: PlayLevel[] = ["beginner", "intermediate", "advanced"];
 
 export const LevelSelector = ({ id, selectedLevel }: LevelSelectorProps) => {
   const updatePlayLevelById = useCartStore(
-    (state) => state.updatePlayLevelById,
+    (state) => state.updatePlayLevelById
   );
 
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <button className="w-full text-tertiary-foreground rounded-b-md bg-tertiary text-sm font-semibold h-12 capitalize">
+        <button className="h-12 w-full rounded-b-md bg-tertiary text-sm font-semibold capitalize text-tertiary-foreground">
           {selectedLevel ?? "Select Play Level"}
         </button>
       </DrawerTrigger>
-      <DrawerContent className="p-4 pb-10 bg-neutral">
-        <span className="text-center font-medium mb-4">
+      <DrawerContent className="bg-neutral p-4 pb-10">
+        <span className="mb-4 text-center font-medium">
           Please select a play level
         </span>
-        <div className="grid grid-cols-3 gap-2 bg-white p-2 rounded-xl">
+        <div className="grid grid-cols-3 gap-2 rounded-xl bg-white p-2">
           {PLAY_LEVELS.map((playLevel, index) => (
             <LevelSelectorButton
               key={index}

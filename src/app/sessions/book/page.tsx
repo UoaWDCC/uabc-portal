@@ -1,16 +1,39 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
 import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { useCartStore } from "@/stores/useCartStore";
 
 export default function BookSessionPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const cart = useCartStore((state) => state.cart);
+  const { toast } = useToast();
+
+  const sortedSessions = useMemo(() => {
+    return [...cart].sort((a, b) => {
+      const weekdays = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ];
+      return weekdays.indexOf(a.weekday) - weekdays.indexOf(b.weekday);
+    });
+  }, [cart]);
+
+  const isPlayLevelSelected = cart.every(
+    (session) => session.playLevel !== undefined
+  );
 
   const handleConfirmButtonClick = async () => {
     try {
@@ -30,42 +53,37 @@ export default function BookSessionPage() {
       });
 
       if (response.ok) {
-        // Navigate to confirmation page on success
-        router.push("/sessions/book/confirmation");
-      } else {
-        // Redirect back to sessions page on failure
+        const { id } = await response.json();
+        router.push(`/booking-confirmation/${id}`);
+      } else if (response.status === 409) {
+        toast({
+          title: "Something went wrong.",
+          description:
+            "A session has become full. Please select another session.",
+        });
         router.push("/sessions");
+      } else {
+        throw new Error("Failed to confirm booking");
       }
     } catch (error) {
       console.error("Error while confirming booking:", error);
+      toast({
+        title: "Something went wrong.",
+        description:
+          "An error occurred while confirming your booking. Please try again.",
+      });
+      router.push("/sessions");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const cart = useCartStore((state) => state.cart);
-
-  const sortedSessions = useMemo(() => {
-    return [...cart].sort((a, b) => {
-      const weekdays = [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
-      ];
-      return weekdays.indexOf(a.weekday) - weekdays.indexOf(b.weekday);
-    });
-  }, [cart]);
-
-  const isPlayLevelSelected = cart.every(
-    (session) => session.playLevel !== undefined,
-  );
+  if (!cart.length) {
+    redirect("/sessions");
+  }
 
   return (
-    <div className="flex flex-col h-dvh mx-4 gap-y-4">
+    <div className="mx-4 flex h-dvh flex-col gap-y-4">
       <NavigationBar title="Select your level of play" />
 
       {sortedSessions.map((session) => (
@@ -78,7 +96,7 @@ export default function BookSessionPage() {
         <Button
           className="w-full self-end"
           onClick={handleConfirmButtonClick}
-          disabled={!isPlayLevelSelected || isSubmitting} // disable button when submitting data
+          disabled={!isPlayLevelSelected || isSubmitting}
         >
           Confirm
         </Button>

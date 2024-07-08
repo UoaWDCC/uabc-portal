@@ -2,6 +2,7 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import {
+  gameSessionExceptions,
   gameSessions,
   gameSessionSchedules,
   semesters,
@@ -57,7 +58,7 @@ export const insertGameSessionScheduleSchema = createInsertSchema(
     semesterId: z.coerce.number(),
     startTime: z.string().time(),
     endTime: z.string().time(),
-  },
+  }
 );
 
 export const updateGameSessionScheduleSchema = z.object({
@@ -69,4 +70,24 @@ export const updateGameSessionScheduleSchema = z.object({
   locationAddress: z.string(),
   capacity: z.number(),
   casualCapacity: z.number(),
+});
+
+export const insertGameSessionExceptionSchema = createInsertSchema(
+  gameSessionExceptions,
+  {
+    date: z.string().date(),
+    startTime: z.string().time(),
+    endTime: z.string().time(),
+  }
+);
+
+export const insertNonNullGameSessionExceptionSchema = z.object({
+  date: z.string().date(),
+  startTime: z.string().time(),
+  endTime: z.string().time(),
+  locationName: z.string(),
+  locationAddress: z.string(),
+  capacity: z.number(),
+  casualCapacity: z.number(),
+  isDeleted: z.boolean(),
 });

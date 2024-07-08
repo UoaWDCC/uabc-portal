@@ -26,7 +26,11 @@ export async function POST(request: Request) {
     const user = await db.query.users.findFirst({
       where: eq(users.email, email),
     });
-    if (user) return new Response("Email already in use", { status: 400 });
+    if (user)
+      return NextResponse.json(
+        { errors: "Email already in use" },
+        { status: 400, statusText: "Email already in use" }
+      );
 
     const costFactor = 12;
     const hashedPassword = await hash(password, costFactor);
@@ -38,13 +42,14 @@ export async function POST(request: Request) {
       password: hashedPassword,
     });
 
-    return new Response("User registered successfully", { status: 200 });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(error.issues, { status: 400 });
-    } else {
-      console.log(error);
-      return new Response("Internal server error", { status: 500 });
+    return new Response("User registered successfully", {
+      status: 200,
+      statusText: "User registered successfully",
+    });
+  } catch (e) {
+    if (e instanceof z.ZodError) {
+      return NextResponse.json({ errors: e.errors }, { status: 400 });
     }
+    return new Response("Internal server error", { status: 500 });
   }
 }

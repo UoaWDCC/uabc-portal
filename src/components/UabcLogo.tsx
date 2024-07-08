@@ -1,21 +1,26 @@
 import Image from "next/image";
 
-export const UabcLogo = ({ className }: { className?: string }) => (
+interface UabcLogoProps {
+  className?: string;
+  size?: number;
+}
+
+export const UabcLogo = ({ className, size = 250 }: UabcLogoProps) => (
   <div className={className}>
     <Image
       src="/svgs/logo-darkmode.svg"
       alt="uabc logo"
-      className="dark:block hidden"
-      width={250}
-      height={250}
+      className="hidden dark:block"
+      width={size}
+      height={size}
       draggable={false}
     />
     <Image
       src="/svgs/logo.svg"
       alt="uabc logo"
-      className="dark:hidden block"
-      width={250}
-      height={250}
+      className="block dark:hidden"
+      width={size}
+      height={size}
       draggable={false}
     />
   </div>

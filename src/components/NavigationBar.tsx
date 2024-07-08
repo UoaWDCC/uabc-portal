@@ -1,33 +1,42 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { type ReactNode } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 
+import { BackButton } from "@/components/BackButton";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
 
 interface NavigationBarProps {
   title: string;
+  className?: string;
+  children?: ReactNode;
 }
 
-export const NavigationBar = ({ title }: NavigationBarProps) => {
-  const router = useRouter();
-  const handleBackButtonClick = () => {
-    router.back();
-  };
+export const NavigationBar = ({
+  title,
+  className,
+  children,
+}: NavigationBarProps) => {
   return (
-    <div className="flex mt-4 align-middle text-tertiary">
-      <Button
-        variant={"ghost"}
-        className={cn("grid place-items-center mr-4 size-8")}
-        size={"icon"}
-        onClick={handleBackButtonClick}
-      >
-        <IoArrowBackOutline size={24} />
-      </Button>
-      <span className={cn("text-lg font-medium leading-none self-center")}>
-        {title}
-      </span>
+    <div
+      className={cn(
+        "mt-4 flex justify-between align-middle text-tertiary",
+        className
+      )}
+    >
+      <div className="flex">
+        <BackButton
+          variant="ghost"
+          className="mr-4 grid size-8 place-items-center"
+          size="icon"
+        >
+          <IoArrowBackOutline size={24} />
+        </BackButton>
+        <span className="self-center text-lg font-medium leading-none">
+          {title}
+        </span>
+      </div>
+      {children}
     </div>
   );
 };

@@ -3,41 +3,29 @@ import Image from "next/image";
 
 import { PrepaidSessionsCounter } from "@/components/booking/PrepaidSessionsCounter";
 import { Heading } from "@/components/Heading";
-import LogOutButton from "@/components/LogOutButton";
-import { env } from "@/env";
-import { getCurrentUser } from "@/lib/session";
+import { LogOutButton } from "@/components/LogOutButton";
+import type { CurrentUserProps } from "@/lib/hoc/withCurrentUser";
+import withCurrentUser from "@/lib/hoc/withCurrentUser";
+import { getUserFromId } from "@/services/user";
 import ClientSessionPage from "./client-page";
 
-type UserResponse = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  member: boolean;
-  verified: boolean;
-  remainingSessions: number;
+export const metadata = {
+  title: "Book Session - UABC Booking Portal",
 };
 
-const fetchUserInfo = async (id: string): Promise<UserResponse> => {
-  const response = await fetch(`${env.APP_URL}/api/users/${id}`, {
-    cache: "no-store",
-  });
-  return response.json();
-};
+async function SelectSessionPage({ currentUser }: CurrentUserProps) {
+  const user = (await getUserFromId(currentUser.id))!;
+  const prepaidSessionsRemaining = user.remainingSessions;
 
-export default async function SelectSessionPage() {
-  const currentUser = await getCurrentUser();
-
-  const user = await fetchUserInfo(currentUser!.id);
   return (
-    <div className="h-dvh flex flex-col">
-      <div className="flex p-4 items-center justify-between">
+    <div className="flex h-dvh flex-col">
+      <div className="flex items-center justify-between p-4">
         <Heading>Sessions</Heading>
         <LogOutButton />
       </div>
       <div className="flex h-16 items-center justify-between bg-secondary/70 p-4">
         <div className="flex items-center">
-          <span className="pr-1 font-medium">Hey {user.firstName}!</span>
+          <span className="pr-1 font-medium">Hey {user?.firstName}!</span>
           <Image
             src="/images/BadmintonRacketLogo.png"
             alt="Badminton Racket Logo"
@@ -46,11 +34,16 @@ export default async function SelectSessionPage() {
             height={20}
           />
         </div>
-        {user.member && (
+        {user?.member && (
           <PrepaidSessionsCounter remainingSessions={user.remainingSessions} />
         )}
       </div>
-      <ClientSessionPage isMember={user.member} />
+      <ClientSessionPage
+        isMember={user.member!}
+        prepaidSessionsRemaining={prepaidSessionsRemaining}
+      />
     </div>
   );
 }
+
+export default withCurrentUser(SelectSessionPage);

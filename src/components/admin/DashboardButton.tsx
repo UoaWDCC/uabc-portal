@@ -10,7 +10,7 @@ interface DashboardButtonProps {
   className?: string;
 }
 
-export default function DashboardButton({
+export function DashboardButton({
   children,
   href,
   className,
@@ -20,12 +20,12 @@ export default function DashboardButton({
       <Link href={href}>
         <div
           className={cn(
-            "relative h-20 bg-primary text-primary-foreground pl-6 pr-16 flex items-center text-lg font-medium rounded-sm gap-4",
-            className,
+            "relative flex h-20 items-center gap-4 rounded-sm bg-primary pl-6 pr-16 text-lg font-medium text-primary-foreground",
+            className
           )}
         >
           {children}
-          <ArrowRight className="absolute right-4 bottom-6 fill-primary-foreground" />
+          <ArrowRight className="absolute bottom-6 right-4 fill-primary-foreground" />
         </div>
       </Link>
     </>

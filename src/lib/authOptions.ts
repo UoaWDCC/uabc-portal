@@ -16,7 +16,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/login",
     signOut: "/auth/signout",
-    newUser: "/onboard/name",
+    newUser: "/onboarding/name",
   },
   providers: [
     GoogleProvider({
@@ -45,7 +45,7 @@ export const authOptions: NextAuthOptions = {
 
         const isValid = await compare(
           credentials?.password ?? "",
-          user.password!,
+          user.password!
         );
 
         if (isValid) {

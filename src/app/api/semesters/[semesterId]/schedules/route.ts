@@ -10,7 +10,7 @@ import { insertGameSessionScheduleSchema } from "@/lib/validators";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { semesterId: number } },
+  { params }: { params: { semesterId: number } }
 ) {
   try {
     const { semesterId } = params;
@@ -27,7 +27,7 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { semesterId: number } },
+  { params }: { params: { semesterId: number } }
 ) {
   try {
     const user = await getCurrentUser();
@@ -43,6 +43,15 @@ export async function POST(
       semesterId: semesterId,
     });
 
+    if (newGameSession.casualCapacity > newGameSession.capacity) {
+      return new Response(
+        "Casual capacity must be less than or equal to capacity",
+        {
+          status: 400,
+        }
+      );
+    }
+
     if (newGameSession.startTime >= newGameSession.endTime) {
       return new Response("Start time must be before end time", {
         status: 400,
@@ -54,9 +63,9 @@ export async function POST(
       .values(newGameSession)
       .returning();
     return NextResponse.json(session, { status: 201 });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return NextResponse.json((err as z.ZodError).issues, { status: 400 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
     return new Response("Internal Server Error", { status: 500 });
   }
