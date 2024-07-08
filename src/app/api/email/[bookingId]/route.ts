@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { client, createSendEmailCommand } from "@/email";
 import { EmailTemplate } from "@/email/templates/BasicEmailTemplate";
+import { env } from "@/env";
 import { getCurrentUser } from "@/lib/session";
 import { getBookingBySqid } from "@/services/booking";
 
@@ -22,7 +23,7 @@ export async function GET(
     );
 
     const sendEmailCommand = createSendEmailCommand({
-      toAddress: "user@test.com",
+      toAddress: env.SENDER_EMAIL_ADDRESS,
       template: EmailTemplate(!!currentUser!.member, sessions),
     });
 
