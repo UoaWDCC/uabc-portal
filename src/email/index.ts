@@ -5,8 +5,8 @@ import { env } from "@/env";
 
 const SES_CONFIG = {
   credentials: {
-    accessKeyId: env.ACCESS_KEY,
-    secretAccessKey: env.SECRET_ACCESS_KEY,
+    accessKeyId: env.SES_ACCESS_KEY,
+    secretAccessKey: env.SES_SECRET_ACCESS_KEY,
   },
   region: env.AWS_REGION,
 };

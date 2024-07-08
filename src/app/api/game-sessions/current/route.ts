@@ -4,9 +4,8 @@ import { and, asc, gt, lt, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { bookingDetails, gameSessions } from "@/lib/db/schema";
 
-/**
- * Gets game sessions currently available for booking
- */
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const sessions = await db
