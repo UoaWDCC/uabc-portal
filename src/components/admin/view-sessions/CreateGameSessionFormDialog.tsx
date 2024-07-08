@@ -47,6 +47,11 @@ export function CreateGameSessionFormDialog({
       date,
       startTime: `${data.startTime}:00`,
       endTime: `${data.endTime}:00`,
+      bookingOpen: bookingOpen!,
+      bookingClose: format(
+        parse(data.startTime, "HH:mm", date),
+        "yyyy-MM-dd HH:mm:ss"
+      ),
     });
     mutate(body, {
       onSuccess: () => {
@@ -83,7 +88,7 @@ export function CreateGameSessionFormDialog({
           <TextInput
             label="Booking Open"
             type="text"
-            value={format(new Date(bookingOpen!), "dd/MM/yy hh:mma")}
+            value={format(bookingOpen!, "dd/MM/yy hh:mma")}
             disabled
             readOnly
           />
@@ -93,7 +98,7 @@ export function CreateGameSessionFormDialog({
             value={
               watch("startTime") &&
               format(
-                parse(watch("startTime"), "HH:mm", new Date(date)),
+                parse(watch("startTime"), "HH:mm", date),
                 "dd/MM/yy hh:mma"
               )
             }

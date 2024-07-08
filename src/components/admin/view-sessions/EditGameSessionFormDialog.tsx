@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogContent } from "@radix-ui/react-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format, getMonth, getYear, parse } from "date-fns";
 import { useForm } from "react-hook-form";
@@ -7,6 +6,7 @@ import type { z } from "zod";
 
 import { TextInput } from "@/components/TextInput";
 import {
+  DialogContent,
   DialogHeader,
   DialogTitle,
   useDialogContext,
@@ -98,7 +98,7 @@ export default function EditGameSessionFormDialog() {
           <TextInput
             label="Booking Open"
             type="text"
-            value={format(new Date(bookingOpen!), "dd/MM/yy hh:mma")}
+            value={format(bookingOpen!, "dd/MM/yy hh:mma")}
             readOnly
             disabled
           />
@@ -108,7 +108,7 @@ export default function EditGameSessionFormDialog() {
             value={
               watch("startTime")
                 ? format(
-                    parse(watch("startTime"), "HH:mm", new Date(date)),
+                    parse(watch("startTime"), "HH:mm", date),
                     "dd/MM/yy hh:mma"
                   )
                 : format(new Date(bookingClose!), "dd/MM/yy hh:mma")

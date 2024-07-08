@@ -25,13 +25,6 @@ export function EmptyAdminViewSessionCard() {
         variant: "destructive",
       });
     }
-    if (isPast(date)) {
-      toast({
-        title: "Date is in the past",
-        description: "You can't create game sessions for dates in the past.",
-        variant: "destructive",
-      });
-    }
   }
 
   return (
@@ -39,12 +32,12 @@ export function EmptyAdminViewSessionCard() {
       className="flex flex-col gap-4 border p-4 text-tertiary/70"
       variant="card"
     >
-      <div className="grid grow place-content-center text-center text-lg font-medium">
+      <div className="grid grow select-none place-content-center text-center text-lg font-medium">
         No sessions found on <br />
         {formatTitle(date)}
       </div>
       <Dialog open={open} onOpenChange={() => setOpen(!open)}>
-        <DialogTrigger asChild>
+        <DialogTrigger asChild disabled={isPast(date)}>
           <Button
             className="w-full border font-semibold"
             variant={"ghost"}
@@ -53,7 +46,7 @@ export function EmptyAdminViewSessionCard() {
             Create session
           </Button>
         </DialogTrigger>
-        {canCreate && !isPast(date) && (
+        {canCreate && (
           <CreateGameSessionFormDialog onSuccess={() => setOpen(false)} />
         )}
       </Dialog>

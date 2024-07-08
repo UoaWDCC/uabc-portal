@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { use, useCallback, useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { addMonths, format, isToday, parse, subMonths } from "date-fns";
+import { z } from "zod";
 
 import { AdminViewSessionCard } from "@/components/admin/view-sessions/AdminViewSessionCard";
 import { EmptyAdminViewSessionCard } from "@/components/admin/view-sessions/EmptyAdminViewSessionCard";
@@ -16,14 +18,32 @@ import {
 import { useGameSession } from "@/hooks/query/useGameSession";
 import { cn, convertTo12HourFormat } from "@/lib/utils";
 
+const searchParamsSchema = z.object({
+  date: z
+    .string()
+    .optional()
+    .transform((val) => {
+      if (!val) return new Date();
+      return new Date(val);
+    }),
+});
+
 export default function ClientViewSessionsPage() {
-  const [date, setDate] = useState<Date>(new Date());
+  const router = useRouter();
+
+  const pathname = usePathname();
+
+  const searchParams = useSearchParams();
+
+  const { date } = useMemo(() => {
+    return searchParamsSchema.parse(Object.fromEntries(searchParams));
+  }, [searchParams]);
 
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useGameSession(format(date, "yyyy-MM-dd"));
 
-  const [monthDate, setMonth] = useState(new Date());
+  const [monthDate, setMonth] = useState(date);
 
   const { data: activeDates } = useActiveDates(monthDate);
 
@@ -31,6 +51,10 @@ export default function ClientViewSessionsPage() {
     prefetchActiveDates(subMonths(monthDate, 1), queryClient);
     prefetchActiveDates(addMonths(monthDate, 1), queryClient);
   }, [monthDate, queryClient]);
+
+  function setDate(date: Date) {
+    router.replace(pathname + "?date=" + format(date, "yyyy-MM-dd"));
+  }
 
   function getSessionState(date: Date) {
     const now = new Date();
@@ -43,8 +67,10 @@ export default function ClientViewSessionsPage() {
     return "ongoing";
   }
 
-  const datesWithSessions: Date[] =
-    activeDates?.map((date) => new Date(date)) ?? [];
+  const datesWithSessions = useMemo(
+    () => activeDates?.map((date) => new Date(date)) ?? [],
+    [activeDates]
+  );
 
   return (
     <div className="my-4 flex grow flex-col items-center justify-center gap-y-6">
@@ -76,6 +102,7 @@ export default function ClientViewSessionsPage() {
         selected={date}
         onSelect={(date) => setDate(date ?? new Date())}
         onMonthChange={setMonth}
+        month={monthDate}
         required
       />
       <GameSessionProvider

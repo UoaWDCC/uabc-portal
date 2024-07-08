@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { parse } from "date-fns";
+import { addDays, parse } from "date-fns";
 import { fromZonedTime } from "date-fns-tz";
 import { and, eq, gt, gte, lt, lte, or, sql } from "drizzle-orm";
 import z from "zod";
@@ -17,6 +17,7 @@ import { getCurrentUser } from "@/lib/session";
 import { formatInNZST, getWeekday } from "@/lib/utils";
 import {
   insertGameSessionExceptionSchema,
+  insertGameSessionSchema,
   insertNonNullGameSessionExceptionSchema,
   updateGameSessionSchema,
 } from "@/lib/validators";
@@ -252,9 +253,11 @@ export async function POST(req: NextRequest) {
       return new Response("ERROR: No valid permissions", { status: 403 });
     }
 
+    const body = await req.json();
+
     const gameSessionExceptionToInsert =
       insertNonNullGameSessionExceptionSchema.parse({
-        ...(await req.json()),
+        ...body,
         isDeleted: false,
       });
 
@@ -291,6 +294,14 @@ export async function POST(req: NextRequest) {
       return new Response("A game session already exists for this date", {
         status: 400,
       });
+    }
+
+    if (new Date(gameSessionDate) < addDays(new Date(), 7)) {
+      const gameSessionToInsert = insertGameSessionSchema.parse(body);
+
+      await db.insert(gameSessions).values(gameSessionToInsert);
+
+      return NextResponse.json(gameSessionToInsert, { status: 201 });
     }
 
     // Check for a schedule on this weekday

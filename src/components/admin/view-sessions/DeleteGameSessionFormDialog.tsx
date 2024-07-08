@@ -1,8 +1,12 @@
-import { DialogContent, DialogTitle } from "@radix-ui/react-dialog";
 import { useQueryClient } from "@tanstack/react-query";
 import { getMonth, getYear } from "date-fns";
 
-import { DialogHeader, useDialogContext } from "@/components/ui/dialog";
+import {
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  useDialogContext,
+} from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { useDeleteGameSessionMutation } from "@/hooks/mutations/game-sessions";
