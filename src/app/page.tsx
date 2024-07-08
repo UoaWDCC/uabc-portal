@@ -7,12 +7,9 @@ import { Button } from "@/components/ui/button";
 export default function HomePage() {
   return (
     <div className="grid min-h-dvh place-items-center">
-      <Card
-        variant="card"
-        className="relative flex h-1/2 w-2/3 justify-between p-6"
-      >
-        <div className="flex h-full w-1/2 flex-col justify-between">
-          <div className="flex flex-col gap-4">
+      <Card variant="card" className="relative flex w-2/3 justify-between p-6">
+        <div className="flex h-full w-1/2 flex-col justify-between gap-4">
+          <div className="flex flex-col gap-6">
             <h1 className="mb-4 text-4xl font-bold">UABC Booking Portal</h1>
             <p>🏸 Welcome to the UABC Booking Portal 🏸</p>
             <p>
