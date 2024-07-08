@@ -144,7 +144,7 @@ export async function POST(request: Request) {
                   AND
                   (SELECT COUNT(*) 
                     FROM ${bookingDetails} 
-                    WHERE ${bookingDetails.isMember} = FALSE) < ${gameSession?.casualCapacity}
+                    WHERE (${bookingDetails.gameSessionId} = ${session.gameSessionId}) AND (${bookingDetails.isMember} = FALSE)) < ${gameSession?.casualCapacity}
               END)
               RETURNING *;
               `

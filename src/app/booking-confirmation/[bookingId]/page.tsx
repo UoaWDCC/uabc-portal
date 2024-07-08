@@ -10,6 +10,7 @@ import type { CurrentUserProps } from "@/lib/hoc/withCurrentUser";
 import withCurrentUser from "@/lib/hoc/withCurrentUser";
 import { convertTo12HourFormat, getWeekday } from "@/lib/utils";
 import { getBookingBySqid } from "@/services/booking";
+import { sendBookingConfirmationEmail } from "@/services/bookingConfirmationEmail";
 
 export const metadata = {
   title: "Booking Confirmation - UABC Booking Portal",
@@ -28,6 +29,8 @@ async function ConfirmationPage({
   const sessions = booking.bookingDetails.map(
     (bookingDetail) => bookingDetail.gameSession
   );
+
+  await sendBookingConfirmationEmail(params.bookingId);
 
   return (
     <div className="flex min-h-dvh flex-col">
