@@ -6,6 +6,7 @@ import { generateMockOnboardingUser } from "./utils/mock";
 test.beforeEach(async ({ page }) => {
   const user = generateMockOnboardingUser();
   await signUpAndLogin(page, user.email, user.password);
+  await page.goto("/sessions");
 });
 
 test.afterEach(async ({ page }) => {

@@ -20,6 +20,8 @@ import {
 import { getCurrentUser } from "@/lib/session";
 import { getWeekday } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 const searchParamSchema = z.object({
   "start-date": z.string().date(),
   "end-date": z.string().date(),
