@@ -16,16 +16,22 @@ import { useCartStore } from "@/stores/useCartStore";
 
 interface ClientSessionPageProps {
   isMember: boolean;
+  prepaidSessionsRemaining: number;
 }
 
 export default function ClientSessionPage({
   isMember,
+  prepaidSessionsRemaining,
 }: ClientSessionPageProps) {
   const { push } = useRouter();
 
   const sessionsSelected = useCartStore((state) => state.cart.length);
   const [shake, setShake] = useState(false);
-  const maxSessions = isMember ? MEMBER_MAX_SESSIONS : NON_MEMBER_MAX_SESSIONS;
+  const memberMaxSessions = Math.min(
+    prepaidSessionsRemaining,
+    MEMBER_MAX_SESSIONS
+  );
+  const maxSessions = isMember ? memberMaxSessions : NON_MEMBER_MAX_SESSIONS;
 
   return (
     <>
@@ -48,6 +54,7 @@ export default function ClientSessionPage({
       <SelectSessionList
         onLimitReached={() => setShake(true)}
         isMember={isMember}
+        maxSessions={maxSessions}
         className="mx-4 grow"
       />
 

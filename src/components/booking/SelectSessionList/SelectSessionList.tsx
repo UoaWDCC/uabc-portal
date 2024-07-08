@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
+import { useToast } from "@/components/ui/use-toast";
 import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
 import { cn, convertTo12HourFormat, getWeekday } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
@@ -11,19 +12,20 @@ import SkeletonSelectSessionCard from "./SkeletonSessionCard";
 interface SelectSessionListProps {
   isMember: boolean;
   onLimitReached: () => void;
+  maxSessions: number;
   className?: string;
 }
 
 export function SelectSessionList({
   onLimitReached,
   isMember,
+  maxSessions,
   className,
 }: SelectSessionListProps) {
   const { data, isLoading } = useCurrentGameSessions();
-  const maxSessions: number = isMember ? 2 : 1;
   const cart = useCartStore((state) => state.cart);
   const updateCart = useCartStore((state) => state.updateCart);
-  const sessionsSelected = cart.length;
+  const { toast } = useToast();
 
   const sessions = useMemo(
     () =>
@@ -43,10 +45,25 @@ export function SelectSessionList({
     [data, isMember]
   );
 
+  useEffect(() => {
+    if (sessions) {
+      const updatedCart = cart.filter((cartSession) => {
+        const session = sessions.find(
+          (session) => session.id === cartSession.id
+        );
+        return session && !session.isFull;
+      });
+
+      if (updatedCart.length !== cart.length) {
+        updateCart(updatedCart);
+      }
+    }
+  }, [sessions]);
+
   function handleSessionClick(id: number) {
     const isInCart = cart.some((session) => session.id === id);
 
-    if (!isInCart && sessionsSelected >= maxSessions) {
+    if (!isInCart && cart.length >= maxSessions) {
       onLimitReached();
     } else if (isInCart) {
       updateCart(cart.filter((session) => session.id !== id));

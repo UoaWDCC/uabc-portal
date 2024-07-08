@@ -18,7 +18,7 @@ const fetchPendingMembers = async (): Promise<PendingMemberResponse[]> => {
 
 export const usePendingMembers = () => {
   const query = useQuery({
-    queryKey: [QUERY_KEY.PendingMembers],
+    queryKey: [QUERY_KEY.PENDING_MEMBERS],
     queryFn: fetchPendingMembers,
   });
 

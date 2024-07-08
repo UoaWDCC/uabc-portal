@@ -6,6 +6,7 @@ import { redirect, useRouter } from "next/navigation";
 import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
 import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { useCartStore } from "@/stores/useCartStore";
 
 export default function BookSessionPage() {
@@ -13,6 +14,7 @@ export default function BookSessionPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const cart = useCartStore((state) => state.cart);
+  const { toast } = useToast();
 
   const sortedSessions = useMemo(() => {
     return [...cart].sort((a, b) => {
@@ -53,11 +55,23 @@ export default function BookSessionPage() {
       if (response.ok) {
         const { id } = await response.json();
         router.push(`/booking-confirmation/${id}`);
+      } else if (response.status === 409) {
+        toast({
+          title: "Something went wrong.",
+          description:
+            "A session has become full. Please select another session.",
+        });
+        router.push("/sessions");
       } else {
         throw new Error("Failed to confirm booking");
       }
     } catch (error) {
       console.error("Error while confirming booking:", error);
+      toast({
+        title: "Something went wrong.",
+        description:
+          "An error occurred while confirming your booking. Please try again.",
+      });
       router.push("/sessions");
     } finally {
       setIsSubmitting(false);
@@ -82,7 +96,7 @@ export default function BookSessionPage() {
         <Button
           className="w-full self-end"
           onClick={handleConfirmButtonClick}
-          disabled={!isPlayLevelSelected || isSubmitting} // disable button when submitting data
+          disabled={!isPlayLevelSelected || isSubmitting}
         >
           Confirm
         </Button>

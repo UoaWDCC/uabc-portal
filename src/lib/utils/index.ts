@@ -25,7 +25,7 @@ export function formatFullDate(date: Date | string) {
  * Converts from military Time to 12-hour format
  */
 export function convertTo12HourFormat(militaryTime: string): string {
-  return format(parse(militaryTime, "HH:mm:ss", new Date()), "HH:mma");
+  return format(parse(militaryTime, "HH:mm:ss", new Date()), "h:mma");
 }
 
 /**

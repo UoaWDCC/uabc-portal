@@ -3,16 +3,19 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
-import { useOptionsDialogContext } from "@/components/ui/optionsPopover/OptionsPopover";
 import {
-  DialogCard,
-  DialogCardFooter,
-} from "@/components/ui/utils/DialogUtils";
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  useDialogContext,
+} from "@/components/ui/dialog";
+import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
 import { TextInput } from "../../TextInput";
 import { useToast } from "../../ui/use-toast";
 import { useSemesterContext } from "./SemestersContext";
 
+// Schema
 const formSchema = z
   .object({
     startDate: z
@@ -33,15 +36,15 @@ const formSchema = z
       .refine(validateDate, "Invalid date"),
   })
   .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
-    message: "Start date must be less than break start date",
+    message: "Start date must be before break start date",
     path: ["startDate"],
   })
   .refine((data) => compareDate(data.breakStart, data.breakEnd) < 0, {
-    message: "Break start date start must be less than break end date",
+    message: "Break start date start must be before break end date",
     path: ["breakStart"],
   })
   .refine((data) => compareDate(data.breakEnd, data.endDate) < 0, {
-    message: "Break end date must be less than end date",
+    message: "Break end date must be before end date",
     path: ["breakEnd"],
   });
 
@@ -57,7 +60,7 @@ export const SemesterEditDialogue = () => {
     bookingOpenDay,
     bookingOpenTime,
   } = useSemesterContext();
-  const { handleClose: closeDialog } = useOptionsDialogContext();
+  const { handleClose: closeDialog } = useDialogContext();
 
   // Hook-forms
   const {
@@ -77,7 +80,6 @@ export const SemesterEditDialogue = () => {
 
   const { toast } = useToast();
 
-  // React-query
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (body: BodyInit) => {
@@ -90,8 +92,9 @@ export const SemesterEditDialogue = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "An error occurred");
+        await response.text().then((text) => {
+          throw new Error(text || "An error has occurred");
+        });
       }
       return response.json();
     },
@@ -135,9 +138,12 @@ export const SemesterEditDialogue = () => {
   };
 
   return (
-    <DialogCard title={name} onClose={() => reset()}>
+    <DialogContent onCloseAutoFocus={() => reset()}>
+      <DialogHeader>
+        <DialogTitle>Edit {name}</DialogTitle>
+      </DialogHeader>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex gap-2 *:grow ">
+        <div className="flex gap-2 *:grow">
           <TextInput
             label="Start date"
             type="text"
@@ -173,8 +179,12 @@ export const SemesterEditDialogue = () => {
             autoComplete="off"
           />
         </div>
-        <DialogCardFooter type="submit" />
+        <DialogButtonsFooter
+          type="submit"
+          primaryText="Update"
+          isPending={mutation.isPending}
+        />
       </form>
-    </DialogCard>
+    </DialogContent>
   );
 };

@@ -46,7 +46,7 @@ async function ConfirmationPage({
           member={currentUser.member!}
           email={currentUser.email}
         />
-        <Link href="/" className={buttonVariants({ variant: "ghost" })}>
+        <Link href="/sessions" className={buttonVariants({ variant: "ghost" })}>
           Return Home
         </Link>
       </div>

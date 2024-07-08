@@ -1,11 +1,9 @@
-"use client";
-
 import { memo } from "react";
 import Link from "next/link";
 
 import { Card } from "@/components/Card";
-import { OptionButtonUtils } from "@/components/ui/optionsPopover/OptionsButtonUtils";
-import { OptionsPopover } from "@/components/ui/optionsPopover/OptionsPopover";
+import { OptionButtonUtils } from "@/components/ui/options-popover/OptionsButtonUtils";
+import { OptionsPopover } from "@/components/ui/options-popover/OptionsPopover";
 import { SemesterDeleteDialog } from "./SemesterDeleteDialog";
 import { SemesterEditDialogue } from "./SemesterEditDialog";
 import { useSemesterContext } from "./SemestersContext";
@@ -14,7 +12,7 @@ const UnmemoizedSemesterDetailCard = () => {
   const { id, name, startDate, endDate, breakStart, breakEnd } =
     useSemesterContext();
   return (
-    <Card className=" relative select-none bg-secondary/20 text-sm font-medium tracking-tight text-tertiary ring-1 ring-secondary">
+    <Card className="relative select-none bg-secondary/20 text-sm font-medium tracking-tight text-tertiary ring-1 ring-secondary">
       <Link
         href={`semesters/${id}`}
         className="absolute left-0 top-0 z-10 h-full w-full"
@@ -23,12 +21,12 @@ const UnmemoizedSemesterDetailCard = () => {
         <h3 className="truncate text-lg text-foreground">{name}</h3>
         <OptionsPopover>
           <OptionsPopover.DialogItem
-            ButtonElement={<OptionButtonUtils type="edit" />}
-            DialogElement={<SemesterEditDialogue />}
+            ButtonComponent={<OptionButtonUtils type="edit" />}
+            DialogComponent={<SemesterEditDialogue />}
           />
           <OptionsPopover.DialogItem
-            ButtonElement={<OptionButtonUtils type="delete" />}
-            DialogElement={<SemesterDeleteDialog />}
+            ButtonComponent={<OptionButtonUtils type="delete" />}
+            DialogComponent={<SemesterDeleteDialog />}
           />
         </OptionsPopover>
       </div>

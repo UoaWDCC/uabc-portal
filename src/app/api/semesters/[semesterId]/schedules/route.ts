@@ -43,6 +43,15 @@ export async function POST(
       semesterId: semesterId,
     });
 
+    if (newGameSession.casualCapacity > newGameSession.capacity) {
+      return new Response(
+        "Casual capacity must be less than or equal to capacity",
+        {
+          status: 400,
+        }
+      );
+    }
+
     if (newGameSession.startTime >= newGameSession.endTime) {
       return new Response("Start time must be before end time", {
         status: 400,
