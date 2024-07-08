@@ -21,6 +21,8 @@ async function ConfirmationPage({
 }: CurrentUserProps & { params: { bookingId: string } }) {
   const booking = await getBookingBySqid(params.bookingId);
 
+  console.log(booking);
+
   if (!booking || booking.userId !== currentUser.id) {
     notFound();
   }
@@ -28,6 +30,8 @@ async function ConfirmationPage({
   const sessions = booking.bookingDetails.map(
     (bookingDetail) => bookingDetail.gameSession
   );
+
+  console.log(sessions);
 
   return (
     <div className="flex min-h-dvh flex-col">
