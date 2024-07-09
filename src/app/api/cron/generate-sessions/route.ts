@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import {
@@ -10,6 +11,7 @@ import {
 import { toZonedTime } from "date-fns-tz";
 import { and, eq, gte, lte } from "drizzle-orm";
 
+import { env } from "@/env";
 import { db } from "@/lib/db";
 import {
   gameSessionExceptions,
@@ -27,6 +29,13 @@ import { insertGameSessionSchema } from "@/lib/validators";
 
 export async function POST(_req: NextRequest) {
   try {
+    const headersList = headers();
+    const apiKey = headersList.get("x-api-key");
+
+    if (!apiKey || apiKey !== env.CRON_SECRET) {
+      return NextResponse.json("Missing or invalid API key", { status: 401 });
+    }
+
     // get current time standardised to NZ time
     const now = toZonedTime(Date.now(), "Pacific/Auckland");
 
