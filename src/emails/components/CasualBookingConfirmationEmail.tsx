@@ -1,8 +1,10 @@
 import React from "react";
-import { Body, Html, Tailwind, Text } from "@react-email/components";
+import { Text } from "@react-email/components";
 
 import { convertTo12HourFormat, formatFullDate } from "@/lib/utils";
-import { config } from "./tailwind-config";
+import EmailLayout from "./EmailLayout";
+
+import "./tailwind-config";
 
 interface BookingDetail {
   id: number;
@@ -24,56 +26,51 @@ export default function CasualBookingConfirmationEmail({
   bookingDetail,
 }: CasualBookingConfirmationEmailProps) {
   return (
-    <Html lang="en">
-      <Tailwind config={config}>
-        <Body className="font-sans text-sm">
-          <Text>Hi {firstName},</Text>
-          <Text>
-            Great news! Your badminton session booking with the University of
-            Auckland Badminton Club is confirmed.
-          </Text>
-          <Text>Here are the details for your upcoming session:</Text>
-          <Text className="mb-0 font-semibold">
-            {formatFullDate(bookingDetail.date)}
-          </Text>
-          <ul className="my-0">
-            <li>
-              Time: {convertTo12HourFormat(bookingDetail.startTime)} -{" "}
-              {convertTo12HourFormat(bookingDetail.endTime)}
-            </li>
-            <li>
-              Venue: {bookingDetail.locationName} (
-              {bookingDetail.locationAddress}){" "}
-            </li>
-          </ul>
+    <EmailLayout>
+      <Text>Hi {firstName},</Text>
+      <Text>
+        Great news! Your badminton session booking with the University of
+        Auckland Badminton Club is confirmed.
+      </Text>
+      <Text>Here are the details for your upcoming session:</Text>
+      <Text className="mb-0 font-semibold">
+        {formatFullDate(bookingDetail.date)}
+      </Text>
+      <ul className="my-0">
+        <li>
+          Time: {convertTo12HourFormat(bookingDetail.startTime)} -{" "}
+          {convertTo12HourFormat(bookingDetail.endTime)}
+        </li>
+        <li>
+          Venue: {bookingDetail.locationName} ({bookingDetail.locationAddress}){" "}
+        </li>
+      </ul>
 
-          <Text>
-            Please transfer $8 to the following bank account, reply to this
-            email with a screenshot of payment before attending the season.
-          </Text>
-          <Text>
-            Bank Details:
-            <br />
-            Name: Auckland University Badminton Club
-            <br />
-            Account Number: 12-3050-0485708-00
-          </Text>
-          <Text>
-            Particular: UABCS1
-            <br />
-            Code: First Name
-            <br />
-            Reference: Last Name
-          </Text>
-          <Text>We&apos;ll see you on the courts! &#127992;</Text>
-          <Text>
-            Best Regards,
-            <br />
-            The UABC Team
-          </Text>
-        </Body>
-      </Tailwind>
-    </Html>
+      <Text>
+        Please transfer $8 to the following bank account, reply to this email
+        with a screenshot of payment before attending the season.
+      </Text>
+      <Text>
+        Bank Details:
+        <br />
+        Name: Auckland University Badminton Club
+        <br />
+        Account Number: 12-3050-0485708-00
+      </Text>
+      <Text>
+        Particular: UABCS1
+        <br />
+        Code: First Name
+        <br />
+        Reference: Last Name
+      </Text>
+      <Text>We&apos;ll see you on the courts! &#127992;</Text>
+      <Text>
+        Best Regards,
+        <br />
+        The UABC Team
+      </Text>
+    </EmailLayout>
   );
 }
 

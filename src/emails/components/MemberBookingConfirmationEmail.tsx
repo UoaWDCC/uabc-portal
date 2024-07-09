@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  Body,
-  Container,
-  Head,
-  Html,
-  Section,
-  Tailwind,
-  Text,
-} from "@react-email/components";
+import { Text } from "@react-email/components";
 
-import { convertTo12HourFormat, formatFullDate, getWeekday } from "@/lib/utils";
+import { convertTo12HourFormat, formatFullDate } from "@/lib/utils";
+import EmailLayout from "./EmailLayout";
 
 interface BookingDetail {
   id: number;
@@ -32,47 +25,42 @@ export default function MemberBookingConfirmationEmail({
 }: MemberBookingConfirmationEmailProps) {
   const plural = bookingDetails.length > 1;
   return (
-    <Html lang="en">
-      <Tailwind>
-        <Body className="font-sans text-sm">
-          <Text>Hi {firstName},</Text>
-          <Text>
-            Great news! Your badminton session booking{plural && "s"} with the
-            University of Auckland Badminton Club {plural ? "are" : "is"}{" "}
-            confirmed.
-          </Text>
+    <EmailLayout>
+      <Text>Hi {firstName},</Text>
+      <Text>
+        Great news! Your badminton session booking{plural && "s"} with the
+        University of Auckland Badminton Club {plural ? "are" : "is"} confirmed.
+      </Text>
 
-          <Text>
-            Here are the details for your upcoming session{plural && "s"}:
-          </Text>
+      <Text>
+        Here are the details for your upcoming session{plural && "s"}:
+      </Text>
 
-          {bookingDetails.map((bookingDetail) => (
-            <div key={bookingDetail.id}>
-              <Text className="mb-0 font-semibold">
-                {formatFullDate(bookingDetail.date)}
-              </Text>
-              <ul className="my-0">
-                <li key="time">
-                  Time: {convertTo12HourFormat(bookingDetail.startTime)} -{" "}
-                  {convertTo12HourFormat(bookingDetail.endTime)}
-                </li>
-                <li key="venue">
-                  Venue: {bookingDetail.locationName} (
-                  {bookingDetail.locationAddress}){" "}
-                </li>
-              </ul>
-            </div>
-          ))}
-
-          <Text>We&apos;ll see you on the courts! &#127992;</Text>
-          <Text>
-            Best Regards,
-            <br />
-            The UABC Team
+      {bookingDetails.map((bookingDetail) => (
+        <div key={bookingDetail.id}>
+          <Text className="mb-0 font-semibold">
+            {formatFullDate(bookingDetail.date)}
           </Text>
-        </Body>
-      </Tailwind>
-    </Html>
+          <ul className="my-0">
+            <li key="time">
+              Time: {convertTo12HourFormat(bookingDetail.startTime)} -{" "}
+              {convertTo12HourFormat(bookingDetail.endTime)}
+            </li>
+            <li key="venue">
+              Venue: {bookingDetail.locationName} (
+              {bookingDetail.locationAddress}){" "}
+            </li>
+          </ul>
+        </div>
+      ))}
+
+      <Text>We&apos;ll see you on the courts! &#127992;</Text>
+      <Text>
+        Best Regards,
+        <br />
+        The UABC Team
+      </Text>
+    </EmailLayout>
   );
 }
 

@@ -10,7 +10,7 @@
     "test": "jest",
     "test:e2e": "playwright test",
     "test:watch": "jest --watch",
-    "email": "email dev -d ./src -p 1234",
+    "email": "email dev -d ./src/emails -p 1234",
     "lint": "next lint",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
