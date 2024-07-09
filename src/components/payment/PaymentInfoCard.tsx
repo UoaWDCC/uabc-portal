@@ -21,7 +21,7 @@ export const PaymentInfoCard = ({
     <Card
       className={cn(
         "bg-[#3767af] p-8 pt-12 text-center text-white shadow-xl",
-        className,
+        className
       )}
     >
       <p className="text-xs text-[#AFCFFF]">Your total for this session:</p>

@@ -60,7 +60,7 @@ export default function ClientViewSessionsPage() {
   }
 
   function getSessionState(
-    date: Date,
+    date: string | Date,
     startTimeString: string,
     endTimeString: string
   ) {
