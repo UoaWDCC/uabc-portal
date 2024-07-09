@@ -80,7 +80,7 @@ export async function GET(req: NextRequest) {
 
     if (existingGameSession) {
       const [{ attendees }] = await db
-        .select({ attendees: sql<number>`count(*)` })
+        .select({ attendees: sql<number>`count(*)`.mapWith(Number) })
         .from(bookingDetails)
         .innerJoin(
           gameSessions,

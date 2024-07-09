@@ -110,7 +110,7 @@ export function AdminViewSessionCard({
       </div>
       <Button
         className="w-full font-semibold"
-        disabled={state === "upcoming"}
+        disabled={attendees === 0}
         onClick={handleButtonClick}
       >
         Download attendees list
