@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { and, count, eq, sql, TransactionRollbackError } from "drizzle-orm";
 import { z } from "zod";
 
+import { sendBookingConfirmationEmail } from "@/emails";
 import { db } from "@/lib/db";
 import { bookingDetails, bookings, gameSessions, users } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
@@ -30,8 +31,8 @@ export async function POST(request: Request) {
       return new Response("Unauthorized request", { status: 401 });
 
     // parse the input array of objects and check if the user has enough sessions
-    const json = bookingSchema.parse(await request.json());
-    const numOfSessions = json.length;
+    const body = bookingSchema.parse(await request.json());
+    const numOfSessions = body.length;
 
     if (numOfSessions === 0)
       return new Response("Must book at least one session", {
@@ -70,11 +71,11 @@ export async function POST(request: Request) {
     }
 
     // check if there are duplicate game session ids in the request
-    if (numOfSessions == 2 && json[0].gameSessionId == json[1].gameSessionId) {
+    if (numOfSessions == 2 && body[0].gameSessionId == body[1].gameSessionId) {
       return new Response("Duplicate game session ids", { status: 400 });
     }
 
-    for (const session of json) {
+    for (const session of body) {
       // check if there is already a booking for the user in the game session
       const [existingBooking] = await db
         .select()
@@ -120,10 +121,11 @@ export async function POST(request: Request) {
         })
         .returning({ bookingId: bookings.id });
 
-      for (const session of json) {
+      for (const session of body) {
         const gameSession = await tx.query.gameSessions.findFirst({
           where: eq(gameSessions.id, session.gameSessionId),
         });
+
         await tx.execute(
           sql`SELECT * FROM ${gameSessions} WHERE ${gameSessions.id} = ${session.gameSessionId} FOR UPDATE;`
         );
@@ -169,7 +171,11 @@ export async function POST(request: Request) {
       return bookingId;
     });
 
-    return NextResponse.json({ id: obfuscateId(bookingId) }, { status: 201 });
+    const obfuscatedBookingId = obfuscateId(bookingId);
+
+    await sendBookingConfirmationEmail(currentUser, obfuscatedBookingId);
+
+    return NextResponse.json({ id: obfuscatedBookingId }, { status: 201 });
   } catch (error) {
     if (error instanceof TransactionRollbackError) {
       return new Response("Game session at max capacity", { status: 409 });

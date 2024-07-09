@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import { z } from "zod";
 
 export const gameSessionFormSchema = z
@@ -31,6 +30,3 @@ export const gameSessionFormSchema = z
       path: ["casualCapacity"],
     }
   );
-
-export const formatTitle = (date: string | Date) =>
-  format(new Date(date), "eeee do MMMM yyyy");

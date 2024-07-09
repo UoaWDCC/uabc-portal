@@ -14,9 +14,10 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { useEditGameSessionMutation } from "@/hooks/mutations/game-sessions";
+import { formatFullDate } from "@/lib/utils";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useGameSessionContext } from "./GameSessionContext";
-import { formatTitle, gameSessionFormSchema } from "./utils";
+import { gameSessionFormSchema } from "./utils";
 
 export default function EditGameSessionFormDialog() {
   const {
@@ -91,7 +92,7 @@ export default function EditGameSessionFormDialog() {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>{formatTitle(date)}</DialogTitle>
+        <DialogTitle>{formatFullDate(date)}</DialogTitle>
       </DialogHeader>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-2">

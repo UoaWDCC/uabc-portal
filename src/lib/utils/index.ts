@@ -17,6 +17,13 @@ export function getWeekday(date: Date | string) {
 }
 
 /**
+ * Formats date as Tuesday 9th July 2024
+ */
+export function formatFullDate(date: string | Date) {
+  return format(new Date(date), "eeee do MMMM yyyy");
+}
+
+/**
  * Converts from military Time to 12-hour format
  */
 export function convertTo12HourFormat(militaryTime: string): string {
