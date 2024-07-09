@@ -23,6 +23,9 @@ src/lib/db/seed.ts
 .storybook
 .husky
 
+# cron
+cron
+
 # misc
 .DS_Store
 *.pem

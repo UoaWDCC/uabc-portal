@@ -20,7 +20,7 @@ export const gameSessionFormSchema = z
     (data) => {
       return !data.endTime || data.startTime < data.endTime;
     },
-    { message: "Start time must be before end time", path: ["startTime"] },
+    { message: "Start time must be before end time", path: ["startTime"] }
   )
   .refine(
     (data) => {
@@ -29,7 +29,7 @@ export const gameSessionFormSchema = z
     {
       message: "Casual capacity must be less than or equal to capacity",
       path: ["casualCapacity"],
-    },
+    }
   );
 
 export const formatTitle = (date: string | Date) =>
