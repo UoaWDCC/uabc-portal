@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo } from "react";
 
-import { useToast } from "@/components/ui/use-toast";
 import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
 import { cn, convertTo12HourFormat, getWeekday } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
