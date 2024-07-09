@@ -25,7 +25,6 @@ export function SelectSessionList({
   const { data, isLoading } = useCurrentGameSessions();
   const cart = useCartStore((state) => state.cart);
   const updateCart = useCartStore((state) => state.updateCart);
-  const { toast } = useToast();
 
   const sessions = useMemo(
     () =>
@@ -58,6 +57,7 @@ export function SelectSessionList({
         updateCart(updatedCart);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessions]);
 
   function handleSessionClick(id: number) {

@@ -39,6 +39,7 @@ ENV SES_SECRET_ACCESS_KEY " "
 ENV SENDER_EMAIL_ADDRESS "user@example.com"
 ENV AWS_REGION " "
 ENV SQID_SECRET "ABC"
+ENV CRON_SECRET " "
 
 RUN --mount=type=secret,id=DATABASE_URL \
     --mount=type=secret,id=NEXTAUTH_SECRET \

@@ -5,8 +5,6 @@ import {
   format,
   interval,
   isWithinInterval,
-  max,
-  min,
 } from "date-fns";
 import { and, eq, gte, lte } from "drizzle-orm";
 import { z } from "zod";
@@ -19,6 +17,7 @@ import {
 } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
 import { getWeekday } from "@/lib/utils";
+import { clampInterval } from "@/lib/utils/dates";
 
 export const dynamic = "force-dynamic";
 
@@ -89,12 +88,14 @@ export async function GET(req: NextRequest) {
     });
 
     semesterList.forEach((semester) => {
-      const intervalStart = max([startDate, semester.startDate]);
-      const intervalEnd = min([endDate, semester.endDate]);
+      const activeInterval = clampInterval(
+        interval(startDate, endDate),
+        interval(semester.startDate, semester.endDate)
+      );
 
       const breakInterval = interval(semester.breakStart, semester.breakEnd);
 
-      const dates = eachDayOfInterval(interval(intervalStart, intervalEnd));
+      const dates = eachDayOfInterval(activeInterval);
 
       const filteredDates = dates.filter(
         (date) => !isWithinInterval(date, breakInterval)

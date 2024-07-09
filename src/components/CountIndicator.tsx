@@ -15,8 +15,8 @@ export function CountIndicator({
   return (
     <div
       className={cn(
-        "flex items-center h-8 min-w-8 p-2 justify-center rounded bg-neutral font-semibold",
-        className,
+        "flex h-8 min-w-8 items-center justify-center rounded bg-neutral p-2 font-semibold",
+        className
       )}
       {...props}
     >
