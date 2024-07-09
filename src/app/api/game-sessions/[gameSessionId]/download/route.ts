@@ -51,7 +51,7 @@ export async function GET(
         lastName: users.lastName,
         email: users.email,
         playLevel: bookingDetails.playLevel,
-        member: users.member,
+        member: bookingDetails.isMember,
         isPro: users.pro,
       })
       .from(gameSessions)
@@ -94,8 +94,8 @@ export async function GET(
       "Last Name": player.lastName,
       Email: player.email,
       "Play Level": player.playLevel,
-      Member: player.member,
-      Pro: player.isPro ? "True" : "False",
+      Member: player.member ? "Yes" : "No",
+      Pro: player.isPro ? "Yes" : "No",
     }));
 
     const csvData = await new Promise<string>((resolve, reject) => {
