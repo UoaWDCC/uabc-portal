@@ -10,7 +10,6 @@ import { AdminViewSessionCard } from "@/components/admin/view-sessions/AdminView
 import { EmptyAdminViewSessionCard } from "@/components/admin/view-sessions/EmptyAdminViewSessionCard";
 import { GameSessionProvider } from "@/components/admin/view-sessions/GameSessionContext";
 import { SkeletonViewSessionCard } from "@/components/admin/view-sessions/SkeletonViewSessionCard";
-import { formatTitle } from "@/components/admin/view-sessions/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -18,7 +17,7 @@ import {
   useActiveDates,
 } from "@/hooks/query/active-dates";
 import { useGameSession } from "@/hooks/query/useGameSession";
-import { cn, convertTo12HourFormat } from "@/lib/utils";
+import { cn, convertTo12HourFormat, formatFullDate } from "@/lib/utils";
 
 const searchParamsSchema = z.object({
   date: z
@@ -121,7 +120,7 @@ export default function ClientViewSessionsPage() {
           ) : data?.exists ? (
             <AdminViewSessionCard
               id={data.data.id}
-              title={formatTitle(date)}
+              title={formatFullDate(date)}
               startTime={convertTo12HourFormat(data.data.startTime)}
               endTime={convertTo12HourFormat(data.data.endTime)}
               locationName={data.data.locationName}

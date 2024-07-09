@@ -16,9 +16,11 @@ export function getWeekday(date: Date | string) {
   }) as Weekday;
 }
 
-// i want a function that receives a Date | string and returns a string in the form of e.g. 1st March 2022
-export function formatFullDate(date: Date | string) {
-  return format(new Date(date), "do MMMM yyyy");
+/**
+ * Formats date as Tuesday 9th July 2024
+ */
+export function formatFullDate(date: string | Date) {
+  return format(new Date(date), "eeee do MMMM yyyy");
 }
 
 /**

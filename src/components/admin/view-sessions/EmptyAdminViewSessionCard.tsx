@@ -7,9 +7,9 @@ import { Card } from "@/components/Card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
+import { formatFullDate } from "@/lib/utils";
 import { CreateGameSessionFormDialog } from "./CreateGameSessionFormDialog";
 import { useGameSessionContext } from "./GameSessionContext";
-import { formatTitle } from "./utils";
 
 export function EmptyAdminViewSessionCard() {
   const [open, setOpen] = useState(false);
@@ -34,7 +34,7 @@ export function EmptyAdminViewSessionCard() {
     >
       <div className="grid grow select-none place-content-center text-center text-lg font-medium">
         No sessions found on <br />
-        {formatTitle(date)}
+        {formatFullDate(date)}
       </div>
       <Dialog open={open} onOpenChange={() => setOpen(!open)}>
         <DialogTrigger asChild disabled={isPast(date)}>
