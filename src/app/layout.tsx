@@ -28,6 +28,9 @@ export const metadata: Metadata = {
       },
     ],
   },
+  verification: {
+    google: "0Ry7iEopHE0vvfRKRY_Py-CpaOb764pPGqs33RuLBU0",
+  },
 };
 
 const ProximaNova = localFont({
