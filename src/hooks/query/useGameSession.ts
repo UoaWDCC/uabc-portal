@@ -23,7 +23,7 @@ type GameSessionResponse = {
 );
 
 const fetchGameSessionByDate = async (
-  date: string,
+  date: string
 ): Promise<GameSessionResponse> => {
   const response = await fetch(`/api/game-sessions?date=${date}`, {
     cache: "no-store",

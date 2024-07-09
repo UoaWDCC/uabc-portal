@@ -32,7 +32,8 @@
     "src/tests/setup-jest.ts",
     "src/tests/jsdom-extended.js",
     "src/app/__tests__/.test.tsx",
-    "./.next/types/**/*.ts"
+    "./.next/types/**/*.ts",
+    "cron/index.mjs"
   ],
   "exclude": ["node_modules"]
 }

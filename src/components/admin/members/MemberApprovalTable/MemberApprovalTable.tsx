@@ -95,7 +95,7 @@ export function MemberApprovalTable({ className }: { className?: string }) {
         </TableBody>
         <TableFooter className="bg-transparent">
           <TableRow className="bg-transparent hover:bg-transparent">
-            <TableCell colSpan={4} className="py-2 ">
+            <TableCell colSpan={4} className="py-2">
               {table.getPageCount() > 1 && (
                 <MemberApprovalTablePagination
                   hasPreviousPage={table.getCanPreviousPage()}

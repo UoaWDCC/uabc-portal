@@ -15,6 +15,7 @@ export const env = createEnv({
     AWS_REGION: z.string().min(1),
     APP_URL: z.string().url().min(1),
     SQID_SECRET: z.string().min(3),
+    CRON_SECRET: z.string().min(1),
   },
   client: {},
   runtimeEnv: {
@@ -30,5 +31,6 @@ export const env = createEnv({
     AWS_REGION: process.env.AWS_REGION,
     APP_URL: process.env.APP_URL,
     SQID_SECRET: process.env.SQID_SECRET,
+    CRON_SECRET: process.env.CRON_SECRET,
   },
 });

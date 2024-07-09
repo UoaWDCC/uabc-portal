@@ -38,14 +38,14 @@ type GameSessionContextType = {
 };
 
 const GameSessionContext = createContext<GameSessionContextType>(
-  {} as GameSessionContextType,
+  {} as GameSessionContextType
 );
 
 export const useGameSessionContext = () => {
   const context = useContext(GameSessionContext);
   if (!context) {
     throw new Error(
-      "useGameSessionContext must be used within a GameSessionContextProvider",
+      "useGameSessionContext must be used within a GameSessionContextProvider"
     );
   }
   return context;
