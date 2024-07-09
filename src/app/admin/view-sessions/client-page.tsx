@@ -58,12 +58,19 @@ export default function ClientViewSessionsPage() {
     router.replace(pathname + "?date=" + format(date, "yyyy-MM-dd"));
   }
 
-  function getSessionState(date: Date) {
+  function getSessionState(
+    date: string | Date,
+    startTimeString: string,
+    endTimeString: string
+  ) {
     const now = new Date();
-    if (date < now) {
+    const startTime = parse(startTimeString, "HH:mm:ss", date);
+    const endTime = parse(endTimeString, "HH:mm:ss", date);
+
+    if (endTime < now) {
       return "past";
     }
-    if (date > now) {
+    if (startTime > now) {
       return "upcoming";
     }
     return "ongoing";
@@ -128,11 +135,9 @@ export default function ClientViewSessionsPage() {
               attendees={data.data.attendees}
               capacity={data.data.capacity}
               state={getSessionState(
-                parse(
-                  `${data.data.date} ${data.data.startTime}`,
-                  "yyyy-MM-dd HH:mm:ss",
-                  new Date()
-                )
+                data.data.date,
+                data.data.startTime,
+                data.data.endTime
               )}
             />
           ) : (

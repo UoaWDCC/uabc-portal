@@ -1,7 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { addDays, parse } from "date-fns";
-import { fromZonedTime } from "date-fns-tz";
+import { addDays } from "date-fns";
 import { and, eq, gt, gte, lt, lte, or, sql } from "drizzle-orm";
 import z from "zod";
 
@@ -16,50 +15,15 @@ import {
 import { getCurrentUser } from "@/lib/session";
 import { formatInNZST, getWeekday } from "@/lib/utils";
 import {
+  getZonedBookingCloseTime,
+  getZonedBookingOpenTime,
+} from "@/lib/utils/game-sessions";
+import {
   insertGameSessionExceptionSchema,
   insertGameSessionSchema,
   insertNonNullGameSessionExceptionSchema,
   updateGameSessionSchema,
 } from "@/lib/validators";
-
-function getZonedBookingOpenTime({
-  bookingOpenDay,
-  bookingOpenTime,
-  gameSessionDate,
-}: {
-  bookingOpenDay: string;
-  bookingOpenTime: string;
-  gameSessionDate: string;
-}) {
-  const bookingOpen = parse(
-    `${bookingOpenDay} ${bookingOpenTime}`,
-    "iiii HH:mm:ss",
-    new Date(gameSessionDate)
-  );
-
-  // If the booking open time is after the game session date, set it back a week
-  if (bookingOpen > new Date(gameSessionDate)) {
-    bookingOpen.setDate(bookingOpen.getDate() - 7);
-  }
-
-  return fromZonedTime(bookingOpen, "Pacific/Auckland");
-}
-
-function getZonedBookingCloseTime({
-  gameSessionDate,
-  gameSessionStartTime,
-}: {
-  gameSessionDate: string;
-  gameSessionStartTime: string;
-}) {
-  const bookingClose = parse(
-    `${gameSessionDate} ${gameSessionStartTime}`,
-    "yyyy-MM-dd HH:mm:ss",
-    new Date(gameSessionDate)
-  );
-
-  return fromZonedTime(bookingClose, "Pacific/Auckland");
-}
 
 export async function GET(req: NextRequest) {
   try {
@@ -80,7 +44,7 @@ export async function GET(req: NextRequest) {
 
     if (existingGameSession) {
       const [{ attendees }] = await db
-        .select({ attendees: sql<number>`count(*)` })
+        .select({ attendees: sql<number>`count(*)`.mapWith(Number) })
         .from(bookingDetails)
         .innerJoin(
           gameSessions,
