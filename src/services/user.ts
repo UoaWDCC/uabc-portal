@@ -35,6 +35,7 @@ export async function getUserFromEmail(
           id: true,
           email: true,
           member: true,
+          verified: true,
           firstName: true,
           lastName: true,
           role: true,

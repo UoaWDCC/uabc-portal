@@ -40,7 +40,7 @@ async function ConfirmationPage({
 
       <div className="mx-4 flex grow flex-col items-center justify-center gap-6 py-10">
         <ConfirmationMessage
-          member={currentUser.member!}
+          member={booking.isMember}
           email={currentUser.email}
         />
         <Link href="/sessions" className={buttonVariants({ variant: "ghost" })}>

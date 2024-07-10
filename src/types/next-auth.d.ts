@@ -6,6 +6,7 @@ export type User = {
   role: "user" | "admin";
   email: string;
   member: boolean | null;
+  verified: boolean;
   firstName?: string | null;
   lastName?: string | null;
 };
@@ -21,6 +22,7 @@ declare module "next-auth" {
     role: "user" | "admin";
     email: string;
     member: boolean | null;
+    verified: boolean;
     firstName?: string | null;
     lastName?: string | null;
   }

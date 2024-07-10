@@ -55,11 +55,12 @@ export default function BookSessionPage() {
       if (response.ok) {
         const { id } = await response.json();
         router.push(`/booking-confirmation/${id}`);
+        router.refresh();
       } else if (response.status === 409) {
         toast({
           title: "Something went wrong.",
-          description:
-            "A session has become full. Please select another session.",
+          description: "A session you selected has reached its max capacity. ",
+          variant: "destructive",
         });
         router.push("/sessions");
       } else {
@@ -71,6 +72,7 @@ export default function BookSessionPage() {
         title: "Something went wrong.",
         description:
           "An error occurred while confirming your booking. Please try again.",
+        variant: "destructive",
       });
       router.push("/sessions");
     } finally {

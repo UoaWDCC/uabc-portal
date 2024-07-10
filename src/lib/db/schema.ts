@@ -112,6 +112,7 @@ export const bookings = pgTable("booking", {
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  isMember: boolean("isMember").notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
 });
 
@@ -125,7 +126,6 @@ export const bookingDetails = pgTable(
       .notNull()
       .references(() => gameSessions.id, { onDelete: "cascade" }),
     playLevel: playLevelEnum("playLevel").notNull(),
-    isMember: boolean("isMember").notNull(),
   },
   (table) => ({
     compoundKey: primaryKey({

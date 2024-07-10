@@ -27,6 +27,7 @@
     "@auth/drizzle-adapter": "^0.8.1",
     "@aws-sdk/client-ses": "^3.569.0",
     "@hookform/resolvers": "^3.6.0",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",

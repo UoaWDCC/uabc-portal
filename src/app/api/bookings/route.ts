@@ -2,11 +2,15 @@ import { NextResponse } from "next/server";
 import { and, count, eq, sql, TransactionRollbackError } from "drizzle-orm";
 import { z } from "zod";
 
-import { sendBookingConfirmationEmail } from "@/emails";
+import {
+  sendBookingConfirmationEmail,
+  sendNoMoreSessionsRemainingEmail,
+} from "@/emails";
 import { db } from "@/lib/db";
 import { bookingDetails, bookings, gameSessions, users } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
 import { obfuscateId } from "@/lib/sqid";
+import { userCache } from "@/services/user";
 
 /**
  * Creates a booking for the current user
@@ -118,6 +122,7 @@ export async function POST(request: Request) {
         .insert(bookings)
         .values({
           userId: currentUser!.id,
+          isMember: user.member!,
         })
         .returning({ bookingId: bookings.id });
 
@@ -131,8 +136,8 @@ export async function POST(request: Request) {
         );
 
         const { count } = await tx.execute(
-          sql`INSERT INTO ${bookingDetails} ("bookingId", "gameSessionId", "playLevel", "isMember")
-              SELECT ${bookingId}, ${session.gameSessionId}, ${session.playLevel}, ${user!.member}
+          sql`INSERT INTO ${bookingDetails} ("bookingId", "gameSessionId", "playLevel")
+              SELECT ${bookingId}, ${session.gameSessionId}, ${session.playLevel}
               WHERE 
               (CASE
                 WHEN ${user!.member} = TRUE THEN
@@ -145,9 +150,10 @@ export async function POST(request: Request) {
                     WHERE ${bookingDetails.gameSessionId} = ${session.gameSessionId}) < ${gameSession?.capacity}
                   AND
                   (SELECT COUNT(*) 
-                    FROM ${bookingDetails} 
+                    FROM ${bookingDetails}
+                    INNER JOIN ${bookings} ON ${bookingDetails.bookingId} = ${bookings.id}
                     WHERE ${bookingDetails.gameSessionId} = ${session.gameSessionId}
-                    AND ${bookingDetails.isMember} = FALSE) < ${gameSession?.casualCapacity}
+                    AND ${bookings.isMember} = FALSE) < ${gameSession?.casualCapacity}
               END)
               RETURNING *;
               `
@@ -160,12 +166,24 @@ export async function POST(request: Request) {
 
       //decrement remaining sessions if user is a member
       if (user?.member) {
-        await tx
+        const [{ remainingSessions }] = await tx
           .update(users)
           .set({
             remainingSessions: user.remainingSessions - numOfSessions,
           })
-          .where(eq(users.id, currentUser!.id));
+          .where(eq(users.id, currentUser!.id))
+          .returning({ remainingSessions: users.remainingSessions });
+
+        if (remainingSessions <= 0) {
+          await tx
+            .update(users)
+            .set({ member: false, verified: false })
+            .where(eq(users.id, currentUser!.id));
+
+          await sendNoMoreSessionsRemainingEmail(user);
+        }
+
+        userCache.revalidate(user.email);
       }
 
       return bookingId;

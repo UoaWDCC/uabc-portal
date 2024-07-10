@@ -54,6 +54,7 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             role: user.role,
             member: user.member,
+            verified: user.verified,
           };
         }
 

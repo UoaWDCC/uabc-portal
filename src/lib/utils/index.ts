@@ -64,3 +64,11 @@ export const validateDate = (date: string) => {
 export function formatInNZST(date: Date | string): string {
   return formatInTimeZone(new Date(date), "Pacific/Auckland", "yyyy-MM-dd");
 }
+
+/**
+ * capitalizes the first letter of a word
+ */
+export function capitalize(word: string) {
+  if (!word) return word;
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}

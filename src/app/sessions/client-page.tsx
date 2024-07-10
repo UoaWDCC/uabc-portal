@@ -4,12 +4,22 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { twJoin } from "tailwind-merge";
 
 import { SelectSessionList } from "@/components/booking/SelectSessionList/SelectSessionList";
 import { CountIndicator } from "@/components/CountIndicator";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { useCartStore } from "@/stores/useCartStore";
@@ -25,8 +35,23 @@ export default function ClientSessionPage({
 }: ClientSessionPageProps) {
   const { push } = useRouter();
 
+  const { update, data } = useSession();
+
   const sessionsSelected = useCartStore((state) => state.cart.length);
+  const [remainingSessionsModalVisible, setRemainingSessionsModalVisible] =
+    useState(false);
   const [shake, setShake] = useState(false);
+
+  useEffect(() => {
+    if (data?.user.verified && prepaidSessionsRemaining === 0) {
+      setRemainingSessionsModalVisible(true);
+      update({
+        member: false,
+        verified: false,
+      });
+    }
+  }, [data?.user.verified, prepaidSessionsRemaining, update]);
+
   const memberMaxSessions = Math.min(
     prepaidSessionsRemaining,
     MEMBER_MAX_SESSIONS
@@ -67,6 +92,22 @@ export default function ClientSessionPage({
           Next
         </Button>
       </div>
+      {remainingSessionsModalVisible && (
+        <AlertDialog defaultOpen>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Heads Up!</AlertDialogTitle>
+              <AlertDialogDescription>
+                You’re out of prepaid sessions. From now on, you’ll be a casual
+                member and will need to pay for each session as you go.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction>Okay</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </>
   );
 }

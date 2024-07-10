@@ -10,6 +10,7 @@ import { getBookingBySqid } from "@/services/booking";
 import type { User } from "@/types/next-auth";
 import CasualBookingConfirmationEmail from "./components/CasualBookingConfirmationEmail";
 import MemberBookingConfirmationEmail from "./components/MemberBookingConfirmationEmail";
+import NoMoreSessionsRemainingEmail from "./components/NoMoreSessionsRemainingEmail";
 
 const SES_CONFIG = {
   credentials: {
@@ -34,6 +35,12 @@ export const sendEmail = async ({
   subject,
   html,
 }: SendEmailDataProps) => {
+  if (env.ENVIRONMENT == "DEVELOPMENT") {
+    console.log(
+      "Email send request recieved. Skipping email send in development mode."
+    );
+    return;
+  }
   const sendEmailCommand = new SendEmailCommand({
     Destination: {
       ToAddresses: toAddresses,
@@ -66,9 +73,12 @@ export const sendBookingConfirmationEmail = async (
   if (!booking || booking.userId !== user.id)
     throw new Error("Booking not found");
 
-  const gameSessions = booking.bookingDetails.map(
-    (bookingDetail) => bookingDetail.gameSession
-  );
+  const bookingDetails = booking.bookingDetails.map((bookingDetail) => {
+    return {
+      ...bookingDetail.gameSession,
+      playLevel: bookingDetail.playLevel,
+    };
+  });
 
   if (user.member) {
     await sendEmail({
@@ -77,7 +87,7 @@ export const sendBookingConfirmationEmail = async (
       html: render(
         MemberBookingConfirmationEmail({
           firstName: user.firstName!,
-          bookingDetails: gameSessions,
+          bookingDetails,
         })
       ),
     });
@@ -88,9 +98,21 @@ export const sendBookingConfirmationEmail = async (
       html: render(
         CasualBookingConfirmationEmail({
           firstName: user.firstName!,
-          bookingDetail: gameSessions[0],
+          bookingDetail: bookingDetails[0],
         })
       ),
     });
   }
+};
+
+export const sendNoMoreSessionsRemainingEmail = async (user: User) => {
+  await sendEmail({
+    toAddresses: [user.email],
+    subject: "No More Sessions Available",
+    html: render(
+      NoMoreSessionsRemainingEmail({
+        firstName: user.firstName!,
+      })
+    ),
+  });
 };

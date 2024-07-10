@@ -104,6 +104,7 @@ async function main() {
     bookings.push({
       id: randomInt(1000000),
       userId: users[i].id,
+      isMember: users[i].member!,
     });
   }
   await db.insert(schema.bookings).values(bookings);
@@ -116,7 +117,6 @@ async function main() {
         bookingId: bookings[i].id!,
         gameSessionId: gameSessions[randomInt(j, j + half)].id!,
         playLevel: schema.playLevelEnum.enumValues[randomInt(3)],
-        isMember: users.find((user) => user.id === bookings[i].userId)!.member!,
       });
     }
   }

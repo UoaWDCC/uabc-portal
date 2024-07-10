@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "@react-email/components";
 
-import { convertTo12HourFormat, formatFullDate } from "@/lib/utils";
+import { capitalize, convertTo12HourFormat, formatFullDate } from "@/lib/utils";
 import EmailLayout from "./EmailLayout";
 
 interface BookingDetail {
@@ -11,6 +11,7 @@ interface BookingDetail {
   endTime: string;
   locationName: string;
   locationAddress: string;
+  playLevel: string;
 }
 [];
 
@@ -42,14 +43,15 @@ export default function MemberBookingConfirmationEmail({
             {formatFullDate(bookingDetail.date)}
           </Text>
           <ul className="my-0">
-            <li key="time">
+            <li>
               Time: {convertTo12HourFormat(bookingDetail.startTime)} -{" "}
               {convertTo12HourFormat(bookingDetail.endTime)}
             </li>
-            <li key="venue">
+            <li>
               Venue: {bookingDetail.locationName} (
               {bookingDetail.locationAddress}){" "}
             </li>
+            <li>Play level: {capitalize(bookingDetail.playLevel)}</li>
           </ul>
         </div>
       ))}
@@ -74,6 +76,7 @@ MemberBookingConfirmationEmail.PreviewProps = {
       endTime: "20:00:00",
       locationName: "Gym 1",
       locationAddress: "123 University St",
+      playLevel: "intermediate",
     },
     {
       id: 2,
@@ -82,6 +85,7 @@ MemberBookingConfirmationEmail.PreviewProps = {
       endTime: "20:00:00",
       locationName: "Gym 1",
       locationAddress: "123 University St",
+      playLevel: "beginner",
     },
   ],
 };

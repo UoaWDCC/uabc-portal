@@ -1,13 +1,27 @@
 import { NextResponse } from "next/server";
 import { and, asc, gt, lt, sql } from "drizzle-orm";
+import { PgDialect } from "drizzle-orm/pg-core";
 
 import { db } from "@/lib/db";
-import { bookingDetails, gameSessions } from "@/lib/db/schema";
+import { bookingDetails, bookings, gameSessions } from "@/lib/db/schema";
 
 export const dynamic = "force-dynamic";
 
+const pgDialect = new PgDialect();
+
 export async function GET() {
   try {
+    const casualBookingSqlChunks = sql`(
+      SELECT COUNT(*) FROM ${bookingDetails}
+      INNER JOIN ${bookings} 
+        ON ${bookingDetails.bookingId} = ${bookings.id}
+      WHERE ${bookingDetails.gameSessionId} = ${gameSessions.id}
+      AND ${bookings.isMember} = FALSE
+    )`;
+    const casualBookingCountQuery = sql.raw(
+      pgDialect.sqlToQuery(casualBookingSqlChunks).sql
+    );
+
     const sessions = await db
       .select({
         id: gameSessions.id,
@@ -23,12 +37,7 @@ export async function GET() {
           FROM ${bookingDetails}
           WHERE ${bookingDetails.gameSessionId} = ${gameSessions.id}
         )`.mapWith(Number),
-        casualBookingCount: sql`(
-          SELECT COUNT(*)
-          FROM ${bookingDetails}
-          WHERE ${bookingDetails.gameSessionId} = ${gameSessions.id}
-          AND ${bookingDetails.isMember} = false
-        )`.mapWith(Number),
+        casualBookingCount: casualBookingCountQuery.mapWith(Number),
       })
       .from(gameSessions)
       .where(

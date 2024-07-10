@@ -51,7 +51,7 @@ export async function GET(
         lastName: users.lastName,
         email: users.email,
         playLevel: bookingDetails.playLevel,
-        member: bookingDetails.isMember,
+        member: bookings.isMember,
         isPro: users.pro,
       })
       .from(gameSessions)
