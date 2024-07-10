@@ -3,16 +3,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
+import { TextInput } from "@/components/TextInput";
 import {
   DialogContent,
   DialogHeader,
   DialogTitle,
   useDialogContext,
 } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
-import { TextInput } from "../../TextInput";
-import { useToast } from "../../ui/use-toast";
 import { useSemesterContext } from "./SemestersContext";
 
 // Schema

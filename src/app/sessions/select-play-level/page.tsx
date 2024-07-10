@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { redirect, useRouter } from "next/navigation";
 
-import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
+import { ExpandedSessionCard } from "@/components/booking/sessions/ExpandedSessionCard";
 import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";

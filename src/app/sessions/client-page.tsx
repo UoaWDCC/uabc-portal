@@ -9,17 +9,11 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { twJoin } from "tailwind-merge";
 
-import { SelectSessionList } from "@/components/booking/SelectSessionList/SelectSessionList";
+import { NoRemainingSessionsModal } from "@/components/booking/sessions/NoRemainingSessionsModal";
+import PendingApprovalAlert from "@/components/booking/sessions/PendingApprovalAlert";
+import { SelectSessionList } from "@/components/booking/sessions/SelectSessionList";
 import { CountIndicator } from "@/components/CountIndicator";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { useCartStore } from "@/stores/useCartStore";
@@ -57,6 +51,7 @@ export default function ClientSessionPage({
     MEMBER_MAX_SESSIONS
   );
   const maxSessions = isMember ? memberMaxSessions : NON_MEMBER_MAX_SESSIONS;
+  const accountPendingApproval = isMember && !!data && !data.user.verified;
 
   return (
     <>
@@ -75,7 +70,11 @@ export default function ClientSessionPage({
           {sessionsSelected} / {maxSessions}
         </CountIndicator>
       </div>
-
+      {accountPendingApproval && (
+        <div className="mx-4 mb-4 text-center">
+          <PendingApprovalAlert />
+        </div>
+      )}
       <SelectSessionList
         onLimitReached={() => setShake(true)}
         isMember={isMember}
@@ -85,29 +84,15 @@ export default function ClientSessionPage({
 
       <div className="mx-4 mb-10 mt-6 flex justify-center">
         <Button
-          disabled={sessionsSelected === 0}
-          onClick={() => push("/sessions/book")}
+          disabled={sessionsSelected === 0 || accountPendingApproval}
+          onClick={() => push("/sessions/select-play-level")}
           className="w-full"
         >
           Next
         </Button>
       </div>
-      {remainingSessionsModalVisible && (
-        <AlertDialog defaultOpen>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Heads Up!</AlertDialogTitle>
-              <AlertDialogDescription>
-                You’re out of prepaid sessions. From now on, you’ll be a casual
-                member and will need to pay for each session as you go.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogAction>Okay</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      )}
+
+      {remainingSessionsModalVisible && <NoRemainingSessionsModal />}
     </>
   );
 }

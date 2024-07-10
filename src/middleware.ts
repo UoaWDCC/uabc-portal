@@ -9,6 +9,7 @@ export async function middleware(req: NextRequest) {
     !!token?.profile?.firstName &&
     !!token?.profile?.lastName &&
     token?.profile?.member !== null;
+  const isAdmin = token?.profile?.role === "admin";
 
   const fromUrl = req.nextUrl.pathname;
   const isAuthPage = fromUrl.startsWith("/auth");
@@ -32,6 +33,10 @@ export async function middleware(req: NextRequest) {
 
   if (!isOnboardingPage && !isOnboarded) {
     return NextResponse.redirect(new URL("/onboarding/name", req.url));
+  }
+
+  if (fromUrl === "/admin" && !isAdmin) {
+    return NextResponse.redirect(new URL("/sessions", req.url));
   }
 
   return NextResponse.next();

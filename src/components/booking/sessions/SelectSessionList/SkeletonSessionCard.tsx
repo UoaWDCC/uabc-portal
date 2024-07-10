@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Skeleton } from "../../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const SkeletonSessionCard = () => {
   return (

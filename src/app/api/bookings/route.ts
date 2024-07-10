@@ -6,6 +6,7 @@ import {
   sendBookingConfirmationEmail,
   sendNoMoreSessionsRemainingEmail,
 } from "@/emails";
+import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { bookingDetails, bookings, gameSessions, users } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
@@ -34,6 +35,10 @@ export async function POST(request: Request) {
     if (!currentUser)
       return new Response("Unauthorized request", { status: 401 });
 
+    if (currentUser.member && !currentUser.verified) {
+      return new Response("Unverified member", { status: 403 });
+    }
+
     // parse the input array of objects and check if the user has enough sessions
     const body = bookingSchema.parse(await request.json());
     const numOfSessions = body.length;
@@ -49,7 +54,9 @@ export async function POST(request: Request) {
     });
     if (!user) return new Response("User not found", { status: 404 });
 
-    const allowedBookingCount = user?.member ? 2 : 1;
+    const allowedBookingCount = user?.member
+      ? MEMBER_MAX_SESSIONS
+      : NON_MEMBER_MAX_SESSIONS;
 
     const [bookingsThisWeek] = await db
       .select({ count: count() })

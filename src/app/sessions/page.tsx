@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-import { PrepaidSessionsCounter } from "@/components/booking/PrepaidSessionsCounter";
+import { PrepaidSessionsCounter } from "@/components/booking/sessions/PrepaidSessionsCounter";
 import { Heading } from "@/components/Heading";
 import { LogOutButton } from "@/components/LogOutButton";
 import type { CurrentUserProps } from "@/lib/hoc/withCurrentUser";

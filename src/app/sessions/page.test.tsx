@@ -14,7 +14,7 @@ jest.mock("next-auth/react", () => {
   const mockSession = {
     expires: new Date(Date.now() + 2 * 86400).toISOString(),
     user: {
-      verified: false,
+      verified: true,
     },
   };
   return {

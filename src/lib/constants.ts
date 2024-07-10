@@ -1,5 +1,9 @@
-export const CACHE_REVALIDATION_PERIOD = 60 * 60 * 24;
-// export const CACHE_REVALIDATION_PERIOD = 1;
+const PRODUCTION_CACHE_REVALIDATION_PERIOD = 60 * 60 * 24;
+
+export const CACHE_REVALIDATION_PERIOD =
+  process.env.NODE_ENV === "development"
+    ? 1
+    : PRODUCTION_CACHE_REVALIDATION_PERIOD;
 
 export const MEMBER_MAX_SESSIONS = 2;
 export const NON_MEMBER_MAX_SESSIONS = 1;

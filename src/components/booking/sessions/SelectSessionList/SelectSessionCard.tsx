@@ -6,8 +6,8 @@ import { memo } from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { twJoin } from "tailwind-merge";
 
+import { Card } from "@/components/Card";
 import { cn } from "@/lib/utils";
-import { Card } from "../../Card";
 
 type SelectSessionCardStatus = "default" | "selected" | "disabled";
 

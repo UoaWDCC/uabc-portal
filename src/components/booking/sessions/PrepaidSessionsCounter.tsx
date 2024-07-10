@@ -1,4 +1,4 @@
-import { CountIndicator } from "../CountIndicator";
+import { CountIndicator } from "../../CountIndicator";
 
 interface PrepaidSessionsCounterProps {
   remainingSessions: number;

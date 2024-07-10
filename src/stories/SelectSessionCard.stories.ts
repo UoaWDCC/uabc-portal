@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { SelectSessionCard } from "@/components/booking/SelectSessionList/SelectSessionCard";
+import { SelectSessionCard } from "@/components/booking/sessions/SelectSessionList/SelectSessionCard";
 import { getWeekday } from "@/lib/utils";
 
 const meta = {

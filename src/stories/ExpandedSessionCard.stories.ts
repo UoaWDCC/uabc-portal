@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { ExpandedSessionCard } from "@/components/booking/ExpandedSessionCard";
+import { ExpandedSessionCard } from "@/components/booking/sessions/ExpandedSessionCard";
 import { getWeekday } from "@/lib/utils";
 
 const meta = {

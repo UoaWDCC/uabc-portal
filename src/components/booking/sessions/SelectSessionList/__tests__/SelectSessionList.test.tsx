@@ -1,6 +1,6 @@
 import React from "react";
 
-import { SelectSessionList } from "@/components/booking/SelectSessionList/SelectSessionList";
+import { SelectSessionList } from "@/components/booking/sessions/SelectSessionList";
 import type { UserEvent } from "@/tests/test-utils";
 import { render, screen, userEvent } from "@/tests/test-utils";
 
