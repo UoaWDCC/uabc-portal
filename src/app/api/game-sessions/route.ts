@@ -458,7 +458,13 @@ export async function PUT(req: NextRequest) {
     // If the game session exists, update it and return
     const [updatedGameSession] = await db
       .update(gameSessions)
-      .set(gameSessionToUpdate)
+      .set({
+        ...gameSessionToUpdate,
+        bookingClose: getZonedBookingCloseTime({
+          gameSessionDate,
+          gameSessionStartTime: gameSessionToUpdate.startTime,
+        }),
+      })
       .where(eq(gameSessions.date, gameSessionDate))
       .returning();
 

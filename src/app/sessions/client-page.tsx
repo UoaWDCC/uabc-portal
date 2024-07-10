@@ -13,7 +13,6 @@ import { NoRemainingSessionsModal } from "@/components/booking/sessions/NoRemain
 import PendingApprovalAlert from "@/components/booking/sessions/PendingApprovalAlert";
 import { SelectSessionList } from "@/components/booking/sessions/SelectSessionList";
 import { CountIndicator } from "@/components/CountIndicator";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { useCartStore } from "@/stores/useCartStore";

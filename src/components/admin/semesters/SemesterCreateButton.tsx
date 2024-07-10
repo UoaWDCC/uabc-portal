@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { SemesterCreateDialog } from "./SemesterCreateDialog";
+import { CreateSemesterFormDialog } from "./CreateSemesterFormDialog";
 
 const SemesterCreateButton = () => {
   return (
@@ -18,7 +18,7 @@ const SemesterCreateButton = () => {
           <Plus className="absolute w-5 stroke-foreground" />
         </Button>
       </DialogTrigger>
-      <SemesterCreateDialog />
+      <CreateSemesterFormDialog />
     </Dialog>
   );
 };

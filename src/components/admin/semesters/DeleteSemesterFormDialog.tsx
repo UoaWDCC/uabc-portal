@@ -9,9 +9,10 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useSemesterContext } from "./SemestersContext";
 
-export const SemesterDeleteDialog = () => {
+export const DeleteSemesterFormDialog = () => {
   const { name, id: semesterId } = useSemesterContext();
   const { handleClose: closeDialog } = useDialogContext();
 
@@ -43,7 +44,7 @@ export const SemesterDeleteDialog = () => {
         });
       },
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["semesters"] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SEMESTERS] });
         toast({
           title: "Semester deleted!",
           description: `${name} has deleted`,

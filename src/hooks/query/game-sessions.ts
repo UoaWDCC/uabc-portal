@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
+
 type GameSessionData = {
   id: number;
   date: string;
@@ -22,6 +24,37 @@ type GameSessionResponse = {
   | { exists: false; data: { bookingOpen: string } }
 );
 
+type CurrentGameSessionResponse = {
+  id: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+  locationName: string;
+  locationAddress: string;
+  capacity: number;
+  casualCapacity: number;
+  bookingCount: number;
+  casualBookingCount: number;
+};
+
+const fetchCurrentGameSessions = async (): Promise<
+  CurrentGameSessionResponse[]
+> => {
+  const response = await fetch(`/api/game-sessions/current`, {
+    cache: "no-store",
+  });
+  return response.json();
+};
+
+export const useCurrentGameSessions = () => {
+  const query = useQuery({
+    queryKey: [QUERY_KEY.CURRENT_GAME_SESSIONS],
+    queryFn: fetchCurrentGameSessions,
+  });
+
+  return query;
+};
+
 const fetchGameSessionByDate = async (
   date: string
 ): Promise<GameSessionResponse> => {
@@ -38,7 +71,7 @@ const fetchGameSessionByDate = async (
 
 export const useGameSession = (date: string) => {
   const query = useQuery({
-    queryKey: ["game-session", date],
+    queryKey: [QUERY_KEY.GAME_SESSION, date],
     queryFn: () => fetchGameSessionByDate(date),
   });
 

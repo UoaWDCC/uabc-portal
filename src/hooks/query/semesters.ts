@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
+
 export type SemesterResponse = {
   id: number;
   name: string;
@@ -18,9 +20,9 @@ const fetchSemesters = async (): Promise<SemesterResponse[]> => {
   return response.json();
 };
 
-export const useCurrentSemesters = () => {
+export const useSemesters = () => {
   const query = useQuery({
-    queryKey: ["semesters"],
+    queryKey: [QUERY_KEY.SEMESTERS],
     queryFn: fetchSemesters,
   });
 

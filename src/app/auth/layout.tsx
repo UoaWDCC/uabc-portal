@@ -1,14 +1,20 @@
 "use client";
 
+import { Card } from "@/components/Card";
 import { UabcHeaderText } from "@/components/UabcHeaderText";
 import { UabcLogo } from "@/components/UabcLogo";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-dvh w-dvw flex-col items-center justify-between bg-background px-4 py-8">
-      <UabcHeaderText className="mb-4" />
-      <UabcLogo />
-      <div className="mt-8 flex w-full flex-col gap-4">{children}</div>
+    <div className="grid min-h-dvh w-dvw place-items-center sm:p-8">
+      <Card
+        variant="card"
+        className="flex h-full w-full flex-col justify-between border-0 bg-transparent py-8 sm:max-w-xl sm:border sm:bg-card"
+      >
+        <UabcHeaderText className="mb-4" />
+        <UabcLogo className="flex justify-center" />
+        <div className="flex w-full flex-col gap-4">{children}</div>
+      </Card>
     </div>
   );
 }

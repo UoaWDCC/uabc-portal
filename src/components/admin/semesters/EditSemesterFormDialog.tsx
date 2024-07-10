@@ -13,6 +13,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useSemesterContext } from "./SemestersContext";
 
 // Schema
@@ -48,7 +49,7 @@ const formSchema = z
     path: ["breakEnd"],
   });
 
-export const SemesterEditDialogue = () => {
+export const EditSemesterFormDialog = () => {
   // Contexts
   const {
     name,
@@ -121,7 +122,7 @@ export const SemesterEditDialogue = () => {
         });
       },
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["semesters"] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SEMESTERS] });
         toast({
           title: "Success!",
           description: "Semester details successfully updated",

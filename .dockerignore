@@ -18,6 +18,7 @@ build
 
 # seed
 src/lib/db/seed.ts
+src/stories
 
 # other
 .storybook

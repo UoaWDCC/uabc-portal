@@ -2,13 +2,13 @@
 
 import React, { useMemo } from "react";
 
-import { useCurrentSemesters } from "@/hooks/query/useCurrentSemesters";
+import { useSemesters } from "@/hooks/query/semesters";
 import { SemesterDetailCard } from "./SemesterDetailCard";
 import { SemesterContextProvider } from "./SemestersContext";
 import { SkeletonSemesterCard } from "./SkeletonSemesterCard";
 
 export const SemestersList = () => {
-  const { data, isLoading } = useCurrentSemesters();
+  const { data, isLoading } = useSemesters();
   data?.sort((a, b) => a.name.localeCompare(b.name));
 
   const semesters = useMemo(

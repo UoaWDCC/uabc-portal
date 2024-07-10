@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 
-import { useCurrentGameSessions } from "@/hooks/query/useCurrentGameSessions";
+import { useCurrentGameSessions } from "@/hooks/query/game-sessions";
 import { cn, convertTo12HourFormat, getWeekday } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
 import { SelectableCard } from "./SelectableCard";

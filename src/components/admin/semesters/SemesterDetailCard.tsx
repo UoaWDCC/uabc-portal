@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Card } from "@/components/Card";
 import { OptionButtonUtils } from "@/components/ui/options-popover/OptionsButtonUtils";
 import { OptionsPopover } from "@/components/ui/options-popover/OptionsPopover";
-import { SemesterDeleteDialog } from "./SemesterDeleteDialog";
-import { SemesterEditDialogue } from "./SemesterEditDialog";
+import { DeleteSemesterFormDialog } from "./DeleteSemesterFormDialog";
+import { EditSemesterFormDialog } from "./EditSemesterFormDialog";
 import { useSemesterContext } from "./SemestersContext";
 
 const UnmemoizedSemesterDetailCard = () => {
@@ -22,11 +22,11 @@ const UnmemoizedSemesterDetailCard = () => {
         <OptionsPopover>
           <OptionsPopover.DialogItem
             ButtonComponent={<OptionButtonUtils type="edit" />}
-            DialogComponent={<SemesterEditDialogue />}
+            DialogComponent={<EditSemesterFormDialog />}
           />
           <OptionsPopover.DialogItem
             ButtonComponent={<OptionButtonUtils type="delete" />}
-            DialogComponent={<SemesterDeleteDialog />}
+            DialogComponent={<DeleteSemesterFormDialog />}
           />
         </OptionsPopover>
       </div>

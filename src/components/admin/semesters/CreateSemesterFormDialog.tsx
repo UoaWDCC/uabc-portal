@@ -14,6 +14,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
 
 //Schema
 const formSchema = z
@@ -49,7 +50,7 @@ const formSchema = z
     path: ["breakEnd"],
   });
 
-export const SemesterCreateDialog = () => {
+export const CreateSemesterFormDialog = () => {
   const { handleClose: closeDialog } = useDialogContext();
 
   const {
@@ -106,7 +107,7 @@ export const SemesterCreateDialog = () => {
         });
       },
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["semesters"] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SEMESTERS] });
         toast({
           title: "Success!",
           description: "successfully created semester",

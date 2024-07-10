@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,14 +16,13 @@ interface SignUpFormData {
 
 const emailSchema = z.string().email();
 
-interface EmailLoginProps {
-  onLoginOpen: () => void;
-  loginOpen: boolean;
-}
-
-export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
+export const EmailLoginForm = () => {
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const [open, setOpen] = useState<boolean>(loginOpen);
+
+  const [open, setOpen] = useState<boolean>(
+    searchParams.get("open") === "true"
+  );
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
 
   const {
@@ -65,7 +66,6 @@ export const EmailLogin = ({ onLoginOpen, loginOpen }: EmailLoginProps) => {
   };
 
   function openEmailLogin() {
-    onLoginOpen();
     setOpen(true);
   }
 

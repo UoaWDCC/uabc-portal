@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,7 +22,7 @@ const passwordSchema = z
   .regex(/[a-z]/, { message: "Password must contain a lowercase letter" })
   .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" });
 
-export const EmailSignUp = () => {
+export const EmailSignUpForm = () => {
   const [success, setSuccess] = useState<boolean>(false);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const { toast } = useToast();
