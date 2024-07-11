@@ -1,35 +1,46 @@
 import { NextResponse } from "next/server";
 import { hash } from "bcrypt";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
-import { users } from "@/lib/db/schema";
+import { users, verificationTokens } from "@/lib/db/schema";
 
-const emailSchema = z.string().email();
-const passwordSchema = z
-  .string()
-  .min(8)
-  .regex(/\d/)
-  .regex(/[a-z]/)
-  .regex(/[A-Z]/);
+const postRequestSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8).regex(/\d/).regex(/[a-z]/).regex(/[A-Z]/),
+  token: z.string(),
+});
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const body = await request.json();
 
     //validate email and password
-    emailSchema.parse(email);
-    passwordSchema.parse(password);
+    const { email, password, token } = postRequestSchema.parse(body);
 
     //check if email is already in use
     const user = await db.query.users.findFirst({
       where: eq(users.email, email),
     });
+
     if (user)
       return NextResponse.json(
         { errors: "Email already in use" },
         { status: 400, statusText: "Email already in use" }
+      );
+
+    const verificationToken = await db.query.verificationTokens.findFirst({
+      where: and(
+        eq(verificationTokens.identifier, email),
+        eq(verificationTokens.token, token)
+      ),
+    });
+
+    if (!verificationToken || verificationToken.expires < new Date())
+      return NextResponse.json(
+        { errors: "Invalid token" },
+        { status: 400, statusText: "Invalid token" }
       );
 
     const costFactor = 12;

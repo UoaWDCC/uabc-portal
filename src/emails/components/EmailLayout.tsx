@@ -1,6 +1,6 @@
 import { Body, Html, Tailwind } from "@react-email/components";
 
-import { config } from "./tailwind-config";
+import { config } from "../tailwind-config";
 
 export default function EmailLayout({
   children,

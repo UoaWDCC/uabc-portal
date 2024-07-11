@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="grid min-h-dvh w-dvw place-items-center sm:p-8">
       <Card
         variant="card"
-        className="flex h-full w-full flex-col justify-between border-0 bg-transparent py-8 sm:max-w-xl sm:border sm:bg-card"
+        className="flex h-full max-h-[1000px] w-full flex-col justify-between border-0 bg-transparent py-8 sm:max-w-xl sm:border sm:bg-card"
       >
         <UabcHeaderText className="mb-4" />
         <UabcLogo className="flex justify-center" />

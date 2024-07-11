@@ -1,4 +1,4 @@
-import { Text } from "@react-email/components";
+import { CodeInline, Text } from "@react-email/components";
 
 import EmailLayout from "./EmailLayout";
 
@@ -22,7 +22,11 @@ export default function NoMoreSessionsRemainingEmail({
 
       <Text>As a casual member, you’ll need to pay $8 for each session.</Text>
 
-      <Text>If you would like to repurchase</Text>
+      <Text>
+        If you would like to top up on prepaid sessions, please email{" "}
+        <CodeInline>badminton.au@gmail.com</CodeInline> to purchase the 6
+        session package.
+      </Text>
 
       <Text>
         Best Regards,

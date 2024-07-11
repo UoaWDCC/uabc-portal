@@ -1,10 +1,16 @@
 import "server-only";
 
+import { randomInt } from "crypto";
 import { revalidateTag, unstable_cache } from "next/cache";
+import { and, count, eq, gt } from "drizzle-orm";
 import type { User } from "next-auth";
 
-import { CACHE_REVALIDATION_PERIOD } from "@/lib/constants";
+import {
+  CACHE_REVALIDATION_PERIOD,
+  VERIFICATION_TOKEN_EXPIRY_TIME,
+} from "@/lib/constants";
 import { db } from "@/lib/db";
+import { verificationTokens } from "@/lib/db/schema";
 
 export async function getUserFromId(userId: string) {
   return db.query.users.findFirst({
@@ -50,6 +56,44 @@ export async function getUserFromEmail(
 
   return user ?? null;
 }
+
+/**
+ * creates and inserts a 6-digit verification token into the database
+ * if there are already 5 active tokens for the email, it throws an error
+ */
+export const insertVerificationToken = async (email: string) => {
+  const [{ count: activeTokenCount }] = await db
+    .select({ count: count() })
+    .from(verificationTokens)
+    .where(
+      and(
+        eq(verificationTokens.identifier, email),
+        gt(verificationTokens.expires, new Date())
+      )
+    );
+
+  if (activeTokenCount >= 5) {
+    throw new Error("Rate limit exceeded");
+  }
+
+  const token = randomInt(100000, 999999);
+
+  await db
+    .insert(verificationTokens)
+    .values({
+      identifier: email,
+      token: token.toString(),
+      expires: new Date(Date.now() + VERIFICATION_TOKEN_EXPIRY_TIME * 1000),
+    })
+    .onConflictDoUpdate({
+      target: [verificationTokens.identifier, verificationTokens.token],
+      set: {
+        expires: new Date(Date.now() + VERIFICATION_TOKEN_EXPIRY_TIME * 1000),
+      },
+    });
+
+  return token;
+};
 
 export const userCache = {
   getTag: (email: string) => `user-${email}`,

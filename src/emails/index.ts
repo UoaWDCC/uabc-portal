@@ -11,6 +11,7 @@ import type { User } from "@/types/next-auth";
 import CasualBookingConfirmationEmail from "./components/CasualBookingConfirmationEmail";
 import MemberBookingConfirmationEmail from "./components/MemberBookingConfirmationEmail";
 import NoMoreSessionsRemainingEmail from "./components/NoMoreSessionsRemainingEmail";
+import VerificationCodeEmail from "./components/VerificationCodeEmail";
 
 const SES_CONFIG = {
   credentials: {
@@ -112,6 +113,21 @@ export const sendNoMoreSessionsRemainingEmail = async (user: User) => {
     html: render(
       NoMoreSessionsRemainingEmail({
         firstName: user.firstName!,
+      })
+    ),
+  });
+};
+
+export const sendVerificationCodeEmail = async (
+  email: string,
+  code: string
+) => {
+  await sendEmail({
+    toAddresses: [email],
+    subject: "Your Verification Code",
+    html: render(
+      VerificationCodeEmail({
+        code,
       })
     ),
   });
