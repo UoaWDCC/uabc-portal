@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
+import { weekdayEnum } from "@/lib/db/schema";
 import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useSemesterContext } from "./SemestersContext";
@@ -35,6 +36,17 @@ const formSchema = z
       .string()
       .min(1, "Field is required")
       .refine(validateDate, "Invalid date"),
+    bookingOpenDay: z
+      .string()
+      .min(1, "Field is required")
+      .refine(
+        (value) => z.enum(weekdayEnum.enumValues).safeParse(value).success,
+        { message: "Invalid day of week" }
+      ),
+    bookingOpenTime: z
+      .string()
+      .min(1, "Field is required")
+      .time("invalid time"),
   })
   .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
     message: "Start date must be before break start date",
@@ -76,6 +88,8 @@ export const EditSemesterFormDialog = () => {
       endDate,
       breakStart,
       breakEnd,
+      bookingOpenDay,
+      bookingOpenTime,
     },
   });
 
@@ -104,8 +118,8 @@ export const EditSemesterFormDialog = () => {
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (data) => {
     const body = JSON.stringify({
       name,
-      bookingOpenDay,
-      bookingOpenTime,
+      bookingOpenDay: data.bookingOpenDay,
+      bookingOpenTime: data.bookingOpenTime,
       startDate: formatDateInISO(data.startDate),
       endDate: formatDateInISO(data.endDate),
       breakStart: formatDateInISO(data.breakStart),
@@ -132,6 +146,8 @@ export const EditSemesterFormDialog = () => {
           endDate: data.endDate,
           breakStart: data.breakStart,
           breakEnd: data.breakEnd,
+          bookingOpenDay: data.bookingOpenDay,
+          bookingOpenTime: data.bookingOpenTime,
         });
         closeDialog();
       },
@@ -177,6 +193,24 @@ export const EditSemesterFormDialog = () => {
             {...register("breakEnd")}
             isError={!!errors.breakEnd?.message}
             errorMessage={errors.breakEnd?.message}
+            autoComplete="off"
+          />
+        </div>
+        <div className="flex gap-2 *:grow">
+          <TextInput
+            label="Open day"
+            type="text"
+            {...register("bookingOpenDay")}
+            isError={!!errors.bookingOpenDay?.message}
+            errorMessage={errors.bookingOpenDay?.message}
+            autoComplete="off"
+          />
+          <TextInput
+            label="Open time"
+            type="text"
+            {...register("bookingOpenTime")}
+            isError={!!errors.bookingOpenTime?.message}
+            errorMessage={errors.bookingOpenTime?.message}
             autoComplete="off"
           />
         </div>

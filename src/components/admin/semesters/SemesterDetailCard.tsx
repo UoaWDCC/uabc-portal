@@ -9,8 +9,16 @@ import { EditSemesterFormDialog } from "./EditSemesterFormDialog";
 import { useSemesterContext } from "./SemestersContext";
 
 const UnmemoizedSemesterDetailCard = () => {
-  const { id, name, startDate, endDate, breakStart, breakEnd } =
-    useSemesterContext();
+  const {
+    id,
+    name,
+    startDate,
+    endDate,
+    breakStart,
+    breakEnd,
+    bookingOpenDay,
+    bookingOpenTime,
+  } = useSemesterContext();
   return (
     <Card className="relative select-none bg-secondary/20 text-sm font-medium tracking-tight text-tertiary ring-1 ring-secondary">
       <Link
@@ -30,6 +38,9 @@ const UnmemoizedSemesterDetailCard = () => {
           />
         </OptionsPopover>
       </div>
+      <p className="-mt-1 underline decoration-secondary underline-offset-4">
+        {bookingOpenDay} at {bookingOpenTime}
+      </p>
       <p className="mt-2">Start date: {startDate}</p>
       <p>End date: {endDate}</p>
       <p className="mt-4">
