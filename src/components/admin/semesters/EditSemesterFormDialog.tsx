@@ -13,7 +13,12 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { weekdayEnum } from "@/lib/db/schema";
-import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
+import {
+  compareDate,
+  formatDateInISO,
+  spliceTime,
+  validateDate,
+} from "@/lib/utils";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useSemesterContext } from "./SemestersContext";
 
@@ -43,10 +48,7 @@ const formSchema = z
         (value) => z.enum(weekdayEnum.enumValues).safeParse(value).success,
         { message: "Invalid day of week" }
       ),
-    bookingOpenTime: z
-      .string()
-      .min(1, "Field is required")
-      .time("invalid time"),
+    bookingOpenTime: z.string().min(1, "Field is required"),
   })
   .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
     message: "Start date must be before break start date",
@@ -89,7 +91,7 @@ export const EditSemesterFormDialog = () => {
       breakStart,
       breakEnd,
       bookingOpenDay,
-      bookingOpenTime,
+      bookingOpenTime: spliceTime(bookingOpenTime),
     },
   });
 
@@ -119,7 +121,7 @@ export const EditSemesterFormDialog = () => {
     const body = JSON.stringify({
       name,
       bookingOpenDay: data.bookingOpenDay,
-      bookingOpenTime: data.bookingOpenTime,
+      bookingOpenTime: `${data.bookingOpenTime}:00`,
       startDate: formatDateInISO(data.startDate),
       endDate: formatDateInISO(data.endDate),
       breakStart: formatDateInISO(data.breakStart),
@@ -198,7 +200,7 @@ export const EditSemesterFormDialog = () => {
         </div>
         <div className="flex gap-2 *:grow">
           <TextInput
-            label="Open day"
+            label="Booking open day"
             type="text"
             {...register("bookingOpenDay")}
             isError={!!errors.bookingOpenDay?.message}
@@ -206,8 +208,8 @@ export const EditSemesterFormDialog = () => {
             autoComplete="off"
           />
           <TextInput
-            label="Open time"
-            type="text"
+            label="Booking open time"
+            type="time"
             {...register("bookingOpenTime")}
             isError={!!errors.bookingOpenTime?.message}
             errorMessage={errors.bookingOpenTime?.message}

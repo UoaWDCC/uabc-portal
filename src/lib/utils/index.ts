@@ -72,3 +72,10 @@ export function capitalize(word: string) {
   if (!word) return word;
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
+
+/**
+ * splice HH:MM:SS into HH:MM
+ */
+export function spliceTime(time: string) {
+  return time.split(":").slice(0, 2).join(":");
+}

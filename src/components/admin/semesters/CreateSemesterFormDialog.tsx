@@ -44,10 +44,7 @@ const formSchema = z
         (value) => z.enum(weekdayEnum.enumValues).safeParse(value).success,
         { message: "Invalid day of week" }
       ),
-    bookingOpenTime: z
-      .string()
-      .min(1, "Field is required")
-      .time("invalid time"),
+    bookingOpenTime: z.string().min(1, "Field is required"),
   })
   .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
     message: "Start date must be before break start date",
@@ -102,12 +99,12 @@ export const CreateSemesterFormDialog = () => {
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (data) => {
     const newSemester = JSON.stringify({
       name: data.name,
-      bookingOpenDay: data.bookingOpenDay,
-      bookingOpenTime: data.bookingOpenTime,
       startDate: formatDateInISO(data.startDate),
       endDate: formatDateInISO(data.endDate),
       breakStart: formatDateInISO(data.breakStart),
       breakEnd: formatDateInISO(data.breakEnd),
+      bookingOpenDay: data.bookingOpenDay,
+      bookingOpenTime: `${data.bookingOpenTime}:00`,
     });
 
     mutation.mutate(newSemester, {
@@ -186,7 +183,7 @@ export const CreateSemesterFormDialog = () => {
         </div>
         <div className="flex gap-2 *:grow">
           <TextInput
-            label="Open day"
+            label="Booking open day"
             type="text"
             {...register("bookingOpenDay")}
             isError={!!errors.bookingOpenDay?.message}
@@ -195,8 +192,8 @@ export const CreateSemesterFormDialog = () => {
             placeholder="Monday"
           />
           <TextInput
-            label="Open time"
-            type="text"
+            label="Booking open time"
+            type="time"
             {...register("bookingOpenTime")}
             isError={!!errors.bookingOpenTime?.message}
             errorMessage={errors.bookingOpenTime?.message}

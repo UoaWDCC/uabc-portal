@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Card } from "@/components/Card";
 import { OptionButtonUtils } from "@/components/ui/options-popover/OptionsButtonUtils";
 import { OptionsPopover } from "@/components/ui/options-popover/OptionsPopover";
+import { convertTo12HourFormat } from "@/lib/utils";
 import { DeleteSemesterFormDialog } from "./DeleteSemesterFormDialog";
 import { EditSemesterFormDialog } from "./EditSemesterFormDialog";
 import { useSemesterContext } from "./SemestersContext";
@@ -39,7 +40,8 @@ const UnmemoizedSemesterDetailCard = () => {
         </OptionsPopover>
       </div>
       <p className="underline decoration-secondary/80 decoration-1 underline-offset-4">
-        Open {bookingOpenDay.toLowerCase()} at {bookingOpenTime}
+        Bookings open {bookingOpenDay} at{" "}
+        {convertTo12HourFormat(bookingOpenTime)}
       </p>
       <p className="mt-2">Start date: {startDate}</p>
       <p>End date: {endDate}</p>
