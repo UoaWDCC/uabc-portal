@@ -66,22 +66,19 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
           </span>
         </div>
         {/* has 3 lines(40px) of error message height */}
-        {(isError || isSuccess) && (
-          <p
-            className={twMerge(
-              "max-h-0 w-full text-xs transition-[max-height] duration-150 ease-in-out",
-              ((!!errorMessage && isError) ||
-                (!!successMessage && isSuccess)) &&
-                "max-h-10",
-              isError &&
-                "peer-has[input:focus]:!text-destructive text-destructive/80",
-              isSuccess && "peer-has[input:focus]:!text-success text-success/80"
-            )}
-          >
-            {isError && errorMessage}&nbsp;
-            {isSuccess && successMessage}&nbsp;
-          </p>
-        )}
+        <p
+          className={twMerge(
+            "max-h-0 w-full text-xs transition-[max-height] duration-150 ease-in-out",
+            ((!!errorMessage && isError) || (!!successMessage && isSuccess)) &&
+              "max-h-10",
+            isError &&
+              "peer-has[input:focus]:!text-destructive text-destructive/80",
+            isSuccess && "peer-has[input:focus]:!text-success text-success/80"
+          )}
+        >
+          {isError && errorMessage}&nbsp;
+          {isSuccess && successMessage}&nbsp;
+        </p>
       </div>
     );
   }

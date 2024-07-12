@@ -38,8 +38,8 @@ const UnmemoizedSemesterDetailCard = () => {
           />
         </OptionsPopover>
       </div>
-      <p className="-mt-1 underline decoration-secondary underline-offset-4">
-        {bookingOpenDay} at {bookingOpenTime}
+      <p className="underline decoration-secondary/80 decoration-1 underline-offset-4">
+        Open {bookingOpenDay.toLowerCase()} at {bookingOpenTime}
       </p>
       <p className="mt-2">Start date: {startDate}</p>
       <p>End date: {endDate}</p>

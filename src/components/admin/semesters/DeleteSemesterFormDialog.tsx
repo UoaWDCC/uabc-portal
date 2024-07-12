@@ -47,7 +47,7 @@ export const DeleteSemesterFormDialog = () => {
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SEMESTERS] });
         toast({
           title: "Semester deleted!",
-          description: `${name} has deleted`,
+          description: `${name} has been deleted`,
         });
         closeDialog();
       },
