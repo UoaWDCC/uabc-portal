@@ -93,11 +93,8 @@ export const EditSemesterFormDialog = () => {
       });
 
       if (!response.ok) {
-        await response.text().then((text) => {
-          throw new Error(text || "An error has occurred");
-        });
+        throw new Error();
       }
-      return response.json();
     },
   });
 

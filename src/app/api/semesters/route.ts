@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { and, eq, gt, gte, lt, lte, or } from "drizzle-orm";
+import { and, eq, gte, lte, or } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
@@ -67,8 +67,8 @@ export async function POST(req: NextRequest) {
       where: or(
         eq(semesters.name, newSemester.name),
         and(
-          gte(semesters.startDate, newSemester.endDate),
-          lte(semesters.endDate, newSemester.startDate)
+          lte(semesters.startDate, newSemester.endDate),
+          gte(semesters.endDate, newSemester.startDate)
         )
       ),
     });

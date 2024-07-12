@@ -88,7 +88,7 @@ export async function POST(_req: NextRequest) {
         bookingOpenTime: getZonedBookingOpenTime({
           bookingOpenDay: activeSemester.bookingOpenDay,
           bookingOpenTime: activeSemester.bookingOpenTime,
-          gameSessionDate: format(day, "yyyy-MM-dd"),
+          gameSessionDate: day,
         }),
         bookingCloseTime: getZonedBookingCloseTime(day),
       });

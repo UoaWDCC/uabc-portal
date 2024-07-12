@@ -138,8 +138,8 @@ export async function PUT(
         or(
           eq(semesters.name, updatedSemester.name),
           and(
-            gte(semesters.startDate, updatedSemester.endDate),
-            lte(semesters.endDate, updatedSemester.startDate)
+            lte(semesters.startDate, updatedSemester.endDate),
+            gte(semesters.endDate, updatedSemester.startDate)
           )
         )
       ),
@@ -187,11 +187,12 @@ export async function PUT(
       });
     });
 
-    return NextResponse.json(null, { status: 204 });
+    return new Response(null, { status: 204 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ errors: error.issues }, { status: 400 });
     }
+    console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }
