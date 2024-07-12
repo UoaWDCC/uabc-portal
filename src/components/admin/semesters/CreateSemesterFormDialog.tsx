@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
+import { weekdayEnum } from "@/lib/db/schema";
 import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 
@@ -36,6 +37,17 @@ const formSchema = z
       .string()
       .min(1, "Field is required")
       .refine(validateDate, "Invalid date"),
+    bookingOpenDay: z
+      .string()
+      .min(1, "Field is required")
+      .refine(
+        (value) => z.enum(weekdayEnum.enumValues).safeParse(value).success,
+        { message: "Invalid day of week" }
+      ),
+    bookingOpenTime: z
+      .string()
+      .min(1, "Field is required")
+      .time("invalid time"),
   })
   .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
     message: "Start date must be before break start date",
@@ -90,12 +102,12 @@ export const CreateSemesterFormDialog = () => {
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (data) => {
     const newSemester = JSON.stringify({
       name: data.name,
+      bookingOpenDay: data.bookingOpenDay,
+      bookingOpenTime: data.bookingOpenTime,
       startDate: formatDateInISO(data.startDate),
       endDate: formatDateInISO(data.endDate),
       breakStart: formatDateInISO(data.breakStart),
       breakEnd: formatDateInISO(data.breakEnd),
-      bookingOpenDay: "Monday",
-      bookingOpenTime: "12:00:00",
     });
 
     mutation.mutate(newSemester, {
@@ -170,6 +182,26 @@ export const CreateSemesterFormDialog = () => {
             errorMessage={errors.breakEnd?.message}
             autoComplete="off"
             placeholder="dd/MM/yyyy"
+          />
+        </div>
+        <div className="flex gap-2 *:grow">
+          <TextInput
+            label="Open day"
+            type="text"
+            {...register("bookingOpenDay")}
+            isError={!!errors.bookingOpenDay?.message}
+            errorMessage={errors.bookingOpenDay?.message}
+            autoComplete="off"
+            placeholder="Monday"
+          />
+          <TextInput
+            label="Open time"
+            type="text"
+            {...register("bookingOpenTime")}
+            isError={!!errors.bookingOpenTime?.message}
+            errorMessage={errors.bookingOpenTime?.message}
+            autoComplete="off"
+            placeholder="09:00:00"
           />
         </div>
         <DialogButtonsFooter
