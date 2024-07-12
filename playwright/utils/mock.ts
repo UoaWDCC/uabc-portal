@@ -1,4 +1,6 @@
+import { faker } from "@faker-js/faker";
+
 export const generateMockOnboardingUser = () => ({
-  email: crypto.randomUUID() + "@onboarding.com",
-  password: "231Xh7D&dM8u75EjIYV",
+  email: faker.internet.email(),
+  password: faker.internet.password(),
 });

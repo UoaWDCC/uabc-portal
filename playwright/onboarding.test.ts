@@ -1,22 +1,12 @@
-import { expect, test } from "@playwright/test";
+import { expect } from "@playwright/test";
 
-import { signUpAndLogin } from "./utils/helper";
+import { test } from "./lib/fixtures";
 import { generateMockOnboardingUser } from "./utils/mock";
 
-test.beforeEach(async ({ page }) => {
-  const user = generateMockOnboardingUser();
-  await signUpAndLogin(page, user.email, user.password);
+test.beforeEach(async ({ page, users }) => {
+  const user = await users.create(generateMockOnboardingUser());
+  await user.login();
   await page.goto("/sessions");
-});
-
-test.afterEach(async ({ page }) => {
-  // await is necessary so test context is not disposed before the request is completed
-  await page.request
-    .get(`/api/auth/session`)
-    .then((res) => res.json())
-    .then(async ({ user }) => {
-      await page.request.delete(`/api/users/${user.id}`);
-    });
 });
 
 test.describe("Onboarding flow", () => {

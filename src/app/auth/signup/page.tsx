@@ -1,12 +1,10 @@
-"use client";
-
 import Link from "next/link";
 
 import { BreakLine } from "@/components/auth/BreakLine";
 import { EmailSignUpForm } from "@/components/auth/EmailSignUpForm";
 import { GoogleSignIn } from "@/components/auth/GoogleLoginButton";
 
-export default function LoginPage() {
+export default async function SignUpPage() {
   return (
     <div className="mt-8 flex w-full flex-col gap-4">
       <EmailSignUpForm />

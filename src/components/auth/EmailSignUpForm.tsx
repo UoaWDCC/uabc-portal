@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -10,7 +9,7 @@ import { useValidateEmailMutation } from "@/hooks/mutations/registration";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
-import OTPFormAlertDialog from "./OTPFormAlertDialog";
+import { OTPFormAlertDialog } from "./OTPFormAlertDialog";
 
 const formSchema = z.object({
   email: z.string().email(),

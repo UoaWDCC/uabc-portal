@@ -1,16 +1,16 @@
-"use client";
-
-import { useState } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 
 import { BreakLine } from "@/components/auth/BreakLine";
 import { EmailLoginForm } from "@/components/auth/EmailLoginForm";
 import { GoogleSignIn } from "@/components/auth/GoogleLoginButton";
 
-export default function LoginPage() {
+export default async function LoginPage() {
   return (
     <div className="mt-8 flex w-full flex-col gap-4">
-      <EmailLoginForm />
+      <Suspense>
+        <EmailLoginForm />
+      </Suspense>
       <BreakLine label="or" />
       <GoogleSignIn className="w-full" />
       <p className="mt-2 text-center text-xs text-tertiary dark:text-white">

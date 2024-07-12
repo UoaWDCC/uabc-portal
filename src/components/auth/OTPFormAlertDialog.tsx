@@ -25,7 +25,7 @@ interface OTPFormAlertDialogProps extends AlertDialogProps {
   onSuccess: () => void;
 }
 
-export default function OTPFormAlertDialog({
+export function OTPFormAlertDialog({
   email,
   password,
   onSuccess,
