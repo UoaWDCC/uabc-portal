@@ -7,7 +7,6 @@ type GameSessionData = {
   date: string;
   startTime: string;
   endTime: string;
-  bookingClose: string;
   locationName: string;
   locationAddress: string;
   capacity: number;

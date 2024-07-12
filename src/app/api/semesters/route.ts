@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
+import { and, eq, gt, gte, lt, lte, or } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
@@ -64,11 +64,22 @@ export async function POST(req: NextRequest) {
     }
 
     const existingSemester = await db.query.semesters.findFirst({
-      where: eq(semesters.name, newSemester.name),
+      where: or(
+        eq(semesters.name, newSemester.name),
+        and(
+          gte(semesters.startDate, newSemester.endDate),
+          lte(semesters.endDate, newSemester.startDate)
+        )
+      ),
     });
 
     if (existingSemester) {
-      return new Response("This name already exists, please pick another", {
+      if (existingSemester.name === newSemester.name)
+        return new Response("This name already exists, please pick another", {
+          status: 400,
+          statusText: "nameError",
+        });
+      return new Response("Semesters cannot overlap", {
         status: 400,
         statusText: "nameError",
       });

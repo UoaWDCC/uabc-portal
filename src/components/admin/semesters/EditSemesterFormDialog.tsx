@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
-import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useSemesterContext } from "./SemestersContext";
+import { compareDate, formatDateInISO, validateDate } from "./utils";
 
 // Schema
 const formSchema = z

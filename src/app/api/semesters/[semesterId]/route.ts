@@ -1,11 +1,12 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
+import { and, eq, gt, gte, lte, ne, or } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
-import { semesters } from "@/lib/db/schema";
+import { bookingPeriods, semesters } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
+import { getZonedBookingOpenTime } from "@/lib/utils/game-sessions";
 import { updateSemesterSchema } from "@/lib/validators";
 
 export async function GET(
@@ -131,13 +132,62 @@ export async function PUT(
       });
     }
 
-    const res = await db
-      .update(semesters)
-      .set(updatedSemester)
-      .where(eq(semesters.id, semesterId))
-      .returning();
+    const existingSemester = await db.query.semesters.findFirst({
+      where: and(
+        ne(semesters.id, semesterId),
+        or(
+          eq(semesters.name, updatedSemester.name),
+          and(
+            gte(semesters.startDate, updatedSemester.endDate),
+            lte(semesters.endDate, updatedSemester.startDate)
+          )
+        )
+      ),
+    });
 
-    return NextResponse.json(res, { status: 200 });
+    if (existingSemester) {
+      if (existingSemester.name === updatedSemester.name)
+        return new Response("This name already exists, please pick another", {
+          status: 400,
+          statusText: "nameError",
+        });
+      return new Response("Semesters cannot overlap", {
+        status: 400,
+        statusText: "nameError",
+      });
+    }
+
+    await db.transaction(async (tx) => {
+      await tx
+        .update(semesters)
+        .set(updatedSemester)
+        .where(eq(semesters.id, semesterId));
+
+      const semesterBookingPeriods = await tx
+        .select()
+        .from(bookingPeriods)
+        .where(
+          and(
+            eq(bookingPeriods.semesterId, semesterId),
+            gt(bookingPeriods.bookingOpenTime, new Date())
+          )
+        );
+
+      semesterBookingPeriods.forEach(async (bookingPeriod) => {
+        await tx
+          .update(bookingPeriods)
+          .set({
+            bookingOpenTime: getZonedBookingOpenTime({
+              bookingOpenDay: updatedSemester.bookingOpenDay,
+              bookingOpenTime: updatedSemester.bookingOpenTime,
+              gameSessionDate: bookingPeriod.bookingCloseTime,
+            }),
+          })
+          .where(eq(bookingPeriods.id, bookingPeriod.id));
+      });
+    });
+
+    return NextResponse.json(null, { status: 204 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ errors: error.issues }, { status: 400 });

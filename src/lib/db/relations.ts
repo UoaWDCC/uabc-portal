@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm";
 
 import {
   bookingDetails,
+  bookingPeriods,
   bookings,
   gameSessions,
   gameSessionSchedules,
@@ -17,7 +18,22 @@ export const gameSessionRelations = relations(
       fields: [gameSessions.gameSessionScheduleId],
       references: [gameSessionSchedules.id],
     }),
+    bookingPeriods: one(bookingPeriods, {
+      fields: [gameSessions.bookingPeriodId],
+      references: [bookingPeriods.id],
+    }),
     bookingDetails: many(bookingDetails),
+  })
+);
+
+export const bookingPeriodRelations = relations(
+  bookingPeriods,
+  ({ many, one }) => ({
+    semester: one(semesters, {
+      fields: [bookingPeriods.semesterId],
+      references: [semesters.id],
+    }),
+    gameSessions: many(gameSessions),
   })
 );
 
@@ -51,6 +67,7 @@ export const userRelations = relations(users, ({ many }) => ({
 // One semester is associated with many GameSessionSchedules
 export const semesterRelations = relations(semesters, ({ many }) => ({
   gameSessionSchedules: many(gameSessionSchedules),
+  bookingPeriods: many(bookingPeriods),
 }));
 
 // One GameSessionSchedule is associated with one Semester and many GameSessions

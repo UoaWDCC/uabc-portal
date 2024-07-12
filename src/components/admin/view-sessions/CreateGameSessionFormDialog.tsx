@@ -13,7 +13,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { useCreateGameSessionMutation } from "@/hooks/mutations/game-sessions";
-import { formatFullDate } from "@/lib/utils";
+import { formatFullDate } from "@/lib/utils/dates";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useGameSessionContext } from "./GameSessionContext";
 import { gameSessionFormSchema } from "./utils";
@@ -48,11 +48,6 @@ export function CreateGameSessionFormDialog({
       date,
       startTime: `${data.startTime}:00`,
       endTime: `${data.endTime}:00`,
-      bookingOpen: bookingOpen!,
-      bookingClose: format(
-        parse(data.startTime, "HH:mm", date),
-        "yyyy-MM-dd HH:mm:ss"
-      ),
     });
     mutate(body, {
       onSuccess: () => {

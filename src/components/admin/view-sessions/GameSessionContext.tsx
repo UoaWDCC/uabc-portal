@@ -4,30 +4,10 @@ import React, {
   type PropsWithChildren,
 } from "react";
 
-// type GameSessionExists = {
-//   exists: true;
-//   id: number;
-//   bookingOpen: string;
-//   bookingClose: string;
-//   startTime: string;
-//   endTime: string;
-//   locationName: string;
-//   locationAddress: string;
-//   capacity: number;
-//   casualCapacity: number;
-//   attendees: number;
-// };
-
-// type GameSessionContextType = {
-//   date: string;
-//   exists: boolean;
-// } & (GameSessionExists | { exists: false });
-
 type GameSessionContextType = {
   date: string;
   canCreate: boolean;
   bookingOpen?: string;
-  bookingClose?: string;
   id?: number;
   startTime?: string;
   endTime?: string;

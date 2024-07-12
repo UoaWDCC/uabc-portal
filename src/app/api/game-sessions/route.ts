@@ -1,19 +1,30 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { addDays } from "date-fns";
-import { and, eq, gt, gte, lt, lte, or, sql } from "drizzle-orm";
+import {
+  and,
+  count,
+  eq,
+  gt,
+  gte,
+  lt,
+  lte,
+  or,
+  TransactionRollbackError,
+} from "drizzle-orm";
 import z from "zod";
 
 import { db } from "@/lib/db";
 import {
   bookingDetails,
+  bookingPeriods,
   gameSessionExceptions,
   gameSessions,
   gameSessionSchedules,
   semesters,
 } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
-import { formatInNZST, getWeekday } from "@/lib/utils";
+import { getWeekday } from "@/lib/utils";
 import {
   getZonedBookingCloseTime,
   getZonedBookingOpenTime,
@@ -24,6 +35,7 @@ import {
   insertNonNullGameSessionExceptionSchema,
   updateGameSessionSchema,
 } from "@/lib/validators";
+import { getOrCreateBookingPeriod } from "@/services/game-sessions";
 
 export async function GET(req: NextRequest) {
   try {
@@ -38,13 +50,18 @@ export async function GET(req: NextRequest) {
     const date = req.nextUrl.searchParams.get("date");
     const gameSessionDate = z.string().date().parse(date);
 
-    const existingGameSession = await db.query.gameSessions.findFirst({
-      where: eq(gameSessions.date, gameSessionDate),
-    });
+    const [result] = await db
+      .select()
+      .from(gameSessions)
+      .innerJoin(
+        bookingPeriods,
+        eq(bookingPeriods.id, gameSessions.bookingPeriodId)
+      )
+      .where(eq(gameSessions.date, gameSessionDate));
 
-    if (existingGameSession) {
+    if (result) {
       const [{ attendees }] = await db
-        .select({ attendees: sql<number>`count(*)`.mapWith(Number) })
+        .select({ attendees: count() })
         .from(bookingDetails)
         .innerJoin(
           gameSessions,
@@ -57,7 +74,8 @@ export async function GET(req: NextRequest) {
           exists: true,
           canCreate: true,
           data: {
-            ...existingGameSession,
+            ...result.gameSession,
+            bookingOpen: result.bookingPeriod.bookingOpenTime,
             attendees,
           },
         },
@@ -106,7 +124,7 @@ export async function GET(req: NextRequest) {
       }
     );
 
-    const bookingOpen = getZonedBookingOpenTime({
+    const bookingOpenTime = getZonedBookingOpenTime({
       bookingOpenDay: semester.bookingOpenDay,
       bookingOpenTime: semester.bookingOpenTime,
       gameSessionDate,
@@ -120,7 +138,7 @@ export async function GET(req: NextRequest) {
           message: "No game session found for this date",
           data: {
             semesterName: semester.name,
-            bookingOpen,
+            bookingOpen: bookingOpenTime,
           },
         },
         {
@@ -138,11 +156,7 @@ export async function GET(req: NextRequest) {
             date: gameSessionDate,
             semesterName: semester.name,
             gameSessionScheduleId: null,
-            bookingOpen,
-            bookingClose: getZonedBookingCloseTime({
-              gameSessionDate,
-              gameSessionStartTime: gameSessionException.startTime!,
-            }),
+            bookingOpen: bookingOpenTime,
             startTime: gameSessionException.startTime,
             endTime: gameSessionException.endTime,
             locationName: gameSessionException.locationName,
@@ -164,7 +178,7 @@ export async function GET(req: NextRequest) {
           message: "No game session found for this date",
           data: {
             semesterName: semester.name,
-            bookingOpen,
+            bookingOpen: bookingOpenTime,
           },
         },
         {
@@ -182,11 +196,7 @@ export async function GET(req: NextRequest) {
           date: gameSessionDate,
           semesterName: semester.name,
           gameSessionScheduleId: null,
-          bookingOpen,
-          bookingClose: getZonedBookingCloseTime({
-            gameSessionDate,
-            gameSessionStartTime: gameSessionSchedule.startTime,
-          }),
+          bookingOpen: bookingOpenTime,
           startTime: gameSessionSchedule.startTime,
           endTime: gameSessionSchedule.endTime,
           locationName: gameSessionSchedule.locationName,
@@ -227,7 +237,7 @@ export async function POST(req: NextRequest) {
 
     const gameSessionDate = gameSessionExceptionToInsert.date;
 
-    if (gameSessionDate < formatInNZST(new Date())) {
+    if (new Date(gameSessionDate) < new Date()) {
       return new Response("Date cannot be in the past", { status: 400 });
     }
 
@@ -260,14 +270,6 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    if (new Date(gameSessionDate) < addDays(new Date(), 7)) {
-      const gameSessionToInsert = insertGameSessionSchema.parse(body);
-
-      await db.insert(gameSessions).values(gameSessionToInsert);
-
-      return NextResponse.json(gameSessionToInsert, { status: 201 });
-    }
-
     // Check for a schedule on this weekday
     const semester = await db.query.semesters.findFirst({
       with: {
@@ -289,6 +291,31 @@ export async function POST(req: NextRequest) {
 
     if (!semester) {
       return new Response("No semester found for this date", { status: 404 });
+    }
+
+    if (new Date(gameSessionDate) < addDays(new Date(), 7)) {
+      const insertedGameSession = await db.transaction(async (tx) => {
+        const bookingPeriod = await getOrCreateBookingPeriod({
+          semesterId: semester.id,
+          bookingOpenTime: getZonedBookingOpenTime({
+            bookingOpenDay: semester.bookingOpenDay,
+            bookingOpenTime: semester.bookingOpenTime,
+            gameSessionDate,
+          }),
+          bookingCloseTime: getZonedBookingCloseTime(gameSessionDate),
+        });
+
+        const gameSessionToInsert = insertGameSessionSchema.parse({
+          ...body,
+          bookingPeriodId: bookingPeriod.id,
+        });
+
+        await tx.insert(gameSessions).values(gameSessionToInsert);
+
+        return gameSessionToInsert;
+      });
+
+      return NextResponse.json(insertedGameSession, { status: 201 });
     }
 
     const gameSessionSchedule = semester?.gameSessionSchedules[0];
@@ -319,7 +346,10 @@ export async function POST(req: NextRequest) {
 
     await db
       .insert(gameSessionExceptions)
-      .values(gameSessionExceptionToInsert)
+      .values({
+        semesterId: semester.id,
+        ...gameSessionExceptionToInsert,
+      })
       .onConflictDoUpdate({
         target: [gameSessionExceptions.date],
         set: gameSessionExceptionToInsert,
@@ -349,12 +379,35 @@ export async function DELETE(req: NextRequest) {
     const gameSessionDate = z.string().date().parse(date);
 
     // Delete the game session if it exists
-    const [deletedGameSession] = await db
-      .delete(gameSessions)
-      .where(eq(gameSessions.date, gameSessionDate))
-      .returning();
+    const existingGameSession = await db.query.gameSessions.findFirst({
+      where: eq(gameSessions.date, gameSessionDate),
+    });
 
-    if (deletedGameSession) {
+    if (existingGameSession) {
+      await db.transaction(async (tx) => {
+        await tx
+          .delete(gameSessions)
+          .where(eq(gameSessions.date, gameSessionDate));
+
+        const semester = await db.query.semesters.findFirst({
+          where: and(
+            lte(semesters.startDate, gameSessionDate),
+            gte(semesters.endDate, gameSessionDate)
+          ),
+        });
+
+        if (!semester) throw new TransactionRollbackError();
+
+        await tx
+          .insert(gameSessionExceptions)
+          .values({
+            semesterId: semester.id,
+            date: gameSessionDate,
+            isDeleted: true,
+          })
+          .onConflictDoNothing();
+      });
+
       return new Response(null, { status: 204 });
     }
 
@@ -458,13 +511,7 @@ export async function PUT(req: NextRequest) {
     // If the game session exists, update it and return
     const [updatedGameSession] = await db
       .update(gameSessions)
-      .set({
-        ...gameSessionToUpdate,
-        bookingClose: getZonedBookingCloseTime({
-          gameSessionDate,
-          gameSessionStartTime: gameSessionToUpdate.startTime,
-        }),
-      })
+      .set(gameSessionToUpdate)
       .where(eq(gameSessions.date, gameSessionDate))
       .returning();
 

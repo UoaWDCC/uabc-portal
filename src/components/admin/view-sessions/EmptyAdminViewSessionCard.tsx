@@ -7,7 +7,7 @@ import { Card } from "@/components/Card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
-import { formatFullDate } from "@/lib/utils";
+import { formatFullDate } from "@/lib/utils/dates";
 import { CreateGameSessionFormDialog } from "./CreateGameSessionFormDialog";
 import { useGameSessionContext } from "./GameSessionContext";
 

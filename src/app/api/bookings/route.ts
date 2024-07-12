@@ -8,9 +8,16 @@ import {
 } from "@/emails";
 import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { db } from "@/lib/db";
-import { bookingDetails, bookings, gameSessions, users } from "@/lib/db/schema";
+import {
+  bookingDetails,
+  bookingPeriods,
+  bookings,
+  gameSessions,
+  users,
+} from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
 import { obfuscateId } from "@/lib/sqid";
+import { nzstParse } from "@/lib/utils/dates";
 import { userCache } from "@/services/user";
 
 /**
@@ -103,25 +110,35 @@ export async function POST(request: Request) {
       }
 
       // check if gameSession exists
-      const gameSession = await db.query.gameSessions.findFirst({
-        where: eq(gameSessions.id, session.gameSessionId),
-      });
-      if (!gameSession) {
+
+      const [result] = await db
+        .select()
+        .from(gameSessions)
+        .innerJoin(
+          bookingPeriods,
+          eq(gameSessions.bookingPeriodId, bookingPeriods.id)
+        )
+        .where(and(eq(gameSessions.id, session.gameSessionId)));
+
+      if (!result) {
         return new Response("Game session does not exist", { status: 400 });
       }
 
+      const { gameSession, bookingPeriod } = result;
+
       // check if gameSesson is available for booking
       if (
-        gameSession.bookingOpen > new Date() ||
-        gameSession.bookingClose < new Date()
-      ) {
+        bookingPeriod.bookingOpenTime > new Date() ||
+        bookingPeriod.bookingCloseTime < new Date() ||
+        new Date() >
+          nzstParse(gameSession.startTime, "HH:mm:ss", gameSession.date)
+      )
         return new Response(
           "Game session is not currently available for booking",
           {
             status: 400,
           }
         );
-      }
     }
 
     const bookingId = await db.transaction(async (tx) => {

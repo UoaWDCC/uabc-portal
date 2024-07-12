@@ -26,6 +26,7 @@ import {
   getZonedBookingOpenTime,
 } from "@/lib/utils/game-sessions";
 import { insertGameSessionSchema } from "@/lib/validators";
+import { getOrCreateBookingPeriod } from "@/services/game-sessions";
 
 export async function POST(_req: NextRequest) {
   try {
@@ -82,10 +83,14 @@ export async function POST(_req: NextRequest) {
     for (const day of eachDayOfInterval(creationInterval)) {
       if (isWithinInterval(day, semesterBreakInterval)) continue;
 
-      const bookingOpen = getZonedBookingOpenTime({
-        bookingOpenDay: activeSemester.bookingOpenDay,
-        bookingOpenTime: activeSemester.bookingOpenTime,
-        gameSessionDate: format(day, "yyyy-MM-dd"),
+      const bookingPeriod = await getOrCreateBookingPeriod({
+        semesterId: activeSemester.id,
+        bookingOpenTime: getZonedBookingOpenTime({
+          bookingOpenDay: activeSemester.bookingOpenDay,
+          bookingOpenTime: activeSemester.bookingOpenTime,
+          gameSessionDate: format(day, "yyyy-MM-dd"),
+        }),
+        bookingCloseTime: getZonedBookingCloseTime(day),
       });
 
       //check for gameSessionScheduleExceptions and continue if deleted, and if edited then insert that instead and continue
@@ -96,15 +101,8 @@ export async function POST(_req: NextRequest) {
       if (exception?.isDeleted) continue;
 
       if (exception) {
-        const bookingClose = getZonedBookingCloseTime({
-          gameSessionStartTime: exception.startTime!,
-          gameSessionDate: format(day, "yyyy-MM-dd"),
-        });
-
         gameSessionsToInsert.push(
           insertGameSessionSchema.parse({
-            bookingOpen,
-            bookingClose,
             date: format(day, "yyyy-MM-dd"),
             startTime: exception.startTime,
             endTime: exception.endTime,
@@ -112,6 +110,7 @@ export async function POST(_req: NextRequest) {
             locationAddress: exception.locationAddress,
             capacity: exception.capacity,
             casualCapacity: exception.casualCapacity,
+            bookingPeriodId: bookingPeriod.id,
           })
         );
         continue;
@@ -127,15 +126,8 @@ export async function POST(_req: NextRequest) {
 
       if (!schedule) continue;
 
-      const bookingClose = getZonedBookingCloseTime({
-        gameSessionStartTime: schedule.startTime,
-        gameSessionDate: format(day, "yyyy-MM-dd"),
-      });
-
       gameSessionsToInsert.push(
         insertGameSessionSchema.parse({
-          bookingOpen,
-          bookingClose,
           gameSessionScheduleId: schedule.id,
           date: format(day, "yyyy-MM-dd"),
           startTime: schedule.startTime,
@@ -144,8 +136,13 @@ export async function POST(_req: NextRequest) {
           locationAddress: schedule.locationAddress,
           capacity: schedule.capacity,
           casualCapacity: schedule.casualCapacity,
+          bookingPeriodId: bookingPeriod.id,
         })
       );
+    }
+
+    if (gameSessionsToInsert.length === 0) {
+      return NextResponse.json("No game sessions to insert", { status: 200 });
     }
 
     const insertedGameSessions = await db
@@ -156,6 +153,7 @@ export async function POST(_req: NextRequest) {
 
     return NextResponse.json(insertedGameSessions, { status: 201 });
   } catch (err) {
+    console.error(err);
     return NextResponse.json(err, { status: 500 });
   }
 }

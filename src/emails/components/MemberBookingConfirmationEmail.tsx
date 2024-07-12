@@ -1,7 +1,8 @@
 import React from "react";
 import { Text } from "@react-email/components";
 
-import { capitalize, convertTo12HourFormat, formatFullDate } from "@/lib/utils";
+import { capitalize } from "@/lib/utils";
+import { convertTo12HourFormat, formatFullDate } from "@/lib/utils/dates";
 import EmailLayout from "./EmailLayout";
 
 interface BookingDetail {

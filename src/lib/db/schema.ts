@@ -96,8 +96,9 @@ export const gameSessions = pgTable("gameSession", {
     () => gameSessionSchedules.id,
     { onDelete: "set null" }
   ),
-  bookingOpen: timestamp("bookingOpen", { mode: "date" }).notNull(),
-  bookingClose: timestamp("bookingClose", { mode: "date" }).notNull(),
+  bookingPeriodId: integer("bookingPeriodId")
+    .notNull()
+    .references(() => bookingPeriods.id, { onDelete: "cascade" }),
   date: date("date").unique().notNull(),
   startTime: time("startTime").notNull(),
   endTime: time("endTime").notNull(),
@@ -105,6 +106,17 @@ export const gameSessions = pgTable("gameSession", {
   locationAddress: text("locationAddress").notNull(),
   capacity: integer("capacity").notNull(),
   casualCapacity: integer("casualCapacity").notNull(),
+});
+
+export const bookingPeriods = pgTable("bookingPeriod", {
+  id: serial("id").primaryKey(),
+  semesterId: integer("semesterId")
+    .notNull()
+    .references(() => semesters.id, { onDelete: "cascade" }),
+  bookingOpenTime: timestamp("bookingOpenTime", { mode: "date" })
+    .notNull()
+    .unique(),
+  bookingCloseTime: timestamp("bookingCloseTime", { mode: "date" }).notNull(),
 });
 
 export const bookings = pgTable("booking", {
@@ -167,7 +179,10 @@ export const gameSessionSchedules = pgTable(
 );
 
 export const gameSessionExceptions = pgTable("gameSessionException", {
-  exceptionId: serial("exceptionId").primaryKey(),
+  id: serial("id").primaryKey(),
+  semesterId: integer("semesterId")
+    .notNull()
+    .references(() => semesters.id, { onDelete: "cascade" }),
   isDeleted: boolean("isDeleted").default(false).notNull(),
   date: date("date").unique().notNull(),
   startTime: time("startTime"),

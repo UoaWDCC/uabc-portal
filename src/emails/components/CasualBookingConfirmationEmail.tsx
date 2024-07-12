@@ -1,10 +1,12 @@
 import React from "react";
 import { Text } from "@react-email/components";
 
-import { capitalize, convertTo12HourFormat, formatFullDate } from "@/lib/utils";
 import EmailLayout from "./EmailLayout";
 
 import "../tailwind-config";
+
+import { capitalize } from "@/lib/utils";
+import { convertTo12HourFormat, formatFullDate } from "@/lib/utils/dates";
 
 interface BookingDetail {
   id: number;

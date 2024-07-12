@@ -14,7 +14,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { useEditGameSessionMutation } from "@/hooks/mutations/game-sessions";
-import { formatFullDate } from "@/lib/utils";
+import { formatFullDate } from "@/lib/utils/dates";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useGameSessionContext } from "./GameSessionContext";
 import { gameSessionFormSchema } from "./utils";
@@ -23,7 +23,6 @@ export default function EditGameSessionFormDialog() {
   const {
     date,
     bookingOpen,
-    bookingClose,
     startTime,
     endTime,
     locationName,
@@ -112,7 +111,7 @@ export default function EditGameSessionFormDialog() {
                     parse(watch("startTime"), "HH:mm", date),
                     "dd/MM/yy hh:mma"
                   )
-                : format(new Date(bookingClose!), "dd/MM/yy hh:mma")
+                : format(date, "dd/MM/yy hh:mma")
             }
             readOnly
             disabled
