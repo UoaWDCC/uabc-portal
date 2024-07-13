@@ -430,7 +430,11 @@ export async function DELETE(req: NextRequest) {
       ),
     });
 
-    const gameSessionSchedule = semester?.gameSessionSchedules[0];
+    if (!semester) {
+      return new Response("No semester found for this date", { status: 404 });
+    }
+
+    const gameSessionSchedule = semester.gameSessionSchedules[0];
 
     // Create a gameSessionException record if one doesn't exist
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
@@ -459,6 +463,7 @@ export async function DELETE(req: NextRequest) {
       {
         isDeleted: true,
         date: gameSessionDate,
+        semesterId: semester.id,
       }
     );
 
@@ -538,7 +543,11 @@ export async function PUT(req: NextRequest) {
       ),
     });
 
-    const gameSessionSchedule = semester?.gameSessionSchedules[0];
+    if (!semester) {
+      return new Response("No semester found for this date", { status: 404 });
+    }
+
+    const gameSessionSchedule = semester.gameSessionSchedules[0];
 
     const gameSessionException = await db.query.gameSessionExceptions.findFirst(
       {
@@ -566,7 +575,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const gameSessionExceptionToInsert = insertGameSessionExceptionSchema.parse(
-      { ...gameSessionToUpdate, date: gameSessionDate }
+      { ...gameSessionToUpdate, date: gameSessionDate, semesterId: semester.id }
     );
 
     // Insert the gameSessionException record
