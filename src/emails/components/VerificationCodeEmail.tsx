@@ -1,6 +1,6 @@
 import { Text } from "@react-email/components";
 
-import EmailLayout from "./EmailLayout";
+import { EmailLayout } from "./common/EmailLayout";
 
 interface VerificationCodeEmailProps {
   code: string;

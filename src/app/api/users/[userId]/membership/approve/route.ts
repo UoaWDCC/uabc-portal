@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
+import { sendMemberApprovalEmail } from "@/emails";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
@@ -33,7 +34,7 @@ export async function PATCH(
 
   const [user] = await db
     .update(users)
-    .set({ verified: true, remainingSessions: prepaidSessions })
+    .set({ verified: true, prepaidSessions })
     .where(eq(users.id, userId))
     .returning();
 
@@ -45,7 +46,7 @@ export async function PATCH(
 
   userCache.revalidate(user.email);
 
-  // TODO: Send email to user
+  await sendMemberApprovalEmail(user, prepaidSessions);
 
   return new Response(null, { status: 204 });
 }

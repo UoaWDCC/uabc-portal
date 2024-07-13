@@ -28,7 +28,7 @@ jest.mock("next-auth/react", () => {
 
 describe("Select Sessions page", () => {
   beforeEach(() => {
-    render(<ClientSessionPage isMember={true} prepaidSessionsRemaining={2} />);
+    render(<ClientSessionPage isMember={true} prepaidSessions={2} />);
   });
 
   it("should initially render the button as disabled", () => {

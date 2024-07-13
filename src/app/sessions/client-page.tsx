@@ -19,12 +19,12 @@ import { useCartStore } from "@/stores/useCartStore";
 
 interface ClientSessionPageProps {
   isMember: boolean;
-  prepaidSessionsRemaining: number;
+  prepaidSessions: number;
 }
 
 export default function ClientSessionPage({
   isMember,
-  prepaidSessionsRemaining,
+  prepaidSessions,
 }: ClientSessionPageProps) {
   const { push } = useRouter();
 
@@ -36,19 +36,16 @@ export default function ClientSessionPage({
   const [shake, setShake] = useState(false);
 
   useEffect(() => {
-    if (data?.user.verified && prepaidSessionsRemaining === 0) {
+    if (data?.user.verified && prepaidSessions === 0) {
       setRemainingSessionsModalVisible(true);
       update({
         member: false,
         verified: false,
       });
     }
-  }, [data?.user.verified, prepaidSessionsRemaining, update]);
+  }, [data?.user.verified, prepaidSessions, update]);
 
-  const memberMaxSessions = Math.min(
-    prepaidSessionsRemaining,
-    MEMBER_MAX_SESSIONS
-  );
+  const memberMaxSessions = Math.min(prepaidSessions, MEMBER_MAX_SESSIONS);
   const maxSessions = isMember ? memberMaxSessions : NON_MEMBER_MAX_SESSIONS;
   const accountPendingApproval = isMember && !!data && !data.user.verified;
 

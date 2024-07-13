@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "@react-email/components";
 
-import EmailLayout from "./EmailLayout";
+import { EmailLayout } from "./common/EmailLayout";
 
 import "../tailwind-config";
 

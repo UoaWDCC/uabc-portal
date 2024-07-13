@@ -22,7 +22,7 @@ export async function getUserFromId(userId: string) {
       email: true,
       member: true,
       verified: true,
-      remainingSessions: true,
+      prepaidSessions: true,
     },
   });
 }

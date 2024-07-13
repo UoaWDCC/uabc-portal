@@ -38,7 +38,7 @@ export const users = pgTable("user", {
   role: roleEnum("role").default("user").notNull(),
   member: boolean("member"),
   verified: boolean("verified").default(false).notNull(),
-  remainingSessions: integer("remainingSessions").default(0).notNull(),
+  prepaidSessions: integer("prepaidSessions").default(0).notNull(),
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   pro: boolean("pro").default(false).notNull(),

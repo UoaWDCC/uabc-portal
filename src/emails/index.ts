@@ -9,7 +9,9 @@ import { render } from "@react-email/components";
 import { getBookingBySqid } from "@/services/booking";
 import type { User } from "@/types/next-auth";
 import CasualBookingConfirmationEmail from "./components/CasualBookingConfirmationEmail";
+import MemberApprovalEmail from "./components/MemberApprovalEmail";
 import MemberBookingConfirmationEmail from "./components/MemberBookingConfirmationEmail";
+import MemberRejectionEmail from "./components/MemberRejectionEmail";
 import NoMoreSessionsRemainingEmail from "./components/NoMoreSessionsRemainingEmail";
 import VerificationCodeEmail from "./components/VerificationCodeEmail";
 
@@ -128,6 +130,34 @@ export const sendVerificationCodeEmail = async (
     html: render(
       VerificationCodeEmail({
         code,
+      })
+    ),
+  });
+};
+
+export const sendMemberApprovalEmail = async (
+  user: User,
+  prepaidSessionCount: number
+) => {
+  await sendEmail({
+    toAddresses: [user.email],
+    subject: "Membership Approved",
+    html: render(
+      MemberApprovalEmail({
+        firstName: user.firstName!,
+        prepaidSessionCount: prepaidSessionCount,
+      })
+    ),
+  });
+};
+
+export const sendMemberRejectionEmail = async (user: User) => {
+  await sendEmail({
+    toAddresses: [user.email],
+    subject: "Membership Approved",
+    html: render(
+      MemberRejectionEmail({
+        firstName: user.firstName!,
       })
     ),
   });

@@ -15,7 +15,6 @@ export const metadata = {
 
 async function SelectSessionPage({ currentUser }: CurrentUserProps) {
   const user = (await getUserFromId(currentUser.id))!;
-  const prepaidSessionsRemaining = user.remainingSessions;
 
   return (
     <div className="flex h-dvh flex-col">
@@ -35,12 +34,12 @@ async function SelectSessionPage({ currentUser }: CurrentUserProps) {
           />
         </div>
         {user?.member && (
-          <PrepaidSessionsCounter remainingSessions={user.remainingSessions} />
+          <PrepaidSessionsCounter prepaidSessions={user.prepaidSessions} />
         )}
       </div>
       <ClientSessionPage
         isMember={user.member!}
-        prepaidSessionsRemaining={prepaidSessionsRemaining}
+        prepaidSessions={user.prepaidSessions}
       />
     </div>
   );

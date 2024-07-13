@@ -1,12 +1,8 @@
 import { Body, Html, Tailwind } from "@react-email/components";
 
-import { config } from "../tailwind-config";
+import { config } from "../../tailwind-config";
 
-export default function EmailLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function EmailLayout({ children }: { children: React.ReactNode }) {
   return (
     <Html lang="en">
       <Tailwind config={config}>

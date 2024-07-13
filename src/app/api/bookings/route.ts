@@ -81,9 +81,9 @@ export async function POST(request: Request) {
       return new Response("Maximum booking limit exceed", { status: 400 });
     }
 
-    // if the user is a member, check if they have enough remaining sessions
-    if (user?.member === true && user.remainingSessions < numOfSessions) {
-      return new Response("Insufficient remaining prepaid sessions", {
+    // if the user is a member, check if they have enough prepaid sessions
+    if (user?.member === true && user.prepaidSessions < numOfSessions) {
+      return new Response("Insufficient prepaid sessions", {
         status: 400,
       });
     }
@@ -188,17 +188,17 @@ export async function POST(request: Request) {
         }
       }
 
-      //decrement remaining sessions if user is a member
+      //decrement prepaid sessions if user is a member
       if (user?.member) {
-        const [{ remainingSessions }] = await tx
+        const [{ prepaidSessions }] = await tx
           .update(users)
           .set({
-            remainingSessions: user.remainingSessions - numOfSessions,
+            prepaidSessions: user.prepaidSessions - numOfSessions,
           })
           .where(eq(users.id, currentUser!.id))
-          .returning({ remainingSessions: users.remainingSessions });
+          .returning({ prepaidSessions: users.prepaidSessions });
 
-        if (remainingSessions <= 0) {
+        if (prepaidSessions <= 0) {
           await tx
             .update(users)
             .set({ member: false, verified: false })

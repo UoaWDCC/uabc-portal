@@ -1,6 +1,6 @@
 import { CodeInline, Text } from "@react-email/components";
 
-import EmailLayout from "./EmailLayout";
+import { EmailLayout } from "./common/EmailLayout";
 
 interface NoMoreSessionsRemainingEmailProps {
   firstName: string;
@@ -14,18 +14,17 @@ export default function NoMoreSessionsRemainingEmail({
       <Text>Hi {firstName},</Text>
 
       <Text>
-        We wanted to let you know that you have{" "}
-        <strong>no more prepaid sessions remaining</strong>. As a result, your
-        account has been switched to a casual account, and you will now need to
-        pay for each session individually from now on.
+        We wanted to let you know that you have no more prepaid sessions
+        remaining. As a result, your account has been switched to a casual
+        account, and you will now need to pay for each session individually from
+        now on for $8 per session. Casuals are also limited to 1 session per
+        week.
       </Text>
 
-      <Text>As a casual member, you’ll need to pay $8 for each session.</Text>
-
       <Text>
-        If you would like to top up on prepaid sessions, please email{" "}
-        <CodeInline>badminton.au@gmail.com</CodeInline> to purchase the 6
-        session package.
+        If you would like to rejoin us as a member, you can purchase the 6
+        session package by emailing{" "}
+        <CodeInline>badminton.au@gmail.com</CodeInline>.
       </Text>
 
       <Text>

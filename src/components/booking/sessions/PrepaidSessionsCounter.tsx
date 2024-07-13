@@ -1,11 +1,11 @@
 import { CountIndicator } from "../../CountIndicator";
 
 interface PrepaidSessionsCounterProps {
-  remainingSessions: number;
+  prepaidSessions: number;
 }
 
 export function PrepaidSessionsCounter({
-  remainingSessions,
+  prepaidSessions,
 }: PrepaidSessionsCounterProps) {
   return (
     <div className="flex items-center">
@@ -13,7 +13,7 @@ export function PrepaidSessionsCounter({
         Prepaid Sessions <br />
         Remaining
       </div>
-      <CountIndicator>{remainingSessions}</CountIndicator>
+      <CountIndicator>{prepaidSessions}</CountIndicator>
     </div>
   );
 }

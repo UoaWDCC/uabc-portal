@@ -3,7 +3,7 @@ import { Text } from "@react-email/components";
 
 import { capitalize } from "@/lib/utils";
 import { convertTo12HourFormat, formatFullDate } from "@/lib/utils/dates";
-import EmailLayout from "./EmailLayout";
+import { EmailLayout } from "./common/EmailLayout";
 
 interface BookingDetail {
   id: number;

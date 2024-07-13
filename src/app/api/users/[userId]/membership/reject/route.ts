@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
 
+import { sendMemberRejectionEmail } from "@/emails";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
@@ -36,7 +37,7 @@ export async function PATCH(
 
   userCache.revalidate(user.email);
 
-  // TODO: Send email to user
+  await sendMemberRejectionEmail(user);
 
   return new Response(null, { status: 204 });
 }
