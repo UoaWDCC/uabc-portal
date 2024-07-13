@@ -143,6 +143,27 @@ export const CreateSemesterFormDialog = () => {
         />
         <div className="flex gap-2 *:grow">
           <TextInput
+            label="Booking open day"
+            type="text"
+            {...register("bookingOpenDay")}
+            isError={!!errors.bookingOpenDay?.message}
+            errorMessage={errors.bookingOpenDay?.message}
+            autoComplete="off"
+            placeholder="Monday"
+          />
+          <TextInput
+            label="Booking open time"
+            type="time"
+            className="min-w-0"
+            {...register("bookingOpenTime")}
+            isError={!!errors.bookingOpenTime?.message}
+            errorMessage={errors.bookingOpenTime?.message}
+            autoComplete="off"
+            placeholder="09:00:00"
+          />
+        </div>
+        <div className="flex gap-2 *:grow">
+          <TextInput
             label="Start date"
             type="text"
             {...register("startDate")}
@@ -181,26 +202,7 @@ export const CreateSemesterFormDialog = () => {
             placeholder="dd/MM/yyyy"
           />
         </div>
-        <div className="flex gap-2 *:grow">
-          <TextInput
-            label="Booking open day"
-            type="text"
-            {...register("bookingOpenDay")}
-            isError={!!errors.bookingOpenDay?.message}
-            errorMessage={errors.bookingOpenDay?.message}
-            autoComplete="off"
-            placeholder="Monday"
-          />
-          <TextInput
-            label="Booking open time"
-            type="time"
-            {...register("bookingOpenTime")}
-            isError={!!errors.bookingOpenTime?.message}
-            errorMessage={errors.bookingOpenTime?.message}
-            autoComplete="off"
-            placeholder="09:00:00"
-          />
-        </div>
+
         <DialogButtonsFooter
           type="submit"
           primaryText="Create"

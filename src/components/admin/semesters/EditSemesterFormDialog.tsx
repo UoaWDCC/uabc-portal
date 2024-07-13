@@ -91,7 +91,7 @@ export const EditSemesterFormDialog = () => {
       breakStart,
       breakEnd,
       bookingOpenDay,
-      bookingOpenTime: spliceTime(bookingOpenTime),
+      bookingOpenTime: bookingOpenTime.slice(0, 5),
     },
   });
 
@@ -161,6 +161,25 @@ export const EditSemesterFormDialog = () => {
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-2 *:grow">
           <TextInput
+            label="Booking open day"
+            type="text"
+            {...register("bookingOpenDay")}
+            isError={!!errors.bookingOpenDay?.message}
+            errorMessage={errors.bookingOpenDay?.message}
+            autoComplete="off"
+          />
+          <TextInput
+            label="Booking open time"
+            type="time"
+            className="min-w-0"
+            {...register("bookingOpenTime")}
+            isError={!!errors.bookingOpenTime?.message}
+            errorMessage={errors.bookingOpenTime?.message}
+            autoComplete="off"
+          />
+        </div>
+        <div className="flex gap-2 *:grow">
+          <TextInput
             label="Start date"
             type="text"
             {...register("startDate")}
@@ -195,24 +214,7 @@ export const EditSemesterFormDialog = () => {
             autoComplete="off"
           />
         </div>
-        <div className="flex gap-2 *:grow">
-          <TextInput
-            label="Booking open day"
-            type="text"
-            {...register("bookingOpenDay")}
-            isError={!!errors.bookingOpenDay?.message}
-            errorMessage={errors.bookingOpenDay?.message}
-            autoComplete="off"
-          />
-          <TextInput
-            label="Booking open time"
-            type="time"
-            {...register("bookingOpenTime")}
-            isError={!!errors.bookingOpenTime?.message}
-            errorMessage={errors.bookingOpenTime?.message}
-            autoComplete="off"
-          />
-        </div>
+
         <DialogButtonsFooter
           type="submit"
           primaryText="Update"

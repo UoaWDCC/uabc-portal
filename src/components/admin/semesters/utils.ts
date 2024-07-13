@@ -27,10 +27,3 @@ export const formatDateInISO = (date: string) => {
 export const validateDate = (date: string) => {
   return isValid(parse(date, "dd/MM/yyyy", new Date()));
 };
-
-/**
- * splice HH:MM:SS into HH:MM
- */
-export function spliceTime(time: string) {
-  return time.split(":").slice(0, 2).join(":");
-}
