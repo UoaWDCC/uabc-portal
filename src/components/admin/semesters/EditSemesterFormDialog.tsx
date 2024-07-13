@@ -15,12 +15,7 @@ import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { weekdayEnum } from "@/lib/db/schema";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useSemesterContext } from "./SemestersContext";
-import {
-  compareDate,
-  formatDateInISO,
-  spliceTime,
-  validateDate,
-} from "./utils";
+import { compareDate, formatDateInISO, validateDate } from "./utils";
 
 // Schema
 const formSchema = z
