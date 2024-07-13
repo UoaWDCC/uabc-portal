@@ -8,7 +8,8 @@ import { UabcHeaderText } from "@/components/UabcHeaderText";
 import { buttonVariants } from "@/components/ui/button";
 import type { CurrentUserProps } from "@/lib/hoc/withCurrentUser";
 import withCurrentUser from "@/lib/hoc/withCurrentUser";
-import { convertTo12HourFormat, getWeekday } from "@/lib/utils";
+import { getWeekday } from "@/lib/utils";
+import { convertTo12HourFormat } from "@/lib/utils/dates";
 import { getBookingBySqid } from "@/services/booking";
 
 export const metadata = {

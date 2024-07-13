@@ -11,7 +11,7 @@ const userSchema = createSelectSchema(users);
 type User = z.infer<typeof userSchema>;
 
 export const login = async (email: string, password: string, page: Page) => {
-  const res = await page.request.get("/api/auth/csrf");
+  const res = await page.context().request.get("/api/auth/csrf");
   const { csrfToken } = await res.json();
 
   const data = {
@@ -20,8 +20,8 @@ export const login = async (email: string, password: string, page: Page) => {
     csrfToken,
   };
 
-  // page.request stores cookies between requests
-  await page.request.post(`/api/auth/callback/credentials`, {
+  // page.context().request stores cookies between requests
+  await page.context().request.post(`/api/auth/callback/credentials`, {
     data,
   });
 
@@ -78,7 +78,6 @@ export const createUsersFixture = (page: Page, _workerInfo: TestInfo) => {
     get: () => store.users,
     cleanup: async () => {
       for (const user of store.users) {
-        console.log(user.email);
         await db.delete(users).where(eq(users.id, user.id));
       }
     },

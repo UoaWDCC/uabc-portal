@@ -17,7 +17,8 @@ import {
   useActiveDates,
 } from "@/hooks/query/active-dates";
 import { useGameSession } from "@/hooks/query/game-sessions";
-import { cn, convertTo12HourFormat, formatFullDate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { convertTo12HourFormat, formatFullDate } from "@/lib/utils/dates";
 
 const searchParamsSchema = z.object({
   date: z

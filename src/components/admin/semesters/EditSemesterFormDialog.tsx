@@ -13,14 +13,14 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { weekdayEnum } from "@/lib/db/schema";
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
+import { useSemesterContext } from "./SemestersContext";
 import {
   compareDate,
   formatDateInISO,
   spliceTime,
   validateDate,
-} from "@/lib/utils";
-import { QUERY_KEY } from "@/lib/utils/queryKeys";
-import { useSemesterContext } from "./SemestersContext";
+} from "./utils";
 
 // Schema
 const formSchema = z
@@ -109,11 +109,8 @@ export const EditSemesterFormDialog = () => {
       });
 
       if (!response.ok) {
-        await response.text().then((text) => {
-          throw new Error(text || "An error has occurred");
-        });
+        throw new Error();
       }
-      return response.json();
     },
   });
 

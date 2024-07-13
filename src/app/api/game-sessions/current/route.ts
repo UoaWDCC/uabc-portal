@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
-import { and, asc, gt, lt, sql } from "drizzle-orm";
+import { and, asc, eq, gt, lt, sql } from "drizzle-orm";
 import { PgDialect } from "drizzle-orm/pg-core";
 
 import { db } from "@/lib/db";
-import { bookingDetails, bookings, gameSessions } from "@/lib/db/schema";
+import {
+  bookingDetails,
+  bookingPeriods,
+  bookings,
+  gameSessions,
+} from "@/lib/db/schema";
 
 export const dynamic = "force-dynamic";
 
@@ -40,10 +45,14 @@ export async function GET() {
         casualBookingCount: casualBookingCountQuery.mapWith(Number),
       })
       .from(gameSessions)
+      .innerJoin(
+        bookingPeriods,
+        eq(bookingPeriods.id, gameSessions.bookingPeriodId)
+      )
       .where(
         and(
-          gt(gameSessions.bookingClose, new Date()), // bookingClose is in the future
-          lt(gameSessions.bookingOpen, new Date()) // bookingOpen is in the past
+          lt(bookingPeriods.bookingOpenTime, new Date()), // booking start is in the past
+          gt(bookingPeriods.bookingCloseTime, new Date()) // booking end is in the future
         )
       )
       .orderBy(asc(gameSessions.date));

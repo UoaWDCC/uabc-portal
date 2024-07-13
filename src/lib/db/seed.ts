@@ -75,11 +75,19 @@ async function main() {
 
   console.log("Seeding game sessions...");
   const gameSessions: (typeof schema.gameSessions.$inferInsert)[] = [];
+
+  const [bookingPeriod] = await db
+    .insert(schema.bookingPeriods)
+    .values({
+      semesterId: semesters[0].id!,
+      bookingOpenTime: faker.date.past(),
+      bookingCloseTime: faker.date.future(),
+    })
+    .returning();
+
   for (let i = 0; i < 10; i++) {
     gameSessions.push({
       id: randomInt(1000000),
-      bookingOpen: faker.date.anytime(),
-      bookingClose: faker.date.anytime(),
       date: formatDateString(
         faker.date.between({
           from: new Date("2020-01-01"),
@@ -92,6 +100,7 @@ async function main() {
       locationAddress: faker.location.streetAddress(),
       capacity: 10,
       casualCapacity: 5,
+      bookingPeriodId: bookingPeriod.id,
     });
   }
   await db.insert(schema.gameSessions).values(gameSessions);

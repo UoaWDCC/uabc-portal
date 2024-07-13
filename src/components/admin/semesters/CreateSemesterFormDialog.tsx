@@ -14,8 +14,8 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { weekdayEnum } from "@/lib/db/schema";
-import { compareDate, formatDateInISO, validateDate } from "@/lib/utils";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
+import { compareDate, formatDateInISO, validateDate } from "./utils";
 
 //Schema
 const formSchema = z

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Card } from "@/components/Card";
 import { OptionButtonUtils } from "@/components/ui/options-popover/OptionsButtonUtils";
 import { OptionsPopover } from "@/components/ui/options-popover/OptionsPopover";
-import { convertTo12HourFormat } from "@/lib/utils";
+import { convertTo12HourFormat } from "@/lib/utils/dates";
 import { DeleteSemesterFormDialog } from "./DeleteSemesterFormDialog";
 import { EditSemesterFormDialog } from "./EditSemesterFormDialog";
 import { useSemesterContext } from "./SemestersContext";

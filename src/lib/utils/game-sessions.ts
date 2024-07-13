@@ -1,4 +1,4 @@
-import { parse } from "date-fns";
+import { endOfWeek, parse } from "date-fns";
 import { fromZonedTime } from "date-fns-tz";
 
 export function getZonedBookingOpenTime({
@@ -8,12 +8,12 @@ export function getZonedBookingOpenTime({
 }: {
   bookingOpenDay: string;
   bookingOpenTime: string;
-  gameSessionDate: string;
+  gameSessionDate: string | Date;
 }) {
   const bookingOpen = parse(
     `${bookingOpenDay} ${bookingOpenTime}`,
     "iiii HH:mm:ss",
-    new Date(gameSessionDate)
+    gameSessionDate
   );
 
   // If the booking open time is after the game session date, set it back a week
@@ -24,18 +24,8 @@ export function getZonedBookingOpenTime({
   return fromZonedTime(bookingOpen, "Pacific/Auckland");
 }
 
-export function getZonedBookingCloseTime({
-  gameSessionDate,
-  gameSessionStartTime,
-}: {
-  gameSessionDate: string;
-  gameSessionStartTime: string;
-}) {
-  const bookingClose = parse(
-    `${gameSessionStartTime}`,
-    "HH:mm:ss",
-    gameSessionDate
-  );
+export function getZonedBookingCloseTime(gameSessionDate: string | Date) {
+  const bookingClose = endOfWeek(gameSessionDate, { weekStartsOn: 1 });
 
   return fromZonedTime(bookingClose, "Pacific/Auckland");
 }

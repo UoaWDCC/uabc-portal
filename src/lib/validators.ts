@@ -2,6 +2,7 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import {
+  bookingPeriods,
   gameSessionExceptions,
   gameSessions,
   gameSessionSchedules,
@@ -12,8 +13,6 @@ import {
 export const selectGameSessionSchema = createSelectSchema(gameSessions);
 
 export const insertGameSessionSchema = createInsertSchema(gameSessions, {
-  bookingOpen: z.coerce.date(),
-  bookingClose: z.coerce.date(),
   date: z.string().date(),
   startTime: z.string().time(),
   endTime: z.string().time(),
@@ -90,4 +89,9 @@ export const insertNonNullGameSessionExceptionSchema = z.object({
   capacity: z.number(),
   casualCapacity: z.number(),
   isDeleted: z.boolean(),
+});
+
+export const insertBookingPeriodSchema = createInsertSchema(bookingPeriods, {
+  bookingOpenTime: z.coerce.date(),
+  bookingCloseTime: z.coerce.date(),
 });
