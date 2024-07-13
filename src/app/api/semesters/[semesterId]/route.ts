@@ -145,8 +145,6 @@ export async function PUT(
       ),
     });
 
-    return new Response(`${existingSemester}`, {});
-
     if (existingSemester) {
       if (existingSemester.name === updatedSemester.name)
         return new Response("This name already exists, please pick another", {
