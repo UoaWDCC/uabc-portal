@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
+import { weekdayEnum } from "@/lib/db/schema";
 import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { compareDate, formatDateInISO, validateDate } from "./utils";
 
@@ -36,6 +37,14 @@ const formSchema = z
       .string()
       .min(1, "Field is required")
       .refine(validateDate, "Invalid date"),
+    bookingOpenDay: z
+      .string()
+      .min(1, "Field is required")
+      .refine(
+        (value) => z.enum(weekdayEnum.enumValues).safeParse(value).success,
+        { message: "Invalid day of week" }
+      ),
+    bookingOpenTime: z.string().min(1, "Field is required"),
   })
   .refine((data) => compareDate(data.startDate, data.breakStart) < 0, {
     message: "Start date must be before break start date",
@@ -94,8 +103,8 @@ export const CreateSemesterFormDialog = () => {
       endDate: formatDateInISO(data.endDate),
       breakStart: formatDateInISO(data.breakStart),
       breakEnd: formatDateInISO(data.breakEnd),
-      bookingOpenDay: "Monday",
-      bookingOpenTime: "12:00:00",
+      bookingOpenDay: data.bookingOpenDay,
+      bookingOpenTime: `${data.bookingOpenTime}:00`,
     });
 
     mutation.mutate(newSemester, {
@@ -132,6 +141,27 @@ export const CreateSemesterFormDialog = () => {
           errorMessage={errors.name?.message}
           autoComplete="off"
         />
+        <div className="flex gap-2 *:grow">
+          <TextInput
+            label="Booking open day"
+            type="text"
+            {...register("bookingOpenDay")}
+            isError={!!errors.bookingOpenDay?.message}
+            errorMessage={errors.bookingOpenDay?.message}
+            autoComplete="off"
+            placeholder="Monday"
+          />
+          <TextInput
+            label="Booking open time"
+            type="time"
+            className="min-w-0"
+            {...register("bookingOpenTime")}
+            isError={!!errors.bookingOpenTime?.message}
+            errorMessage={errors.bookingOpenTime?.message}
+            autoComplete="off"
+            placeholder="09:00:00"
+          />
+        </div>
         <div className="flex gap-2 *:grow">
           <TextInput
             label="Start date"
@@ -172,6 +202,7 @@ export const CreateSemesterFormDialog = () => {
             placeholder="dd/MM/yyyy"
           />
         </div>
+
         <DialogButtonsFooter
           type="submit"
           primaryText="Create"
