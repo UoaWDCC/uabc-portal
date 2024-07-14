@@ -89,9 +89,8 @@ export const ScheduleEditDialogue = () => {
     const body = JSON.stringify({
       semesterId: semesterId,
       weekday: weekday,
-      startTime:
-        data.startTime === startTime ? startTime : `${data.startTime}:00`,
-      endTime: data.endTime === endTime ? endTime : `${data.endTime}:00`,
+      startTime: `${data.startTime.slice(0, 5)}:00`,
+      endTime: `${data.endTime.slice(0, 5)}:00`,
       locationName: data.locationName,
       locationAddress: data.locationAddress,
       capacity: data.capacity,

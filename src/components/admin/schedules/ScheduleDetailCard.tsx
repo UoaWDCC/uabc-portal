@@ -6,6 +6,7 @@ import { OptionsPopover } from "@/components/ui/options-popover/OptionsPopover";
 import { ScheduleDeleteDialog } from "./ScheduleDeleteDialog";
 import { ScheduleEditDialogue } from "./ScheduleEditDialog";
 import { useScheduleContext } from "./SchedulesContext";
+import { convertTo12HourFormat } from "@/lib/utils/dates";
 
 const UnmemoizedScheduleDetailCard = () => {
   const {
@@ -33,12 +34,12 @@ const UnmemoizedScheduleDetailCard = () => {
         </OptionsPopover>
       </div>
       <p className="mt-2">
-        {startTime} - {endTime}
+        {convertTo12HourFormat(startTime)} - {convertTo12HourFormat(endTime)}
       </p>
       <p className="mt-4">{locationName}</p>
-      <p className="mt-2">{locationAddress}</p>
+      <p className="mt-1">{locationAddress}</p>
       <p className="mt-4">Max {capacity} attendees</p>
-      <p className="mt-2">Max {casualCapacity} casuals</p>
+      <p className="mt-1">Max {casualCapacity} casuals</p>
     </Card>
   );
 };
