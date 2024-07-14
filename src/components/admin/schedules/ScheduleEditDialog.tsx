@@ -11,52 +11,47 @@ import {
 } from "@/components/ui/dialog";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { useEditScheduleMutation } from "@/hooks/mutations/schedules";
-import { weekdayEnum } from "@/lib/db/schema";
 import { TextInput } from "../../TextInput";
 import { useToast } from "../../ui/use-toast";
 import { useScheduleContext } from "./SchedulesContext";
 
-interface ScheduleEditDialogProps {
-  semesterId: number;
-}
-
 // Schema
-const formSchema = z.object({
-  weekday: z.enum(weekdayEnum.enumValues, { message: "Expected weekday" }),
-  startTime: z.string().min(1, "Field is required"),
-  endTime: z.string().min(1, "Field is required"),
-  locationName: z.string().min(1, "Field is required"),
-  locationAddress: z.string().min(1, "Field is required"),
-  capacity: z.coerce
-    .number({ message: "Capacity must be a number" })
-    .nonnegative("Capacity must be positive")
-    .refine((value) => value !== 0, { message: "Field is required" }),
-  casualCapacity: z.coerce
-    .number({ message: "Capacity must be a number" })
-    .nonnegative("Capacity must be positive")
-    .refine((value) => value !== 0, { message: "Field is required" }),
-});
-// .refine(
-//   (data) => {
-//     return !data.endTime || data.startTime < data.endTime;
-//   },
-//   { message: "Start time must be before end time", path: ["startTime"] }
-// )
-// .refine(
-//   (data) => {
-//     return data.capacity >= data.casualCapacity;
-//   },
-//   {
-//     message: "Casual capacity must be less than or equal to capacity",
-//     path: ["casualCapacity"],
-//   }
-// );
+const formSchema = z
+  .object({
+    startTime: z.string().min(1, "Field is required"),
+    endTime: z.string().min(1, "Field is required"),
+    locationName: z.string().min(1, "Field is required"),
+    locationAddress: z.string().min(1, "Field is required"),
+    capacity: z.coerce
+      .number({ message: "Capacity must be a number" })
+      .nonnegative("Capacity must be positive")
+      .refine((value) => value !== 0, { message: "Field is required" }),
+    casualCapacity: z.coerce
+      .number({ message: "Capacity must be a number" })
+      .nonnegative("Capacity must be positive")
+      .refine((value) => value !== 0, { message: "Field is required" }),
+  })
+  .refine(
+    (data) => {
+      return !data.endTime || data.startTime < data.endTime;
+    },
+    { message: "Start time must be before end time", path: ["startTime"] }
+  )
+  .refine(
+    (data) => {
+      return data.capacity >= data.casualCapacity;
+    },
+    {
+      message: "Casual capacity must be less than or equal to capacity",
+      path: ["casualCapacity"],
+    }
+  );
 
-export const ScheduleEditDialogue = ({
-  semesterId,
-}: ScheduleEditDialogProps) => {
+export const ScheduleEditDialogue = () => {
   // Contexts
   const {
+    id,
+    semesterId,
     weekday,
     startTime,
     endTime,
@@ -92,8 +87,11 @@ export const ScheduleEditDialogue = ({
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (data) => {
     const body = JSON.stringify({
-      startTime: `${data.startTime}:00`,
-      endTime: `${data.endTime}:00`,
+      semesterId: semesterId,
+      weekday: weekday,
+      startTime:
+        data.startTime === startTime ? startTime : `${data.startTime}:00`,
+      endTime: data.endTime === endTime ? endTime : `${data.endTime}:00`,
       locationName: data.locationName,
       locationAddress: data.locationAddress,
       capacity: data.capacity,
@@ -101,22 +99,24 @@ export const ScheduleEditDialogue = ({
     });
 
     mutate(
-      { semesterId, body },
+      { id, body },
       {
         onError: (e) => {
           console.log(e);
           toast({
             title: "Uh oh! Something went wrong",
             description:
-              "An error occurred while updating the semester. Please try again.",
+              "An error occurred while updating the schedule. Please try again.",
             variant: "destructive",
           });
         },
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["semesters"] });
+          queryClient.invalidateQueries({
+            queryKey: ["schedules", semesterId],
+          });
           toast({
             title: "Success!",
-            description: "Semester details successfully updated",
+            description: "Schedule details successfully updated",
           });
           reset({
             startTime: data.startTime,

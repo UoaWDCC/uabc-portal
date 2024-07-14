@@ -46,7 +46,7 @@ export const SchedulesList = ({ semesterId }: SchedulesListProps) => {
     <>
       {schedules?.map((schedule) => (
         <ScheduleContextProvider key={schedule.id} value={schedule}>
-          <ScheduleDetailCard semesterId={semesterId} />
+          <ScheduleDetailCard />
         </ScheduleContextProvider>
       ))}
     </>

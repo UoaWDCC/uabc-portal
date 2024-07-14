@@ -7,13 +7,7 @@ import { ScheduleDeleteDialog } from "./ScheduleDeleteDialog";
 import { ScheduleEditDialogue } from "./ScheduleEditDialog";
 import { useScheduleContext } from "./SchedulesContext";
 
-interface ScheduleDetailCardProps {
-  semesterId: number;
-}
-
-const UnmemoizedScheduleDetailCard = ({
-  semesterId,
-}: ScheduleDetailCardProps) => {
+const UnmemoizedScheduleDetailCard = () => {
   const {
     weekday,
     startTime,
@@ -30,7 +24,7 @@ const UnmemoizedScheduleDetailCard = ({
         <OptionsPopover>
           <OptionsPopover.DialogItem
             ButtonComponent={<OptionButtonUtils type="edit" />}
-            DialogComponent={<ScheduleEditDialogue semesterId={semesterId} />}
+            DialogComponent={<ScheduleEditDialogue />}
           />
           <OptionsPopover.DialogItem
             ButtonComponent={<OptionButtonUtils type="delete" />}
