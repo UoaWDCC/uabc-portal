@@ -45,6 +45,11 @@ const ProximaNova = localFont({
       weight: "700",
       style: "normal",
     },
+    {
+      path: "../../public/fonts/proximanova_black.otf",
+      weight: "900",
+      style: "normal",
+    },
   ],
   display: "swap",
   variable: "--font-proxima",
