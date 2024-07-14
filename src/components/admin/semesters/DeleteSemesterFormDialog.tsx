@@ -73,7 +73,7 @@ export const DeleteSemesterFormDialog = () => {
         variant="destructive"
         primaryText="Delete"
         secondaryText="Cancel"
-        isPending={mutation.isPending}
+        disabled={mutation.isPending}
         onClick={handleDelete}
       />
     </DialogContent>

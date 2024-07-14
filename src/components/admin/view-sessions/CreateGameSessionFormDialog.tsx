@@ -36,7 +36,7 @@ export function CreateGameSessionFormDialog({
     resolver: zodResolver(gameSessionFormSchema),
   });
 
-  const { mutate } = useCreateGameSessionMutation();
+  const { mutate, isPending } = useCreateGameSessionMutation();
 
   const { toast } = useToast();
 
@@ -149,7 +149,7 @@ export function CreateGameSessionFormDialog({
             errorMessage={errors.casualCapacity?.message}
           />
         </div>
-        <DialogButtonsFooter type="submit" />
+        <DialogButtonsFooter disabled={isPending} type="submit" />
       </form>
     </DialogContent>
   );

@@ -3,10 +3,10 @@ import { memo } from "react";
 import { Card } from "@/components/Card";
 import { OptionButtonUtils } from "@/components/ui/options-popover/OptionsButtonUtils";
 import { OptionsPopover } from "@/components/ui/options-popover/OptionsPopover";
-import { ScheduleDeleteDialog } from "./ScheduleDeleteDialog";
-import { ScheduleEditDialogue } from "./ScheduleEditDialog";
-import { useScheduleContext } from "./SchedulesContext";
 import { convertTo12HourFormat } from "@/lib/utils/dates";
+import { DeleteScheduleFormDialog } from "./DeleteScheduleFormDialog";
+import { EditScheduleFormDialog } from "./EditScheduleFormDialog";
+import { useScheduleContext } from "./SchedulesContext";
 
 const UnmemoizedScheduleDetailCard = () => {
   const {
@@ -19,27 +19,31 @@ const UnmemoizedScheduleDetailCard = () => {
     casualCapacity,
   } = useScheduleContext();
   return (
-    <Card className="relative select-none bg-secondary/20 text-sm font-medium tracking-tight text-tertiary ring-1 ring-secondary">
+    <Card
+      className="relative select-none bg-secondary/20 text-sm font-medium tracking-tight text-tertiary"
+      variant="card"
+    >
       <div className="flex items-center justify-between">
         <h3 className="truncate text-lg text-foreground">{weekday}</h3>
         <OptionsPopover>
           <OptionsPopover.DialogItem
             ButtonComponent={<OptionButtonUtils type="edit" />}
-            DialogComponent={<ScheduleEditDialogue />}
+            DialogComponent={<EditScheduleFormDialog />}
           />
           <OptionsPopover.DialogItem
             ButtonComponent={<OptionButtonUtils type="delete" />}
-            DialogComponent={<ScheduleDeleteDialog />}
+            DialogComponent={<DeleteScheduleFormDialog />}
           />
         </OptionsPopover>
       </div>
-      <p className="mt-2">
-        {convertTo12HourFormat(startTime)} - {convertTo12HourFormat(endTime)}
+      <p>
+        Session Time: {convertTo12HourFormat(startTime)} -{" "}
+        {convertTo12HourFormat(endTime)}
       </p>
-      <p className="mt-4">{locationName}</p>
-      <p className="mt-1">{locationAddress}</p>
-      <p className="mt-4">Max {capacity} attendees</p>
-      <p className="mt-1">Max {casualCapacity} casuals</p>
+      <p className="mt-2">Venue Name: {locationName}</p>
+      <p>Address: {locationAddress}</p>
+      <p className="mt-2">Max capacity: {capacity}</p>
+      <p>Casual capacity: {casualCapacity}</p>
     </Card>
   );
 };

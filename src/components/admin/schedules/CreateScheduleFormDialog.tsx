@@ -1,23 +1,29 @@
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
+import { TextInput } from "@/components/TextInput";
 import {
   DialogContent,
   DialogHeader,
   DialogTitle,
   useDialogContext,
 } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
-import { useEditScheduleMutation } from "@/hooks/mutations/schedules";
-import { TextInput } from "../../TextInput";
-import { useToast } from "../../ui/use-toast";
-import { useScheduleContext } from "./SchedulesContext";
+import { useCreateScheduleMutation } from "@/hooks/mutations/schedules";
+import { weekdayEnum } from "@/lib/db/schema";
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
 
-// Schema
+interface ScheduleCreateDialogProps {
+  semesterId: number;
+}
+
 const formSchema = z
   .object({
+    weekday: z.enum(weekdayEnum.enumValues, { message: "Expected weekday" }),
     startTime: z.string().min(1, "Field is required"),
     endTime: z.string().min(1, "Field is required"),
     locationName: z.string().min(1, "Field is required"),
@@ -47,22 +53,11 @@ const formSchema = z
     }
   );
 
-export const ScheduleEditDialogue = () => {
-  // Contexts
-  const {
-    id,
-    semesterId,
-    weekday,
-    startTime,
-    endTime,
-    locationName,
-    locationAddress,
-    capacity,
-    casualCapacity,
-  } = useScheduleContext();
+export const CreateScheduleFormDialog = ({
+  semesterId,
+}: ScheduleCreateDialogProps) => {
   const { handleClose: closeDialog } = useDialogContext();
 
-  // Hook-forms
   const {
     register,
     handleSubmit,
@@ -70,27 +65,18 @@ export const ScheduleEditDialogue = () => {
     formState: { errors },
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      startTime,
-      endTime,
-      locationName,
-      locationAddress,
-      capacity,
-      casualCapacity,
-    },
   });
-
   const { toast } = useToast();
 
   const queryClient = useQueryClient();
-  const { mutate, isPending } = useEditScheduleMutation();
+
+  const { mutate, isPending } = useCreateScheduleMutation();
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (data) => {
     const body = JSON.stringify({
-      semesterId: semesterId,
-      weekday: weekday,
-      startTime: `${data.startTime.slice(0, 5)}:00`,
-      endTime: `${data.endTime.slice(0, 5)}:00`,
+      weekday: data.weekday,
+      startTime: `${data.startTime}:00`,
+      endTime: `${data.endTime}:00`,
       locationName: data.locationName,
       locationAddress: data.locationAddress,
       capacity: data.capacity,
@@ -98,33 +84,28 @@ export const ScheduleEditDialogue = () => {
     });
 
     mutate(
-      { id, body },
       {
-        onError: (e) => {
-          console.log(e);
+        semesterId,
+        body,
+      },
+      {
+        onError: () => {
           toast({
             title: "Uh oh! Something went wrong",
             description:
-              "An error occurred while updating the schedule. Please try again.",
+              "An error occurred while creating the schedule. Please try again.",
             variant: "destructive",
           });
         },
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ["schedules", semesterId],
+            queryKey: [QUERY_KEY.SCHEDULES, semesterId],
           });
           toast({
             title: "Success!",
-            description: "Schedule details successfully updated",
+            description: "Successfully created schedule",
           });
-          reset({
-            startTime: data.startTime,
-            endTime: data.endTime,
-            locationName: data.locationName,
-            locationAddress: data.locationAddress,
-            capacity: data.capacity,
-            casualCapacity: data.casualCapacity,
-          });
+          reset();
           closeDialog();
         },
       }
@@ -132,11 +113,21 @@ export const ScheduleEditDialogue = () => {
   };
 
   return (
-    <DialogContent onCloseAutoFocus={() => reset()}>
+    <DialogContent>
       <DialogHeader>
-        <DialogTitle>Edit {weekday}</DialogTitle>
+        <DialogTitle>Create a new schedule</DialogTitle>
       </DialogHeader>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex gap-2 *:grow">
+          <TextInput
+            label="Day"
+            type="text"
+            {...register("weekday")}
+            isError={!!errors.weekday?.message}
+            errorMessage={errors.weekday?.message}
+            autoComplete="off"
+          />
+        </div>
         <div className="flex gap-2 *:grow">
           <TextInput
             label="Start Time"
@@ -178,7 +169,7 @@ export const ScheduleEditDialogue = () => {
         <div className="flex gap-2 *:grow">
           <TextInput
             label="Capacity"
-            type="number"
+            type="text"
             {...register("capacity")}
             isError={!!errors.capacity?.message}
             errorMessage={errors.capacity?.message}
@@ -186,7 +177,7 @@ export const ScheduleEditDialogue = () => {
           />
           <TextInput
             label="Casual Capacity"
-            type="number"
+            type="text"
             {...register("casualCapacity")}
             isError={!!errors.casualCapacity?.message}
             errorMessage={errors.casualCapacity?.message}
@@ -195,8 +186,8 @@ export const ScheduleEditDialogue = () => {
         </div>
         <DialogButtonsFooter
           type="submit"
-          primaryText="Update"
-          isPending={isPending}
+          primaryText="Create"
+          disabled={isPending}
         />
       </form>
     </DialogContent>

@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 
-import { useCurrentSchedules } from "@/hooks/query/useCurrentSchedules";
+import { useSchedules } from "@/hooks/query/useSchedules";
 import { ScheduleDetailCard } from "./ScheduleDetailCard";
 import { ScheduleContextProvider } from "./SchedulesContext";
 import { SkeletonScheduleCard } from "./SkeletonScheduleCard";
@@ -12,7 +12,7 @@ interface SchedulesListProps {
 }
 
 export const SchedulesList = ({ semesterId }: SchedulesListProps) => {
-  const { data, isLoading } = useCurrentSchedules(semesterId);
+  const { data, isLoading } = useSchedules(semesterId);
 
   const schedules = useMemo(
     () =>
@@ -35,6 +35,7 @@ export const SchedulesList = ({ semesterId }: SchedulesListProps) => {
   if (isLoading || !data) {
     return (
       <>
+        <SkeletonScheduleCard />
         <SkeletonScheduleCard />
         <SkeletonScheduleCard />
         <SkeletonScheduleCard />

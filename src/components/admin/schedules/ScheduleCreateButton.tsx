@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { ScheduleCreateDialog } from "./ScheduleCreateDialog";
+import { CreateScheduleFormDialog } from "./CreateScheduleFormDialog";
 
 interface ScheduleCreateButtonProps {
   semesterId: number;
@@ -22,7 +22,7 @@ const ScheduleCreateButton = ({ semesterId }: ScheduleCreateButtonProps) => {
           <Plus className="absolute w-5 stroke-foreground" />
         </Button>
       </DialogTrigger>
-      <ScheduleCreateDialog semesterId={semesterId} />
+      <CreateScheduleFormDialog semesterId={semesterId} />
     </Dialog>
   );
 };

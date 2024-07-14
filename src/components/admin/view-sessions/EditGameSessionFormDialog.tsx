@@ -50,7 +50,7 @@ export default function EditGameSessionFormDialog() {
     },
   });
 
-  const { mutate } = useEditGameSessionMutation();
+  const { mutate, isPending } = useEditGameSessionMutation();
 
   const { toast } = useToast();
 
@@ -164,7 +164,7 @@ export default function EditGameSessionFormDialog() {
             errorMessage={errors.casualCapacity?.message}
           />
         </div>
-        <DialogButtonsFooter type="submit" />
+        <DialogButtonsFooter disabled={isPending} type="submit" />
       </form>
     </DialogContent>
   );

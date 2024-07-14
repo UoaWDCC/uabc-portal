@@ -21,7 +21,10 @@ const UnmemoizedSemesterDetailCard = () => {
     bookingOpenTime,
   } = useSemesterContext();
   return (
-    <Card className="relative select-none bg-secondary/20 text-sm font-medium tracking-tight text-tertiary ring-1 ring-secondary">
+    <Card
+      className="relative select-none text-sm font-medium tracking-tight text-tertiary"
+      variant="card"
+    >
       <Link
         href={`semesters/${id}/schedules`}
         className="absolute left-0 top-0 z-10 h-full w-full"
@@ -45,7 +48,7 @@ const UnmemoizedSemesterDetailCard = () => {
       </p>
       <p className="mt-2">Start date: {startDate}</p>
       <p>End date: {endDate}</p>
-      <p className="mt-4">
+      <p className="mt-2">
         Break period: {breakStart} - {breakEnd}
       </p>
     </Card>

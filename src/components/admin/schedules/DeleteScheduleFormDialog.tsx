@@ -10,13 +10,13 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
 import { useDeleteScheduleMutation } from "@/hooks/mutations/schedules";
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
 import { useScheduleContext } from "./SchedulesContext";
 
-export const ScheduleDeleteDialog = () => {
+export const DeleteScheduleFormDialog = () => {
   const { id, weekday, semesterId } = useScheduleContext();
   const { handleClose: closeDialog } = useDialogContext();
 
-  // React-query
   const queryClient = useQueryClient();
   const { mutate, isPending } = useDeleteScheduleMutation();
 
@@ -34,7 +34,7 @@ export const ScheduleDeleteDialog = () => {
         },
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ["schedules", semesterId],
+            queryKey: [QUERY_KEY.SCHEDULES, semesterId],
           });
           toast({
             title: "Schedule deleted!",
@@ -49,7 +49,7 @@ export const ScheduleDeleteDialog = () => {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Delete {weekday}?</DialogTitle>
+        <DialogTitle>Delete {weekday}&apos;s Schedule?</DialogTitle>
       </DialogHeader>
       <p className="text-tertiary">
         Are you sure you want to delete this schedule?
@@ -58,7 +58,7 @@ export const ScheduleDeleteDialog = () => {
         variant="destructive"
         primaryText="Delete"
         secondaryText="Cancel"
-        isPending={isPending}
+        disabled={isPending}
         onClick={handleDelete}
       />
     </DialogContent>

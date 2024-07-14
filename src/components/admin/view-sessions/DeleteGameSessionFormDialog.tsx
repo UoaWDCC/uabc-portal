@@ -21,7 +21,7 @@ export const DeleteGameSessionFormDialog = () => {
 
   const queryClient = useQueryClient();
 
-  const { mutate } = useDeleteGameSessionMutation();
+  const { mutate, isPending } = useDeleteGameSessionMutation();
 
   const handleSubmit = async () => {
     mutate(date, {
@@ -57,7 +57,11 @@ export const DeleteGameSessionFormDialog = () => {
       <p className="text-tertiary">
         Are you sure you want to delete this session?
       </p>
-      <DialogButtonsFooter variant="destructive" onClick={handleSubmit} />
+      <DialogButtonsFooter
+        variant="destructive"
+        disabled={isPending}
+        onClick={handleSubmit}
+      />
     </DialogContent>
   );
 };

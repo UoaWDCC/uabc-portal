@@ -213,7 +213,7 @@ export const EditSemesterFormDialog = () => {
         <DialogButtonsFooter
           type="submit"
           primaryText="Update"
-          isPending={mutation.isPending}
+          disabled={mutation.isPending}
         />
       </form>
     </DialogContent>

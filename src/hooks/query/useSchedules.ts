@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { QUERY_KEY } from "@/lib/utils/queryKeys";
+
 export type ScheduleResponse = {
   id: number;
   semesterId: number;
@@ -21,9 +23,9 @@ const fetchSchedules = async (
   return response.json();
 };
 
-export const useCurrentSchedules = (semesterId: number) => {
+export const useSchedules = (semesterId: number) => {
   const query = useQuery({
-    queryKey: ["schedules", semesterId],
+    queryKey: [QUERY_KEY.SCHEDULES, semesterId],
     queryFn: () => fetchSchedules(semesterId),
   });
 
