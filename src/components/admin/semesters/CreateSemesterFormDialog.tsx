@@ -206,7 +206,7 @@ export const CreateSemesterFormDialog = () => {
         <DialogButtonsFooter
           type="submit"
           primaryText="Create"
-          isPending={mutation.isPending}
+          disabled={mutation.isPending}
         />
       </form>
     </DialogContent>

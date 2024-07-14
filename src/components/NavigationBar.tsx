@@ -20,7 +20,7 @@ export const NavigationBar = ({
   return (
     <div
       className={cn(
-        "mt-4 flex justify-between align-middle text-tertiary",
+        "mt-4 flex items-center justify-between text-tertiary",
         className
       )}
     >

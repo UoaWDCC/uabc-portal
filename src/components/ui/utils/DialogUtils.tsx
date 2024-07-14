@@ -6,7 +6,6 @@ import { Button, type ButtonProps } from "../button";
 import { DialogFooter } from "../dialog";
 
 interface DialogCardFooterProps extends ButtonProps {
-  isPending?: boolean;
   primaryText?: string;
   secondaryText?: string;
 }
@@ -15,7 +14,6 @@ interface DialogCardFooterProps extends ButtonProps {
 // mainly used for api requests so isPending should be provided for ux
 
 export const DialogButtonsFooter = ({
-  isPending,
   primaryText = "Confirm",
   secondaryText = "Cancel",
   ...props
@@ -25,15 +23,7 @@ export const DialogButtonsFooter = ({
       <DialogClose asChild>
         <Button variant="outline">{secondaryText}</Button>
       </DialogClose>
-      <Button
-        {...props}
-        className={cn(
-          "transition-all duration-200",
-          isPending && "pointer-events-none opacity-70"
-        )}
-      >
-        {primaryText}
-      </Button>
+      <Button {...props}>{primaryText}</Button>
     </DialogFooter>
   );
 };

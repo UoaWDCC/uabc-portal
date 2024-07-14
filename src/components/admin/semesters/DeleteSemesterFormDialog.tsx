@@ -39,7 +39,7 @@ export const DeleteSemesterFormDialog = () => {
         toast({
           title: "Uh oh! Something went wrong",
           description:
-            "An error occurred while updating the semester. Please try again.",
+            "An error occurred while deleting the semester. Please try again.",
           variant: "destructive",
         });
       },
@@ -73,7 +73,7 @@ export const DeleteSemesterFormDialog = () => {
         variant="destructive"
         primaryText="Delete"
         secondaryText="Cancel"
-        isPending={mutation.isPending}
+        disabled={mutation.isPending}
         onClick={handleDelete}
       />
     </DialogContent>

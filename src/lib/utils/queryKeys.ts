@@ -4,4 +4,5 @@ export enum QUERY_KEY {
   GAME_SESSION = "game-session",
   PENDING_MEMBERS = "pending-members",
   SEMESTERS = "semesters",
+  SCHEDULES = "schedules",
 }
