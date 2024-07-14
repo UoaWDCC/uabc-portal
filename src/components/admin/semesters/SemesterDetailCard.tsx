@@ -23,7 +23,7 @@ const UnmemoizedSemesterDetailCard = () => {
   return (
     <Card className="relative select-none bg-secondary/20 text-sm font-medium tracking-tight text-tertiary ring-1 ring-secondary">
       <Link
-        href={`semesters/${id}`}
+        href={`semesters/${id}/schedules`}
         className="absolute left-0 top-0 z-10 h-full w-full"
       />
       <div className="flex items-center justify-between">
