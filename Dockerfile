@@ -11,7 +11,6 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml* ./
 RUN pnpm i --frozen-lockfile
 
-
 # Rebuild the source code only when needed
 FROM base AS builder
 RUN corepack enable
@@ -45,7 +44,13 @@ RUN --mount=type=secret,id=DATABASE_URL \
     --mount=type=secret,id=NEXTAUTH_SECRET \
     DATABASE_URL="$(cat /run/secrets/DATABASE_URL)" \
     NEXTAUTH_SECRET="$(cat /run/secrets/NEXTAUTH_SECRET)" \
-    npm run build
+    pnpm db:push
+
+RUN --mount=type=secret,id=DATABASE_URL \
+    --mount=type=secret,id=NEXTAUTH_SECRET \
+    DATABASE_URL="$(cat /run/secrets/DATABASE_URL)" \
+    NEXTAUTH_SECRET="$(cat /run/secrets/NEXTAUTH_SECRET)" \
+    pnpm build
 
 FROM base AS runner
 WORKDIR /app
