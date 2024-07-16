@@ -5,6 +5,10 @@ import { BreakLine } from "@/components/auth/BreakLine";
 import { EmailLoginForm } from "@/components/auth/EmailLoginForm";
 import { GoogleSignIn } from "@/components/auth/GoogleLoginButton";
 
+export const metadata = {
+  title: "Login - UABC Booking Portal",
+};
+
 export default async function LoginPage() {
   return (
     <div className="mt-8 flex w-full flex-col gap-4">

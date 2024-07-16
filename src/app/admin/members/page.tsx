@@ -1,6 +1,10 @@
 import { MemberApprovalTable } from "@/components/admin/members/MemberApprovalTable/MemberApprovalTable";
 import { NavigationBar } from "@/components/NavigationBar";
 
+export const metadata = {
+  title: "Members - UABC Booking Portal",
+};
+
 export default function AdminMembersPage() {
   return (
     <div className="mx-4 flex min-h-dvh flex-col">

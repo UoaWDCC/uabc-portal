@@ -1,12 +1,25 @@
 "use client";
 
-import { LogOut } from "lucide-react";
+import type { PropsWithChildren } from "react";
 import { signOut } from "next-auth/react";
 
+import type { ButtonProps } from "./ui/button";
 import { Button } from "./ui/button";
 
-export const LogOutButton = () => (
-  <Button size={"icon"} variant={"ghost"} onClick={() => signOut()}>
-    <LogOut size={24} />
+export const LogOutButton = ({
+  children,
+  size = "icon",
+  variant = "ghost",
+}: PropsWithChildren<ButtonProps>) => (
+  <Button
+    size={size}
+    variant={variant}
+    onClick={() =>
+      signOut({
+        callbackUrl: `/auth/login`,
+      })
+    }
+  >
+    {children}
   </Button>
 );

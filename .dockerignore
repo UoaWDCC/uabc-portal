@@ -20,6 +20,9 @@ build
 src/lib/db/seed.ts
 src/stories
 
+# dev pages
+src/app/(dev)
+
 # other
 .storybook
 .husky

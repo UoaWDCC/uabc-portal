@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { LogOut } from "lucide-react";
 
 import { PrepaidSessionsCounter } from "@/components/booking/sessions/PrepaidSessionsCounter";
 import { Heading } from "@/components/Heading";
@@ -10,7 +11,7 @@ import { getUserFromId } from "@/services/user";
 import ClientSessionPage from "./client-page";
 
 export const metadata = {
-  title: "Book Session - UABC Booking Portal",
+  title: "Session Booking - UABC Booking Portal",
 };
 
 async function SelectSessionPage({ currentUser }: CurrentUserProps) {
@@ -20,7 +21,9 @@ async function SelectSessionPage({ currentUser }: CurrentUserProps) {
     <div className="flex h-dvh flex-col">
       <div className="flex items-center justify-between p-4">
         <Heading>Sessions</Heading>
-        <LogOutButton />
+        <LogOutButton>
+          <LogOut size={24} />
+        </LogOutButton>
       </div>
       <div className="flex h-16 items-center justify-between bg-secondary/70 p-4">
         <div className="flex items-center">

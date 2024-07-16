@@ -12,12 +12,29 @@ const routeContextSchema = z.object({
   }),
 });
 
+export async function generateMetadata(
+  ctx: z.infer<typeof routeContextSchema>
+) {
+  const result = routeContextSchema.safeParse(ctx);
+
+  if (!result.success) notFound();
+
+  const semesterId = result.data.params.semesterId;
+  const semester = await getSemesterFromId(semesterId);
+
+  if (!semester) notFound();
+
+  return {
+    title: `${semester.name} schedules`,
+  };
+}
+
 export default async function SchedulesPage(
   ctx: z.infer<typeof routeContextSchema>
 ) {
   const result = routeContextSchema.safeParse(ctx);
 
-  if (result.error) notFound();
+  if (!result.success) notFound();
 
   const semesterId = result.data.params.semesterId;
   const semester = await getSemesterFromId(semesterId);

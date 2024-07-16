@@ -2,6 +2,10 @@ import SemesterCreateButton from "@/components/admin/semesters/SemesterCreateBut
 import { SemestersList } from "@/components/admin/semesters/SemestersList";
 import { NavigationBar } from "@/components/NavigationBar";
 
+export const metadata = {
+  title: "Semesters - UABC Booking Portal",
+};
+
 const SemestersPage = () => {
   return (
     <div className="max-w-dvw relative flex min-h-dvh flex-col overflow-x-hidden bg-background px-4">

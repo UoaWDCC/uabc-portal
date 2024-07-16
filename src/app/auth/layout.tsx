@@ -4,7 +4,11 @@ import { Card } from "@/components/Card";
 import { UabcHeaderText } from "@/components/UabcHeaderText";
 import { UabcLogo } from "@/components/UabcLogo";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="grid min-h-dvh w-dvw place-items-center sm:p-8">
       <Card

@@ -4,6 +4,10 @@ import { UabcHeaderText } from "@/components/UabcHeaderText";
 import { UabcLogoNotFound } from "@/components/UabcLogoNotFound";
 import { Button } from "@/components/ui/button";
 
+export const metadata = {
+  title: "Not Found - UABC Booking Portal",
+};
+
 const NotFoundPage = () => {
   return (
     <div className="flex h-dvh w-dvw flex-col items-center justify-evenly overflow-hidden bg-background">

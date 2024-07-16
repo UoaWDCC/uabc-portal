@@ -1,9 +1,11 @@
-"use client";
-
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 
 import { NavigationBar } from "@/components/NavigationBar";
 import ClientViewSessionsPage from "./client-page";
+
+export const metadata = {
+  title: "View Sessions - UABC Booking Portal",
+};
 
 export default function ViewSessionsPage() {
   return (
