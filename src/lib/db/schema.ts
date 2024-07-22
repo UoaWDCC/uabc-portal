@@ -104,7 +104,7 @@ export const gameSessions = pgTable("gameSession", {
   endTime: time("endTime").notNull(),
   locationName: text("locationName").notNull(),
   locationAddress: text("locationAddress").notNull(),
-  capacity: integer("capacity").notNull(),
+  memberCapacity: integer("memberCapacity").notNull(),
   casualCapacity: integer("casualCapacity").notNull(),
 });
 
@@ -170,7 +170,7 @@ export const gameSessionSchedules = pgTable(
     endTime: time("endTime").notNull(),
     locationName: text("locationName").notNull(),
     locationAddress: text("locationAddress").notNull(),
-    capacity: integer("capacity").notNull(),
+    memberCapacity: integer("memberCapacity").notNull(),
     casualCapacity: integer("casualCapacity").notNull(),
   },
   (gss) => ({
@@ -189,6 +189,6 @@ export const gameSessionExceptions = pgTable("gameSessionException", {
   endTime: time("endTime"),
   locationName: text("locationName"),
   locationAddress: text("locationAddress"),
-  capacity: integer("capacity"),
+  memberCapacity: integer("memberCapacity"),
   casualCapacity: integer("casualCapacity"),
 });

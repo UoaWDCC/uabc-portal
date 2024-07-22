@@ -10,7 +10,7 @@ export type ScheduleResponse = {
   endTime: string;
   locationName: string;
   locationAddress: string;
-  capacity: number;
+  memberCapacity: number;
   casualCapacity: number;
 };
 

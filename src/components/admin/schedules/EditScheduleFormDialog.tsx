@@ -22,7 +22,7 @@ const formSchema = z
     endTime: z.string().min(1, "Field is required"),
     locationName: z.string().min(1, "Field is required"),
     locationAddress: z.string().min(1, "Field is required"),
-    capacity: z.coerce
+    memberCapacity: z.coerce
       .number({ message: "Capacity must be a number" })
       .nonnegative("Capacity must be positive")
       .refine((value) => value !== 0, { message: "Field is required" }),
@@ -36,15 +36,6 @@ const formSchema = z
       return !data.endTime || data.startTime < data.endTime;
     },
     { message: "Start time must be before end time", path: ["startTime"] }
-  )
-  .refine(
-    (data) => {
-      return data.capacity >= data.casualCapacity;
-    },
-    {
-      message: "Casual capacity must be less than or equal to capacity",
-      path: ["casualCapacity"],
-    }
   );
 
 export const EditScheduleFormDialog = () => {
@@ -56,7 +47,7 @@ export const EditScheduleFormDialog = () => {
     endTime,
     locationName,
     locationAddress,
-    capacity,
+    memberCapacity,
     casualCapacity,
   } = useScheduleContext();
   const { handleClose: closeDialog } = useDialogContext();
@@ -73,7 +64,7 @@ export const EditScheduleFormDialog = () => {
       endTime: endTime.slice(0, 5),
       locationName,
       locationAddress,
-      capacity,
+      memberCapacity,
       casualCapacity,
     },
   });
@@ -91,7 +82,7 @@ export const EditScheduleFormDialog = () => {
       endTime: `${data.endTime}:00`,
       locationName: data.locationName,
       locationAddress: data.locationAddress,
-      capacity: data.capacity,
+      memberCapacity: data.memberCapacity,
       casualCapacity: data.casualCapacity,
     });
 
@@ -120,7 +111,7 @@ export const EditScheduleFormDialog = () => {
             endTime: data.endTime,
             locationName: data.locationName,
             locationAddress: data.locationAddress,
-            capacity: data.capacity,
+            memberCapacity: data.memberCapacity,
             casualCapacity: data.casualCapacity,
           });
           closeDialog();
@@ -177,9 +168,9 @@ export const EditScheduleFormDialog = () => {
           <TextInput
             label="Capacity"
             type="number"
-            {...register("capacity")}
-            isError={!!errors.capacity?.message}
-            errorMessage={errors.capacity?.message}
+            {...register("memberCapacity")}
+            isError={!!errors.memberCapacity?.message}
+            errorMessage={errors.memberCapacity?.message}
             autoComplete="off"
           />
           <TextInput

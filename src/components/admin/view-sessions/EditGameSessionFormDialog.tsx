@@ -27,7 +27,7 @@ export default function EditGameSessionFormDialog() {
     endTime,
     locationName,
     locationAddress,
-    capacity,
+    memberCapacity,
     casualCapacity,
   } = useGameSessionContext();
 
@@ -45,7 +45,7 @@ export default function EditGameSessionFormDialog() {
       endTime: endTime?.slice(0, 5),
       locationName,
       locationAddress,
-      capacity,
+      memberCapacity,
       casualCapacity,
     },
   });
@@ -152,9 +152,9 @@ export default function EditGameSessionFormDialog() {
           <TextInput
             label="Capacity"
             type="text"
-            {...register("capacity")}
-            isError={!!errors.capacity}
-            errorMessage={errors.capacity?.message}
+            {...register("memberCapacity")}
+            isError={!!errors.memberCapacity}
+            errorMessage={errors.memberCapacity?.message}
           />
           <TextInput
             label="Casual Capacity"

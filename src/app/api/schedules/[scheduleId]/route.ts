@@ -65,12 +65,6 @@ export async function PUT(
       );
     }
 
-    if (updatedGameSession.casualCapacity > updatedGameSession.capacity) {
-      return new Response("Casual capacity cannot be greater than capacity", {
-        status: 400,
-      });
-    }
-
     if (updatedGameSession.startTime >= updatedGameSession.endTime) {
       return new Response("Start time must be before end time", {
         status: 400,

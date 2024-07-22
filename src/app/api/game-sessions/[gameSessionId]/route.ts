@@ -76,12 +76,6 @@ export async function PUT(
       });
     }
 
-    if (body.casualCapacity > body.capacity) {
-      return new Response("Casual capacity must be less than capacity", {
-        status: 400,
-      });
-    }
-
     const updatedSession = await db
       .update(gameSessions)
       .set(body)

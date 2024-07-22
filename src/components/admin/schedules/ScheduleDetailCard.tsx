@@ -15,7 +15,7 @@ const UnmemoizedScheduleDetailCard = () => {
     endTime,
     locationName,
     locationAddress,
-    capacity,
+    memberCapacity,
     casualCapacity,
   } = useScheduleContext();
   return (
@@ -42,7 +42,7 @@ const UnmemoizedScheduleDetailCard = () => {
       </p>
       <p className="mt-2">Venue Name: {locationName}</p>
       <p>Address: {locationAddress}</p>
-      <p className="mt-2">Max capacity: {capacity}</p>
+      <p className="mt-2">Member capacity: {memberCapacity}</p>
       <p>Casual capacity: {casualCapacity}</p>
     </Card>
   );

@@ -161,7 +161,7 @@ export async function GET(req: NextRequest) {
             endTime: gameSessionException.endTime,
             locationName: gameSessionException.locationName,
             locationAddress: gameSessionException.locationAddress,
-            capacity: gameSessionException.capacity,
+            memberCapacity: gameSessionException.memberCapacity,
             casualCapacity: gameSessionException.casualCapacity,
             attendees: 0,
           },
@@ -201,7 +201,7 @@ export async function GET(req: NextRequest) {
           endTime: gameSessionSchedule.endTime,
           locationName: gameSessionSchedule.locationName,
           locationAddress: gameSessionSchedule.locationAddress,
-          capacity: gameSessionSchedule.capacity,
+          memberCapacity: gameSessionSchedule.memberCapacity,
           casualCapacity: gameSessionSchedule.casualCapacity,
           attendees: 0,
         },
@@ -246,15 +246,6 @@ export async function POST(req: NextRequest) {
       gameSessionExceptionToInsert.endTime
     ) {
       return new Response("Start time must be before end time", {
-        status: 400,
-      });
-    }
-
-    if (
-      gameSessionExceptionToInsert.casualCapacity >
-      gameSessionExceptionToInsert.capacity
-    ) {
-      return new Response("Casual capacity must be less than capacity", {
         status: 400,
       });
     }
@@ -503,12 +494,6 @@ export async function PUT(req: NextRequest) {
     // Check the game session to update is valid
     if (gameSessionToUpdate.startTime > gameSessionToUpdate.endTime) {
       return new Response("Start time must be less than end time", {
-        status: 400,
-      });
-    }
-
-    if (gameSessionToUpdate.casualCapacity > gameSessionToUpdate.capacity) {
-      return new Response("Casual capacity must be less than capacity", {
         status: 400,
       });
     }

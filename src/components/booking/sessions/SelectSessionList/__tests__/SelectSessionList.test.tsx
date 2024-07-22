@@ -92,7 +92,7 @@ describe("SelectSessionList", () => {
       expect(sessionCards[2].getAttribute("aria-checked")).toBe("false");
     });
 
-    it("should call onLimitReaced if the max number of sessions has been selected", async () => {
+    it("should call onLimitReached if the max number of sessions has been selected", async () => {
       for (const sessionCard of sessionCards) {
         await user.click(sessionCard);
       }

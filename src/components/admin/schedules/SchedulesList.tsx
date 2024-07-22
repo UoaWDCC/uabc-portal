@@ -25,7 +25,7 @@ export const SchedulesList = ({ semesterId }: SchedulesListProps) => {
           endTime: schedule.endTime,
           locationName: schedule.locationName,
           locationAddress: schedule.locationAddress,
-          capacity: schedule.capacity,
+          memberCapacity: schedule.memberCapacity,
           casualCapacity: schedule.casualCapacity,
         };
       }),

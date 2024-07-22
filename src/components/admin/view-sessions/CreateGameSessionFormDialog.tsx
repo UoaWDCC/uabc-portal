@@ -137,9 +137,9 @@ export function CreateGameSessionFormDialog({
           <TextInput
             label="Capacity"
             type="text"
-            {...register("capacity")}
-            isError={!!errors.capacity}
-            errorMessage={errors.capacity?.message}
+            {...register("memberCapacity")}
+            isError={!!errors.memberCapacity}
+            errorMessage={errors.memberCapacity?.message}
           />
           <TextInput
             label="Casual Capacity"

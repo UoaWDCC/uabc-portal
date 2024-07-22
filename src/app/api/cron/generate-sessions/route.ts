@@ -108,7 +108,7 @@ export async function POST(_req: NextRequest) {
             endTime: exception.endTime,
             locationName: exception.locationName,
             locationAddress: exception.locationAddress,
-            capacity: exception.capacity,
+            memberCapacity: exception.memberCapacity,
             casualCapacity: exception.casualCapacity,
             bookingPeriodId: bookingPeriod.id,
           })
@@ -134,7 +134,7 @@ export async function POST(_req: NextRequest) {
           endTime: schedule.endTime,
           locationName: schedule.locationName,
           locationAddress: schedule.locationAddress,
-          capacity: schedule.capacity,
+          memberCapacity: schedule.memberCapacity,
           casualCapacity: schedule.casualCapacity,
           bookingPeriodId: bookingPeriod.id,
         })

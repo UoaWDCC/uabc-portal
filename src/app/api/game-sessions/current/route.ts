@@ -27,6 +27,18 @@ export async function GET() {
       pgDialect.sqlToQuery(casualBookingSqlChunks).sql
     );
 
+    const memberBookingSqlChunks = sql`(
+      SELECT COUNT(*) FROM ${bookingDetails}
+      INNER JOIN ${bookings} 
+        ON ${bookingDetails.bookingId} = ${bookings.id}
+      WHERE ${bookingDetails.gameSessionId} = ${gameSessions.id}
+      AND ${bookings.isMember} = TRUE
+    )`;
+
+    const memberBookingCountQuery = sql.raw(
+      pgDialect.sqlToQuery(memberBookingSqlChunks).sql
+    );
+
     const sessions = await db
       .select({
         id: gameSessions.id,
@@ -35,13 +47,9 @@ export async function GET() {
         endTime: gameSessions.endTime,
         locationName: gameSessions.locationName,
         locationAddress: gameSessions.locationAddress,
-        capacity: gameSessions.capacity,
+        memberCapacity: gameSessions.memberCapacity,
         casualCapacity: gameSessions.casualCapacity,
-        bookingCount: sql`(
-          SELECT COUNT(*)
-          FROM ${bookingDetails}
-          WHERE ${bookingDetails.gameSessionId} = ${gameSessions.id}
-        )`.mapWith(Number),
+        memberBookingCount: memberBookingCountQuery.mapWith(Number),
         casualBookingCount: casualBookingCountQuery.mapWith(Number),
       })
       .from(gameSessions)

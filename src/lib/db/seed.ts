@@ -65,7 +65,7 @@ async function main() {
         endTime: "14:00:00",
         locationName: faker.company.name(),
         locationAddress: faker.location.streetAddress(),
-        capacity: 10,
+        memberCapacity: 10,
         casualCapacity: 5,
       });
     }
@@ -98,7 +98,7 @@ async function main() {
       endTime: "14:00:00",
       locationName: faker.company.name(),
       locationAddress: faker.location.streetAddress(),
-      capacity: 10,
+      memberCapacity: 10,
       casualCapacity: 5,
       bookingPeriodId: bookingPeriod.id,
     });

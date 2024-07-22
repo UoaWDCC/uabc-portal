@@ -166,13 +166,12 @@ export async function POST(request: Request) {
               (CASE
                 WHEN ${user!.member} = TRUE THEN
                   (SELECT COUNT(*) 
-                    FROM ${bookingDetails} 
-                    WHERE ${bookingDetails.gameSessionId} = ${session.gameSessionId}) < ${gameSession?.capacity}
+                    FROM ${bookingDetails}
+                    INNER JOIN ${bookings} ON ${bookingDetails.bookingId} = ${bookings.id}
+                    WHERE ${bookingDetails.gameSessionId} = ${session.gameSessionId}
+                    AND ${bookings.isMember} = TRUE) < ${gameSession?.memberCapacity}
+              
                 ELSE
-                  (SELECT COUNT(*) 
-                    FROM ${bookingDetails} 
-                    WHERE ${bookingDetails.gameSessionId} = ${session.gameSessionId}) < ${gameSession?.capacity}
-                  AND
                   (SELECT COUNT(*) 
                     FROM ${bookingDetails}
                     INNER JOIN ${bookings} ON ${bookingDetails.bookingId} = ${bookings.id}

@@ -20,7 +20,7 @@ interface AdminViewSessionCardProps {
   locationName: string;
   locationAddress: string;
   attendees: number;
-  capacity: number;
+  totalCapacity: number;
   state: "ongoing" | "past" | "upcoming";
   className?: string;
 }
@@ -33,7 +33,7 @@ export function AdminViewSessionCard({
   locationName,
   locationAddress,
   attendees,
-  capacity,
+  totalCapacity,
   state,
   className,
 }: AdminViewSessionCardProps) {
@@ -104,7 +104,7 @@ export function AdminViewSessionCard({
         <div>
           <Users size={24} className="min-w-6" />
           <p>
-            {attendees} / {capacity} attendees
+            {attendees} / {totalCapacity} attendees
           </p>
         </div>
       </div>

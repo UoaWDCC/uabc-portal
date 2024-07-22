@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
+import { dataTagSymbol, useQueryClient } from "@tanstack/react-query";
 import { addMonths, format, isToday, parse, subMonths } from "date-fns";
 import { z } from "zod";
 
@@ -134,7 +134,9 @@ export default function ClientViewSessionsPage() {
               locationName={data.data.locationName}
               locationAddress={data.data.locationAddress}
               attendees={data.data.attendees}
-              capacity={data.data.capacity}
+              totalCapacity={
+                data.data.memberCapacity + data.data.casualCapacity
+              }
               state={getSessionState(
                 data.data.date,
                 data.data.startTime,

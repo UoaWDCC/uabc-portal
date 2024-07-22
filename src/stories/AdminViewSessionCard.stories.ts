@@ -24,7 +24,7 @@ export const Default: Story = {
     locationName: "Location Name",
     locationAddress: "Location Address",
     attendees: 10,
-    capacity: 20,
+    totalCapacity: 20,
     state: "upcoming",
   },
 };

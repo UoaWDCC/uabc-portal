@@ -9,7 +9,7 @@ type GameSessionData = {
   endTime: string;
   locationName: string;
   locationAddress: string;
-  capacity: number;
+  memberCapacity: number;
   casualCapacity: number;
   attendees: number;
 };
@@ -30,9 +30,9 @@ type CurrentGameSessionResponse = {
   endTime: string;
   locationName: string;
   locationAddress: string;
-  capacity: number;
+  memberCapacity: number;
   casualCapacity: number;
-  bookingCount: number;
+  memberBookingCount: number;
   casualBookingCount: number;
 };
 
