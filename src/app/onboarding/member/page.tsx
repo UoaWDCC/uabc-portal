@@ -64,7 +64,7 @@ const MembershipType = () => {
         selectedMembership={member === false}
         onChange={() => setMember(false)}
         heading="Non-Member (Casual)"
-        description1="$15.00 per session"
+        description1="$8.00 per session"
         description2="(limit of 1 session per week)"
       />
 
