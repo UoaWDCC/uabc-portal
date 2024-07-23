@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, type InputHTMLAttributes } from "react";
+import { forwardRef, useState, type InputHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { cn } from "@/lib/utils";
@@ -30,6 +30,13 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
     }: InputProps,
     ref
   ) => {
+    const initialIsTypePassword = type === "password";
+    const [showPassword, setShowPassword] = useState(!initialIsTypePassword);
+
+    const togglePassword = () => {
+      setShowPassword(!showPassword);
+    };
+
     return (
       <div
         className={cn(
@@ -40,7 +47,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
       >
         <div className="peer relative h-11">
           <input
-            type={type}
+            type={initialIsTypePassword ? (showPassword ? "text" : type) : type}
             placeholder={props.placeholder ? props.placeholder : " "}
             className={twMerge(
               "peer h-full w-full rounded border border-tertiary/70 bg-background p-2 outline-none ring-inset ring-primary transition-colors placeholder:text-tertiary/70 focus:border-primary focus:ring-1 dark:text-white/70",
@@ -64,13 +71,19 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
           >
             {label}
           </span>
+          {initialIsTypePassword && (
+            <div
+              className="absolute right-0 top-[50%] block aspect-square w-5 -translate-x-[50%] -translate-y-[50%] bg-black peer-placeholder-shown:hidden"
+              onClick={togglePassword}
+            />
+          )}
         </div>
         {/* has 3 lines(40px) of error message height */}
         <p
           className={twMerge(
-            "max-h-0 w-full text-xs transition-[max-height] duration-150 ease-in-out",
+            "max-h-0 w-full select-none text-xs transition-[max-height] duration-150 ease-in-out",
             ((!!errorMessage && isError) || (!!successMessage && isSuccess)) &&
-              "max-h-10",
+              "max-h-10 select-text",
             isError &&
               "peer-has[input:focus]:!text-destructive text-destructive/80",
             isSuccess && "peer-has[input:focus]:!text-success text-success/80"
