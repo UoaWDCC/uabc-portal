@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef, useState, type InputHTMLAttributes } from "react";
+import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 
 import { cn } from "@/lib/utils";
@@ -73,9 +74,17 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
           </span>
           {initialIsTypePassword && (
             <div
-              className="absolute right-0 top-[50%] block aspect-square w-5 -translate-x-[50%] -translate-y-[50%] bg-black peer-placeholder-shown:hidden"
+              className="absolute right-0 top-[50%] block aspect-square w-5 -translate-x-[50%] -translate-y-[50%] cursor-pointer peer-placeholder-shown:hidden"
               onClick={togglePassword}
-            />
+            >
+              <Image
+                className="opacity-80"
+                width={50}
+                height={50}
+                alt="show button"
+                src={showPassword ? "/svgs/eye-hide.svg" : "/svgs/eye-show.svg"}
+              />
+            </div>
           )}
         </div>
         {/* has 3 lines(40px) of error message height */}
