@@ -124,3 +124,9 @@
 .textStroke {
   -webkit-text-stroke: 6px hsl(var(--foreground));
 }
+
+/* hide microsoft password reveal */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
