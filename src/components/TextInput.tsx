@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, useState, type InputHTMLAttributes } from "react";
-import Image from "next/image";
+import { Eye, EyeOff } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
 import { cn } from "@/lib/utils";
@@ -74,16 +74,10 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
           </span>
           {initialIsTypePassword && (
             <div
-              className="absolute right-0 top-[50%] block aspect-square w-5 -translate-x-[50%] -translate-y-[50%] cursor-pointer peer-placeholder-shown:hidden"
+              className="absolute right-2 top-[50%] block aspect-square -translate-y-[50%] cursor-pointer p-1 *:opacity-80 peer-placeholder-shown:hidden"
               onClick={togglePassword}
             >
-              <Image
-                className="opacity-80"
-                width={50}
-                height={50}
-                alt="show button"
-                src={showPassword ? "/svgs/eye-hide.svg" : "/svgs/eye-show.svg"}
-              />
+              {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
             </div>
           )}
         </div>
