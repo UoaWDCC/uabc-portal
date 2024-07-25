@@ -1,5 +1,8 @@
 name: Deploy Production
 on:
+  push:
+    branches:
+      - "release/*"
   workflow_dispatch:
 
 env:
