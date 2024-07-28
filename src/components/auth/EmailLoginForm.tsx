@@ -83,6 +83,7 @@ export const EmailLoginForm = () => {
           Login to your account
         </span>
         <TextInput
+          autoFocus
           className="text-foreground"
           label="Email"
           type="email"

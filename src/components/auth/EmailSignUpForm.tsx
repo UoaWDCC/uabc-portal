@@ -60,7 +60,7 @@ export const EmailSignUpForm = () => {
           toast({
             title: "Uh oh! Something went wrong",
             description:
-              "An error occurred while creating your acccount. Please try again.",
+              "An error occurred while creating your account. Please try again.",
             variant: "destructive",
           });
         }
@@ -79,6 +79,7 @@ export const EmailSignUpForm = () => {
         <div className="flex flex-col gap-4">
           <span className="text-center text-foreground">Create an Account</span>
           <TextInput
+            autoFocus
             label="Email"
             type="email"
             isError={!!errors.email}
