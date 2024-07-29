@@ -1,8 +1,8 @@
 name: Deploy Production
 on:
   push:
-    branches:
-      - "release/*"
+    tags:
+      - "v*"
   workflow_dispatch:
 
 env:
@@ -15,6 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: deploy-group # optional: ensure only one action runs at a time
     steps:
+      - name: Tag release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+
       - name: Checkout code
         uses: actions/checkout@v4
 
