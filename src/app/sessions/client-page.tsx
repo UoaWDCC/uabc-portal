@@ -31,19 +31,17 @@ export default function ClientSessionPage({
   const { update, data } = useSession();
 
   const sessionsSelected = useCartStore((state) => state.cart.length);
-  const [remainingSessionsModalVisible, setRemainingSessionsModalVisible] =
-    useState(false);
   const [shake, setShake] = useState(false);
 
   useEffect(() => {
     if (data?.user.verified && prepaidSessions === 0) {
-      setRemainingSessionsModalVisible(true);
       update({
         member: false,
         verified: false,
       });
     }
-  }, [data?.user.verified, prepaidSessions, update]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.user.verified, prepaidSessions]);
 
   const memberMaxSessions = Math.min(prepaidSessions, MEMBER_MAX_SESSIONS);
   const maxSessions = isMember ? memberMaxSessions : NON_MEMBER_MAX_SESSIONS;
@@ -87,8 +85,6 @@ export default function ClientSessionPage({
           Next
         </Button>
       </div>
-
-      {remainingSessionsModalVisible && <NoRemainingSessionsModal />}
     </>
   );
 }
