@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Card } from "./Card";
 
 interface MembershipTypeSelectorProps {
-  selectedMembership: boolean | undefined;
+  selectedMembership: boolean | undefined | null;
   onClick: MouseEventHandler<HTMLInputElement>;
   heading: string;
   description1: string;
@@ -29,7 +29,7 @@ export const MembershipTypeSelector = ({
         type="radio"
         name="membership-type-selector"
         className="hidden"
-        checked={selectedMembership}
+        checked={selectedMembership ?? false}
         onClick={onClick}
       />
 

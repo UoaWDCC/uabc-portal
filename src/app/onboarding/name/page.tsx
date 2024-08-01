@@ -18,12 +18,9 @@ export default function NamePage() {
   const updateLastName = useOnboardingDetailsStore(
     (state) => state.setLastName
   );
-  const handleNextButtonClick = () => {
-    router.push("/onboarding/member");
-  };
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleNextButtonClick();
+    router.push("/onboarding/member");
   };
 
   return (
@@ -53,7 +50,6 @@ export default function NamePage() {
             <Button
               large
               className="w-full"
-              onClick={handleNextButtonClick}
               type="submit"
               disabled={firstName === "" || lastName === "" ? true : false}
             >

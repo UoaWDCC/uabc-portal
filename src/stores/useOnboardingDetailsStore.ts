@@ -9,7 +9,7 @@ interface OnboardingDetailsState {
 interface OnboardingDetailsAction {
   setFirstName: (firstName: OnboardingDetailsState["firstName"]) => void;
   setLastName: (lastName: OnboardingDetailsState["lastName"]) => void;
-  setMember: (member: boolean) => void;
+  setMember: (member: boolean | null) => void;
 }
 
 export const useOnboardingDetailsStore = create<

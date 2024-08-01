@@ -48,7 +48,7 @@ const MembershipType = () => {
     }
   };
 
-  const toggleMemberSelection = (selected) => {
+  const toggleMemberSelection = (selected: boolean) => {
     setMember(member === selected ? null : selected);
   };
 
