@@ -18,7 +18,8 @@ export default function NamePage() {
   const updateLastName = useOnboardingDetailsStore(
     (state) => state.setLastName
   );
-  const handleNextButtonClick = () => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     router.push("/onboarding/member");
   };
 
@@ -28,7 +29,7 @@ export default function NamePage() {
         <div className="pt-4">
           <UabcHeaderText />
         </div>
-        <div className="flex flex-col gap-6 py-6">
+        <form className="flex flex-col gap-6 py-6" onSubmit={handleFormSubmit}>
           <p className="text-center">What&apos;s your name?</p>
           <TextInput
             label="First Name"
@@ -36,6 +37,7 @@ export default function NamePage() {
             type="text"
             isError={false}
             onChange={(e) => updateFirstName(e.target.value)}
+            autoFocus
           />
           <TextInput
             label="Last Name"
@@ -44,17 +46,17 @@ export default function NamePage() {
             isError={false}
             onChange={(e) => updateLastName(e.target.value)}
           />
-        </div>
-        <div className="pb-10">
-          <Button
-            large
-            className="w-full"
-            onClick={handleNextButtonClick}
-            disabled={firstName === "" || lastName === "" ? true : false}
-          >
-            Continue
-          </Button>
-        </div>
+          <div className="pb-10">
+            <Button
+              large
+              className="w-full"
+              type="submit"
+              disabled={firstName === "" || lastName === "" ? true : false}
+            >
+              Continue
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   );

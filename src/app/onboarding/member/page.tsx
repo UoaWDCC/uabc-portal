@@ -48,13 +48,17 @@ const MembershipType = () => {
     }
   };
 
+  const toggleMemberSelection = (selected: boolean) => {
+    setMember(member === selected ? null : selected);
+  };
+
   return (
     <div className="mx-4 flex h-dvh flex-col gap-y-4">
       <NavigationBar title="Select your membership type" />
 
       <MembershipTypeSelector
         selectedMembership={member === true}
-        onChange={() => setMember(true)}
+        onClick={() => toggleMemberSelection(true)}
         heading="Prepaid Member"
         description1="Package of 6, 11 or 22 prepaid sessions for the semester"
         description2="(limit of 2 sessions per week)"
@@ -62,7 +66,7 @@ const MembershipType = () => {
 
       <MembershipTypeSelector
         selectedMembership={member === false}
-        onChange={() => setMember(false)}
+        onClick={() => toggleMemberSelection(false)}
         heading="Non-Member (Casual)"
         description1="$8.00 per session"
         description2="(limit of 1 session per week)"
