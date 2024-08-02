@@ -34,8 +34,6 @@ export function OTPFormAlertDialog({
 }: OTPFormAlertDialogProps) {
   const { toast } = useToast();
 
-  const { register, setFocus, handleSubmit } = useForm();
-
   const [verificationCode, setVerificationCode] = useState("");
 
   const { mutate: resendCode, isPending: isResendingCode } =
