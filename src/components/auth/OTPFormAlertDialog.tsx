@@ -33,6 +33,7 @@ export function OTPFormAlertDialog({
   ...props
 }: OTPFormAlertDialogProps) {
   const { toast } = useToast();
+  const { handleSubmit } = useForm();
 
   const [verificationCode, setVerificationCode] = useState("");
 
