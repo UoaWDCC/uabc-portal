@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { AlertDialogProps } from "@radix-ui/react-alert-dialog";
+import { useForm } from "react-hook-form";
 
 import {
   useRegisterMutation,
@@ -32,6 +33,7 @@ export function OTPFormAlertDialog({
   ...props
 }: OTPFormAlertDialogProps) {
   const { toast } = useToast();
+  const { handleSubmit } = useForm();
 
   const [verificationCode, setVerificationCode] = useState("");
 
@@ -40,21 +42,21 @@ export function OTPFormAlertDialog({
 
   const { mutate, isError: isRegisterError } = useRegisterMutation();
 
-  function onSubmit() {
+  const onSubmit = () => {
     mutate(
       { email, password, token: verificationCode },
       {
         onSuccess,
       }
     );
-  }
+  };
 
   function handleResendCodeClick() {
     resendCode(email, {
       onSuccess: () => {
         toast({
           title: "Code Resent",
-          description: `We've resent the confirmation code to ${email}.`,
+          description: `We've resent the verification code to ${email}.`,
         });
       },
       onError: (error) => {
@@ -72,21 +74,28 @@ export function OTPFormAlertDialog({
     <AlertDialog {...props}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Enter Confirmation Code</AlertDialogTitle>
+          <AlertDialogTitle>Enter Verification Code</AlertDialogTitle>
           <AlertDialogDescription>
-            Enter the confirmation code we sent to <strong>{email}</strong>.
+            Enter the verification code we sent to <strong>{email}</strong>.
             This code will expire in 3 minutes.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <div>
-          <TextInput
-            label="Confirmation Code"
-            type="text"
-            isError={isRegisterError}
-            errorMessage={"Invalid code. Please double check and try again."}
-            value={verificationCode}
-            onChange={(e) => setVerificationCode(e.target.value)}
-          />
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          <div>
+            <TextInput
+              autoFocus
+              label="Verification Code"
+              type="text"
+              isError={isRegisterError}
+              errorMessage={"Invalid code. Please double check and try again."}
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value)}
+            />
+          </div>
+          <Button type="submit" disabled={!verificationCode}>
+            Next
+          </Button>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
           <Button
             onClick={handleResendCodeClick}
             disabled={isResendingCode}
@@ -95,11 +104,7 @@ export function OTPFormAlertDialog({
           >
             Resend Code
           </Button>
-        </div>
-        <Button onClick={onSubmit} disabled={!verificationCode}>
-          Next
-        </Button>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        </form>
       </AlertDialogContent>
     </AlertDialog>
   );
