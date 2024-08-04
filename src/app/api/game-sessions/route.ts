@@ -36,16 +36,18 @@ import {
   updateGameSessionSchema,
 } from "@/lib/validators";
 import { getOrCreateBookingPeriod } from "@/services/game-sessions";
+import { User } from "@/types/next-auth";
+import { withAdmin, withError, withUser } from "@/util/wrappers";
 
-export async function GET(req: NextRequest) {
+export const GET = withError(withUser(withAdmin(async (req: NextRequest, res: NextResponse, user: User) =>  {
   try {
-    const user = await getCurrentUser();
+    /*const user = await getCurrentUser();
     if (!user) {
       return new Response("ERROR: Unauthorized request", { status: 401 });
     }
     if (user.role != "admin") {
       return new Response("ERROR: No valid permissions", { status: 403 });
-    }
+    }*/
 
     const date = req.nextUrl.searchParams.get("date");
     const gameSessionDate = z.string().date().parse(date);
@@ -215,7 +217,7 @@ export async function GET(req: NextRequest) {
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }
-}
+})));
 
 export async function POST(req: NextRequest) {
   try {
