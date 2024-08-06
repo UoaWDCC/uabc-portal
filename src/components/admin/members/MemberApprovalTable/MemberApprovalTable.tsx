@@ -8,10 +8,15 @@ import {
 } from "@tanstack/react-table";
 
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -67,8 +72,10 @@ export function MemberApprovalTable({ className }: { className?: string }) {
           <TableRow>
             <TableHead className="w-[200px]">Name</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead className="w-[200px]">Set Prepaid Sessions</TableHead>
-            <TableHead className="w-[200px]">Approve</TableHead>
+            <TableHead className="hidden w-[200px] lg:block">
+              Set Prepaid Sessions
+            </TableHead>
+            <TableHead className="hidden w-[200px] lg:block">Approve</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
