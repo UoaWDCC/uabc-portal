@@ -71,13 +71,14 @@ export function MemberApprovalTableRow({
   const lastName = name.splice(-1).join(" ");
   const email: string = row.getValue("email");
 
-  console.log(firstName, lastName);
-
   return (
     <Dialog>
       <TableRow>
         {row.getVisibleCells().map((cell) => (
-          <TableCell key={cell.id}>
+          <TableCell
+            key={cell.id}
+            className="w-[75px] max-w-[125px] truncate sm:max-w-max"
+          >
             {flexRender(cell.column.columnDef.cell, cell.getContext())}
           </TableCell>
         ))}
@@ -119,18 +120,28 @@ export function MemberApprovalTableRow({
           </div>
         </TableCell>
       </TableRow>
-      {/* didn't move this to a new component due to or else it get really messy */}
-      <DialogContent>
+      {/* didn't move Dialog to a new component or else it get really messy */}
+      {/* set min-max so long email/name expands dialog width  */}
+      <DialogContent className="w-min min-w-[375px] max-w-full">
         <DialogHeader>
           <DialogTitle>Approve Member</DialogTitle>
         </DialogHeader>
-        <div className="text-foregroun">
+        <div className="text-foreground">
           <p>Member Details</p>
-          <hr className="mb-0.5" />
-          <p>FirstName: {firstName}</p>
-          <p>LastName: {lastName}</p>
-          <p className="mb-2">Email: {email}</p>
-          <form onSubmit={handleSubmit(handleApproveClick)} className="mb-2">
+          <hr className="mb-1" />
+          <div className="flex">
+            <div className="mr-4 *:whitespace-nowrap">
+              <p>First Name</p>
+              <p>Last Name</p>
+              <p>Email</p>
+            </div>
+            <div className="*:truncate *:whitespace-nowrap">
+              <p>{firstName}</p>
+              <p>{lastName}</p>
+              <p>{email}</p>
+            </div>
+          </div>
+          <form onSubmit={handleSubmit(handleApproveClick)} className="my-4">
             <TextInput
               type="number"
               className="h-10 w-full"
@@ -145,8 +156,15 @@ export function MemberApprovalTableRow({
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button variant="destructive">Reject</Button>
-            <Button variant="default">Approve</Button>
+            <Button variant="destructive" onClick={handleRejectClick}>
+              Reject
+            </Button>
+            <Button
+              variant="default"
+              onClick={handleSubmit(handleApproveClick)}
+            >
+              Approve
+            </Button>
           </DialogFooter>
         </div>
       </DialogContent>

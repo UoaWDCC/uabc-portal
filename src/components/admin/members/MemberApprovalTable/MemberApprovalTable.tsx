@@ -72,10 +72,12 @@ export function MemberApprovalTable({ className }: { className?: string }) {
           <TableRow>
             <TableHead className="w-[200px]">Name</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead className="hidden w-[200px] lg:block">
+            <TableHead className="hidden w-[200px] lg:table-cell">
               Set Prepaid Sessions
             </TableHead>
-            <TableHead className="hidden w-[200px] lg:block">Approve</TableHead>
+            <TableHead className="hidden w-[200px] lg:table-cell">
+              Approve
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
