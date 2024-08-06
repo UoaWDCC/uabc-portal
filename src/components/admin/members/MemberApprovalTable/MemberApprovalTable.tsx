@@ -93,24 +93,20 @@ export function MemberApprovalTable({ className }: { className?: string }) {
             </TableRow>
           )}
         </TableBody>
-        <TableFooter className="bg-transparent">
-          <TableRow className="bg-transparent hover:bg-transparent">
-            <TableCell colSpan={4} className="py-2">
-              {table.getPageCount() > 1 && (
-                <MemberApprovalTablePagination
-                  hasPreviousPage={table.getCanPreviousPage()}
-                  hasNextPage={table.getCanNextPage()}
-                  pageIndex={pagination.pageIndex}
-                  pageCount={table.getPageCount()}
-                  previousPage={table.previousPage}
-                  nextPage={table.nextPage}
-                  setPageIndex={table.setPageIndex}
-                />
-              )}
-            </TableCell>
-          </TableRow>
-        </TableFooter>
       </Table>
+      <div className="border-t border-border py-2">
+        {table.getPageCount() > 1 && (
+          <MemberApprovalTablePagination
+            hasPreviousPage={table.getCanPreviousPage()}
+            hasNextPage={table.getCanNextPage()}
+            pageIndex={pagination.pageIndex}
+            pageCount={table.getPageCount()}
+            previousPage={table.previousPage}
+            nextPage={table.nextPage}
+            setPageIndex={table.setPageIndex}
+          />
+        )}
+      </div>
     </div>
   );
 }
