@@ -97,6 +97,7 @@ export function OTPFormAlertDialog({
           </Button>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <Button
+            type="button"
             onClick={handleResendCodeClick}
             disabled={isResendingCode}
             className="p-0"

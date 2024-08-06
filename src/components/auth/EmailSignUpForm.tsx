@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -31,13 +32,11 @@ export const EmailSignUpForm = () => {
     password: "",
   });
 
-  const [success, setSuccess] = useState(false);
-
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -68,9 +67,12 @@ export const EmailSignUpForm = () => {
     });
   };
 
-  const handleSuccessfulSignUp = () => {
-    setDialogOpen(false);
-    setSuccess(true);
+  const handleSuccessfulSignUp = async () => {
+    await signIn("credentials", {
+      email: formData.email,
+      password: formData.password,
+      callbackUrl: "/onboarding/name",
+    });
   };
 
   return (
@@ -83,7 +85,6 @@ export const EmailSignUpForm = () => {
             label="Email"
             type="email"
             isError={!!errors.email}
-            isSuccess={isValid && success}
             errorMessage={errors.email?.message}
             {...register("email")}
           />
@@ -91,9 +92,7 @@ export const EmailSignUpForm = () => {
             label="Password"
             type="password"
             isError={!!errors.password}
-            isSuccess={isValid && success}
             errorMessage={errors.password?.message}
-            successMessage={"Account Created! Please log in now."}
             {...register("password")}
           />
           <Button large type="submit" disabled={isPending}>
