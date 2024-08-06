@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -10,7 +11,6 @@ import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
 import { OTPFormAlertDialog } from "./OTPFormAlertDialog";
-import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -71,7 +71,7 @@ export const EmailSignUpForm = () => {
     await signIn("credentials", {
       email: formData.email,
       password: formData.password,
-      callbackUrl: "/sessions"
+      callbackUrl: "/onboarding/name",
     });
   };
 
