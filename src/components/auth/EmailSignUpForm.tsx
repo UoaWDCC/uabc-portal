@@ -71,7 +71,6 @@ export const EmailSignUpForm = () => {
     await signIn("credentials", {
       email: formData.email,
       password: formData.password,
-      redirect: true,
       callbackUrl: "/sessions"
     });
   };
