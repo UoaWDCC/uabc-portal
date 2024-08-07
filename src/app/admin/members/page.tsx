@@ -15,6 +15,8 @@ export default function AdminMembersPage() {
           <p className="text-muted-foreground">
             Here&apos;s a list of members currently awaiting approval
           </p>
+        </div>
+        <div className="w-full px-0 py-4 sm:px-6 lg:w-4/5 lg:min-w-fit lg:px-12 lg:py-10">
           <MemberApprovalTable />
         </div>
       </div>

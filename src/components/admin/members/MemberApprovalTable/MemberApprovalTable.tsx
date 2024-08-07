@@ -8,12 +8,6 @@ import {
 } from "@tanstack/react-table";
 
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
   Table,
   TableBody,
   TableCell,
@@ -37,11 +31,15 @@ export function MemberApprovalTable({ className }: { className?: string }) {
 
   const pendingMembers = useMemo(
     () =>
-      data?.map((member) => ({
-        id: member.id,
-        name: `${member.firstName} ${member.lastName}`,
-        email: member.email,
-      })),
+      data?.map((member) => {
+        return {
+          id: member.id,
+          name: `${member.firstName} ${member.lastName}`,
+          firstName: member.firstName,
+          lastName: member.lastName,
+          email: member.email,
+        };
+      }),
     [data]
   );
 
@@ -71,7 +69,7 @@ export function MemberApprovalTable({ className }: { className?: string }) {
         <TableHeader>
           <TableRow>
             <TableHead className="w-[200px]">Name</TableHead>
-            <TableHead>Email</TableHead>
+            <TableHead className="hidden xs:table-cell">Email</TableHead>
             <TableHead className="hidden w-[200px] lg:table-cell">
               Set Prepaid Sessions
             </TableHead>

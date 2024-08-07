@@ -65,23 +65,19 @@ export function MemberApprovalTableRow({
   }: z.infer<typeof formSchema>) => {
     approveUser({ userId, prepaidSessions });
   };
-
-  const name: string[] = (row.getValue("name") as string).split(" ");
-  const firstName = name.splice(0, name.length - 1).join(" ");
-  const lastName = name.splice(-1).join(" ");
+  const firstName: string = row.getValue("firstName");
+  const lastName: string = row.getValue("lastName");
   const email: string = row.getValue("email");
 
   return (
     <Dialog>
       <TableRow>
-        {row.getVisibleCells().map((cell) => (
-          <TableCell
-            key={cell.id}
-            className="w-[75px] max-w-[125px] truncate sm:max-w-max"
-          >
-            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-          </TableCell>
-        ))}
+        <TableCell className="w-[75px] max-w-[125px] truncate sm:max-w-max">
+          {firstName} {lastName}
+        </TableCell>
+        <TableCell className="hidden min-w-[100px] max-w-[150px] truncate xs:block sm:max-w-full">
+          {email}
+        </TableCell>
         <TableCell>
           <form
             onSubmit={handleSubmit(handleApproveClick)}
@@ -122,14 +118,14 @@ export function MemberApprovalTableRow({
       </TableRow>
       {/* didn't move Dialog to a new component or else it get really messy */}
       {/* set min-max so long email/name expands dialog width  */}
-      <DialogContent className="w-min min-w-[375px] max-w-full">
+      <DialogContent className="w-min min-w-[300px] max-w-full xs:min-w-[375px]">
         <DialogHeader>
           <DialogTitle>Approve Member</DialogTitle>
         </DialogHeader>
         <div className="text-foreground">
           <p>Member Details</p>
           <hr className="mb-1" />
-          <div className="flex">
+          <div className="flex text-xs xs:text-base">
             <div className="mr-4 *:whitespace-nowrap">
               <p>First Name</p>
               <p>Last Name</p>
