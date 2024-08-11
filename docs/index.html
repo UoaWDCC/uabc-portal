@@ -1,0 +1,2541 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta
+            name="description"
+            content="Documentation for the University of Auckland Badminton Club Booking Page"
+        >
+    <title>API Reference</title>
+
+    <style media="screen">
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s, .highlight .sa, .highlight .dl {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf, .highlight .fm {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv, .highlight .vm {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #f92672;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <style media="print">
+      * {
+        -webkit-transition:none!important;
+        transition:none!important;
+      }
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #586e75;
+}
+.highlight .err {
+  color: #002b36;
+  background-color: #dc322f;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #657b83;
+}
+.highlight .cp {
+  color: #b58900;
+}
+.highlight .nt {
+  color: #b58900;
+}
+.highlight .o, .highlight .ow {
+  color: #93a1a1;
+}
+.highlight .p, .highlight .pi {
+  color: #93a1a1;
+}
+.highlight .gi {
+  color: #859900;
+}
+.highlight .gd {
+  color: #dc322f;
+}
+.highlight .gh {
+  color: #268bd2;
+  background-color: #002b36;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #6c71c4;
+}
+.highlight .kc {
+  color: #cb4b16;
+}
+.highlight .kt {
+  color: #cb4b16;
+}
+.highlight .kd {
+  color: #cb4b16;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #859900;
+}
+.highlight .sa {
+  color: #6c71c4;
+}
+.highlight .sr {
+  color: #2aa198;
+}
+.highlight .si {
+  color: #d33682;
+}
+.highlight .se {
+  color: #d33682;
+}
+.highlight .nn {
+  color: #b58900;
+}
+.highlight .nc {
+  color: #b58900;
+}
+.highlight .no {
+  color: #b58900;
+}
+.highlight .na {
+  color: #268bd2;
+}
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #859900;
+}
+.highlight .ss {
+  color: #859900;
+}
+    </style>
+    <link href="stylesheets/screen-9c19b03a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-966d6edc.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-024da600.js"></script>
+
+    <script>
+      $(function() { setupCodeCopy(); });
+    </script>
+  </head>
+
+  <body class="index" data-languages="[]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar-cad8cdcb.png" alt="" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/logo-afe3cf80.png" class="logo" alt="" />
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#validate-email" class="toc-h2 toc-link" data-title="Validate Email">Validate Email</a>
+                  </li>
+                  <li>
+                    <a href="#resend-verification-code" class="toc-h2 toc-link" data-title="Resend Verification Code">Resend Verification Code</a>
+                  </li>
+                  <li>
+                    <a href="#register" class="toc-h2 toc-link" data-title="Register">Register</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#bookings" class="toc-h1 toc-link" data-title="Bookings">Bookings</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#retrieve-booking" class="toc-h2 toc-link" data-title="Retrieve Booking">Retrieve Booking</a>
+                  </li>
+                  <li>
+                    <a href="#session-booking" class="toc-h2 toc-link" data-title="Session Booking">Session Booking</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#cron" class="toc-h1 toc-link" data-title="Cron">Cron</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#generate-sessions-cron-job" class="toc-h2 toc-link" data-title="Generate Sessions (Cron Job)">Generate Sessions (Cron Job)</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#game-sessions" class="toc-h1 toc-link" data-title="Game Sessions">Game Sessions</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-game-session-info" class="toc-h2 toc-link" data-title="Get Game Session Info">Get Game Session Info</a>
+                  </li>
+                  <li>
+                    <a href="#edit-existing-game-session" class="toc-h2 toc-link" data-title="Edit Existing Game Session">Edit Existing Game Session</a>
+                  </li>
+                  <li>
+                    <a href="#delete-game-session" class="toc-h2 toc-link" data-title="Delete Game Session">Delete Game Session</a>
+                  </li>
+                  <li>
+                    <a href="#download-attendees-list" class="toc-h2 toc-link" data-title="Download Attendees List">Download Attendees List</a>
+                  </li>
+                  <li>
+                    <a href="#get-active-dates-dates-with-game-sessions" class="toc-h2 toc-link" data-title="Get Active Dates (Dates with Game Sessions)">Get Active Dates (Dates with Game Sessions)</a>
+                  </li>
+                  <li>
+                    <a href="#get-current-game-sessions" class="toc-h2 toc-link" data-title="Get Current Game Sessions">Get Current Game Sessions</a>
+                  </li>
+                  <li>
+                    <a href="#get-game-session-information-for-a-specific-date" class="toc-h2 toc-link" data-title="Get Game Session Information for a specific date">Get Game Session Information for a specific date</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#schedules" class="toc-h1 toc-link" data-title="Schedules">Schedules</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-schedule-data" class="toc-h2 toc-link" data-title="Get Schedule Data">Get Schedule Data</a>
+                  </li>
+                  <li>
+                    <a href="#edit-schedule-data" class="toc-h2 toc-link" data-title="Edit Schedule Data">Edit Schedule Data</a>
+                  </li>
+                  <li>
+                    <a href="#delete-schedule-data" class="toc-h2 toc-link" data-title="Delete Schedule Data">Delete Schedule Data</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#semesters" class="toc-h1 toc-link" data-title="Semesters">Semesters</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-semester-information" class="toc-h2 toc-link" data-title="Get All Semester Information">Get All Semester Information</a>
+                  </li>
+                  <li>
+                    <a href="#get-specific-semester-information" class="toc-h2 toc-link" data-title="Get Specific Semester Information">Get Specific Semester Information</a>
+                  </li>
+                  <li>
+                    <a href="#delete-existing-semester" class="toc-h2 toc-link" data-title="Delete Existing Semester">Delete Existing Semester</a>
+                  </li>
+                  <li>
+                    <a href="#edit-existing-semester" class="toc-h2 toc-link" data-title="Edit Existing Semester">Edit Existing Semester</a>
+                  </li>
+                  <li>
+                    <a href="#create-new-semester" class="toc-h2 toc-link" data-title="Create New Semester">Create New Semester</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-schedules-related-to-existing-semester" class="toc-h2 toc-link" data-title="Get All Schedules Related to Existing Semester">Get All Schedules Related to Existing Semester</a>
+                  </li>
+                  <li>
+                    <a href="#create-new-schedule-in-an-existing-semester" class="toc-h2 toc-link" data-title="Create New Schedule in an Existing Semester">Create New Schedule in an Existing Semester</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#users" class="toc-h1 toc-link" data-title="Users">Users</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-users" class="toc-h2 toc-link" data-title="Get all Users">Get all Users</a>
+                  </li>
+                  <li>
+                    <a href="#get-specific-user" class="toc-h2 toc-link" data-title="Get Specific User">Get Specific User</a>
+                  </li>
+                  <li>
+                    <a href="#delete-specific-user" class="toc-h2 toc-link" data-title="Delete Specific User">Delete Specific User</a>
+                  </li>
+                  <li>
+                    <a href="#onboarding-user" class="toc-h2 toc-link" data-title="Onboarding User">Onboarding User</a>
+                  </li>
+                  <li>
+                    <a href="#approve-user-membership" class="toc-h2 toc-link" data-title="Approve User Membership:">Approve User Membership:</a>
+                  </li>
+                  <li>
+                    <a href="#reject-user-membership" class="toc-h2 toc-link" data-title="Reject User Membership:">Reject User Membership:</a>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+        <ul class="toc-footer">
+            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='introduction'>Introduction</h1>
+<blockquote>
+<p>The right section will contain all the information about <em>Body</em> and <em>Header</em> parameters</p>
+</blockquote>
+
+<p>Welcome to the UABC API! The documentation aims to help current and future developers understand all the endpoints present.</p>
+
+<!-- # Authentication
+
+> To authorize, use this code:
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+```
+
+> Make sure to replace `meowmeowmeow` with your API key.
+
+Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+
+Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+
+`Authorization: meowmeowmeow`
+
+<aside class="notice">
+You must replace <code>meowmeowmeow</code> with your personal API key.
+</aside> -->
+<h1 id='authentication'>Authentication</h1><h2 id='validate-email'>Validate Email</h2>
+<p>This endpoint takes in a JSON file containing an email address, and consequently sends to the address an email containing a verification code that expires with 3 minutes. This endpoint is usually used in conjuction with the <a href="#register">register</a> endpoint.</p>
+
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email@address.com"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request'>HTTP Request</h3>
+<p><code>POST https://wdcc-uabc-staging.fly.dev/api/auth/register/validate-email</code></p>
+<h3 id='errors'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>multiple possible messages e.g. &quot;Email already in use&quot;, &quot;Invalid email address&quot;</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='resend-verification-code'>Resend Verification Code</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email@address.com"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint shares similarities with the <a href="#validate-email">validate email</a> endpoint. It is used after the validate email endpoint, if users need the verification code resent to their email address. Only difference is that this endpoint accounts for rate limiting if the user sends too many requests.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>POST https://wdcc-uabc-staging.fly.dev/api/auth/register/resend-code</code></p>
+<h3 id='errors-2'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>multiple possible messages e.g. &quot;Email already in use&quot;, &quot;Invalid email address&quot;</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests</td>
+<td>Rate limit exceeded</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='register'>Register</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email@address.com"</span><span class="w">
+    </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Number1Password"</span><span class="w">
+    </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint registers new users using a unique email address, password and the verification token sent to their email address via the <a href="#validate-email">validate email</a> endpoint or <a href="#resend-verification-code">resend verification code</a> endpoint.</p>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>POST https://wdcc-uabc-staging.fly.dev/api/auth/register</code></p>
+<h3 id='errors-3'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+<td>User registered successfully</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>multiple possible messages e.g. &quot;Invalid token&quot;, &quot;Invalid email address&quot;</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h1 id='bookings'>Bookings</h1><h2 id='retrieve-booking'>Retrieve Booking</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token
+</code></pre></div>
+<p>This endpoint matches the ID of a session booking and returns a JSON file containing information related to it as long as your next-auth session token is valid and the user ID in the session booking matches your own user ID.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/bookings/&lt;bookingID&gt;</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bookingID</td>
+<td>A string obfuscation of the numerical ID related to a session booking</td>
+</tr>
+</tbody></table>
+<h3 id='errors'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>multiple possible messages e.g. &quot;Invalid bookingId&quot;</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>Invalid permissions</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>Booking not found</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='session-booking'>Session Booking</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>  session: next-auth.session-token
+</code></pre></div>
+<blockquote>
+<ul>
+<li>Body: (for casuals)</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"gameSessionId"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"playLevel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"beginner"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<ul>
+<li>Body: (for members)</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"gameSessionId"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"playLevel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"beginner"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"gameSessionId"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"playLevel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"intermediate"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p><strong>Response</strong></p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ewD9scdY"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows users to make a session booking as long as none of the sessions have hit maximum capacity. Members of UABC can book 2 sessions, while casuals can only book 1. Returns a JSON containing the obfuscated BookingID.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>POST https://wdcc-uabc-staging.fly.dev/api/bookings</code></p>
+<h3 id='errors-2'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>201</td>
+<td>Created</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>multiple possible messages e.g. &quot;Insufficient prepaid sessions, Duplicate game session ids&quot;</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>Unverified member</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>User not found</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Conflict</td>
+<td>Game session at max capacity</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h1 id='cron'>Cron</h1><h2 id='generate-sessions-cron-job'>Generate Sessions (Cron Job)</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>  session: next-auth.session-token
+  x-api-key: CRON key used to secure APIs
+</code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">170</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"gameSessionScheduleId"</span><span class="p">:</span><span class="w"> </span><span class="mi">346</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingPeriodId"</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-06"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kings College"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 University Road, Auckland"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">171</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"gameSessionScheduleId"</span><span class="p">:</span><span class="w"> </span><span class="mi">347</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingPeriodId"</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-07"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Venue Name"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Address"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">172</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"gameSessionScheduleId"</span><span class="p">:</span><span class="w"> </span><span class="mi">351</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingPeriodId"</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-08"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19:30:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UoA Sports Center"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7 Wynyard Street, Auckland CBD"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint is automatically called by Amazon EventBridge Scheduler, allowing it to populate the database with game-sessions inside of an active semester ahead of time. Returns a JSON containing data on all the sessions that have been created.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>POST https://wdcc-uabc-staging.fly.dev/api/cron/generate-sessions</code></p>
+<h3 id='errors'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>No game sessions to insert</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Created</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>No active semester found</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>Missing or invalid API key</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h1 id='game-sessions'>Game Sessions</h1><h2 id='get-game-session-info'>Get Game Session Info</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>  session: next-auth.session-token
+</code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<p>Body:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">156</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"gameSessionScheduleId"</span><span class="p">:</span><span class="w"> </span><span class="mi">346</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bookingPeriodId"</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-07-23"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kings College"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 University Road, Auckland"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows users to get all the relevant information of any game session with a corresponding gameSessionId.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/game-sessions/&lt;gameSessionId&gt;</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>gameSessionID</td>
+<td>Integer representation of gameSessionID</td>
+</tr>
+</tbody></table>
+<h3 id='errors'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>multiple possible messages e.g. &quot;Invalid id provided in the request&quot;, &quot;Start time must be less than end time&quot;</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>No Game Session found with id: <code>${gameSessionId}</code></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='edit-existing-game-session'>Edit Existing Game Session</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">170</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"gameSessionScheduleId"</span><span class="p">:</span><span class="w"> </span><span class="mi">346</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bookingPeriodId"</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-06"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kings College"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 University Road, Auckland"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to update an existing game session.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>PUT https://wdcc-uabc-staging.fly.dev/api/game-sessions/&lt;gameSessionId&gt;</code></p>
+<h3 id='url-parameters-2'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>gameSessionID</td>
+<td>Integer representation of gameSessionID</td>
+</tr>
+</tbody></table>
+<h3 id='errors-2'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>multiple possible messages e.g. &quot;Invalid id provided in the request&quot;, &quot;Start time must be less than end time&quot;</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>Access denied</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>No Game Session found with id: <code>${gameSessionId}</code></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='delete-game-session'>Delete Game Session</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<p>This endpoint allows admins to delete existing game sessions.</p>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>DELETE https://wdcc-uabc-staging.fly.dev/api/game-sessions/&lt;gameSessionId&gt;</code></p>
+<h3 id='url-parameters-3'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>gameSessionID</td>
+<td>Integer representation of gameSessionID</td>
+</tr>
+</tbody></table>
+<h3 id='errors-3'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>Invalid id provided in the request</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>Game session with id <code>${gameSessionId}</code> does not exist.</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='download-attendees-list'>Download Attendees List</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<p>This endpoint allows admins to download the list of all attendees of a session as a CSV. The CSV contains details of their first name, last name, email, play level, and if they are a member/pro or not. </p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/game-sessions/&lt;gameSessionId&gt;/download</code></p>
+<h3 id='url-parameters-4'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>gameSessionID</td>
+<td>Integer representation of gameSessionID</td>
+</tr>
+</tbody></table>
+<h3 id='errors-4'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>Invalid id provided in the request</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>No Game Session found with id: <code>${gameSessionId}</code></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='get-active-dates-dates-with-game-sessions'>Get Active Dates (Dates with Game Sessions)</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body (between <code>?start-date=2024-08-25&amp;end-date=2024-10-07</code>):</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"2024-09-11"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"2024-09-12"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"2024-09-17"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"2024-09-18"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"2024-09-19"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"2024-09-24"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"2024-09-25"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"2024-09-26"</span><span class="w">
+  </span><span class="p">]</span><span class="w"> 
+</span></code></pre></div>
+<p>This endpoint gets all the active dates with game sessions between a given start and end date. It returns the string dates in the format &quot;yyyy-mm-dd&quot; in a list.</p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/game-sessions/active-dates</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>start-date</td>
+<td>starting date in the format yyyy-mm-dd</td>
+</tr>
+<tr>
+<td>end-date</td>
+<td>ending date in the format yyyy-mm-dd</td>
+</tr>
+</tbody></table>
+<h3 id='errors-5'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>Bad Request</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+</tbody></table>
+<h2 id='get-current-game-sessions'>Get Current Game Sessions</h2>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">167</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-07-30"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kings College"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 University Road, Auckland"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberBookingCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualBookingCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">168</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-07-31"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kings College"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 University Road, Auckland"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberBookingCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualBookingCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">169</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-01"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19:30:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UoA Sports Center"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7 Wynyard Street, Auckland CBD"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberBookingCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualBookingCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint gets all the sessions which you can currently book a spot for. Returns a list of JSON&#39;s containing each sessions information.</p>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/game-sessions/current</code></p>
+<h3 id='errors-6'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>null</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal Server Error: <code>${error}</code></td>
+</tr>
+</tbody></table>
+<h2 id='get-game-session-information-for-a-specific-date'>Get Game Session Information for a specific date</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body (if there does not exist a game session):</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"exists"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"canCreate"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No game session found for this date"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"semesterName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Semester 2"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingOpen"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-05T00:00:00.000Z"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<ul>
+<li>Body (if there exists a game session)</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"exists"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"canCreate"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">171</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"gameSessionScheduleId"</span><span class="p">:</span><span class="w"> </span><span class="mi">347</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingPeriodId"</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-07"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Venue Name"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Address"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingOpen"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-05T00:00:00.000Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"attendees"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to check if there exists a game session on a specific date. If there does, then the endpoint returns a JSON containing the data of the existing game session.</p>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/game-sessions</code></p>
+<h3 id='query-parameters-2'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>date</td>
+<td>date in the format yyyy-mm-dd</td>
+</tr>
+</tbody></table>
+<h3 id='errors-7'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>Bad Request</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>multiple possible messages e.g. &quot;No ongoing semester found for this date&quot;, &quot;No game session found for this date&quot;</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h1 id='schedules'>Schedules</h1><h2 id='get-schedule-data'>Get Schedule Data</h2>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">346</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"semesterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">137</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"weekday"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tuesday"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kings College"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 University Road, Auckland"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows users to get all the relevant information of any scheduled game session in a semester with the corresponding scheduleId.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/schedules/&lt;scheduleId&gt;</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>scheduleId</td>
+<td>Integer representation of scheduleId</td>
+</tr>
+</tbody></table>
+<h3 id='errors'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>null</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>No GameSessionSchedule found for id: <code>${scheduleId}</code></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='edit-schedule-data'>Edit Schedule Data</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">346</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"semesterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">137</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"weekday"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tuesday"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kings College"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 University Road, Auckland"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">346</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"semesterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">137</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"weekday"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tuesday"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kings College"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 University Road, Auckland"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to edit relevant information of any scheduled game session in a semester with the corresponding scheduleId.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>PUT https://wdcc-uabc-staging.fly.dev/api/schedules/&lt;scheduleId&gt;</code></p>
+<h3 id='query-parameters-2'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>scheduleId</td>
+<td>Integer representation of scheduleId</td>
+</tr>
+</tbody></table>
+<h3 id='errors-2'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>multiple possible messages e.g. &quot;Start time must be before end time&quot;, &quot;No GameSessionSchedule found for id: <code>scheduleId</code>&quot;</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='delete-schedule-data'>Delete Schedule Data</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div><div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">346</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"semesterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">137</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"weekday"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tuesday"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kings College"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 University Road, Auckland"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">346</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"semesterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">137</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"weekday"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tuesday"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kings College"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 University Road, Auckland"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to delete any scheduled game session in a semester with the corresponding scheduleId.</p>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>DELETE https://wdcc-uabc-staging.fly.dev/api/schedules/&lt;scheduleId&gt;</code></p>
+<h3 id='query-parameters-3'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>scheduleId</td>
+<td>Integer representation of scheduleId</td>
+</tr>
+</tbody></table>
+<h3 id='errors-3'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>No GameSessionSchedule found for id: <code>${scheduleId}</code></td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h1 id='semesters'>Semesters</h1><h2 id='get-all-semester-information'>Get All Semester Information</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">137</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Semester 2"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-07-15"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-11"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"breakStart"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-26"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"breakEnd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-09-06"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingOpenDay"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monday"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingOpenTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-07-19T01:33:44.692Z"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">138</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Semester 1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-02-26"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-06-24"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"breakStart"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-03-29"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"breakEnd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-04-12"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingOpenDay"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monday"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingOpenTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-07-21T10:58:38.591Z"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to get all the relevant information about all the semesters that exist right now.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/semesters</code></p>
+<h3 id='errors'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>null</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='get-specific-semester-information'>Get Specific Semester Information</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">137</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Semester 2"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"startDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-07-15"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"endDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-11"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"breakStart"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-26"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"breakEnd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-09-06"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bookingOpenDay"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monday"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bookingOpenTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-07-19T01:33:44.692Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to get all the relevant information of any semester with the corresponding semesterId. </p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/semesters/&lt;semesterId&gt;</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>semesterId</td>
+<td>Integer representation of semesterId</td>
+</tr>
+</tbody></table>
+<h3 id='errors-2'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>null</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found Error</td>
+<td>No semester found for id: <code>${semesterId}</code></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='delete-existing-semester'>Delete Existing Semester</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<p>This endpoint allows admins to delete the semester with the corresponding semesterId.</p>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>DELETE https://wdcc-uabc-staging.fly.dev/api/semesters/&lt;semesterId&gt;</code></p>
+<h3 id='query-parameters-2'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>semesterId</td>
+<td>Integer representation of semesterId</td>
+</tr>
+</tbody></table>
+<h3 id='errors-3'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>No semester found for id: ${semesterId}``</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='edit-existing-semester'>Edit Existing Semester</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Semester 3"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"startDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-01-01"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"endDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-12-31"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"breakStart"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-05-01"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"breakEnd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-05-31"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bookingOpenDay"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monday"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bookingOpenTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"01:23:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-10T09:11:46.366Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to edit the semester with the corresponding semesterId.</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>PUT https://wdcc-uabc-staging.fly.dev/api/semesters/&lt;semesterId&gt;</code></p>
+<h3 id='query-parameters-3'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>semesterId</td>
+<td>Integer representation of semesterId</td>
+</tr>
+</tbody></table>
+<h3 id='errors-4'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>multiple possible messages e.g. &quot;Start date must be less than end date&quot;, &quot;Semesters cannot overlap&quot;</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='create-new-semester'>Create New Semester</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Semester 3"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"startDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-01-01"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"endDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-12-31"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"breakStart"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-05-01"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"breakEnd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-05-31"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bookingOpenDay"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sunday"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bookingOpenTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"01:23:00"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">142</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Semester 3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-01-01"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-12-31"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"breakStart"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-05-01"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"breakEnd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-05-31"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingOpenDay"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sunday"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookingOpenTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"01:23:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-10T07:20:33.714Z"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to create a new Semester.</p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>PUT https://wdcc-uabc-staging.fly.dev/api/semesters</code></p>
+<h3 id='errors-5'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='get-all-schedules-related-to-existing-semester'>Get All Schedules Related to Existing Semester</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token
+</code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">358</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"semesterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">137</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"weekday"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wednesday"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"17:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Auckland Badminton Association"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"99 Gillies Avenue, Epsom"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">359</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"semesterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">137</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"weekday"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Thursday"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19:30:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kings School"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"258 Remuera Road, Remuera"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"semesterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">137</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"weekday"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Friday"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"17:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Auckland Badminton Association"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"99 Gillies Avenue, Epsom"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows users to get all the schedules inside the semester with the corresponding semesterId.</p>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/semesters/&lt;semesterId&gt;/schedules</code></p>
+<h3 id='query-parameters-4'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>semesterId</td>
+<td>Integer representation of semesterId</td>
+</tr>
+</tbody></table>
+<h3 id='errors-6'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>null</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='create-new-schedule-in-an-existing-semester'>Create New Schedule in an Existing Semester</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"weekday"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sunday"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"01:23:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"04:56:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Home"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Bed"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">366</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"semesterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">143</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"weekday"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sunday"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"01:23:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"04:56:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Home"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Bed"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memberCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"casualCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to create a schedule inside the semester with the corresponding semesterId.</p>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/semesters/&lt;semesterId&gt;/schedules</code></p>
+<h3 id='query-parameters-5'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>semesterId</td>
+<td>Integer representation of semesterId</td>
+</tr>
+</tbody></table>
+<h3 id='errors-7'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>201</td>
+<td>Created</td>
+<td>null</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h1 id='users'>Users</h1><h2 id='get-all-users'>Get all Users</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9b0324c4-862c-48e5-8ce6-b470d4629860"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Eric"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Zheng"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"airwreck@gmail.com"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a203e353-fd23-444d-91ba-27c4a036e8d0"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Darrell"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Herzog"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ike.Mills22@yahoo.com"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to get a JSON containing the first name, last name, email address and unique ID of every member that has created an account.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/users</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>semesterId</td>
+<td>Integer representation of semesterId</td>
+</tr>
+</tbody></table>
+<h3 id='errors'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>null</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='get-specific-user'>Get Specific User</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<p><strong>Response</strong>:</p>
+
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9b0324c4-862c-48e5-8ce6-b470d4629860"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Eric"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Zheng"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"airwreck@gmail.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"member"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"verified"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"prepaidSessions"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to get all the relevant information related to a user using their unique userId.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>GET https://wdcc-uabc-staging.fly.dev/api/users/&lt;userId&gt;</code></p>
+<h3 id='query-parameters-2'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td>String representation of userId</td>
+</tr>
+</tbody></table>
+<h3 id='errors-2'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>Ok</td>
+<td>null</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>No User found for id: <code>${userId}</code></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='delete-specific-user'>Delete Specific User</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<p>This endpoint allows admins to delete a user using their unique userId.</p>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>DELETE https://wdcc-uabc-staging.fly.dev/api/users/&lt;userId&gt;</code></p>
+<h3 id='query-parameters-3'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td>String representation of userId</td>
+</tr>
+</tbody></table>
+<h3 id='errors-3'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>No User found for id: <code>${userId}</code></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='onboarding-user'>Onboarding User</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs to be the session token the user `${userId}` has)
+</code></pre></div>
+<blockquote>
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Eric"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Zheng"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"member"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows users to onboard themself without having to go through the long and tedious onboarding process.</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>PATCH https://wdcc-uabc-staging.fly.dev/api/users/&lt;userId&gt;/onboard</code></p>
+<h3 id='query-parameters-4'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td>String representation of userId</td>
+</tr>
+</tbody></table>
+<h3 id='errors-4'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>multiple possible messages</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>No User found for id: <code>${userId}</code></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='approve-user-membership'>Approve User Membership:</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"prepaidSessions"</span><span class="p">:</span><span class="w"> </span><span class="mi">74</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to approve a user&#39;s membership and allocates them the pre-paid sessions that they have paid for. If the endpoint call is successful, the &quot;verified&quot; column of the user will be toggled to <code>TRUE</code>.</p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>PATCH https://wdcc-uabc-staging.fly.dev/api/users/&lt;userId&gt;/membership/approve</code></p>
+<h3 id='query-parameters-5'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td>String representation of userId</td>
+</tr>
+</tbody></table>
+<h3 id='errors-5'>Errors</h3>
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Error Code</th>
+<th>Message</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>null</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>ERROR: Unauthorized request</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>ERROR: No valid permissions</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>No User found for id: <code>${userId}</code></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Internal server error</td>
+</tr>
+</tbody></table>
+<h2 id='reject-user-membership'>Reject User Membership:</h2>
+<blockquote>
+<p><strong>Request</strong>:</p>
+
+<ul>
+<li>Header:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext tab-plaintext"><code>  session: next-auth.session-token (needs admin role)
+</code></pre></div>
+<blockquote>
+<ul>
+<li>Body:</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"prepaidSessions"</span><span class="p">:</span><span class="w"> </span><span class="mi">74</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint allows admins to reject a user&#39;s membership. If the endpoint call is successful, the &quot;member&quot; column of the user will be toggled to <code>FALSE</code>.</p>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>PATCH https://wdcc-uabc-staging.fly.dev/api/users/&lt;userId&gt;/membership/approve</code></p>
+<h3 id='query-parameters-6'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Query</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td>String representation of userId</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+      </div>
+    </div>
+  </body>
+</html>
