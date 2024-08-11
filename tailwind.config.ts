@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        xs: "400px",
+      },
       fontFamily: {
         sans: ["var(--font-inter)"],
         proxima: ["var(--font-proxima)"],

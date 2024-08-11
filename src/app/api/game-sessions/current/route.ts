@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { isAfter, isBefore, parse } from "date-fns";
+import { fromZonedTime, toZonedTime } from "date-fns-tz";
 import { and, asc, eq, gt, lt, sql } from "drizzle-orm";
 import { PgDialect } from "drizzle-orm/pg-core";
 
@@ -9,6 +11,19 @@ import {
   bookings,
   gameSessions,
 } from "@/lib/db/schema";
+
+interface Session {
+  id: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+  locationName: string;
+  locationAddress: string;
+  memberCapacity: number;
+  casualCapacity: number;
+  memberBookingCount: number;
+  casualBookingCount: number;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +54,7 @@ export async function GET() {
       pgDialect.sqlToQuery(memberBookingSqlChunks).sql
     );
 
-    const sessions = await db
+    const sessions: Session[] = await db
       .select({
         id: gameSessions.id,
         date: gameSessions.date,
@@ -65,7 +80,17 @@ export async function GET() {
       )
       .orderBy(asc(gameSessions.date));
 
-    return NextResponse.json(sessions);
+    const filteredSessions = sessions.filter((s) =>
+      isAfter(
+        fromZonedTime(
+          parse(s.startTime, "HH:mm:ss", s.date),
+          "Pacific/Auckland"
+        ),
+        new Date()
+      )
+    );
+
+    return NextResponse.json(filteredSessions);
   } catch (error) {
     return new Response(`Internal Server Error: ${error}`, { status: 500 });
   }
