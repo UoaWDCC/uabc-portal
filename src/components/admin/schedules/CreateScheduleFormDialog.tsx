@@ -103,6 +103,11 @@ export const CreateScheduleFormDialog = ({
     );
   };
 
+  const handleCancel = () => {
+    reset();
+    closeDialog();
+  };
+
   return (
     <DialogContent>
       <DialogHeader>
@@ -179,6 +184,7 @@ export const CreateScheduleFormDialog = ({
           type="submit"
           primaryText="Create"
           disabled={isPending}
+          onCancel={handleCancel}
         />
       </form>
     </DialogContent>

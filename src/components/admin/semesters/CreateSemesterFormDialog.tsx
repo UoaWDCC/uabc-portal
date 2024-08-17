@@ -127,6 +127,11 @@ export const CreateSemesterFormDialog = () => {
     });
   };
 
+  const handleCancel = () => {
+    reset();
+    closeDialog();
+  };
+
   return (
     <DialogContent>
       <DialogHeader>
@@ -207,6 +212,7 @@ export const CreateSemesterFormDialog = () => {
           type="submit"
           primaryText="Create"
           disabled={mutation.isPending}
+          onCancel={handleCancel}
         />
       </form>
     </DialogContent>
