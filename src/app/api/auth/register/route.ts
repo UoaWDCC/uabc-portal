@@ -30,16 +30,18 @@ export async function POST(request: Request) {
         { status: 400, statusText: "Email already in use" }
       );
 
-    const [lastToken] = (
-      await db
-        .select()
-        .from(verificationTokens)
-        .where(eq(verificationTokens.identifier, email))
-        .orderBy(desc(verificationTokens.expires))
-        .limit(1)
-    );
+    const [lastToken] = await db
+      .select()
+      .from(verificationTokens)
+      .where(eq(verificationTokens.identifier, email))
+      .orderBy(desc(verificationTokens.expires))
+      .limit(1);
 
-    if (!lastToken || lastToken.expires < new Date() || lastToken.token !== token)
+    if (
+      !lastToken ||
+      lastToken.expires < new Date() ||
+      lastToken.token !== token
+    )
       return NextResponse.json(
         { errors: "Invalid token" },
         { status: 400, statusText: "Invalid token" }

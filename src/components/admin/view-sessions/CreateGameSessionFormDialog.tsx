@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  useDialogContext,
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { DialogButtonsFooter } from "@/components/ui/utils/DialogUtils";
@@ -26,12 +27,14 @@ export function CreateGameSessionFormDialog({
   onSuccess,
 }: CreateGameSessionFormDialogProps) {
   const { date, bookingOpen } = useGameSessionContext();
+  const { handleClose: closeDialog } = useDialogContext();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    reset,
   } = useForm<z.infer<typeof gameSessionFormSchema>>({
     resolver: zodResolver(gameSessionFormSchema),
   });
@@ -72,6 +75,11 @@ export function CreateGameSessionFormDialog({
         });
       },
     });
+  };
+
+  const handleCancel = () => {
+    reset();
+    closeDialog();
   };
 
   return (
@@ -149,7 +157,11 @@ export function CreateGameSessionFormDialog({
             errorMessage={errors.casualCapacity?.message}
           />
         </div>
-        <DialogButtonsFooter disabled={isPending} type="submit" />
+        <DialogButtonsFooter
+          disabled={isPending}
+          type="submit"
+          onCancel={handleCancel}
+        />
       </form>
     </DialogContent>
   );
