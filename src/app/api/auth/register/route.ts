@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { hash } from "bcrypt";
-import { and, eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
@@ -30,14 +30,18 @@ export async function POST(request: Request) {
         { status: 400, statusText: "Email already in use" }
       );
 
-    const verificationToken = await db.query.verificationTokens.findFirst({
-      where: and(
-        eq(verificationTokens.identifier, email),
-        eq(verificationTokens.token, token)
-      ),
-    });
+    const [lastToken] = await db
+      .select()
+      .from(verificationTokens)
+      .where(eq(verificationTokens.identifier, email))
+      .orderBy(desc(verificationTokens.expires))
+      .limit(1);
 
-    if (!verificationToken || verificationToken.expires < new Date())
+    if (
+      !lastToken ||
+      lastToken.expires < new Date() ||
+      lastToken.token !== token
+    )
       return NextResponse.json(
         { errors: "Invalid token" },
         { status: 400, statusText: "Invalid token" }

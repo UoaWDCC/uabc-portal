@@ -11,7 +11,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -32,11 +31,15 @@ export function MemberApprovalTable({ className }: { className?: string }) {
 
   const pendingMembers = useMemo(
     () =>
-      data?.map((member) => ({
-        id: member.id,
-        name: `${member.firstName} ${member.lastName}`,
-        email: member.email,
-      })),
+      data?.map((member) => {
+        return {
+          id: member.id,
+          name: `${member.firstName} ${member.lastName}`,
+          firstName: member.firstName,
+          lastName: member.lastName,
+          email: member.email,
+        };
+      }),
     [data]
   );
 
@@ -66,9 +69,13 @@ export function MemberApprovalTable({ className }: { className?: string }) {
         <TableHeader>
           <TableRow>
             <TableHead className="w-[200px]">Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead className="w-[200px]">Set Prepaid Sessions</TableHead>
-            <TableHead className="w-[200px]">Approve</TableHead>
+            <TableHead className="hidden xs:table-cell">Email</TableHead>
+            <TableHead className="hidden w-[200px] lg:table-cell">
+              Set Prepaid Sessions
+            </TableHead>
+            <TableHead className="hidden w-[200px] lg:table-cell">
+              Approve
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -93,24 +100,20 @@ export function MemberApprovalTable({ className }: { className?: string }) {
             </TableRow>
           )}
         </TableBody>
-        <TableFooter className="bg-transparent">
-          <TableRow className="bg-transparent hover:bg-transparent">
-            <TableCell colSpan={4} className="py-2">
-              {table.getPageCount() > 1 && (
-                <MemberApprovalTablePagination
-                  hasPreviousPage={table.getCanPreviousPage()}
-                  hasNextPage={table.getCanNextPage()}
-                  pageIndex={pagination.pageIndex}
-                  pageCount={table.getPageCount()}
-                  previousPage={table.previousPage}
-                  nextPage={table.nextPage}
-                  setPageIndex={table.setPageIndex}
-                />
-              )}
-            </TableCell>
-          </TableRow>
-        </TableFooter>
       </Table>
+      <div className="border-t border-border py-2">
+        {table.getPageCount() > 1 && (
+          <MemberApprovalTablePagination
+            hasPreviousPage={table.getCanPreviousPage()}
+            hasNextPage={table.getCanNextPage()}
+            pageIndex={pagination.pageIndex}
+            pageCount={table.getPageCount()}
+            previousPage={table.previousPage}
+            nextPage={table.nextPage}
+            setPageIndex={table.setPageIndex}
+          />
+        )}
+      </div>
     </div>
   );
 }
