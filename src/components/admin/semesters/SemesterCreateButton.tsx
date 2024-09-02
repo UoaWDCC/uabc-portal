@@ -11,10 +11,7 @@ const SemesterCreateButton = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="aspect-square border-2 border-primary bg-primary"
-        >
+        <Button variant="default" className="aspect-square">
           <Plus className="absolute w-5 stroke-white" />
         </Button>
       </DialogTrigger>
