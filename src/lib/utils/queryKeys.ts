@@ -7,4 +7,5 @@ export enum QUERY_KEY {
   SEMESTERS = "semesters",
   SCHEDULES = "schedules",
   ATTENDEES = "game-session-attendees",
+  EMAIL = "email",
 }

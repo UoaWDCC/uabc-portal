@@ -91,6 +91,18 @@ export const verificationTokens = pgTable(
   })
 );
 
+export const forgotPasswordTokens = pgTable(
+  "forgotPasswordToken",
+  {
+    identifier: text("identifier").notNull(),
+    token: text("token").notNull(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+  },
+  (vt) => ({
+    compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
+  })
+);
+
 export const gameSessions = pgTable("gameSession", {
   id: serial("id").primaryKey(),
   gameSessionScheduleId: integer("gameSessionScheduleId").references(
