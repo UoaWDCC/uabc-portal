@@ -72,8 +72,8 @@ export default function ClientSessionPage({
         onLimitReached={() => setShake(true)}
         isMember={isMember}
         maxSessions={maxSessions}
-        className="mx-4 grow empty:grow empty:after:grid empty:after:h-full empty:after:w-full empty:after:grow empty:after:place-items-center empty:after:text-lg empty:after:font-medium empty:after:text-tertiary empty:after:content-['No_more_sessions_for_this_week']"
         className="mx-4 grow empty:grow empty:after:grid empty:after:h-full empty:after:w-full empty:after:grow empty:after:place-items-center empty:after:text-lg empty:after:font-medium empty:after:text-tertiary/70 empty:after:content-['No_more_sessions_for_this_week']"
+      />
 
       <div className="mx-4 mb-10 mt-6 flex justify-center">
         <Button
