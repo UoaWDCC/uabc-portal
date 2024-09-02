@@ -17,9 +17,9 @@ const ScheduleCreateButton = ({ semesterId }: ScheduleCreateButtonProps) => {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="aspect-square border-2 border-secondary"
+          className="aspect-square border-2 border-primary bg-primary"
         >
-          <Plus className="absolute w-5 stroke-foreground" />
+          <Plus className="absolute w-5 stroke-white" />
         </Button>
       </DialogTrigger>
       <CreateScheduleFormDialog semesterId={semesterId} />
