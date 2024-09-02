@@ -6,18 +6,20 @@ import { useRouter } from "next/navigation";
 import { Button, type ButtonProps } from "./ui/button";
 
 interface BackButtonProps extends ButtonProps {
+  pathName: string;
   className?: string;
   children?: ReactNode;
 }
 
 export const BackButton = ({
+  pathName,
   className,
   children,
   ...props
 }: BackButtonProps) => {
   const router = useRouter();
   const handleBackButtonClick = () => {
-    router.back();
+    router.replace(pathName);
   };
   return (
     <Button className={className} onClick={handleBackButtonClick} {...props}>

@@ -8,12 +8,14 @@ import { cn } from "@/lib/utils";
 
 interface NavigationBarProps {
   title: string;
+  pathName: string;
   className?: string;
   children?: ReactNode;
 }
 
 export const NavigationBar = ({
   title,
+  pathName,
   className,
   children,
 }: NavigationBarProps) => {
@@ -27,6 +29,7 @@ export const NavigationBar = ({
       <div className="flex">
         <BackButton
           variant="ghost"
+          pathName={pathName}
           className="mr-4 grid size-8 place-items-center"
           size="icon"
         >
