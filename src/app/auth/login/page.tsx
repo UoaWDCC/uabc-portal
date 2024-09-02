@@ -17,12 +17,19 @@ export default async function LoginPage() {
       </Suspense>
       <BreakLine label="or" />
       <GoogleSignIn className="w-full" />
-      <p className="mt-2 text-center text-xs text-tertiary dark:text-white">
-        Don&apos;t have an account?{" "}
-        <Link className="font-bold underline" href="/auth/signup">
-          Sign up
-        </Link>
-      </p>
+      <div className="columns-2">
+        <p className="mt-2 text-left text-xs text-tertiary dark:text-white">
+          <Link className="font-bold underline" href="/auth/forgot-password">
+            Forgot password?
+          </Link>
+        </p>
+        <p className="mt-2 text-right text-xs text-tertiary dark:text-white">
+          Don&apos;t have an account?{" "}
+          <Link className="font-bold underline" href="/auth/signup">
+            Sign up
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
