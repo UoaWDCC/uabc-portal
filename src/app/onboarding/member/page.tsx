@@ -54,7 +54,10 @@ const MembershipType = () => {
 
   return (
     <div className="mx-4 flex h-dvh flex-col gap-y-4">
-      <NavigationBar title="Select your membership type" />
+      <NavigationBar
+        title="Select your membership type"
+        pathName="/onboarding/name"
+      />
 
       <MembershipTypeSelector
         selectedMembership={member === true}

@@ -86,7 +86,7 @@ export default function ClientSelectPlayLevelPage() {
 
   return (
     <div className="mx-4 flex h-dvh flex-col gap-y-4">
-      <NavigationBar title="Select your level of play" />
+      <NavigationBar title="Select your level of play" pathName="/sessions" />
 
       {sortedSessions.map((session) => (
         <div key={session.id} className="mb-4">
