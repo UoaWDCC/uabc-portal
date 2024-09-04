@@ -108,13 +108,22 @@ export function AdminViewSessionCard({
           </p>
         </div>
       </div>
-      <Button
-        className="w-full font-semibold"
-        disabled={attendees === 0}
-        onClick={handleButtonClick}
-      >
-        Download attendees list
-      </Button>
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <Button
+          className="w-full font-semibold"
+          disabled={attendees === 0}
+          onClick={handleButtonClick}
+        >
+          Download attendees list
+        </Button>
+        <Button
+          className="w-full font-semibold"
+          variant="outline"
+          disabled={attendees === 0}
+        >
+          View attendees list
+        </Button>
+      </div>
     </Card>
   );
 }
