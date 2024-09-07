@@ -11,6 +11,7 @@ import {
 } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { verificationTokens } from "@/lib/db/schema";
+import { RateLimitError, StatusError } from "@/lib/exceptions";
 
 export async function getUserFromId(userId: string) {
   return db.query.users.findFirst({
@@ -73,7 +74,7 @@ export const insertVerificationToken = async (email: string) => {
     );
 
   if (activeTokenCount >= 5) {
-    throw new Error("Rate limit exceeded");
+    throw new RateLimitError();
   }
 
   const token = randomInt(100000, 999999);
