@@ -6,7 +6,6 @@ import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { bookingDetails, bookings, gameSessions, users } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
 import { adminRouteWrapper } from "@/lib/wrappers";
 
 const routeContextSchema = z.object({

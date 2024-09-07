@@ -4,7 +4,6 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import type { Row } from "@tanstack/react-table";
-import { flexRender } from "@tanstack/react-table";
 import { Ellipsis } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";

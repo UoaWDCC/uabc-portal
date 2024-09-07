@@ -1,11 +1,8 @@
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { gameSessionSchedules } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
 import { updateGameSessionScheduleSchema } from "@/lib/validators";
 import { adminRouteWrapper } from "@/lib/wrappers";
 
