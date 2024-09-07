@@ -16,14 +16,14 @@ type Handler = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ctx?: any,
   user?: User | undefined
-) => unknown;
+) => void | Response | Promise<void | Response>;
 
 type UserRouteHandler = (
   req: NextRequest,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ctx: any,
   user: User
-) => unknown;
+) => void | Response | Promise<void | Response>;
 
 const defaultEndpointOptions = { protected: false, admin: false };
 
