@@ -1,11 +1,9 @@
-import type { NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { sendMemberApprovalEmail } from "@/emails";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
 import { adminRouteWrapper } from "@/lib/wrappers";
 import { userCache } from "@/services/user";
 
