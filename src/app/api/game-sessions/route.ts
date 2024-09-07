@@ -36,8 +36,7 @@ import {
 } from "@/lib/validators";
 import { adminRouteWrapper } from "@/lib/wrappers";
 import { getOrCreateBookingPeriod } from "@/services/game-sessions";
-import { User } from "@/types/next-auth";
-import { withAdmin, withError, withUser } from "@/util/wrappers";
+import { adminRouteWrapper } from "@/util/wrappers";
 
 export const GET = adminRouteWrapper(async (req: NextRequest) => {
   const date = req.nextUrl.searchParams.get("date");
