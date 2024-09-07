@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { format, parse } from "date-fns";
@@ -38,6 +39,7 @@ export default function EditGameSessionFormDialog() {
     handleSubmit,
     formState: { errors },
     watch,
+    reset,
   } = useForm<z.infer<typeof gameSessionFormSchema>>({
     resolver: zodResolver(gameSessionFormSchema),
     defaultValues: {
@@ -49,6 +51,17 @@ export default function EditGameSessionFormDialog() {
       casualCapacity,
     },
   });
+
+  useEffect(() => {
+    reset({
+      startTime: startTime?.slice(0, 5),
+      endTime: endTime?.slice(0, 5),
+      locationName: locationName,
+      locationAddress: locationAddress,
+      memberCapacity: memberCapacity,
+      casualCapacity: casualCapacity,
+    });
+  }, [handleClose]);
 
   const { mutate, isPending } = useEditGameSessionMutation();
 

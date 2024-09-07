@@ -1,4 +1,4 @@
-import { endOfWeek, parse } from "date-fns";
+import { endOfDay, endOfWeek, parse } from "date-fns";
 import { fromZonedTime } from "date-fns-tz";
 
 export function getZonedBookingOpenTime({
@@ -17,7 +17,7 @@ export function getZonedBookingOpenTime({
   );
 
   // If the booking open time is after the game session date, set it back a week
-  if (bookingOpen > new Date(gameSessionDate)) {
+  if (bookingOpen > endOfDay(gameSessionDate)) {
     bookingOpen.setDate(bookingOpen.getDate() - 7);
   }
 
