@@ -1,24 +1,14 @@
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
+import { userRouteWrapper } from "@/lib/wrappers";
 import { getUserFromId } from "@/services/user";
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
-  try {
+export const GET = userRouteWrapper(
+  async (_req, { params }: { params: { userId: string } }, currentUser) => {
     const { userId } = params;
-
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
 
     if (currentUser.role !== "admin" && currentUser.id !== userId) {
       return new Response("ERROR: No valid permissions", { status: 403 });
@@ -31,23 +21,12 @@ export async function GET(
     }
 
     return NextResponse.json(user);
-  } catch {
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);
 
-export async function DELETE(
-  _req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
-  try {
+export const DELETE = userRouteWrapper(
+  async (_req, { params }: { params: { userId: string } }, currentUser) => {
     const { userId } = params;
-
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
 
     if (currentUser.role !== "admin" && currentUser.id !== userId) {
       return new Response("ERROR: No valid permissions", { status: 403 });
@@ -60,7 +39,5 @@ export async function DELETE(
     }
 
     return new Response(null, { status: 204 });
-  } catch {
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);

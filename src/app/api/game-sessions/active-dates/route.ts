@@ -1,4 +1,3 @@
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import {
   eachDayOfInterval,
@@ -15,9 +14,9 @@ import {
   gameSessions,
   semesters,
 } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
 import { getWeekday } from "@/lib/utils";
 import { clampInterval } from "@/lib/utils/dates";
+import { adminRouteWrapper } from "@/lib/wrappers";
 
 export const dynamic = "force-dynamic";
 
@@ -26,116 +25,101 @@ const searchParamSchema = z.object({
   "end-date": z.string().date(),
 });
 
-export async function GET(req: NextRequest) {
-  try {
-    const currentUser = await getCurrentUser();
+export const GET = adminRouteWrapper(async (req) => {
+  const searchParams = searchParamSchema.parse(
+    Object.fromEntries(req.nextUrl.searchParams)
+  );
 
-    if (!currentUser) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
+  const startDate = searchParams["start-date"];
+  const endDate = searchParams["end-date"];
 
-    if (currentUser?.role !== "admin") {
-      return new Response("ERROR: No valid permissions", { status: 403 });
-    }
+  const activeDates = new Set<string>();
 
-    const searchParams = searchParamSchema.parse(
-      Object.fromEntries(req.nextUrl.searchParams)
+  const gameSessionList = await db
+    .select({
+      date: gameSessions.date,
+    })
+    .from(gameSessions)
+    .where(
+      and(gte(gameSessions.date, startDate), lte(gameSessions.date, endDate))
     );
 
-    const startDate = searchParams["start-date"];
-    const endDate = searchParams["end-date"];
+  gameSessionList.forEach(({ date }) => {
+    activeDates.add(date);
+  });
 
-    const activeDates = new Set<string>();
+  const gameSessionReplaceExceptions = await db
+    .select({
+      date: gameSessionExceptions.date,
+    })
+    .from(gameSessionExceptions)
+    .where(
+      and(
+        gte(gameSessionExceptions.date, startDate),
+        lte(gameSessionExceptions.date, endDate),
+        eq(gameSessionExceptions.isDeleted, false)
+      )
+    );
 
-    const gameSessionList = await db
-      .select({
-        date: gameSessions.date,
-      })
-      .from(gameSessions)
-      .where(
-        and(gte(gameSessions.date, startDate), lte(gameSessions.date, endDate))
-      );
+  gameSessionReplaceExceptions.forEach(({ date }) => {
+    activeDates.add(date);
+  });
 
-    gameSessionList.forEach(({ date }) => {
-      activeDates.add(date);
+  const semesterList = await db.query.semesters.findMany({
+    where: and(
+      gte(semesters.endDate, startDate),
+      lte(semesters.startDate, endDate)
+    ),
+    with: {
+      gameSessionSchedules: true,
+    },
+  });
+
+  semesterList.forEach((semester) => {
+    const activeInterval = clampInterval(
+      interval(startDate, endDate),
+      interval(semester.startDate, semester.endDate)
+    );
+
+    const breakInterval = interval(semester.breakStart, semester.breakEnd);
+
+    const dates = eachDayOfInterval(activeInterval);
+
+    const filteredDates = dates.filter(
+      (date) => !isWithinInterval(date, breakInterval)
+    );
+
+    const weekdays = semester.gameSessionSchedules.map(
+      (schedule) => schedule.weekday
+    );
+
+    filteredDates.forEach((date) => {
+      if (weekdays.includes(getWeekday(date))) {
+        activeDates.add(format(date, "yyyy-MM-dd"));
+      }
     });
+  });
 
-    const gameSessionReplaceExceptions = await db
-      .select({
-        date: gameSessionExceptions.date,
-      })
-      .from(gameSessionExceptions)
-      .where(
-        and(
-          gte(gameSessionExceptions.date, startDate),
-          lte(gameSessionExceptions.date, endDate),
-          eq(gameSessionExceptions.isDeleted, false)
-        )
-      );
+  const gameSessionDeleteExceptions = await db
+    .select({
+      date: gameSessionExceptions.date,
+    })
+    .from(gameSessionExceptions)
+    .where(
+      and(
+        gte(gameSessionExceptions.date, startDate),
+        lte(gameSessionExceptions.date, endDate),
+        eq(gameSessionExceptions.isDeleted, true)
+      )
+    );
 
-    gameSessionReplaceExceptions.forEach(({ date }) => {
-      activeDates.add(date);
-    });
+  gameSessionDeleteExceptions.forEach(({ date }) => {
+    activeDates.delete(date);
+  });
 
-    const semesterList = await db.query.semesters.findMany({
-      where: and(
-        gte(semesters.endDate, startDate),
-        lte(semesters.startDate, endDate)
-      ),
-      with: {
-        gameSessionSchedules: true,
-      },
-    });
+  gameSessionList.forEach(({ date }) => {
+    activeDates.add(date);
+  });
 
-    semesterList.forEach((semester) => {
-      const activeInterval = clampInterval(
-        interval(startDate, endDate),
-        interval(semester.startDate, semester.endDate)
-      );
-
-      const breakInterval = interval(semester.breakStart, semester.breakEnd);
-
-      const dates = eachDayOfInterval(activeInterval);
-
-      const filteredDates = dates.filter(
-        (date) => !isWithinInterval(date, breakInterval)
-      );
-
-      const weekdays = semester.gameSessionSchedules.map(
-        (schedule) => schedule.weekday
-      );
-
-      filteredDates.forEach((date) => {
-        if (weekdays.includes(getWeekday(date))) {
-          activeDates.add(format(date, "yyyy-MM-dd"));
-        }
-      });
-    });
-
-    const gameSessionDeleteExceptions = await db
-      .select({
-        date: gameSessionExceptions.date,
-      })
-      .from(gameSessionExceptions)
-      .where(
-        and(
-          gte(gameSessionExceptions.date, startDate),
-          lte(gameSessionExceptions.date, endDate),
-          eq(gameSessionExceptions.isDeleted, true)
-        )
-      );
-
-    gameSessionDeleteExceptions.forEach(({ date }) => {
-      activeDates.delete(date);
-    });
-
-    gameSessionList.forEach(({ date }) => {
-      activeDates.add(date);
-    });
-
-    return NextResponse.json(Array.from(activeDates).sort());
-  } catch (e) {
-    console.error(e);
-    return NextResponse.json(e, { status: 400 });
-  }
-}
+  return NextResponse.json(Array.from(activeDates).sort());
+});

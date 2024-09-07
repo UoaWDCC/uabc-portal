@@ -61,7 +61,16 @@ export default function EditGameSessionFormDialog() {
       memberCapacity: memberCapacity,
       casualCapacity: casualCapacity,
     });
-  }, [handleClose]);
+  }, [
+    casualCapacity,
+    endTime,
+    handleClose,
+    locationAddress,
+    locationName,
+    memberCapacity,
+    reset,
+    startTime,
+  ]);
 
   const { mutate, isPending } = useEditGameSessionMutation();
 
