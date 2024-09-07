@@ -181,7 +181,7 @@ export const POST = userRouteWrapper(
         );
 
         if (count === 0) {
-          throw new StatusError("Maximum capacity reached", 400);
+          throw new StatusError(410, "Maximum capacity reached");
         }
       }
 
