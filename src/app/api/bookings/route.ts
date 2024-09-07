@@ -1,5 +1,8 @@
+import { request } from "http";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { and, count, eq, sql, TransactionRollbackError } from "drizzle-orm";
+import { and, count, eq, sql } from "drizzle-orm";
+import { PostgresType } from "postgres";
 import { z } from "zod";
 
 import {
@@ -15,10 +18,12 @@ import {
   gameSessions,
   users,
 } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
+import { StatusError } from "@/lib/exceptions";
 import { obfuscateId } from "@/lib/sqid";
 import { nzstParse } from "@/lib/utils/dates";
+import { userRouteWrapper } from "@/lib/wrappers";
 import { userCache } from "@/services/user";
+import type { User } from "@/types/next-auth";
 
 /**
  * Creates a booking for the current user
@@ -35,13 +40,8 @@ const bookingSchema = z.array(
   })
 );
 
-export async function POST(request: Request) {
-  try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser)
-      return new Response("Unauthorized request", { status: 401 });
-
+export const POST = userRouteWrapper(
+  async (request: NextRequest, _, currentUser: User) => {
     if (currentUser.member && !currentUser.verified) {
       return new Response("Unverified member", { status: 403 });
     }
@@ -183,7 +183,7 @@ export async function POST(request: Request) {
         );
 
         if (count === 0) {
-          throw new TransactionRollbackError();
+          throw new StatusError("Maximum capacity reached", 400);
         }
       }
 
@@ -217,14 +217,5 @@ export async function POST(request: Request) {
     await sendBookingConfirmationEmail(currentUser, obfuscatedBookingId);
 
     return NextResponse.json({ id: obfuscatedBookingId }, { status: 201 });
-  } catch (error) {
-    if (error instanceof TransactionRollbackError) {
-      return new Response("Game session at max capacity", { status: 409 });
-    } else if (error instanceof z.ZodError) {
-      return NextResponse.json({ errors: error.issues }, { status: 400 });
-    } else {
-      console.error(error);
-      return new Response("Internal server error", { status: 500 });
-    }
   }
-}
+);

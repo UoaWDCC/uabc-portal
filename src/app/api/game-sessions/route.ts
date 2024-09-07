@@ -23,7 +23,6 @@ import {
   gameSessionSchedules,
   semesters,
 } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
 import { getWeekday } from "@/lib/utils";
 import {
   getZonedBookingCloseTime,
@@ -35,8 +34,8 @@ import {
   insertNonNullGameSessionExceptionSchema,
   updateGameSessionSchema,
 } from "@/lib/validators";
+import { adminRouteWrapper } from "@/lib/wrappers";
 import { getOrCreateBookingPeriod } from "@/services/game-sessions";
-import { adminRouteWrapper } from "@/util/wrappers";
 
 export const GET = adminRouteWrapper(async (req: NextRequest) => {
   const date = req.nextUrl.searchParams.get("date");
