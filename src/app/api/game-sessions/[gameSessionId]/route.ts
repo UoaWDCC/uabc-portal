@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { gameSessions } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/session";
 import { updateGameSessionSchema } from "@/lib/validators";
+import { adminRouteWrapper } from "@/lib/wrappers";
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -14,12 +15,9 @@ const routeContextSchema = z.object({
   }),
 });
 
-export async function GET(
-  _req: NextRequest,
-  context: z.infer<typeof routeContextSchema>
-) {
-  try {
-    const result = routeContextSchema.safeParse(context);
+export const GET = adminRouteWrapper(
+  async (_req, ctx: z.infer<typeof routeContextSchema>) => {
+    const result = routeContextSchema.safeParse(ctx);
     if (!result.success)
       return new Response("Invalid id provided in the request", {
         status: 400,
@@ -39,23 +37,12 @@ export async function GET(
       });
 
     return NextResponse.json(session);
-  } catch {
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);
 
-export async function PUT(
-  req: NextRequest,
-  context: z.infer<typeof routeContextSchema>
-) {
-  try {
-    const currentUser = await getCurrentUser();
-
-    if (currentUser?.role != "admin") {
-      return new Response("Access denied", { status: 403 });
-    }
-
-    const result = routeContextSchema.safeParse(context);
+export const PUT = adminRouteWrapper(
+  async (req, ctx: z.infer<typeof routeContextSchema>) => {
+    const result = routeContextSchema.safeParse(ctx);
 
     if (!result.success)
       return new Response("Invalid id provided in the request", {
@@ -89,50 +76,37 @@ export async function PUT(
     }
 
     return new Response(null, { status: 204 });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ errors: error.issues }, { status: 400 });
+  }
+);
+
+export const DELETE = adminRouteWrapper(
+  async (_req, ctx: z.infer<typeof routeContextSchema>) => {
+    const result = routeContextSchema.safeParse(ctx);
+
+    if (!result.success) {
+      return new Response("Invalid id provided in the request", {
+        status: 400,
+      });
     }
-    console.error(error);
-    return new Response("Internal Server Error", { status: 500 });
+
+    const {
+      params: { gameSessionId },
+    } = result.data;
+
+    const session = await db
+      .delete(gameSessions)
+      .where(eq(gameSessions.id, gameSessionId))
+      .returning();
+
+    if (session.length === 0) {
+      return new Response(
+        `Game session with id ${gameSessionId} does not exist.`,
+        {
+          status: 404,
+        }
+      );
+    }
+
+    return new Response(null, { status: 204 });
   }
-}
-
-export async function DELETE(
-  _req: NextRequest,
-  context: z.infer<typeof routeContextSchema>
-) {
-  const currentUser = await getCurrentUser();
-
-  if (currentUser?.role != "admin") {
-    return new Response("Access denied", { status: 403 });
-  }
-
-  const result = routeContextSchema.safeParse(context);
-
-  if (!result.success) {
-    return new Response("Invalid id provided in the request", {
-      status: 400,
-    });
-  }
-
-  const {
-    params: { gameSessionId },
-  } = result.data;
-
-  const session = await db
-    .delete(gameSessions)
-    .where(eq(gameSessions.id, gameSessionId))
-    .returning();
-
-  if (session.length === 0) {
-    return new Response(
-      `Game session with id ${gameSessionId} does not exist.`,
-      {
-        status: 404,
-      }
-    );
-  }
-
-  return new Response(null, { status: 204 });
-}
+);

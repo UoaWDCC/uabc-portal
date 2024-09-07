@@ -1,27 +1,14 @@
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { and, eq, gt, gte, lte, ne, or } from "drizzle-orm";
-import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { bookingPeriods, semesters } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
 import { getZonedBookingOpenTime } from "@/lib/utils/game-sessions";
 import { updateSemesterSchema } from "@/lib/validators";
+import { adminRouteWrapper } from "@/lib/wrappers";
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { semesterId: number } }
-) {
-  try {
-    const user = await getCurrentUser();
-    if (!user) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
-    if (user.role != "admin") {
-      return new Response("ERROR: No valid permissions", { status: 403 });
-    }
-
+export const GET = adminRouteWrapper(
+  async (_req, { params }: { params: { semesterId: number } }) => {
     const { semesterId } = params;
 
     const semester = await db.query.semesters.findFirst({
@@ -35,24 +22,11 @@ export async function GET(
     }
 
     return NextResponse.json(semester, { status: 200 });
-  } catch {
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);
 
-export async function DELETE(
-  _req: NextRequest,
-  { params }: { params: { semesterId: number } }
-) {
-  try {
-    const user = await getCurrentUser();
-    if (!user) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
-    if (user.role != "admin") {
-      return new Response("ERROR: No valid permissions", { status: 403 });
-    }
-
+export const DELETE = adminRouteWrapper(
+  async (_req, { params }: { params: { semesterId: number } }) => {
     const { semesterId } = params;
 
     const semester = await db.query.semesters.findFirst({
@@ -68,24 +42,11 @@ export async function DELETE(
     await db.delete(semesters).where(eq(semesters.id, semesterId));
 
     return new Response(null, { status: 204 });
-  } catch {
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { semesterId: number } }
-) {
-  try {
-    const user = await getCurrentUser();
-    if (!user) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
-    if (user.role != "admin") {
-      return new Response("ERROR: No valid permissions", { status: 403 });
-    }
-
+export const PUT = adminRouteWrapper(
+  async (req, { params }: { params: { semesterId: number } }) => {
     const { semesterId } = params;
 
     const updatedSemester = updateSemesterSchema.parse(await req.json());
@@ -188,11 +149,5 @@ export async function PUT(
     });
 
     return new Response(null, { status: 204 });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ errors: error.issues }, { status: 400 });
-    }
-    console.error(error);
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);
