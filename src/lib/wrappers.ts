@@ -67,12 +67,12 @@ export function routeWrapper(
 
 export function userRouteWrapper(handler: UserRouteHandler) {
   return routeWrapper((req, ctx, user) => handler(req, ctx, user!), {
-    admin: true,
+    protected: true,
   });
 }
 
 export function adminRouteWrapper(handler: UserRouteHandler) {
   return routeWrapper((req, ctx, user) => handler(req, ctx, user!), {
-    protected: true,
+    admin: true,
   });
 }
