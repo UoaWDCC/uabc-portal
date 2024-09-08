@@ -10,7 +10,7 @@ export const metadata = {
 export default function ViewSessionsPage() {
   return (
     <div className="mx-4 mt-0 flex min-h-dvh flex-col">
-      <NavigationBar title="View Sessions"></NavigationBar>
+      <NavigationBar title="View Sessions" pathName="/admin"></NavigationBar>
       <Suspense>
         <ClientViewSessionsPage />
       </Suspense>
