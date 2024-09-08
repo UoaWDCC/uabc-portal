@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { useViewport } from "../../hooks/useViewport";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 
@@ -19,6 +20,7 @@ const emailSchema = z.string().email();
 export const EmailLoginForm = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { width } = useViewport();
 
   const [open, setOpen] = useState<boolean>(
     searchParams.get("open") === "true"
@@ -64,6 +66,16 @@ export const EmailLoginForm = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (width && width >= 1024) {
+      setOpen(true);
+    }
+  }, [width]);
+
+  if (width === undefined) {
+    return null;
+  }
 
   function openEmailLogin() {
     setOpen(true);
