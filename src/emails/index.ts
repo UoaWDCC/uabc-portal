@@ -1,11 +1,9 @@
-import { SendEmailCommand, SES } from "@aws-sdk/client-ses";
-
-import { env } from "@/env";
-
 import "server-only";
 
+import { MessageRejected, SendEmailCommand, SES } from "@aws-sdk/client-ses";
 import { render } from "@react-email/components";
 
+import { env } from "@/env";
 import { getBookingBySqid } from "@/services/booking";
 import type { User } from "@/types/next-auth";
 import CasualBookingConfirmationEmail from "./components/CasualBookingConfirmationEmail";
@@ -64,7 +62,30 @@ export const sendEmail = async ({
     Source: env.SENDER_EMAIL_ADDRESS,
   });
 
-  await client.send(sendEmailCommand);
+  const MAX_RETRIES = 5;
+  let retries = 0;
+
+  while (retries < MAX_RETRIES) {
+    try {
+      await client.send(sendEmailCommand);
+      break;
+    } catch (error) {
+      console.error("Error sending email:", error);
+
+      if (!(error instanceof MessageRejected)) break;
+
+      const waitTime = (Math.pow(2, retries) + 1 * Math.random()) * 1000;
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
+      retries++;
+    }
+  }
+
+  if (retries === MAX_RETRIES) {
+    console.error(
+      "Max retries exceeded. Email send failed for user emails:",
+      toAddresses
+    );
+  }
 };
 
 export const sendBookingConfirmationEmail = async (
