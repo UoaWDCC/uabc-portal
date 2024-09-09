@@ -8,6 +8,7 @@ import { Ellipsis } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { Card } from "@/components/Card";
 import { TextInput } from "@/components/TextInput";
 import { Button } from "@/components/ui/button";
 import {
@@ -74,13 +75,13 @@ export function MemberApprovalTableRow({
         <TableCell className="w-[75px] max-w-[125px] truncate sm:max-w-max">
           {firstName} {lastName}
         </TableCell>
-        <TableCell className="hidden min-w-[100px] max-w-[150px] truncate xs:block sm:max-w-full">
+        <TableCell className="min-w-[100px] max-w-[150px] truncate xs:table-cell sm:max-w-full">
           {email}
         </TableCell>
         <TableCell>
           <form
             onSubmit={handleSubmit(handleApproveClick)}
-            className="hidden lg:block"
+            className="hidden lg:table-cell"
           >
             <TextInput
               type="number"
@@ -115,27 +116,28 @@ export function MemberApprovalTableRow({
           </div>
         </TableCell>
       </TableRow>
-      {/* didn't move Dialog to a new component or else it get really messy */}
-      {/* set min-max so long email/name expands dialog width  */}
-      <DialogContent className="w-min min-w-[300px] max-w-full xs:min-w-[375px]">
+      <DialogContent className="w-full overflow-hidden">
         <DialogHeader>
           <DialogTitle>Approve Member</DialogTitle>
         </DialogHeader>
-        <div className="text-foreground">
-          <p>Member Details</p>
-          <hr className="mb-1" />
-          <div className="flex text-xs xs:text-base">
-            <div className="mr-4 *:whitespace-nowrap">
-              <p>First Name</p>
-              <p>Last Name</p>
-              <p>Email</p>
+        <div className="flex w-full flex-col overflow-hidden text-foreground">
+          <Card className="w-full overflow-hidden p-2" variant="card">
+            <div className="w-full text-sm">
+              <p className="whitespace-nowrap font-medium">Member Details</p>
+              <div className="mt-1 flex w-full">
+                <div className="mr-4 flex-shrink-0 whitespace-nowrap">
+                  <p>First Name</p>
+                  <p>Last Name</p>
+                  <p>Email</p>
+                </div>
+                <div className="grow overflow-hidden *:truncate">
+                  <p>{firstName}</p>
+                  <p>{lastName}</p>
+                  <p>{email}</p>
+                </div>
+              </div>
             </div>
-            <div className="*:truncate *:whitespace-nowrap">
-              <p>{firstName}</p>
-              <p>{lastName}</p>
-              <p>{email}</p>
-            </div>
-          </div>
+          </Card>
           <form onSubmit={handleSubmit(handleApproveClick)} className="my-4">
             <TextInput
               type="number"
