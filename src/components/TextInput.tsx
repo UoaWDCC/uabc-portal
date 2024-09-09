@@ -51,7 +51,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
             type={initialIsTypePassword ? (showPassword ? "text" : type) : type}
             placeholder={props.placeholder ? props.placeholder : " "}
             className={twMerge(
-              "peer h-full w-full rounded border border-tertiary/70 bg-background p-2 outline-none ring-inset ring-primary transition-colors placeholder:text-tertiary/70 focus:border-primary focus:ring-1 dark:text-white/70",
+              "peer h-full w-full appearance-none rounded border border-tertiary/70 bg-background p-2 outline-none ring-inset ring-primary transition-colors placeholder:text-tertiary/70 focus:border-primary focus:ring-1 dark:text-white/70",
               (isError && "!border-destructive !ring-destructive") ||
                 (isSuccess && "!border-success !ring-success")
             )}

@@ -32,7 +32,7 @@ export function EmptyAdminViewSessionCard() {
       className="flex flex-col gap-4 border p-4 text-tertiary/70"
       variant="card"
     >
-      <div className="grid grow select-none place-content-center text-center text-lg font-medium">
+      <div className="flex grow select-none flex-col items-center justify-center text-center text-lg font-medium">
         No sessions found on <br />
         {formatFullDate(date)}
       </div>
