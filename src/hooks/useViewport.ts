@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 
 export const useViewport = () => {
-  const [width, setWidth] = useState<number | undefined>(undefined);
+  const [width, setWidth] = useState<number | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const handleResize = () => setWidth(window.innerWidth);
-
+    const handleResize = () => {
       setWidth(window.innerWidth);
+    };
 
-      window.addEventListener("resize", handleResize);
+    handleResize();
 
-      return () => window.removeEventListener("resize", handleResize);
-    }
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return { width };
