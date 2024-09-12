@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-// import { useViewport } from "../../hooks/useViewport";
+import { cn } from "@/lib/utils";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 
@@ -20,7 +20,6 @@ const emailSchema = z.string().email();
 export const EmailLoginForm = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  // const { width } = useViewport();
 
   const [open, setOpen] = useState<boolean>(
     searchParams.get("open") === "true"
@@ -85,7 +84,7 @@ export const EmailLoginForm = () => {
       )}
 
       {/* Form, hidden on mobile view by default and shown only when open */}
-      <div className={`${open ? "block" : "hidden"} lg:block`}>
+      <div className={cn({ block: open, hidden: !open }, "lg:block")}>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <span className="text-center text-foreground">
             Login to your account
