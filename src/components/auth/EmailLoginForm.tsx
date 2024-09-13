@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { cn } from "@/lib/utils";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 
@@ -69,39 +70,46 @@ export const EmailLoginForm = () => {
     setOpen(true);
   }
 
-  if (!open)
-    return (
-      <Button large onClick={openEmailLogin}>
-        Login with Email
-      </Button>
-    );
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col gap-4">
-        <span className="text-center text-foreground">
-          Login to your account
-        </span>
-        <TextInput
-          autoFocus
-          className="text-foreground"
-          label="Email"
-          type="email"
-          isError={!!errors.email}
-          {...register("email")}
-        />
-        <TextInput
-          className="text-foreground"
-          label="Password"
-          type="password"
-          isError={!!errors.email}
-          errorMessage={errors.email?.message}
-          {...register("password")}
-        />
-        <Button large type="submit" disabled={buttonDisabled}>
+    <div className="flex flex-col gap-4">
+      {/* Button to open the form on mobile view */}
+      {!open && (
+        <Button
+          large
+          onClick={openEmailLogin}
+          className="lg:hidden" // Show only on mobile view
+        >
           Login with Email
         </Button>
+      )}
+
+      {/* Form, hidden on mobile view by default and shown only when open */}
+      <div className={cn({ block: open, hidden: !open }, "lg:block")}>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          <span className="text-center text-foreground">
+            Login to your account
+          </span>
+          <TextInput
+            autoFocus
+            className="text-foreground"
+            label="Email"
+            type="email"
+            isError={!!errors.email}
+            {...register("email")}
+          />
+          <TextInput
+            className="text-foreground"
+            label="Password"
+            type="password"
+            isError={!!errors.email}
+            errorMessage={errors.email?.message}
+            {...register("password")}
+          />
+          <Button large type="submit" disabled={buttonDisabled}>
+            Login with Email
+          </Button>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
