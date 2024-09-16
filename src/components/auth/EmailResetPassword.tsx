@@ -36,10 +36,7 @@ export const EmailResetPassword = () => {
     searchParams.get("resetPasswordToken") ?? ""
   );
 
-  const [formData, setFormData] = useState<z.infer<typeof formSchema>>({
-    newPassword: "",
-    confirmPassword: "",
-  });
+  const [formState, setFormState] = useState(false);
 
   const {
     register,
@@ -55,7 +52,9 @@ export const EmailResetPassword = () => {
 
   const onSubmit = async (formData: z.infer<typeof formSchema>) => {
     mutate(formData, {
-      onSuccess: () => {},
+      onSuccess: () => {
+        setFormState(true)
+      },
       onError: () => {
         toast({
           title: "Uh oh! Something went wrong",
@@ -66,48 +65,70 @@ export const EmailResetPassword = () => {
       },
     });
   };
+  
+  let form
+  if (isLoading == false) {
+    if (data && formState == false) {
+    form = <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex flex-col gap-4">
+        <span className="text-center text-foreground">Reset Password</span>
+        <TextInput
+          autoFocus
+          label="New Password"
+          type="password"
+          isError={!!errors.newPassword}
+          errorMessage={errors.newPassword?.message}
+          {...register("newPassword")}
+        />
+        <TextInput
+          autoFocus
+          label="Confirm Password"
+          type="Password"
+          isError={!!errors.confirmPassword}
+          errorMessage={errors.confirmPassword?.message}
+          {...register("confirmPassword")}
+        />
+        <Button large type="submit">
+          Send Reset Link
+        </Button>
+      </div>
+    </form>
+    } else if (data && formState == true) {
+      form = <div className="flex w-full flex-col justify-center gap-4">
+        <span className="text-center text-foreground">
+          Password Reset Successful
+        </span>
+        <p className="px-4 text-sm">Awesome. You have successfully reset the password for your account.</p>
+        <Button large onClick={() => router.push("/auth/log`in")}>
+          Log In
+        </Button>
+      </div>
+    } else {
+      form = <div className="flex w-full flex-col justify-center gap-4">
+        <span className="text-center text-foreground">
+          Invalid Reset Link
+        </span>
+        <p className="px-4 text-sm">Password reset link is invalid.</p>
+        <Button large onClick={() => router.push("/auth/forgot-password")}>
+          Generate Reset Link
+        </Button>
+      </div>
+    }
+  } else {
+    form = <div className="flex w-full flex-col justify-center gap-4">
+      <span className="text-center text-foreground">
+        Loading
+      </span>
+    </div>
+  } 
 
   return (
     <>
-      {!!data?.email == true ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-4">
-            <span className="text-center text-foreground">Reset Password</span>
-            <TextInput
-              autoFocus
-              label="New Password"
-              type="password"
-              isError={!!errors.newPassword}
-              errorMessage={errors.newPassword?.message}
-              {...register("newPassword")}
-            />
-            <TextInput
-              autoFocus
-              label="Confirm Password"
-              type="Password"
-              isError={!!errors.confirmPassword}
-              errorMessage={errors.confirmPassword?.message}
-              {...register("confirmPassword")}
-            />
-            <Button large type="submit">
-              Send Reset Link
-            </Button>
-          </div>
-        </form>
-      ) : (
-        <div className="flex w-full flex-col justify-center gap-4">
-          <span className="text-center text-foreground">
-            Invalid Reset Link
-          </span>
-          <p className="px-4 text-sm">Password reset link is invalid.</p>
-          <Button large onClick={() => router.push("/auth/forgot-password")}>
-            Generate Reset Link
-          </Button>
-          <Button large onClick={() => console.log(data?.email)}>
-            print
-          </Button>
-        </div>
-      )}
+      {form}
     </>
   );
 };
+
+export const ResetPassword = () => {
+
+}
