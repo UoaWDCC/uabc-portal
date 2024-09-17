@@ -70,12 +70,12 @@ export const GET = adminRouteWrapper(
     });
 
     const data = sortedPlayers.map((player) => ({
-      "First Name": player.firstName,
-      "Last Name": player.lastName,
-      Email: player.email,
-      "Play Level": player.playLevel,
-      Member: player.member ? "Yes" : "No",
-      Pro: player.isPro ? "Yes" : "No",
+      firstName: player.firstName,
+      lastName: player.lastName,
+      email: player.email,
+      playLevel: player.playLevel,
+      member: player.member,
+      pro: player.isPro,
     }));
 
     return NextResponse.json(data, {

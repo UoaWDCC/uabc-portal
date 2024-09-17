@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Clock, MapPin, Users } from "lucide-react";
 
 import { Card } from "@/components/Card";
@@ -116,13 +117,16 @@ export function AdminViewSessionCard({
         >
           Download attendees list
         </Button>
-        <Button
-          className="w-full font-semibold"
-          variant="outline"
-          disabled={attendees === 0}
-        >
-          View attendees list
-        </Button>
+
+        <Link key={id} href={`/admin/view-sessions/${id}`} className="w-full">
+          <Button
+            className="w-full font-semibold"
+            variant="outline"
+            disabled={attendees === 0}
+          >
+            View attendees list
+          </Button>
+        </Link>
       </div>
     </Card>
   );
