@@ -1,6 +1,6 @@
 import "server-only";
 
-import { and, gte, lte } from "drizzle-orm";
+import { and, eq, gte, lte } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import { bookingPeriods } from "@/lib/db/schema";
@@ -42,4 +42,12 @@ export async function getOrCreateBookingPeriod({
   }
 
   return bookingPeriod;
+}
+
+export async function getAttendeesFromId(gameSessionId: number) {
+  const response = await db.query.bookingDetails.findFirst({
+    where: (bookingDetail) => eq(bookingDetail.gameSessionId, gameSessionId),
+  });
+
+  return response;
 }
