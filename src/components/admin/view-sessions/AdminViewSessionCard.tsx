@@ -109,7 +109,7 @@ export function AdminViewSessionCard({
           </p>
         </div>
       </div>
-      <div className="flex flex-col gap-2 sm:flex-row">
+      <div className="grid gap-2 sm:grid-cols-2">
         <Button
           className="w-full font-semibold"
           disabled={attendees === 0}
@@ -118,7 +118,7 @@ export function AdminViewSessionCard({
           Download attendees list
         </Button>
 
-        <Link key={id} href={`/admin/view-sessions/${id}`} className="w-full">
+        <Link key={id} href={`/admin/view-sessions/${id}`}>
           <Button
             className="w-full font-semibold"
             variant="outline"
