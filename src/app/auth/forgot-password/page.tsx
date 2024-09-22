@@ -8,7 +8,7 @@ export const metadata = {
   title: "Forgot Password - UABC Booking Portal",
 };
 
-export default async function SignUpPage() {
+export default async function ForgotPasswordPage() {
   return (
     <div className="mt-8 flex w-full flex-col gap-4">
       <EmailForgotPassword />

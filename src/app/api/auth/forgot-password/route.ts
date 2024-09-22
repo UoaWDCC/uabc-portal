@@ -5,7 +5,6 @@ import { z } from "zod";
 import { sendForgotPasswordEmail } from "@/emails";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
-import { obfuscateId } from "@/lib/sqid";
 import { insertForgotPasswordToken } from "@/services/forgot-password";
 
 const postRequestSchema = z.object({
@@ -25,7 +24,7 @@ export async function POST(request: Request) {
 
     if (user) {
       const token = await insertForgotPasswordToken(email);
-      await sendForgotPasswordEmail(user, obfuscateId(token));
+      await sendForgotPasswordEmail(user, token);
     }
 
     return new Response(null, {

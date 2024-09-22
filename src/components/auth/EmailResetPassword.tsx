@@ -11,6 +11,8 @@ import { useEmail } from "@/hooks/query/email";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
+import { Card } from "../Card";
+import { SkeletonEmailResetPassword } from "./SkeletonEmailResetPassword";
 
 const formSchema = z.object({
   newPassword: z
@@ -24,7 +26,10 @@ const formSchema = z.object({
     .min(8, { message: "Password must be at least 8 characters" })
     .regex(/\d/, { message: "Password must contain a number" })
     .regex(/[a-z]/, { message: "Password must contain a lowercase letter" })
-    .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" }),
+    .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" })
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
 });
 
 export const EmailResetPassword = () => {
@@ -67,68 +72,59 @@ export const EmailResetPassword = () => {
   };
   
   let form
-  if (isLoading == false) {
-    if (data && formState == false) {
-    form = <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col gap-4">
-        <span className="text-center text-foreground">Reset Password</span>
-        <TextInput
-          autoFocus
-          label="New Password"
-          type="password"
-          isError={!!errors.newPassword}
-          errorMessage={errors.newPassword?.message}
-          {...register("newPassword")}
-        />
-        <TextInput
-          autoFocus
-          label="Confirm Password"
-          type="Password"
-          isError={!!errors.confirmPassword}
-          errorMessage={errors.confirmPassword?.message}
-          {...register("confirmPassword")}
-        />
-        <Button large type="submit">
-          Send Reset Link
-        </Button>
-      </div>
-    </form>
-    } else if (data && formState == true) {
-      form = <div className="flex w-full flex-col justify-center gap-4">
+  if (isLoading == true) {
+    form = <SkeletonEmailResetPassword />
+  } else {
+    if (!!data?.email == true && formState == true) {
+      form = <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-4">
+          <span className="text-center text-foreground">Reset Password</span>
+          <TextInput
+            autoFocus
+            label="New Password"
+            type="password"
+            isError={!!errors.newPassword}
+            errorMessage={errors.newPassword?.message}
+            {...register("newPassword")}
+          />
+          <TextInput
+            autoFocus
+            label="Confirm Password"
+            type="Password"
+            isError={!!errors.confirmPassword}
+            errorMessage={errors.confirmPassword?.message}
+            {...register("confirmPassword")}
+          />
+          <Button large type="submit">
+            Send Reset Link
+          </Button>
+        </div>
+      </form>
+    } else if (!!data?.email == true && formState == false) {
+      form = <>
         <span className="text-center text-foreground">
           Password Reset Successful
         </span>
-        <p className="px-4 text-sm">Awesome. You have successfully reset the password for your account.</p>
-        <Button large onClick={() => router.push("/auth/log`in")}>
+        <p className="text-center py-4 px-4 text-sm">Awesome. You have successfully reset the password for your account.</p>
+        <Button className="py-4" large onClick={() => router.push("/auth/log`in")}>
           Log In
         </Button>
-      </div>
+      </>
     } else {
-      form = <div className="flex w-full flex-col justify-center gap-4">
-        <span className="text-center text-foreground">
-          Invalid Reset Link
-        </span>
-        <p className="px-4 text-sm">Password reset link is invalid.</p>
-        <Button large onClick={() => router.push("/auth/forgot-password")}>
-          Generate Reset Link
-        </Button>
-      </div>
+      router.push("/auth/login")
     }
-  } else {
-    form = <div className="flex w-full flex-col justify-center gap-4">
-      <span className="text-center text-foreground">
-        Loading
-      </span>
-    </div>
   } 
 
   return (
-    <>
-      {form}
-    </>
+    <div className="my-4 flex grow flex-col items-center justify-center gap-y-6">
+      <div className="w-full shadow-sm *:min-h-60 sm:w-1/2 sm:min-w-[400px] lg:w-1/3">
+        <Card
+          className={"relative flex flex-col gap-4 border"}
+          variant="card"
+        >
+          {form}
+        </Card>
+      </div>
+    </div>
   );
 };
-
-export const ResetPassword = () => {
-
-}

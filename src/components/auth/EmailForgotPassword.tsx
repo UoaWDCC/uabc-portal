@@ -74,7 +74,7 @@ export const EmailForgotPassword = () => {
           <p className="px-4 text-sm">
             If the provided email address is registered on UABC, you will
             receive an email with further instructions on how to reset your
-            password. In case you didn{`&apos;`}t receive this email, you need
+            password. In case you didn&apos;t receive this email, you need
             to create a new account{" "}
             <Link className="font-bold underline" href="/auth/sign-up">
               here
