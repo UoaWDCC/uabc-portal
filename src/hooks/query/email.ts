@@ -6,9 +6,9 @@ export type EmailResponse = {
   email: string;
 };
 
-const fetchEmail = async (obfuscatedId: string): Promise<EmailResponse> => {
+const fetchEmail = async (hashedId: string): Promise<EmailResponse> => {
   const response = await fetch(
-    `/api/auth/reset-password?resetPasswordToken=${obfuscatedId}`,
+    `/api/auth/reset-password?resetPasswordToken=${hashedId}`,
     {
       cache: "no-store",
     }
@@ -16,10 +16,10 @@ const fetchEmail = async (obfuscatedId: string): Promise<EmailResponse> => {
   return response.json();
 };
 
-export const useEmail = (obfuscatedId: string) => {
+export const useEmail = (hashedId: string) => {
   const query = useQuery({
-    queryKey: [QUERY_KEY.EMAIL, obfuscatedId],
-    queryFn: () => fetchEmail(obfuscatedId),
+    queryKey: [QUERY_KEY.EMAIL, hashedId],
+    queryFn: () => fetchEmail(hashedId),
   });
 
   return query;

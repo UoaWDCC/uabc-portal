@@ -32,11 +32,10 @@ export async function GET(req: NextRequest) {
       Object.fromEntries(req.nextUrl.searchParams)
     );
     
-    const token = deobfuscateSqid(searchParams.resetPasswordToken);
-
+    const token = searchParams.resetPasswordToken;
     const resetPasswordToken = await db.query.forgotPasswordTokens.findFirst({
       where: and(
-        eq(forgotPasswordTokens.token, token.toString()),
+        eq(forgotPasswordTokens.token, token),
         gt(forgotPasswordTokens.expires, new Date())
       ),
     });
@@ -46,7 +45,7 @@ export async function GET(req: NextRequest) {
         status: 403,
       });
     } else {
-      return NextResponse.json(resetPasswordToken.identifier, { status: 200 });
+      return NextResponse.json({ email: resetPasswordToken.identifier}, { status: 200 });
     }
   } catch (error : any) {
     if (error instanceof z.ZodError) {
@@ -63,7 +62,7 @@ export async function POST(req: NextRequest) {
       Object.fromEntries(req.nextUrl.searchParams)
     );
 
-    const token = deobfuscateSqid(searchParams.resetPasswordToken);
+    const token = searchParams.resetPasswordToken;
     const resetPasswordToken = await db.query.forgotPasswordTokens.findFirst({
       where: and(
         eq(forgotPasswordTokens.token, token.toString()),

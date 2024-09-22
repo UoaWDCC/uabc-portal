@@ -1,6 +1,6 @@
 import "server-only";
 
-import { randomInt } from "crypto";
+import { randomInt, createHash } from "crypto";
 import { and, eq } from "drizzle-orm";
 
 import { FORGOT_PASSWORD_TOKEN_EXPIRY_TIME } from "@/lib/constants";
@@ -18,17 +18,14 @@ export const insertForgotPasswordToken = async (email: string) => {
 
   const token = randomInt(100000, 999999);
 
+  const { createHash } = require('crypto');
+  const hashedPassword = createHash('sha256').update(email + token.toString()).digest('hex');
+
   await db.insert(forgotPasswordTokens).values({
     identifier: email,
-    token: token.toString(),
+    token: hashedPassword,
     expires: new Date(Date.now() + FORGOT_PASSWORD_TOKEN_EXPIRY_TIME * 1000),
   });
-  // .onConflictDoUpdate({
-  //   target: [verificationTokens.identifier, verificationTokens.token],
-  //   set: {
-  //     expires: new Date(Date.now() + FORGOT_PASSWORD_TOKEN_EXPIRY_TIME * 1000),
-  //   },
-  // });
 
-  return token;
+  return hashedPassword;
 };
