@@ -58,8 +58,8 @@ export const sendEmail = async ({
         Data: subject,
       },
     },
-    ReplyToAddresses: [replyToAddresses ?? env.SENDER_EMAIL_ADDRESS],
-    Source: env.SENDER_EMAIL_ADDRESS,
+    ReplyToAddresses: [replyToAddresses ?? env.REPLY_TO],
+    Source: env.MAIL_FROM,
   });
 
   const MAX_RETRIES = 5;
