@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useState } from "react";
 
@@ -20,12 +18,12 @@ const SelectDropdown = () => {
     <div>
       <div>
         <Select onValueChange={setSelectedDay}>
-          <SelectTrigger>
+          <SelectTrigger label="Days of the Week">
             <SelectValue placeholder="Select a day of the week" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Days of the Week</SelectLabel>
+              <SelectLabel>Days</SelectLabel>
               <SelectItem value="monday">Monday</SelectItem>
               <SelectItem value="tuesday">Tuesday</SelectItem>
               <SelectItem value="wednesday">Wednesday</SelectItem>
