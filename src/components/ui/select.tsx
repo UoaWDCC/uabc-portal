@@ -21,7 +21,7 @@ const SelectTrigger = React.forwardRef<
       {label && (
         <label
           className={cn(
-            "absolute left-3 top-[-8px] bg-background px-1 text-xs text-primary text-primary-foreground transition-all duration-200"
+            "absolute left-3 top-[-8px] bg-background px-1 text-xs text-primary transition-all duration-200"
           )}
         >
           {label}
