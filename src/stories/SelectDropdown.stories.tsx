@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
 
 import {
   Select,
@@ -9,7 +10,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "@/components/ui/select";
 
 const SelectDropdown = () => {
   const [selectedDay, setSelectedDay] = useState("");
@@ -46,4 +47,20 @@ const SelectDropdown = () => {
   );
 };
 
-export default SelectDropdown;
+// Define the Storybook metadata for the component
+const meta: Meta<typeof SelectDropdown> = {
+  title: "Components/SelectDropdown",
+  component: SelectDropdown,
+  parameters: {
+    layout: "fullscreen",
+  },
+  tags: ["autodocs"],
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// Define the default story
+export const Default: Story = {
+  args: {},
+};

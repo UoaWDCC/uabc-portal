@@ -21,18 +21,17 @@ const SelectTrigger = React.forwardRef<
       {label && (
         <label
           className={cn(
-            "absolute left-3 top-[-8px] bg-background px-1 text-xs text-primary transition-all duration-200"
+            "absolute left-3 top-[-8px] bg-background px-1 text-xs text-black transition-all duration-200 peer-[data-state=open]:text-primary peer-has-[:focus]:text-primary"
           )}
         >
           {label}
         </label>
       )}
 
-      {/* Select Trigger */}
       <SelectPrimitive.Trigger
         ref={ref}
         className={cn(
-          "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-inset ring-primary placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:border-primary data-[state=open]:ring-1 [&>span]:line-clamp-1",
+          "peer flex h-10 w-full items-center justify-between rounded-md border border-tertiary/70 bg-background px-3 py-2 text-sm ring-inset ring-primary placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:border-primary data-[state=open]:ring-1 [&>span]:line-clamp-1",
           className
         )}
         {...props}
