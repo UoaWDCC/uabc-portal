@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { SQL } from "drizzle-orm";
-import { and, eq, isNull, not } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
@@ -9,16 +9,6 @@ import { adminRouteWrapper } from "@/lib/wrappers";
 
 const getSearchParamsSchema = z.object({
   verified: z
-    .string()
-    .toLowerCase()
-    .optional()
-    .transform((x) => {
-      if (x === "true") return true;
-      if (x === "false") return false;
-      return undefined;
-    })
-    .pipe(z.boolean().optional()),
-  "email-verified": z
     .string()
     .toLowerCase()
     .optional()
@@ -39,15 +29,28 @@ const getSearchParamsSchema = z.object({
     .pipe(z.boolean().optional()),
 });
 
+const getQueryParamsSchema = z.object({
+  limit: z.string().optional().transform(val => {
+    const numberValue = Number(val);
+    return Number.isInteger(numberValue) && numberValue >= 1 ? numberValue : undefined
+  }),
+  offset: z.string().optional().transform(val => {
+    const numberValue = Number(val);
+    return Number.isInteger(numberValue) && numberValue >= 0 ? numberValue : 0
+  }),
+});
+
 export const GET = adminRouteWrapper(async (req) => {
   const searchParams = getSearchParamsSchema.parse(
+    Object.fromEntries(req.nextUrl.searchParams)
+  );
+  const queryParams = getQueryParamsSchema.parse(
     Object.fromEntries(req.nextUrl.searchParams)
   );
 
   const paramToUserProp = {
     verified: users.verified,
     member: users.member,
-    "email-verified": users.emailVerified,
   };
 
   const userEqConditions: SQL<unknown>[] = [];
@@ -55,11 +58,7 @@ export const GET = adminRouteWrapper(async (req) => {
   Object.entries(searchParams).forEach(([key, value]) => {
     const userProp = paramToUserProp[key as keyof typeof paramToUserProp];
     if (userProp !== undefined && value !== undefined) {
-      if (key === "email-verified") {
-        userEqConditions.push(value ? not(isNull(userProp)) : isNull(userProp));
-      } else {
-        userEqConditions.push(eq(userProp, value));
-      }
+      userEqConditions.push(eq(userProp, value));
     }
   });
 
@@ -71,6 +70,8 @@ export const GET = adminRouteWrapper(async (req) => {
       lastName: true,
       email: true,
     },
+    limit: queryParams.limit,
+    offset: queryParams.offset,
   });
 
   return NextResponse.json(fetchedUsers);
