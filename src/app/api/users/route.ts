@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { SQL } from "drizzle-orm";
-import { and, eq, isNull, not } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/lib/db";
@@ -9,16 +9,6 @@ import { adminRouteWrapper } from "@/lib/wrappers";
 
 const getSearchParamsSchema = z.object({
   verified: z
-    .string()
-    .toLowerCase()
-    .optional()
-    .transform((x) => {
-      if (x === "true") return true;
-      if (x === "false") return false;
-      return undefined;
-    })
-    .pipe(z.boolean().optional()),
-  "email-verified": z
     .string()
     .toLowerCase()
     .optional()
@@ -47,7 +37,6 @@ export const GET = adminRouteWrapper(async (req) => {
   const paramToUserProp = {
     verified: users.verified,
     member: users.member,
-    "email-verified": users.emailVerified,
   };
 
   const userEqConditions: SQL<unknown>[] = [];
@@ -55,11 +44,7 @@ export const GET = adminRouteWrapper(async (req) => {
   Object.entries(searchParams).forEach(([key, value]) => {
     const userProp = paramToUserProp[key as keyof typeof paramToUserProp];
     if (userProp !== undefined && value !== undefined) {
-      if (key === "email-verified") {
-        userEqConditions.push(value ? not(isNull(userProp)) : isNull(userProp));
-      } else {
-        userEqConditions.push(eq(userProp, value));
-      }
+      userEqConditions.push(eq(userProp, value));
     }
   });
 
