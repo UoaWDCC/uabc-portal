@@ -29,8 +29,22 @@ const getSearchParamsSchema = z.object({
     .pipe(z.boolean().optional()),
 });
 
+const getQueryParamsSchema = z.object({
+  limit: z.string().optional().transform(val => {
+    const numberValue = Number(val);
+    return Number.isInteger(numberValue) ? numberValue : undefined
+  }),
+  offset: z.string().optional().transform(val => {
+    const numberValue = Number(val);
+    return Number.isInteger(numberValue) ? numberValue : 0
+  }),
+});
+
 export const GET = adminRouteWrapper(async (req) => {
   const searchParams = getSearchParamsSchema.parse(
+    Object.fromEntries(req.nextUrl.searchParams)
+  );
+  const queryParams = getQueryParamsSchema.parse(
     Object.fromEntries(req.nextUrl.searchParams)
   );
 
@@ -56,6 +70,8 @@ export const GET = adminRouteWrapper(async (req) => {
       lastName: true,
       email: true,
     },
+    limit: queryParams.limit,
+    offset: queryParams.offset,
   });
 
   return NextResponse.json(fetchedUsers);
