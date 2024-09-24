@@ -11,7 +11,7 @@ import {
 } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { verificationTokens } from "@/lib/db/schema";
-import { RateLimitError, StatusError } from "@/lib/exceptions";
+import { RateLimitError } from "@/lib/exceptions";
 
 export async function getUserFromId(userId: string) {
   return db.query.users.findFirst({
@@ -46,6 +46,7 @@ export async function getUserFromEmail(
           firstName: true,
           lastName: true,
           role: true,
+          playLevel: true,
         },
         where: (users, { eq }) => eq(users.email, email as string),
       });
