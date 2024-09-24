@@ -32,11 +32,11 @@ const getSearchParamsSchema = z.object({
 const getQueryParamsSchema = z.object({
   limit: z.string().optional().transform(val => {
     const numberValue = Number(val);
-    return Number.isInteger(numberValue) ? numberValue : undefined
+    return Number.isInteger(numberValue) && numberValue >= 1 ? numberValue : undefined
   }),
   offset: z.string().optional().transform(val => {
     const numberValue = Number(val);
-    return Number.isInteger(numberValue) ? numberValue : 0
+    return Number.isInteger(numberValue) && numberValue >= 0 ? numberValue : 0
   }),
 });
 
