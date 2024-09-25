@@ -19,3 +19,4 @@ jobs:
     name: "Deploy Production"
     needs: [tagged-release]
     uses: ./.github/workflows/deploy-prod.yml
+    secrets: inherit
