@@ -97,6 +97,8 @@ export const sendBookingConfirmationEmail = async (
   if (!booking || booking.userId !== user.id)
     throw new Error("Booking not found");
 
+  if (!user.firstName || !user.lastName) return;
+
   const bookingDetails = booking.bookingDetails.map((bookingDetail) => {
     return {
       ...bookingDetail.gameSession,
@@ -110,7 +112,7 @@ export const sendBookingConfirmationEmail = async (
       subject: "Booking Confirmation",
       html: render(
         MemberBookingConfirmationEmail({
-          firstName: user.firstName!,
+          firstName: user.firstName,
           bookingDetails,
         })
       ),
@@ -121,7 +123,8 @@ export const sendBookingConfirmationEmail = async (
       subject: "Booking Confirmation",
       html: render(
         CasualBookingConfirmationEmail({
-          firstName: user.firstName!,
+          firstName: user.firstName,
+          lastName: user.lastName,
           bookingDetail: bookingDetails[0],
         })
       ),
