@@ -3,6 +3,7 @@ import { hash } from "bcrypt";
 import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
 
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { users, verificationTokens } from "@/lib/db/schema";
 import { routeWrapper } from "@/lib/wrappers";
@@ -25,10 +26,9 @@ export const POST = routeWrapper(async (req) => {
   });
 
   if (user)
-    return NextResponse.json(
-      { errors: "Email already in use" },
-      { status: 400, statusText: "Email already in use" }
-    );
+    return responses.badRequest({
+      message: "Email already in use.",
+    });
 
   const [lastToken] = await db
     .select()
@@ -38,10 +38,9 @@ export const POST = routeWrapper(async (req) => {
     .limit(1);
 
   if (!lastToken || lastToken.expires < new Date() || lastToken.token !== token)
-    return NextResponse.json(
-      { errors: "Invalid token" },
-      { status: 400, statusText: "Invalid token" }
-    );
+    return responses.badRequest({
+      message: "Invalid verification token.",
+    });
 
   const costFactor = 12;
   const hashedPassword = await hash(password, costFactor);
@@ -53,8 +52,7 @@ export const POST = routeWrapper(async (req) => {
     password: hashedPassword,
   });
 
-  return new Response("User registered successfully", {
-    status: 200,
-    statusText: "User registered successfully",
+  return responses.success({
+    message: "User successfully registered.",
   });
 });

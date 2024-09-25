@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { sendVerificationCodeEmail } from "@/emails";
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { routeWrapper } from "@/lib/wrappers";
@@ -24,10 +24,9 @@ export const POST = routeWrapper(async (req) => {
   });
 
   if (user)
-    return NextResponse.json(
-      { errors: "Email already in use" },
-      { status: 400, statusText: "Email already in use" }
-    );
+    return responses.badRequest({
+      message: "Email already in use.",
+    });
 
   const token = await insertVerificationToken(email);
 

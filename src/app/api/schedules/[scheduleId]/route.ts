@@ -1,26 +1,34 @@
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { gameSessionSchedules } from "@/lib/db/schema";
 import { updateGameSessionScheduleSchema } from "@/lib/validators";
 import { adminRouteWrapper } from "@/lib/wrappers";
 
+const routeContextSchema = z.object({
+  params: z.object({
+    scheduleId: z.coerce.number(),
+  }),
+});
+
 export const GET = adminRouteWrapper(
-  async (_req, { params }: { params: { scheduleId: number } }) => {
-    const { scheduleId } = params;
+  async (_req, ctx: z.infer<typeof routeContextSchema>) => {
+    const {
+      params: { scheduleId },
+    } = routeContextSchema.parse(ctx);
 
     const gameSessionSchedule = await db.query.gameSessionSchedules.findFirst({
       where: eq(gameSessionSchedules.id, scheduleId),
     });
 
     if (!gameSessionSchedule) {
-      return new Response(
-        `No GameSessionSchedule found for id: ${scheduleId}`,
-        {
-          status: 404,
-        }
-      );
+      return responses.notFound({
+        resourceType: "gameSessionSchedule",
+        resourceId: scheduleId,
+      });
     }
 
     return NextResponse.json(gameSessionSchedule);
@@ -28,8 +36,10 @@ export const GET = adminRouteWrapper(
 );
 
 export const PUT = adminRouteWrapper(
-  async (req, { params }: { params: { scheduleId: number } }) => {
-    const { scheduleId } = params;
+  async (req, ctx: z.infer<typeof routeContextSchema>) => {
+    const {
+      params: { scheduleId },
+    } = routeContextSchema.parse(ctx);
 
     const updatedGameSession = updateGameSessionScheduleSchema.parse(
       await req.json()
@@ -39,17 +49,15 @@ export const PUT = adminRouteWrapper(
     });
 
     if (!gameSessionSchedule) {
-      return new Response(
-        `No GameSessionSchedule found for id: ${scheduleId}`,
-        {
-          status: 400,
-        }
-      );
+      return responses.notFound({
+        resourceType: "gameSessionSchedule",
+        resourceId: scheduleId,
+      });
     }
 
     if (updatedGameSession.startTime >= updatedGameSession.endTime) {
-      return new Response("Start time must be before end time", {
-        status: 400,
+      return responses.badRequest({
+        message: "Start time must be before end time",
       });
     }
 
@@ -63,20 +71,20 @@ export const PUT = adminRouteWrapper(
 );
 
 export const DELETE = adminRouteWrapper(
-  async (_req, { params }: { params: { scheduleId: number } }) => {
-    const { scheduleId } = params;
+  async (_req, ctx: z.infer<typeof routeContextSchema>) => {
+    const {
+      params: { scheduleId },
+    } = routeContextSchema.parse(ctx);
 
     const gameSessionSchedule = await db.query.gameSessionSchedules.findFirst({
       where: eq(gameSessionSchedules.id, scheduleId),
     });
 
     if (!gameSessionSchedule) {
-      return new Response(
-        `No GameSessionSchedule found for id: ${scheduleId}`,
-        {
-          status: 400,
-        }
-      );
+      return responses.notFound({
+        resourceType: "gameSessionSchedule",
+        resourceId: scheduleId,
+      });
     }
 
     await db
