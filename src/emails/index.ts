@@ -133,12 +133,14 @@ export const sendBookingConfirmationEmail = async (
 };
 
 export const sendNoMoreSessionsRemainingEmail = async (user: User) => {
+  if (!user.firstName) return;
+
   await sendEmail({
     toAddresses: [user.email],
     subject: "No More Sessions Available",
     html: render(
       NoMoreSessionsRemainingEmail({
-        firstName: user.firstName!,
+        firstName: user.firstName,
       })
     ),
   });
@@ -163,12 +165,14 @@ export const sendMemberApprovalEmail = async (
   user: User,
   prepaidSessionCount: number
 ) => {
+  if (!user.firstName) return;
+
   await sendEmail({
     toAddresses: [user.email],
     subject: "Membership Approved",
     html: render(
       MemberApprovalEmail({
-        firstName: user.firstName!,
+        firstName: user.firstName,
         prepaidSessionCount: prepaidSessionCount,
       })
     ),
@@ -176,12 +180,14 @@ export const sendMemberApprovalEmail = async (
 };
 
 export const sendMemberRejectionEmail = async (user: User) => {
+  if (!user.firstName) return;
+
   await sendEmail({
     toAddresses: [user.email],
     subject: "Membership Approved",
     html: render(
       MemberRejectionEmail({
-        firstName: user.firstName!,
+        firstName: user.firstName,
       })
     ),
   });

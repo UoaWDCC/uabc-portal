@@ -61,6 +61,8 @@ export function SelectSessionList({
   }, [sessions]);
 
   function handleSessionClick(id: number) {
+    if (!sessions?.length) return;
+
     const isInCart = cart.some((session) => session.id === id);
 
     if (!isInCart && cart.length >= maxSessions) {
@@ -68,7 +70,7 @@ export function SelectSessionList({
     } else if (isInCart) {
       updateCart(cart.filter((session) => session.id !== id));
     } else {
-      updateCart([...cart, sessions!.find((session) => session.id === id)!]);
+      updateCart([...cart, sessions.find((session) => session.id === id)!]);
     }
   }
 

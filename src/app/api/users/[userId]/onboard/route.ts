@@ -1,5 +1,6 @@
 import { eq } from "drizzle-orm";
 
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { updateUserSchema } from "@/lib/validators";
@@ -13,8 +14,9 @@ import { userCache } from "@/services/user";
 export const PATCH = userRouteWrapper(
   async (req, { params }: { params: { userId: string } }, currentUser) => {
     const { userId } = params;
+
     if (currentUser.id !== userId) {
-      return new Response("ERROR: No valid permissions", { status: 403 });
+      return responses.forbidden();
     }
 
     const body = await req.json();
@@ -26,8 +28,9 @@ export const PATCH = userRouteWrapper(
     });
 
     if (!user) {
-      return new Response(`No User found for id: ${currentUser.id}`, {
-        status: 404,
+      return responses.notFound({
+        resourceType: "user",
+        resourceId: currentUser.id,
       });
     }
 
