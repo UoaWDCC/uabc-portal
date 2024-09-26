@@ -18,16 +18,6 @@ const SelectTrigger = React.forwardRef<
 >(({ className, children, label, ...props }, ref) => {
   return (
     <div className="relative w-full">
-      {label && (
-        <label
-          className={cn(
-            "absolute left-3 top-[-8px] bg-background px-1 text-xs text-black transition-all duration-200 peer-[data-state=open]:text-primary peer-has-[:focus]:text-primary"
-          )}
-        >
-          {label}
-        </label>
-      )}
-
       <SelectPrimitive.Trigger
         ref={ref}
         className={cn(
@@ -36,6 +26,15 @@ const SelectTrigger = React.forwardRef<
         )}
         {...props}
       >
+        {label && (
+          <label
+            className={cn(
+              "absolute left-3 top-[-8px] bg-background px-1 text-xs text-black transition-all duration-200 peer-data-[state-open]:text-primary"
+            )}
+          >
+            {label}
+          </label>
+        )}
         {children}
         <SelectPrimitive.Icon asChild>
           <ChevronDown className="h-4 w-4 opacity-50" />
