@@ -25,8 +25,6 @@ export default function ClientViewSessionsPageWithId({
             Here&apos;s the attendee list for the session on{" "}
             <strong>{isLoading ? "Loading..." : formatFullDate(date!)}</strong>
           </p>
-        </div>
-        <div className="flex w-full md:px-4">
           <AttendeesTable gameSessionId={gameSessionId} />
         </div>
       </div>
