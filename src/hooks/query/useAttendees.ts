@@ -8,7 +8,7 @@ export type AttendeesListResponse = {
   email: string;
   playLevel: "beginner" | "intermediate" | "advanced";
   member: boolean;
-  isPro: boolean;
+  pro: boolean;
 };
 
 const fetchAttendees = async (
