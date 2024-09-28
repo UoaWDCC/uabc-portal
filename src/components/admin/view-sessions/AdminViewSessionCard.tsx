@@ -118,7 +118,11 @@ export function AdminViewSessionCard({
           Download attendees list
         </Button>
 
-        <Link key={id} href={`/admin/view-sessions/${id}`}>
+        <Link
+          key={id}
+          href={`/admin/view-sessions/${id}`}
+          className={cn(attendees === 0 && "pointer-events-none")}
+        >
           <Button
             className="w-full font-semibold"
             variant="outline"
