@@ -6,12 +6,16 @@ import "@tanstack/react-table";
 
 import { ChevronsUpDown } from "lucide-react";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -39,7 +43,7 @@ export const AttendeesTable = ({
   );
 
   return (
-    <div className="absolute left-0 w-dvw overflow-hidden rounded border md:relative">
+    <div className="overflow-hidden rounded border md:relative">
       <Table>
         {/* {isLoading && <TableCaption>Loading..</TableCaption>} */}
         <TableHeader>
@@ -63,33 +67,49 @@ export const AttendeesTable = ({
             <SkeletonAttendeeList />
           ) : (
             attendees?.map((attendee, i) => (
-              <TableRow key={i}>
-                <TableCell className="place-items-center p-0 pl-4 font-medium md:p-4">
-                  {attendee.name} <br className="md:hidden" />
-                  {attendee.pro && <Badge className="md:ml-2">Pro</Badge>}
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  {attendee.email}
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  {attendee.member ? "Yes" : "No"}
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  {attendee.playLevel}
-                </TableCell>
-                <TableCell className="flex md:hidden">
-                  <div className="mr-1 flex flex-col">
-                    <strong>Email:</strong>
-                    <strong>Member:</strong>
-                    <strong>Level:</strong>
-                  </div>
-                  <div className="w-60 truncate">
-                    <p>{attendee.email} </p>
-                    <p>{attendee.member ? "Yes" : "No"}</p>
-                    <p>{attendee.playLevel}</p>
-                  </div>
-                </TableCell>
-              </TableRow>
+              <>
+                <TableRow key={i} className="hidden md:table-row">
+                  <TableCell className="place-items-center font-medium">
+                    {attendee.name}
+                    {attendee.pro && <Badge className="ml-2">Pro</Badge>}
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {attendee.email}
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {attendee.member ? "Yes" : "No"}
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {attendee.playLevel}
+                  </TableCell>
+                </TableRow>
+                <Accordion
+                  type="single"
+                  collapsible
+                  className="w-full md:hidden"
+                >
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger className="p-4">
+                      <p>
+                        {attendee.name}
+                        {attendee.pro && <Badge className="ml-2">Pro</Badge>}
+                      </p>
+                    </AccordionTrigger>
+                    <AccordionContent className="flex p-4">
+                      <div className="mr-1 flex flex-col">
+                        <strong>Email:</strong>
+                        <strong>Member:</strong>
+                        <strong>Level:</strong>
+                      </div>
+                      <div className="w-60 truncate">
+                        <p>{attendee.email} </p>
+                        <p>{attendee.member ? "Yes" : "No"}</p>
+                        <p>{attendee.playLevel}</p>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </>
             ))
           )}
         </TableBody>
