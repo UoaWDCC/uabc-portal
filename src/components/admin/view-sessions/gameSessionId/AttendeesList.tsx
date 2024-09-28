@@ -7,6 +7,7 @@ import "@tanstack/react-table";
 import { ChevronsUpDown } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -17,6 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useAttendees } from "@/hooks/query/useAttendees";
+import SkeletonAttendeeList from "./EmptySkeletonAttendeeList";
 
 export const AttendeesTable = ({
   gameSessionId,
@@ -37,19 +39,19 @@ export const AttendeesTable = ({
   );
 
   return (
-    <div className="rounded border">
+    <div className="absolute left-0 w-dvw overflow-hidden rounded border md:relative">
       <Table>
-        {isLoading && <TableCaption>Loading..</TableCaption>}
+        {/* {isLoading && <TableCaption>Loading..</TableCaption>} */}
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>
+            <TableHead className="hidden md:table-cell">Email</TableHead>
+            <TableHead className="hidden md:table-cell">
               <span className="flex items-center gap-1">
                 Member <ChevronsUpDown size={16} />
               </span>
             </TableHead>
-            <TableHead>
+            <TableHead className="hidden md:table-cell">
               <span className="flex items-center gap-1">
                 Play Level <ChevronsUpDown size={16} />
               </span>
@@ -57,17 +59,39 @@ export const AttendeesTable = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {attendees?.map((attendee, i) => (
-            <TableRow key={i}>
-              <TableCell className="font-medium">
-                {attendee.name}{" "}
-                {attendee.pro && <Badge className="ml-2">Pro</Badge>}
-              </TableCell>
-              <TableCell>{attendee.email}</TableCell>
-              <TableCell>{attendee.member ? "Yes" : "No"}</TableCell>
-              <TableCell>{attendee.playLevel}</TableCell>
-            </TableRow>
-          ))}
+          {isLoading ? (
+            <SkeletonAttendeeList />
+          ) : (
+            attendees?.map((attendee, i) => (
+              <TableRow key={i}>
+                <TableCell className="place-items-center p-0 pl-4 font-medium md:p-4">
+                  {attendee.name} <br className="md:hidden" />
+                  {attendee.pro && <Badge className="md:ml-2">Pro</Badge>}
+                </TableCell>
+                <TableCell className="hidden md:table-cell">
+                  {attendee.email}
+                </TableCell>
+                <TableCell className="hidden md:table-cell">
+                  {attendee.member ? "Yes" : "No"}
+                </TableCell>
+                <TableCell className="hidden md:table-cell">
+                  {attendee.playLevel}
+                </TableCell>
+                <TableCell className="flex md:hidden">
+                  <div className="mr-1 flex flex-col">
+                    <strong>Email:</strong>
+                    <strong>Member:</strong>
+                    <strong>Level:</strong>
+                  </div>
+                  <div className="w-60 truncate">
+                    <p>{attendee.email} </p>
+                    <p>{attendee.member ? "Yes" : "No"}</p>
+                    <p>{attendee.playLevel}</p>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </div>

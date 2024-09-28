@@ -14,7 +14,10 @@ export default function ClientViewSessionsPageWithId({
   const date = data?.date;
   return (
     <>
-      <NavigationBar title="Attendees" pathName="/admin/view-sessions" />
+      <NavigationBar
+        title={isLoading ? "Loading..." : formatFullDate(date!)}
+        pathName="/admin/view-sessions"
+      />
       <div className="flex grow flex-col items-center">
         <div className="flex w-full flex-col gap-y-4 px-6 py-4 lg:mt-12 lg:w-4/5 lg:min-w-fit lg:px-12">
           <h1 className="text-2xl font-semibold">Attendees</h1>
@@ -22,6 +25,8 @@ export default function ClientViewSessionsPageWithId({
             Here&apos;s the attendee list for the session on{" "}
             <strong>{isLoading ? "Loading..." : formatFullDate(date!)}</strong>
           </p>
+        </div>
+        <div className="flex w-full md:px-4">
           <AttendeesTable gameSessionId={gameSessionId} />
         </div>
       </div>
