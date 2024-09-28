@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import "@tanstack/react-table";
 
@@ -30,7 +30,6 @@ export const AttendeesTable = ({
   gameSessionId: number;
 }) => {
   const { data, isLoading } = useAttendees(gameSessionId);
-
   const attendees = useMemo(
     () =>
       data?.map((attendee) => {
@@ -43,7 +42,7 @@ export const AttendeesTable = ({
   );
 
   return (
-    <div className="overflow-hidden rounded border md:relative">
+    <div className="mb-32 overflow-hidden rounded border md:relative">
       <Table>
         {/* {isLoading && <TableCaption>Loading..</TableCaption>} */}
         <TableHeader>
@@ -51,14 +50,14 @@ export const AttendeesTable = ({
             <TableHead>Name</TableHead>
             <TableHead className="hidden md:table-cell">Email</TableHead>
             <TableHead className="hidden md:table-cell">
-              <span className="flex items-center gap-1">
+              <p className="flex items-center gap-1">
                 Member <ChevronsUpDown size={16} />
-              </span>
+              </p>
             </TableHead>
             <TableHead className="hidden md:table-cell">
-              <span className="flex items-center gap-1">
+              <p className="flex items-center gap-1">
                 Play Level <ChevronsUpDown size={16} />
-              </span>
+              </p>
             </TableHead>
           </TableRow>
         </TableHeader>
