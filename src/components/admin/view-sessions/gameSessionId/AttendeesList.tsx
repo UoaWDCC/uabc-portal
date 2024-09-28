@@ -1,13 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import {
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { useMemo } from "react";
+
+import "@tanstack/react-table";
+
 import { ChevronsUpDown } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -18,7 +17,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useAttendees } from "@/hooks/query/useAttendees";
-import { columns } from "./columns";
 
 export const AttendeesTable = ({
   gameSessionId,
@@ -26,11 +24,6 @@ export const AttendeesTable = ({
   gameSessionId: number;
 }) => {
   const { data, isLoading } = useAttendees(gameSessionId);
-
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 10,
-  });
 
   const attendees = useMemo(
     () =>
@@ -42,22 +35,6 @@ export const AttendeesTable = ({
       }),
     [data]
   );
-
-  const table = useReactTable({
-    data: attendees ?? [],
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    initialState: {
-      columnVisibility: {
-        id: false,
-      },
-    },
-    onPaginationChange: setPagination,
-    state: {
-      pagination,
-    },
-  });
 
   return (
     <div className="rounded border">
@@ -82,7 +59,10 @@ export const AttendeesTable = ({
         <TableBody>
           {attendees?.map((attendee, i) => (
             <TableRow key={i}>
-              <TableCell className="font-medium">{attendee.name}</TableCell>
+              <TableCell className="font-medium">
+                {attendee.name}{" "}
+                {attendee.pro && <Badge className="ml-2">Pro</Badge>}
+              </TableCell>
               <TableCell>{attendee.email}</TableCell>
               <TableCell>{attendee.member ? "Yes" : "No"}</TableCell>
               <TableCell>{attendee.playLevel}</TableCell>
