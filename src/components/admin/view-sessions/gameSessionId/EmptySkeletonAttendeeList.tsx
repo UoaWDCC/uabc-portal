@@ -1,5 +1,3 @@
-import { Badge } from "lucide-react";
-
 import { Skeleton } from "@/components/ui/skeleton";
 import { TableCell, TableRow } from "@/components/ui/table";
 

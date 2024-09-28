@@ -47,7 +47,10 @@ export default function ClientViewSessionsPageWithId({
         <div className="flex w-full flex-col gap-y-4 px-6 py-4 lg:mt-12 lg:w-4/5 lg:min-w-fit lg:px-12">
           <h1 className="flex justify-between text-2xl font-semibold">
             <p>Attendees</p>
-            <Button className="font-semibold" onClick={handleDownloadcsv}>
+            <Button
+              className="hidden font-semibold md:block"
+              onClick={handleDownloadcsv}
+            >
               Download attendees list
             </Button>
           </h1>
