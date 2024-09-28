@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { z } from "zod";
 
-import { useGameSessionId } from "@/hooks/query/game-sessions";
 import { getAttendeesFromId } from "@/services/game-sessions";
 import ClientViewSessionsPageWithId from "./client-page";
 
