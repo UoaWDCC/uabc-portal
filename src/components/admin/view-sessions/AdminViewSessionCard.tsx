@@ -38,30 +38,6 @@ export function AdminViewSessionCard({
   state,
   className,
 }: AdminViewSessionCardProps) {
-  const { toast } = useToast();
-
-  async function downloadAttendeesList() {
-    const res = await fetch(`/api/game-sessions/${id}/download`);
-    if (!res.ok) {
-      throw new Error("Failed to download attendees list");
-    }
-    const fileContents = await res.blob();
-    const a = document.createElement("a");
-    const url = URL.createObjectURL(fileContents);
-    a.href = url;
-    a.download = `${title} attendees list.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  async function handleButtonClick() {
-    try {
-      await downloadAttendeesList();
-    } catch {
-      toast({ variant: "destructive", title: "Uh oh! Something went wrong." });
-    }
-  }
-
   return (
     <Card
       className={cn("relative flex flex-col gap-4 border", className)}
@@ -109,29 +85,15 @@ export function AdminViewSessionCard({
           </p>
         </div>
       </div>
-      <div className="grid gap-2 sm:grid-cols-2">
-        <Button
-          className="w-full font-semibold"
-          disabled={attendees === 0}
-          onClick={handleButtonClick}
-        >
-          Download attendees list
+      <Link
+        key={id}
+        href={`/admin/view-sessions/${id}`}
+        className={cn(attendees === 0 && "pointer-events-none")}
+      >
+        <Button className="w-full font-semibold" disabled={attendees === 0}>
+          View attendees list
         </Button>
-
-        <Link
-          key={id}
-          href={`/admin/view-sessions/${id}`}
-          className={cn(attendees === 0 && "pointer-events-none")}
-        >
-          <Button
-            className="w-full font-semibold"
-            variant="outline"
-            disabled={attendees === 0}
-          >
-            View attendees list
-          </Button>
-        </Link>
-      </div>
+      </Link>
     </Card>
   );
 }

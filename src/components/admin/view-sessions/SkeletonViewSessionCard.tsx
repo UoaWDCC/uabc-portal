@@ -21,9 +21,6 @@ export const SkeletonViewSessionCard = () => (
       </div>
       <Skeleton className="h-4 w-[150px] bg-tertiary/20" />
     </div>
-    <div className="grid gap-2 sm:grid-cols-2">
-      <Skeleton className="h-10 w-full bg-tertiary/20" />
-      <Skeleton className="h-10 w-full bg-tertiary/20" />
-    </div>
+    <Skeleton className="h-10 w-full bg-tertiary/20" />
   </Card>
 );

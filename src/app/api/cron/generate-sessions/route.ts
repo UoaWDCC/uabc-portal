@@ -11,6 +11,7 @@ import { toZonedTime } from "date-fns-tz";
 import { and, eq, gte, lte } from "drizzle-orm";
 
 import { env } from "@/env";
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import {
   gameSessionExceptions,
@@ -33,7 +34,7 @@ export const POST = routeWrapper(async () => {
   const apiKey = headersList.get("x-api-key");
 
   if (!apiKey || apiKey !== env.CRON_SECRET) {
-    return NextResponse.json("Missing or invalid API key", { status: 401 });
+    return responses.notAuthenticated();
   }
 
   // get current time standardised to NZ time
@@ -48,7 +49,9 @@ export const POST = routeWrapper(async () => {
   });
 
   if (!activeSemester) {
-    return NextResponse.json("No active semester found.", { status: 400 });
+    return responses.badRequest({
+      message: "No active semester found.",
+    });
   }
 
   const semesterInterval = interval(
@@ -141,7 +144,7 @@ export const POST = routeWrapper(async () => {
   }
 
   if (gameSessionsToInsert.length === 0) {
-    return NextResponse.json("No game sessions to insert", { status: 200 });
+    return responses.success({ message: "No game sessions to insert" });
   }
 
   const insertedGameSessions = await db

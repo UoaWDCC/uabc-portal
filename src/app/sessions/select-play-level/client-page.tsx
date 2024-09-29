@@ -3,8 +3,8 @@
 import { useMemo, useState } from "react";
 import { redirect, useRouter } from "next/navigation";
 
+import { BackNavigationBar } from "@/components/BackNavigationBar";
 import { ExpandedSessionCard } from "@/components/booking/sessions/ExpandedSessionCard";
-import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useCartStore } from "@/stores/useCartStore";
@@ -36,48 +36,60 @@ export default function ClientSelectPlayLevelPage() {
   );
 
   const handleConfirmButtonClick = async () => {
-    try {
-      setIsSubmitting(true);
+    setIsSubmitting(true);
 
-      const payload = sortedSessions.map((session) => ({
-        gameSessionId: session.id,
-        playLevel: session.playLevel,
-      }));
+    const payload = sortedSessions.map((session) => ({
+      gameSessionId: session.id,
+      playLevel: session.playLevel,
+    }));
 
-      const response = await fetch("/api/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+    const res = await fetch("/api/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
 
-      if (response.ok) {
-        const { id } = await response.json();
-        router.push(`/booking-confirmation/${id}`);
-        router.refresh();
-      } else if (response.status === 409) {
+    if (res.ok) {
+      const { id } = await res.json();
+      router.push(`/booking-confirmation/${id}`);
+      router.refresh();
+    } else {
+      const { code } = await res.json();
+
+      if (code === "SESSION_FULL") {
         toast({
-          title: "Something went wrong.",
-          description: "A session you selected has reached its max capacity. ",
+          title: "Session Full",
+          description:
+            "Unfortunately, one of the sessions you selected is now full. Please choose another session.",
           variant: "destructive",
         });
-        router.push("/sessions");
+      } else if (code === "ALREADY_BOOKED") {
+        toast({
+          title: "Something went wrong.",
+          description:
+            "An error occurred while confirming your booking. Please try again.",
+          variant: "destructive",
+        });
+      } else if (code === "LIMIT_REACHED") {
+        toast({
+          title: "Maximum booking limit reached.",
+          description: `You have already reached the session booking limit for this week.`,
+          variant: "destructive",
+        });
       } else {
-        throw new Error("Failed to confirm booking");
+        toast({
+          title: "Something went wrong.",
+          description:
+            "An error occurred while confirming your booking. Please try again.",
+          variant: "destructive",
+        });
       }
-    } catch (error) {
-      console.error("Error while confirming booking:", error);
-      toast({
-        title: "Something went wrong.",
-        description:
-          "An error occurred while confirming your booking. Please try again.",
-        variant: "destructive",
-      });
+
       router.push("/sessions");
-    } finally {
-      setIsSubmitting(false);
     }
+    setIsSubmitting(false);
   };
 
   if (!cart.length) {
@@ -86,7 +98,10 @@ export default function ClientSelectPlayLevelPage() {
 
   return (
     <div className="mx-4 flex h-dvh flex-col gap-y-4">
-      <NavigationBar title="Select your level of play" pathName="/sessions" />
+      <BackNavigationBar
+        title="Select your level of play"
+        pathName="/sessions"
+      />
 
       {sortedSessions.map((session) => (
         <div key={session.id} className="mb-4">

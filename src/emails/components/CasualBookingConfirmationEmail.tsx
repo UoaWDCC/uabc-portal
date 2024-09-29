@@ -21,11 +21,13 @@ interface BookingDetail {
 
 interface CasualBookingConfirmationEmailProps {
   firstName: string;
+  lastName: string;
   bookingDetail: BookingDetail;
 }
 
 export default function CasualBookingConfirmationEmail({
   firstName,
+  lastName,
   bookingDetail,
 }: CasualBookingConfirmationEmailProps) {
   return (
@@ -64,9 +66,9 @@ export default function CasualBookingConfirmationEmail({
       <Text>
         Particular: UABCS1
         <br />
-        Code: First Name
+        Code: {firstName}
         <br />
-        Reference: Last Name
+        Reference: {lastName}
       </Text>
       <Text>We&apos;ll see you on the courts! &#127992;</Text>
       <Text>
