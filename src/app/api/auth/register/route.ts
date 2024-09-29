@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { hash } from "bcrypt";
 import { desc, eq } from "drizzle-orm";
 import { z } from "zod";

@@ -3,8 +3,8 @@
 import { useMemo, useState } from "react";
 import { redirect, useRouter } from "next/navigation";
 
+import { BackNavigationBar } from "@/components/BackNavigationBar";
 import { ExpandedSessionCard } from "@/components/booking/sessions/ExpandedSessionCard";
-import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useCartStore } from "@/stores/useCartStore";
@@ -98,7 +98,10 @@ export default function ClientSelectPlayLevelPage() {
 
   return (
     <div className="mx-4 flex h-dvh flex-col gap-y-4">
-      <NavigationBar title="Select your level of play" pathName="/sessions" />
+      <BackNavigationBar
+        title="Select your level of play"
+        pathName="/sessions"
+      />
 
       {sortedSessions.map((session) => (
         <div key={session.id} className="mb-4">

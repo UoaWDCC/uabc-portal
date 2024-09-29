@@ -89,8 +89,7 @@ export const EditScheduleFormDialog = () => {
     mutate(
       { id, body },
       {
-        onError: (e) => {
-          console.log(e);
+        onError: () => {
           toast({
             title: "Uh oh! Something went wrong",
             description:
