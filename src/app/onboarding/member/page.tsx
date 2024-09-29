@@ -3,8 +3,8 @@
 import { redirect, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
+import { BackNavigationBar } from "@/components/BackNavigationBar";
 import { MembershipTypeSelector } from "@/components/MembershipTypeSelector";
-import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
 import { useOnboardingDetailsStore } from "@/stores/useOnboardingDetailsStore";
 
@@ -54,7 +54,7 @@ const MembershipType = () => {
 
   return (
     <div className="mx-4 flex h-dvh flex-col gap-y-4">
-      <NavigationBar
+      <BackNavigationBar
         title="Select your membership type"
         pathName="/onboarding/name"
       />

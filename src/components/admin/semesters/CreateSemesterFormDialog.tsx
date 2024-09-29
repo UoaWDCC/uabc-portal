@@ -84,15 +84,15 @@ export const CreateSemesterFormDialog = () => {
         },
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        await response.text().then((text) => {
-          if (response.statusText == "nameError") {
-            setError("name", { message: text });
-          }
-          throw new Error(text || "An has error occurred");
-        });
+        if (data.code === "DUPLICATE_NAME") {
+          setError("name", { message: data.message });
+        }
+        throw new Error(data.code);
       }
-      return response.json();
+      return data;
     },
   });
 
@@ -109,17 +109,28 @@ export const CreateSemesterFormDialog = () => {
 
     mutation.mutate(newSemester, {
       onError: (e) => {
-        toast({
-          title: "Uh oh! Something went wrong",
-          description: `${e.message}.`,
-          variant: "destructive",
-        });
+        if (e.message === "DUPLICATE_NAME") return;
+        if (e.message === "OVERLAPPING_SEMESTER") {
+          toast({
+            title: "Overlapping Semester",
+            description:
+              "The semester dates overlap with an existing semester. Please adjust the dates.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Uh oh! Something went wrong",
+            description:
+              "An error occurred while updating the semester. Please try again.",
+            variant: "destructive",
+          });
+        }
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SEMESTERS] });
         toast({
           title: "Success!",
-          description: "successfully created semester",
+          description: "Semester successfully created.",
         });
         reset();
         closeDialog();

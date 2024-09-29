@@ -60,8 +60,8 @@ export const sendEmail = async ({
         Data: subject,
       },
     },
-    ReplyToAddresses: [replyToAddresses ?? env.SENDER_EMAIL_ADDRESS],
-    Source: env.SENDER_EMAIL_ADDRESS,
+    ReplyToAddresses: [replyToAddresses ?? env.REPLY_TO],
+    Source: env.MAIL_FROM,
   });
 
   await client.send(sendEmailCommand);
@@ -76,6 +76,8 @@ export const sendBookingConfirmationEmail = async (
   if (!booking || booking.userId !== user.id)
     throw new Error("Booking not found");
 
+  if (!user.firstName || !user.lastName) return;
+
   const bookingDetails = booking.bookingDetails.map((bookingDetail) => {
     return {
       ...bookingDetail.gameSession,
@@ -89,7 +91,7 @@ export const sendBookingConfirmationEmail = async (
       subject: "Booking Confirmation",
       html: render(
         MemberBookingConfirmationEmail({
-          firstName: user.firstName!,
+          firstName: user.firstName,
           bookingDetails,
         })
       ),
@@ -100,7 +102,8 @@ export const sendBookingConfirmationEmail = async (
       subject: "Booking Confirmation",
       html: render(
         CasualBookingConfirmationEmail({
-          firstName: user.firstName!,
+          firstName: user.firstName,
+          lastName: user.lastName,
           bookingDetail: bookingDetails[0],
         })
       ),
@@ -109,12 +112,14 @@ export const sendBookingConfirmationEmail = async (
 };
 
 export const sendNoMoreSessionsRemainingEmail = async (user: User) => {
+  if (!user.firstName) return;
+
   await sendEmail({
     toAddresses: [user.email],
     subject: "No More Sessions Available",
     html: render(
       NoMoreSessionsRemainingEmail({
-        firstName: user.firstName!,
+        firstName: user.firstName,
       })
     ),
   });
@@ -139,12 +144,14 @@ export const sendMemberApprovalEmail = async (
   user: User,
   prepaidSessionCount: number
 ) => {
+  if (!user.firstName) return;
+
   await sendEmail({
     toAddresses: [user.email],
     subject: "Membership Approved",
     html: render(
       MemberApprovalEmail({
-        firstName: user.firstName!,
+        firstName: user.firstName,
         prepaidSessionCount: prepaidSessionCount,
       })
     ),
@@ -152,12 +159,14 @@ export const sendMemberApprovalEmail = async (
 };
 
 export const sendMemberRejectionEmail = async (user: User) => {
+  if (!user.firstName) return;
+
   await sendEmail({
     toAddresses: [user.email],
     subject: "Membership Approved",
     html: render(
       MemberRejectionEmail({
-        firstName: user.firstName!,
+        firstName: user.firstName,
       })
     ),
   });

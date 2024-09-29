@@ -1,124 +1,101 @@
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { and, eq, gt, gte, lte, ne, or } from "drizzle-orm";
 import { z } from "zod";
 
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { bookingPeriods, semesters } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
 import { getZonedBookingOpenTime } from "@/lib/utils/game-sessions";
 import { updateSemesterSchema } from "@/lib/validators";
+import { adminRouteWrapper } from "@/lib/wrappers";
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { semesterId: number } }
-) {
-  try {
-    const user = await getCurrentUser();
-    if (!user) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
-    if (user.role != "admin") {
-      return new Response("ERROR: No valid permissions", { status: 403 });
-    }
+const routeContextSchema = z.object({
+  params: z.object({
+    semesterId: z.coerce.number(),
+  }),
+});
 
-    const { semesterId } = params;
+export const GET = adminRouteWrapper(
+  async (_req, ctx: z.infer<typeof routeContextSchema>) => {
+    const {
+      params: { semesterId },
+    } = routeContextSchema.parse(ctx);
 
     const semester = await db.query.semesters.findFirst({
       where: eq(semesters.id, semesterId),
     });
 
     if (!semester) {
-      return new Response(`No semester found for id: ${semesterId}`, {
-        status: 404,
+      return responses.notFound({
+        resourceType: "semester",
+        resourceId: semesterId,
       });
     }
 
     return NextResponse.json(semester, { status: 200 });
-  } catch {
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);
 
-export async function DELETE(
-  _req: NextRequest,
-  { params }: { params: { semesterId: number } }
-) {
-  try {
-    const user = await getCurrentUser();
-    if (!user) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
-    if (user.role != "admin") {
-      return new Response("ERROR: No valid permissions", { status: 403 });
-    }
-
-    const { semesterId } = params;
+export const DELETE = adminRouteWrapper(
+  async (_req, ctx: z.infer<typeof routeContextSchema>) => {
+    const {
+      params: { semesterId },
+    } = routeContextSchema.parse(ctx);
 
     const semester = await db.query.semesters.findFirst({
       where: eq(semesters.id, semesterId),
     });
 
     if (!semester) {
-      return new Response(`No semester found for id: ${semesterId}`, {
-        status: 404,
+      return responses.notFound({
+        resourceType: "semester",
+        resourceId: semesterId,
       });
     }
 
     await db.delete(semesters).where(eq(semesters.id, semesterId));
 
     return new Response(null, { status: 204 });
-  } catch {
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { semesterId: number } }
-) {
-  try {
-    const user = await getCurrentUser();
-    if (!user) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
-    if (user.role != "admin") {
-      return new Response("ERROR: No valid permissions", { status: 403 });
-    }
-
-    const { semesterId } = params;
+export const PUT = adminRouteWrapper(
+  async (req, ctx: z.infer<typeof routeContextSchema>) => {
+    const {
+      params: { semesterId },
+    } = routeContextSchema.parse(ctx);
 
     const updatedSemester = updateSemesterSchema.parse(await req.json());
 
     if (
       new Date(updatedSemester.startDate) > new Date(updatedSemester.endDate)
     ) {
-      return new Response("Start date must be less than end date", {
-        status: 400,
+      return responses.badRequest({
+        message: "Start date must be less than end date",
       });
     }
 
     if (
       new Date(updatedSemester.breakStart) > new Date(updatedSemester.breakEnd)
     ) {
-      return new Response("Break start date must be less than break end date", {
-        status: 400,
+      return responses.badRequest({
+        message: "Break start date must be less than break end date",
       });
     }
 
     if (
       new Date(updatedSemester.breakStart) < new Date(updatedSemester.startDate)
     ) {
-      return new Response("Break start date must be after start date", {
-        status: 400,
+      return responses.badRequest({
+        message: "Break start date must be after start date",
       });
     }
 
     if (
       new Date(updatedSemester.breakEnd) > new Date(updatedSemester.endDate)
     ) {
-      return new Response("Break end date must be before end date", {
-        status: 400,
+      return responses.badRequest({
+        message: "Break end date must be before end date",
       });
     }
 
@@ -127,8 +104,9 @@ export async function PUT(
     });
 
     if (!semester) {
-      return new Response(`No semester found for id: ${semesterId}`, {
-        status: 400,
+      return responses.notFound({
+        resourceType: "semester",
+        resourceId: semesterId,
       });
     }
 
@@ -147,13 +125,13 @@ export async function PUT(
 
     if (existingSemester) {
       if (existingSemester.name === updatedSemester.name)
-        return new Response("This name already exists, please pick another", {
-          status: 400,
-          statusText: "nameError",
+        return responses.badRequest({
+          message: "A semester with this name already exists.",
+          code: "DUPLICATE_NAME",
         });
-      return new Response("Semesters cannot overlap", {
-        status: 400,
-        statusText: "nameError",
+      return responses.badRequest({
+        message: "Semester interval cannot overlap with another semester.",
+        code: "OVERLAPPING_SEMESTER",
       });
     }
 
@@ -188,11 +166,5 @@ export async function PUT(
     });
 
     return new Response(null, { status: 204 });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ errors: error.issues }, { status: 400 });
-    }
-    console.error(error);
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);

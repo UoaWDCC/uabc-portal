@@ -1,0 +1,22 @@
+name: "Tag Release and Deploy"
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  tagged-release:
+    name: "Tagged Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+
+  deploy:
+    name: "Deploy Production"
+    needs: [tagged-release]
+    uses: ./.github/workflows/deploy-prod.yml
+    secrets: inherit

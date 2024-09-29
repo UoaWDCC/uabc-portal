@@ -1,32 +1,22 @@
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-import { z } from "zod";
 
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
 import { updateUserSchema } from "@/lib/validators";
+import { userRouteWrapper } from "@/lib/wrappers";
 import { userCache } from "@/services/user";
 
 /**
  * PATCH function that updates a user's details
  */
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
-  try {
+
+export const PATCH = userRouteWrapper(
+  async (req, { params }: { params: { userId: string } }, currentUser) => {
     const { userId } = params;
 
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
-
     if (currentUser.id !== userId) {
-      return new Response("ERROR: No valid permissions", { status: 403 });
+      return responses.forbidden();
     }
 
     const body = await req.json();
@@ -38,8 +28,9 @@ export async function PATCH(
     });
 
     if (!user) {
-      return new Response(`No User found for id: ${currentUser.id}`, {
-        status: 404,
+      return responses.notFound({
+        resourceType: "user",
+        resourceId: currentUser.id,
       });
     }
 
@@ -53,11 +44,5 @@ export async function PATCH(
     return new Response(null, {
       status: 204,
     });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ errors: error.issues }, { status: 400 });
-    }
-    console.error(error);
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);

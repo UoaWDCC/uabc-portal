@@ -1,53 +1,45 @@
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { gameSessionSchedules } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
 import { updateGameSessionScheduleSchema } from "@/lib/validators";
+import { adminRouteWrapper } from "@/lib/wrappers";
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { scheduleId: number } }
-) {
-  try {
-    const { scheduleId } = params;
+const routeContextSchema = z.object({
+  params: z.object({
+    scheduleId: z.coerce.number(),
+  }),
+});
+
+export const GET = adminRouteWrapper(
+  async (_req, ctx: z.infer<typeof routeContextSchema>) => {
+    const {
+      params: { scheduleId },
+    } = routeContextSchema.parse(ctx);
 
     const gameSessionSchedule = await db.query.gameSessionSchedules.findFirst({
       where: eq(gameSessionSchedules.id, scheduleId),
     });
 
     if (!gameSessionSchedule) {
-      return new Response(
-        `No GameSessionSchedule found for id: ${scheduleId}`,
-        {
-          status: 404,
-        }
-      );
+      return responses.notFound({
+        resourceType: "gameSessionSchedule",
+        resourceId: scheduleId,
+      });
     }
 
     return NextResponse.json(gameSessionSchedule);
-  } catch {
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { scheduleId: number } }
-) {
-  try {
-    const user = await getCurrentUser();
-    if (!user) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
-    if (user.role != "admin") {
-      return new Response("ERROR: No valid permissions", { status: 403 });
-    }
-
-    const { scheduleId } = params;
+export const PUT = adminRouteWrapper(
+  async (req, ctx: z.infer<typeof routeContextSchema>) => {
+    const {
+      params: { scheduleId },
+    } = routeContextSchema.parse(ctx);
 
     const updatedGameSession = updateGameSessionScheduleSchema.parse(
       await req.json()
@@ -57,17 +49,15 @@ export async function PUT(
     });
 
     if (!gameSessionSchedule) {
-      return new Response(
-        `No GameSessionSchedule found for id: ${scheduleId}`,
-        {
-          status: 400,
-        }
-      );
+      return responses.notFound({
+        resourceType: "gameSessionSchedule",
+        resourceId: scheduleId,
+      });
     }
 
     if (updatedGameSession.startTime >= updatedGameSession.endTime) {
-      return new Response("Start time must be before end time", {
-        status: 400,
+      return responses.badRequest({
+        message: "Start time must be before end time",
       });
     }
 
@@ -77,47 +67,29 @@ export async function PUT(
       .where(eq(gameSessionSchedules.id, scheduleId))
       .returning();
     return NextResponse.json(res);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ errors: error.issues }, { status: 400 });
-    }
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);
 
-export async function DELETE(
-  _req: NextRequest,
-  { params }: { params: { scheduleId: number } }
-) {
-  try {
-    const user = await getCurrentUser();
-    if (!user) {
-      return new Response("ERROR: Unauthorized request", { status: 401 });
-    }
-    if (user.role != "admin") {
-      return new Response("ERROR: No valid permissions", { status: 403 });
-    }
-
-    const { scheduleId } = params;
+export const DELETE = adminRouteWrapper(
+  async (_req, ctx: z.infer<typeof routeContextSchema>) => {
+    const {
+      params: { scheduleId },
+    } = routeContextSchema.parse(ctx);
 
     const gameSessionSchedule = await db.query.gameSessionSchedules.findFirst({
       where: eq(gameSessionSchedules.id, scheduleId),
     });
 
     if (!gameSessionSchedule) {
-      return new Response(
-        `No GameSessionSchedule found for id: ${scheduleId}`,
-        {
-          status: 400,
-        }
-      );
+      return responses.notFound({
+        resourceType: "gameSessionSchedule",
+        resourceId: scheduleId,
+      });
     }
 
     await db
       .delete(gameSessionSchedules)
       .where(eq(gameSessionSchedules.id, scheduleId));
     return new Response(null, { status: 204 });
-  } catch {
-    return new Response("Internal Server Error", { status: 500 });
   }
-}
+);

@@ -29,9 +29,14 @@ import SkeletonAttendeeList from "./EmptySkeletonAttendeeList";
 
 const sortByMember = (a: AttendeesListResponse) => (a.member ? -1 : 1);
 
-const sortByPlayLevel = (a: AttendeesListResponse, b: AttendeesListResponse) =>
-  a.playLevel.localeCompare(b.playLevel);
+const playLevelMap = {
+  beginner: 0,
+  intermediate: 1,
+  advanced: 2,
+};
 
+const sortByPlayLevel = (a: AttendeesListResponse, b: AttendeesListResponse) =>
+  playLevelMap[a.playLevel] - playLevelMap[b.playLevel];
 const sortByEmail = (a: AttendeesListResponse, b: AttendeesListResponse) =>
   a.email.localeCompare(b.email);
 
@@ -136,7 +141,7 @@ export const AttendeesTable = ({
                 <TableCell className="hidden md:table-cell">
                   {attendee.member ? "Yes" : "No"}
                 </TableCell>
-                <TableCell className="hidden md:table-cell">
+                <TableCell className="hidden capitalize md:table-cell">
                   {attendee.playLevel}
                 </TableCell>
               </TableRow>
@@ -162,14 +167,14 @@ export const AttendeesTable = ({
               <div className="mr-1 flex flex-col">
                 <strong>Email:</strong>
                 <strong>Member:</strong>
-                <strong>Level:</strong>
+                <strong>Play Level:</strong>
               </div>
               <div>
                 <p className="max-w-[200px] truncate xs:max-w-max">
                   {attendee.email}{" "}
                 </p>
                 <p>{attendee.member ? "Yes" : "No"}</p>
-                <p>{attendee.playLevel}</p>
+                <p className="capitalize">{attendee.playLevel}</p>
               </div>
             </AccordionContent>
           </AccordionItem>

@@ -103,9 +103,7 @@ export const EditSemesterFormDialog = () => {
         },
       });
 
-      if (!response.ok) {
-        throw new Error();
-      }
+      if (!response.ok) throw new Error((await response.json()).code);
     },
   });
 
@@ -121,13 +119,22 @@ export const EditSemesterFormDialog = () => {
     });
 
     mutation.mutate(body, {
-      onError: () => {
-        toast({
-          title: "Uh oh! Something went wrong",
-          description:
-            "An error occurred while updating the semester. Please try again.",
-          variant: "destructive",
-        });
+      onError: (e) => {
+        if (e.message === "OVERLAPPING_SEMESTER") {
+          toast({
+            title: "Overlapping Semester",
+            description:
+              "The semester dates overlap with an existing semester. Please adjust the dates.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Uh oh! Something went wrong",
+            description:
+              "An error occurred while updating the semester. Please try again.",
+            variant: "destructive",
+          });
+        }
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SEMESTERS] });

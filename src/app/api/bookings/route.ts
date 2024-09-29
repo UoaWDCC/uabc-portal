@@ -1,11 +1,13 @@
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { and, count, eq, sql, TransactionRollbackError } from "drizzle-orm";
+import { and, count, eq, gte, lte, sql } from "drizzle-orm";
 import { z } from "zod";
 
 import {
   sendBookingConfirmationEmail,
   sendNoMoreSessionsRemainingEmail,
 } from "@/emails";
+import { responses } from "@/lib/api/responses";
 import { MEMBER_MAX_SESSIONS, NON_MEMBER_MAX_SESSIONS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import {
@@ -15,10 +17,12 @@ import {
   gameSessions,
   users,
 } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
+import { StatusError } from "@/lib/exceptions";
 import { obfuscateId } from "@/lib/sqid";
 import { nzstParse } from "@/lib/utils/dates";
+import { userRouteWrapper } from "@/lib/wrappers";
 import { userCache } from "@/services/user";
+import type { User } from "@/types/next-auth";
 
 /**
  * Creates a booking for the current user
@@ -35,15 +39,10 @@ const bookingSchema = z.array(
   })
 );
 
-export async function POST(request: Request) {
-  try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser)
-      return new Response("Unauthorized request", { status: 401 });
-
+export const POST = userRouteWrapper(
+  async (request: NextRequest, _, currentUser: User) => {
     if (currentUser.member && !currentUser.verified) {
-      return new Response("Unverified member", { status: 403 });
+      return responses.forbidden();
     }
 
     // parse the input array of objects and check if the user has enough sessions
@@ -51,15 +50,19 @@ export async function POST(request: Request) {
     const numOfSessions = body.length;
 
     if (numOfSessions === 0)
-      return new Response("Must book at least one session", {
-        status: 400,
+      return responses.badRequest({
+        message: "Must book at least 1 session",
       });
 
     // find user
     const user = await db.query.users.findFirst({
-      where: eq(users.id, currentUser!.id),
+      where: eq(users.id, currentUser.id),
     });
-    if (!user) return new Response("User not found", { status: 404 });
+    if (!user)
+      return responses.notFound({
+        resourceType: "user",
+        resourceId: currentUser.id,
+      });
 
     const allowedBookingCount = user?.member
       ? MEMBER_MAX_SESSIONS
@@ -69,28 +72,35 @@ export async function POST(request: Request) {
       .select({ count: count() })
       .from(bookings)
       .innerJoin(bookingDetails, eq(bookings.id, bookingDetails.bookingId))
-      .where(
+      .innerJoin(
+        bookingPeriods,
         and(
-          eq(bookings.userId, currentUser!.id),
-          sql`date_trunc('week', ${bookings.createdAt}) = date_trunc('week', CURRENT_DATE)`
+          gte(bookings.createdAt, bookingPeriods.bookingOpenTime),
+          lte(bookings.createdAt, bookingPeriods.bookingCloseTime)
         )
-      );
+      )
+      .where(eq(bookings.userId, currentUser.id));
 
     // if user has already booked the maximum allowed sessions for this week
     if (bookingsThisWeek.count + numOfSessions > allowedBookingCount) {
-      return new Response("Maximum booking limit exceed", { status: 400 });
+      return responses.badRequest({
+        message: "Maximum booking limit already reached for this week",
+        code: "LIMIT_REACHED",
+      });
     }
 
     // if the user is a member, check if they have enough prepaid sessions
     if (user?.member === true && user.prepaidSessions < numOfSessions) {
-      return new Response("Insufficient prepaid sessions", {
-        status: 400,
+      return responses.badRequest({
+        message: "Insufficient prepaid sessions remaining",
       });
     }
 
     // check if there are duplicate game session ids in the request
     if (numOfSessions == 2 && body[0].gameSessionId == body[1].gameSessionId) {
-      return new Response("Duplicate game session ids", { status: 400 });
+      return responses.badRequest({
+        message: "Duplicate game session ids",
+      });
     }
 
     for (const session of body) {
@@ -105,8 +115,12 @@ export async function POST(request: Request) {
             eq(bookingDetails.gameSessionId, session.gameSessionId)
           )
         );
+
       if (existingBooking) {
-        return new Response("Booking already exists", { status: 400 });
+        return responses.badRequest({
+          message: "You have already booked this game session.",
+          code: "ALREADY_BOOKED",
+        });
       }
 
       // check if gameSession exists
@@ -121,7 +135,10 @@ export async function POST(request: Request) {
         .where(and(eq(gameSessions.id, session.gameSessionId)));
 
       if (!result) {
-        return new Response("Game session does not exist", { status: 400 });
+        return responses.notFound({
+          resourceType: "gameSession",
+          resourceId: session.gameSessionId,
+        });
       }
 
       const { gameSession, bookingPeriod } = result;
@@ -133,19 +150,16 @@ export async function POST(request: Request) {
         new Date() >
           nzstParse(gameSession.startTime, "HH:mm:ss", gameSession.date)
       )
-        return new Response(
-          "Game session is not currently available for booking",
-          {
-            status: 400,
-          }
-        );
+        return responses.badRequest({
+          message: "Game session is not currently available for booking",
+        });
     }
 
     const bookingId = await db.transaction(async (tx) => {
       const [{ bookingId }] = await tx
         .insert(bookings)
         .values({
-          userId: currentUser!.id,
+          userId: currentUser.id,
           isMember: user.member!,
         })
         .returning({ bookingId: bookings.id });
@@ -164,7 +178,7 @@ export async function POST(request: Request) {
               SELECT ${bookingId}, ${session.gameSessionId}, ${session.playLevel}
               WHERE 
               (CASE
-                WHEN ${user!.member} = TRUE THEN
+                WHEN ${user.member} = TRUE THEN
                   (SELECT COUNT(*) 
                     FROM ${bookingDetails}
                     INNER JOIN ${bookings} ON ${bookingDetails.bookingId} = ${bookings.id}
@@ -183,7 +197,11 @@ export async function POST(request: Request) {
         );
 
         if (count === 0) {
-          throw new TransactionRollbackError();
+          throw new StatusError({
+            status: 410,
+            message: "Maximum capacity reached",
+            code: "SESSION_FULL",
+          });
         }
       }
 
@@ -194,14 +212,14 @@ export async function POST(request: Request) {
           .set({
             prepaidSessions: user.prepaidSessions - numOfSessions,
           })
-          .where(eq(users.id, currentUser!.id))
+          .where(eq(users.id, currentUser.id))
           .returning({ prepaidSessions: users.prepaidSessions });
 
         if (prepaidSessions <= 0) {
           await tx
             .update(users)
             .set({ member: false, verified: false })
-            .where(eq(users.id, currentUser!.id));
+            .where(eq(users.id, currentUser.id));
 
           await sendNoMoreSessionsRemainingEmail(user);
         }
@@ -217,14 +235,5 @@ export async function POST(request: Request) {
     await sendBookingConfirmationEmail(currentUser, obfuscatedBookingId);
 
     return NextResponse.json({ id: obfuscatedBookingId }, { status: 201 });
-  } catch (error) {
-    if (error instanceof TransactionRollbackError) {
-      return new Response("Game session at max capacity", { status: 409 });
-    } else if (error instanceof z.ZodError) {
-      return NextResponse.json({ errors: error.issues }, { status: 400 });
-    } else {
-      console.error(error);
-      return new Response("Internal server error", { status: 500 });
-    }
   }
-}
+);

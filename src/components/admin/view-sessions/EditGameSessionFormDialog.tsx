@@ -6,8 +6,12 @@ import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
 import { TextInput } from "@/components/TextInput";
+import { Button } from "@/components/ui/button";
 import {
+  DialogClose,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   useDialogContext,
@@ -101,6 +105,21 @@ export default function EditGameSessionFormDialog() {
     );
   };
 
+  if (!bookingOpen)
+    return (
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Error</DialogTitle>
+        </DialogHeader>
+        <DialogDescription>An unexpected error has occured.</DialogDescription>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button>Done</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    );
+
   return (
     <DialogContent>
       <DialogHeader>
@@ -111,7 +130,7 @@ export default function EditGameSessionFormDialog() {
           <TextInput
             label="Booking Open"
             type="text"
-            value={format(bookingOpen!, "dd/MM/yy hh:mma")}
+            value={format(bookingOpen, "dd/MM/yy hh:mma")}
             readOnly
             disabled
           />
