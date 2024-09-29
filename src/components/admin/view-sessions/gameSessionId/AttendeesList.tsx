@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import "@tanstack/react-table";
 
+import { match } from "assert";
 import { ChevronsUpDown } from "lucide-react";
 
 import {
@@ -13,6 +14,15 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -49,6 +59,7 @@ export const AttendeesTable = ({
   gameSessionId: number;
 }) => {
   const { data, isLoading } = useAttendees(gameSessionId);
+
   const attendees = useMemo(
     () =>
       data?.map((attendee) => {
@@ -59,10 +70,37 @@ export const AttendeesTable = ({
       }),
     [data]
   );
+
   const [sortedPlayers, setPlayers] = useState({
     sortid: "none",
-    attendees: attendees,
+    attendees: attendees ? [...attendees] : undefined, // copies original attendees
   });
+
+  const defaultAttendeesTable = () =>
+    setPlayers({
+      sortid: "none",
+      attendees: attendees ? [...attendees] : undefined,
+    });
+
+  const handleSelect = (sortid: string) => {
+    switch (sortid) {
+      case "name":
+        handleSort(sortid, sortByName);
+        break;
+      case "email":
+        handleSort(sortid, sortByEmail);
+        break;
+      case "member":
+        handleSort(sortid, sortByMember);
+        break;
+      case "playlevel":
+        handleSort(sortid, sortByPlayLevel);
+        break;
+      default:
+        defaultAttendeesTable();
+        break;
+    }
+  };
 
   useEffect(() => {
     setPlayers({ sortid: "none", attendees: attendees });
@@ -122,6 +160,22 @@ export const AttendeesTable = ({
               >
                 Play Level <ChevronsUpDown size={16} />
               </button>
+            </TableHead>
+            <TableHead className="flex items-center justify-end pr-1 md:hidden">
+              <Select onValueChange={handleSelect}>
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="none">None</SelectItem>
+                    <SelectItem value="name">Name</SelectItem>
+                    <SelectItem value="email">Email</SelectItem>
+                    <SelectItem value="member">Member</SelectItem>
+                    <SelectItem value="playlevel">Play level</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </TableHead>
           </TableRow>
         </TableHeader>
