@@ -29,9 +29,14 @@ import SkeletonAttendeeList from "./EmptySkeletonAttendeeList";
 
 const sortByMember = (a: AttendeesListResponse) => (a.member ? -1 : 1);
 
-const sortByPlayLevel = (a: AttendeesListResponse, b: AttendeesListResponse) =>
-  a.playLevel.localeCompare(b.playLevel);
+const playLevelMap = {
+  beginner: 0,
+  intermediate: 1,
+  advanced: 2,
+};
 
+const sortByPlayLevel = (a: AttendeesListResponse, b: AttendeesListResponse) =>
+  playLevelMap[a.playLevel] - playLevelMap[b.playLevel];
 const sortByEmail = (a: AttendeesListResponse, b: AttendeesListResponse) =>
   a.email.localeCompare(b.email);
 

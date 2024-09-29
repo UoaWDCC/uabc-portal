@@ -1,5 +1,8 @@
 "use client";
 
+import React from "react";
+import { Download } from "lucide-react";
+
 import { AttendeesTable } from "@/components/admin/view-sessions/gameSessionId/AttendeesList";
 import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
@@ -48,10 +51,12 @@ export default function ClientViewSessionsPageWithId({
           <h1 className="flex justify-between text-2xl font-semibold">
             <p>Attendees</p>
             <Button
-              className="hidden font-semibold md:block"
+              className="hidden gap-2 font-semibold md:flex"
               onClick={handleDownloadcsv}
+              variant="outline"
             >
-              Download attendees list
+              <Download size={16} />
+              Download as CSV
             </Button>
           </h1>
           <p className="text-muted-foreground">
