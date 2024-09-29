@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Clock, MapPin, Users } from "lucide-react";
 
 import { Card } from "@/components/Card";
@@ -37,30 +38,6 @@ export function AdminViewSessionCard({
   state,
   className,
 }: AdminViewSessionCardProps) {
-  const { toast } = useToast();
-
-  async function downloadAttendeesList() {
-    const res = await fetch(`/api/game-sessions/${id}/download`);
-    if (!res.ok) {
-      throw new Error("Failed to download attendees list");
-    }
-    const fileContents = await res.blob();
-    const a = document.createElement("a");
-    const url = URL.createObjectURL(fileContents);
-    a.href = url;
-    a.download = `${title} attendees list.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  async function handleButtonClick() {
-    try {
-      await downloadAttendeesList();
-    } catch {
-      toast({ variant: "destructive", title: "Uh oh! Something went wrong." });
-    }
-  }
-
   return (
     <Card
       className={cn("relative flex flex-col gap-4 border", className)}
@@ -108,13 +85,15 @@ export function AdminViewSessionCard({
           </p>
         </div>
       </div>
-      <Button
-        className="w-full font-semibold"
-        disabled={attendees === 0}
-        onClick={handleButtonClick}
+      <Link
+        key={id}
+        href={`/admin/view-sessions/${id}`}
+        className={cn(attendees === 0 && "pointer-events-none")}
       >
-        Download attendees list
-      </Button>
+        <Button className="w-full font-semibold" disabled={attendees === 0}>
+          View attendees list
+        </Button>
+      </Link>
     </Card>
   );
 }

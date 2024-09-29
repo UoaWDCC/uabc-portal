@@ -76,3 +76,26 @@ export const useGameSession = (date: string) => {
 
   return query;
 };
+
+const fetchGameSessionById = async (
+  gameSessionId: number
+): Promise<CurrentGameSessionResponse> => {
+  const response = await fetch(`/api/game-sessions/${gameSessionId}`, {
+    cache: "no-store",
+  });
+
+  if (!response.ok && response.status !== 404) {
+    throw new Error("Failed to fetch game session");
+  }
+
+  return await response.json();
+};
+
+export const useGameSessionId = (gameSessionId: number) => {
+  const query = useQuery({
+    queryKey: [QUERY_KEY.CURRENT_GAME_SESSIONS_ID, gameSessionId],
+    queryFn: () => fetchGameSessionById(gameSessionId),
+  });
+
+  return query;
+};
