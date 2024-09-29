@@ -195,7 +195,7 @@ export const AttendeesTable = ({
                 <TableCell className="hidden md:table-cell">
                   {attendee.member ? "Yes" : "No"}
                 </TableCell>
-                <TableCell className="hidden md:table-cell">
+                <TableCell className="hidden capitalize md:table-cell">
                   {attendee.playLevel}
                 </TableCell>
               </TableRow>
@@ -221,14 +221,14 @@ export const AttendeesTable = ({
               <div className="mr-1 flex flex-col">
                 <strong>Email:</strong>
                 <strong>Member:</strong>
-                <strong>Level:</strong>
+                <strong>Play Level:</strong>
               </div>
               <div>
                 <p className="max-w-[200px] truncate xs:max-w-max">
                   {attendee.email}{" "}
                 </p>
                 <p>{attendee.member ? "Yes" : "No"}</p>
-                <p>{attendee.playLevel}</p>
+                <p className="capitalize">{attendee.playLevel}</p>
               </div>
             </AccordionContent>
           </AccordionItem>
