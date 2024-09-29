@@ -21,19 +21,19 @@ const SelectTrigger = React.forwardRef<
       <SelectPrimitive.Trigger
         ref={ref}
         className={cn(
-          "peer flex h-10 w-full items-center justify-between rounded-md border border-tertiary/70 bg-background px-3 py-2 text-sm ring-inset ring-primary placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:border-primary data-[state=open]:ring-1 [&>span]:line-clamp-1",
+          "group flex h-10 w-full items-center justify-between rounded-md border border-tertiary/70 bg-background px-3 py-2 text-sm ring-inset ring-primary placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:border-primary data-[state=open]:ring-1 [&>span]:line-clamp-1",
           className
         )}
         {...props}
       >
         {label && (
-          <label
+          <span
             className={cn(
-              "absolute left-3 top-[-8px] bg-background px-1 text-xs text-black transition-all duration-200 peer-data-[state-open]:text-primary"
+              "absolute left-3 top-[-8px] bg-background px-1 text-xs text-black transition-all duration-200 group-data-[state=open]:text-primary"
             )}
           >
             {label}
-          </label>
+          </span>
         )}
         {children}
         <SelectPrimitive.Icon asChild>
