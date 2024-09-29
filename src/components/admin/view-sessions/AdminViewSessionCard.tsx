@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { OptionButtonUtils } from "@/components/ui/options-popover/OptionsButtonUtils";
 import { OptionsPopover } from "@/components/ui/options-popover/OptionsPopover";
-import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { DeleteGameSessionFormDialog } from "./DeleteGameSessionFormDialog";
 import EditGameSessionFormDialog from "./EditGameSessionFormDialog";

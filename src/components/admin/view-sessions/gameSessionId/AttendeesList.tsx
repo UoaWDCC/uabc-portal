@@ -19,7 +19,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -162,7 +161,7 @@ export const AttendeesTable = ({
               </button>
             </TableHead>
             <TableHead className="flex items-center justify-end pr-1 md:hidden">
-              <Select onValueChange={handleSelect}>
+              <Select onValueChange={handleSelect} disabled={isLoading}>
                 <SelectTrigger className="w-[150px]">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
