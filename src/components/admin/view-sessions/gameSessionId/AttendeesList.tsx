@@ -102,7 +102,10 @@ export const AttendeesTable = ({
   };
 
   useEffect(() => {
-    setPlayers({ sortid: "none", attendees: attendees });
+    setPlayers({
+      sortid: "none",
+      attendees: attendees ? [...attendees] : undefined,
+    });
   }, [attendees]);
 
   type attendeeType = NonNullable<typeof attendees>[number];
