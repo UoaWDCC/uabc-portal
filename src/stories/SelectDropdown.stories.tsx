@@ -52,7 +52,7 @@ const meta: Meta<typeof SelectDropdown> = {
   title: "Components/SelectDropdown",
   component: SelectDropdown,
   parameters: {
-    layout: "fullscreen",
+    layout: "centered",
   },
   tags: ["autodocs"],
 };
