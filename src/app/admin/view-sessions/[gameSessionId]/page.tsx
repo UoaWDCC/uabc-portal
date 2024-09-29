@@ -17,7 +17,7 @@ export default async function ViewSessionsPage(
 
   if (!result.success) notFound();
 
-  const gameSessionId = result.data.params.gameSessionId;
+  const gameSessionId = result!.data!.params.gameSessionId;
   const attendees = await getAttendeesFromId(gameSessionId);
 
   if (!attendees) notFound();
