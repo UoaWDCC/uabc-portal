@@ -1,13 +1,14 @@
 import type { ReactNode } from "react";
 import localFont from "next/font/local";
 
-import { Providers } from "@/components/Providers";
-
 import "./globals.css";
 
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
+import OriginTracker from "@/components/providers/OriginTracker";
+import QueryClientProvider from "@/components/providers/QueryClientProvider";
+import SessionProvider from "@/components/providers/SessionProvider";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
@@ -71,7 +72,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${ProximaNova.variable} ${inter.variable} font-sans`}
     >
       <body>
-        <Providers>{children}</Providers>
+        <QueryClientProvider>
+          <SessionProvider>
+            <OriginTracker>{children}</OriginTracker>
+          </SessionProvider>
+        </QueryClientProvider>
         <Toaster />
       </body>
     </html>
