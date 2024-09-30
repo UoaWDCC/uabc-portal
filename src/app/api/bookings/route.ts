@@ -68,29 +68,35 @@ export const POST = userRouteWrapper(
       ? MEMBER_MAX_SESSIONS
       : NON_MEMBER_MAX_SESSIONS;
 
-    // const [bookingsThisWeek] = await db
-    //   .select({ count: count() })
-    //   .from(bookings)
-    //   .innerJoin(bookingDetails, eq(bookings.id, bookingDetails.bookingId))
-    //   .innerJoin(
-    //     bookingPeriods,
-    //     and(
-    //       gte(bookings.createdAt, bookingPeriods.bookingOpenTime),
-    //       lte(bookings.createdAt, bookingPeriods.bookingCloseTime)
-    //     )
-    //   )
-    //   .where(eq(bookings.userId, currentUser.id));
-
     const [bookingsThisWeek] = await db
       .select({ count: count() })
       .from(bookings)
       .innerJoin(bookingDetails, eq(bookings.id, bookingDetails.bookingId))
+      .innerJoin(
+        bookingPeriods,
+        and(
+          gte(bookings.createdAt, bookingPeriods.bookingOpenTime),
+          lte(bookings.createdAt, bookingPeriods.bookingCloseTime)
+        )
+      )
       .where(
         and(
-          eq(bookings.userId, currentUser!.id),
-          sql`date_trunc('week', ${bookings.createdAt}) = date_trunc('week', CURRENT_DATE)`
+          eq(bookings.userId, currentUser.id),
+          lte(bookingPeriods.bookingOpenTime, new Date()),
+          gte(bookingPeriods.bookingCloseTime, new Date())
         )
       );
+
+    // const [bookingsThisWeek] = await db
+    //   .select({ count: count() })
+    //   .from(bookings)
+    //   .innerJoin(bookingDetails, eq(bookings.id, bookingDetails.bookingId))
+    //   .where(
+    //     and(
+    //       eq(bookings.userId, currentUser!.id),
+    //       sql`date_trunc('week', ${bookings.createdAt}) = date_trunc('week', CURRENT_DATE)`
+    //     )
+    //   );
 
     // if user has already booked the maximum allowed sessions for this week
     if (bookingsThisWeek.count + numOfSessions > allowedBookingCount) {

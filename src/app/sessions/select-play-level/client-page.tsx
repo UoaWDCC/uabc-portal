@@ -67,9 +67,9 @@ export default function ClientSelectPlayLevelPage() {
         });
       } else if (code === "ALREADY_BOOKED") {
         toast({
-          title: "Something went wrong.",
+          title: "Session Already Booked",
           description:
-            "An error occurred while confirming your booking. Please try again.",
+            "You have already booked this session. Please select a different session.",
           variant: "destructive",
         });
       } else if (code === "LIMIT_REACHED") {
