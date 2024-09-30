@@ -64,7 +64,7 @@ export function MemberApprovalTable({ className }: { className?: string }) {
   }
 
   return (
-    <div className="rounded border">
+    <div className="mb-10 rounded border">
       <Table className={className}>
         <TableHeader>
           <TableRow>
@@ -101,8 +101,8 @@ export function MemberApprovalTable({ className }: { className?: string }) {
           )}
         </TableBody>
       </Table>
-      <div className="border-t border-border py-2">
-        {table.getPageCount() > 1 && (
+      {table.getPageCount() > 1 && (
+        <div className="border-t border-border py-2">
           <MemberApprovalTablePagination
             hasPreviousPage={table.getCanPreviousPage()}
             hasNextPage={table.getCanNextPage()}
@@ -112,8 +112,8 @@ export function MemberApprovalTable({ className }: { className?: string }) {
             nextPage={table.nextPage}
             setPageIndex={table.setPageIndex}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
