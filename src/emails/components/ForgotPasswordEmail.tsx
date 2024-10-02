@@ -21,7 +21,7 @@ export default function ForgotPasswordEmail({
       </Text>
 
       <Link
-        href={`https://uabc.wdcc.co.nz/reset-password?resetPasswordToken=${token}`}
+        href={`${!process.env.NEXTAUTH_URL}/reset-password?resetPasswordToken=${token}`}
       >
         Reset Password
       </Link>
@@ -29,7 +29,7 @@ export default function ForgotPasswordEmail({
       <Text>Alternatively, open the following url in your browser</Text>
 
       <Text>
-        <pre>localhost:3000/reset-password?resetPasswordToken={token}</pre>
+        <pre>{!process.env.NEXTAUTH_URL}/reset-password?resetPasswordToken={token}</pre>
       </Text>
     </EmailLayout>
   );

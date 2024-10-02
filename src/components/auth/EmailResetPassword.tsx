@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useInsertionEffect, useMemo, useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { useResetPasswordMutation } from "@/hooks/mutations/reset-password";
-import { useEmail } from "@/hooks/query/email";
+import { useResetPasswordEmail } from "@/hooks/query/resetPasswordEmail";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
@@ -37,7 +38,7 @@ export const EmailResetPassword = () => {
   const searchParams = useSearchParams();
   const { toast } = useToast();
 
-  const { data, isLoading } = useEmail(
+  const { data, isLoading } = useResetPasswordEmail(
     searchParams.get("resetPasswordToken") ?? ""
   );
 
@@ -72,10 +73,10 @@ export const EmailResetPassword = () => {
   };
   
   let form
-  if (isLoading == true) {
+  if (isLoading === true) {
     form = <SkeletonEmailResetPassword />
   } else {
-    if (!!data?.email == true && formState == true) {
+    if (!!data?.email === true && formState === true) {
       form = <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
           <span className="text-center text-foreground">Reset Password</span>
@@ -100,7 +101,7 @@ export const EmailResetPassword = () => {
           </Button>
         </div>
       </form>
-    } else if (!!data?.email == true && formState == false) {
+    } else if (!!data?.email === true && formState === false) {
       form = <>
         <span className="text-center text-foreground">
           Password Reset Successful
