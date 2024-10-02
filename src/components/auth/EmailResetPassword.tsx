@@ -76,7 +76,7 @@ export const EmailResetPassword = () => {
   if (isLoading === true) {
     form = <SkeletonEmailResetPassword />
   } else {
-    if (!!data?.email === true && formState === true) {
+    if (!!data?.email === true && formState === false) {
       form = <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
           <span className="text-center text-foreground">Reset Password</span>
@@ -101,13 +101,13 @@ export const EmailResetPassword = () => {
           </Button>
         </div>
       </form>
-    } else if (!!data?.email === true && formState === false) {
+    } else if (!!data?.email === true && formState === true) {
       form = <>
         <span className="text-center text-foreground">
           Password Reset Successful
         </span>
         <p className="text-center py-4 px-4 text-sm">Awesome. You have successfully reset the password for your account.</p>
-        <Button className="py-4" large onClick={() => router.push("/auth/log`in")}>
+        <Button className="py-4" large onClick={() => router.push("/auth/login")}>
           Log In
         </Button>
       </>

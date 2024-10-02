@@ -5,6 +5,9 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { forgotPasswordTokens, users } from "@/lib/db/schema";
 import { hash } from "bcrypt";
+import { routeWrapper } from "@/lib/wrappers";
+import { responses } from "@/lib/api/responses";
+import { TicketX } from "lucide-react";
 
 const searchParamSchema = z.object({
   resetPasswordToken: z.string(),
@@ -26,8 +29,8 @@ const postRequestSchema = z.object({
   resetPasswordToken: z.string()
 });
 
-export async function GET(req: NextRequest) {
-  try {
+export const GET = routeWrapper(
+  async (req: NextRequest) => {
     const searchParams = searchParamSchema.parse(
       Object.fromEntries(req.nextUrl.searchParams)
     );
@@ -41,37 +44,27 @@ export async function GET(req: NextRequest) {
     });
 
     if (!resetPasswordToken) {
-      return NextResponse.json("ResetPasswordToken is invalid", {
-        status: 403,
-      });
+      return responses.forbidden();
     } else {
       return NextResponse.json({ email: resetPasswordToken.identifier}, { status: 200 });
     }
-  } catch (error : any) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ errors: error.issues }, { status: 400 });
-    } else {
-      return NextResponse.json({ errors: "Internal Server Error" }, { status: 500 });
-    }
-  }
-}
+  } 
+);
 
-export async function POST(req: NextRequest) {
-  try {
+export const POST = routeWrapper(
+  async (req: NextRequest) => {
     const body = await req.json();
     const { newPassword, confirmPassword, resetPasswordToken } = postRequestSchema.parse(body);
 
     const matchingResetPasswordToken = await db.query.forgotPasswordTokens.findFirst({
       where: and(
-        eq(forgotPasswordTokens.token, resetPasswordToken.toString()),
+        eq(forgotPasswordTokens.token, resetPasswordToken),
         gt(forgotPasswordTokens.expires, new Date())
       ),
     });
 
     if (!matchingResetPasswordToken) {
-      return NextResponse.json("ResetPasswordToken is invalid", {
-        status: 403,
-      });
+      return responses.forbidden();
     }
     
     const user = await db.query.users.findFirst({
@@ -79,15 +72,12 @@ export async function POST(req: NextRequest) {
     });
 
     if (!user) {
-      return NextResponse.json("User does not exist", {
-        status: 403,
-      });
+      return responses.forbidden();
     } else {
       //change the password of the user
-
       if (newPassword !== confirmPassword) {
-        return NextResponse.json("Passwords do not match", {
-          status: 400,
+        return responses.badRequest({
+          message: "Passwords do not match",
         });
       }
 
@@ -104,11 +94,5 @@ export async function POST(req: NextRequest) {
         status: 200,
       });
     }
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ errors: error.issues }, { status: 400 });
-    } else {
-      return new Response("Internal server error", { status: 500 });
-    }
   }
-}
+);
