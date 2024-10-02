@@ -65,6 +65,7 @@ export default function EditGameSessionFormDialog() {
       memberCapacity: memberCapacity,
       casualCapacity: casualCapacity,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleClose]);
 
   const { mutate, isPending } = useEditGameSessionMutation();
