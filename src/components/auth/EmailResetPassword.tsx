@@ -57,7 +57,7 @@ export const EmailResetPassword = () => {
   );
 
   const onSubmit = async (formData: z.infer<typeof formSchema>) => {
-    mutate(formData, {
+    mutate(formData.newPassword, {
       onSuccess: () => {
         setFormState(true)
       },

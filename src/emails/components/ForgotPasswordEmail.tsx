@@ -2,6 +2,8 @@ import { Link, Text } from "@react-email/components";
 
 import { EmailLayout } from "./common/EmailLayout";
 
+import { env } from "@/env";
+
 interface ForgotPasswordEmailProps {
   firstName: string;
   token: string;
@@ -21,7 +23,7 @@ export default function ForgotPasswordEmail({
       </Text>
 
       <Link
-        href={`${!process.env.NEXTAUTH_URL}/reset-password?resetPasswordToken=${token}`}
+        href={`${env.APP_URL}/reset-password?resetPasswordToken=${token}`}
       >
         Reset Password
       </Link>
@@ -29,7 +31,7 @@ export default function ForgotPasswordEmail({
       <Text>Alternatively, open the following url in your browser</Text>
 
       <Text>
-        <pre>{!process.env.NEXTAUTH_URL}/reset-password?resetPasswordToken={token}</pre>
+        <pre>{env.APP_URL}/reset-password?resetPasswordToken={token}</pre>
       </Text>
     </EmailLayout>
   );

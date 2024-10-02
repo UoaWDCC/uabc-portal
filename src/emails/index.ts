@@ -90,7 +90,7 @@ export const sendEmail = async ({
 export const sendForgotPasswordEmail = async (user: User, token: string) => {
   await sendEmail({
     toAddresses: [user.email],
-    subject: "Booking Confirmation",
+    subject: "UABC password reset",
     html: render(
       ForgotPasswordEmail({
         firstName: user.firstName!,

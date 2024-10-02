@@ -7,7 +7,6 @@ import { forgotPasswordTokens, users } from "@/lib/db/schema";
 import { hash } from "bcrypt";
 import { routeWrapper } from "@/lib/wrappers";
 import { responses } from "@/lib/api/responses";
-import { TicketX } from "lucide-react";
 
 const searchParamSchema = z.object({
   resetPasswordToken: z.string(),
@@ -15,12 +14,6 @@ const searchParamSchema = z.object({
 
 const postRequestSchema = z.object({
   newPassword: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" })
-    .regex(/\d/, { message: "Password must contain a number" })
-    .regex(/[a-z]/, { message: "Password must contain a lowercase letter" })
-    .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" }),
-  confirmPassword: z
     .string()
     .min(8, { message: "Password must be at least 8 characters" })
     .regex(/\d/, { message: "Password must contain a number" })
@@ -54,7 +47,7 @@ export const GET = routeWrapper(
 export const POST = routeWrapper(
   async (req: NextRequest) => {
     const body = await req.json();
-    const { newPassword, confirmPassword, resetPasswordToken } = postRequestSchema.parse(body);
+    const { newPassword, resetPasswordToken } = postRequestSchema.parse(body);
 
     const matchingResetPasswordToken = await db.query.forgotPasswordTokens.findFirst({
       where: and(
@@ -75,20 +68,15 @@ export const POST = routeWrapper(
       return responses.forbidden();
     } else {
       //change the password of the user
-      if (newPassword !== confirmPassword) {
-        return responses.badRequest({
-          message: "Passwords do not match",
-        });
-      }
-
       const costFactor = 12;
       const hashedPassword = await hash(newPassword, costFactor); 
 
-      await db.transaction(async (tx) => {
-        await tx.update(users).set({
-          password: hashedPassword,
-      }).where(eq(users.email, matchingResetPasswordToken!.identifier));
-      });
+      await db.update(users)
+        .set({password: hashedPassword})
+        .where(eq(users.email, matchingResetPasswordToken!.identifier));
+
+      await db.delete(forgotPasswordTokens)
+        .where(eq(forgotPasswordTokens.identifier, matchingResetPasswordToken!.identifier));
 
       return NextResponse.json("Password changed successfully", {
         status: 200,
