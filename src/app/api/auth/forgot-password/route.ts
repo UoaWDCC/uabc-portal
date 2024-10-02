@@ -6,13 +6,14 @@ import { sendForgotPasswordEmail } from "@/emails";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { insertForgotPasswordToken } from "@/services/forgot-password";
+import { routeWrapper } from "@/lib/wrappers";
 
 const postRequestSchema = z.object({
   email: z.string().email(),
 });
 
-export async function POST(request: Request) {
-  try {
+export const POST = routeWrapper(
+  async function (request: Request) {
     const body = await request.json();
 
     //validate email
@@ -22,7 +23,7 @@ export async function POST(request: Request) {
       where: eq(users.email, email),
     });
 
-    if (user) {
+      if (user) { 
       const token = await insertForgotPasswordToken(email);
       await sendForgotPasswordEmail(user, token);
     }
@@ -30,10 +31,5 @@ export async function POST(request: Request) {
     return new Response(null, {
       status: 204,
     });
-  } catch (e) {
-    if (e instanceof z.ZodError) {
-      return NextResponse.json({ errors: e.errors }, { status: 400 });
-    }
-    return new Response("Internal server error", { status: 500 });
   }
-}
+);
