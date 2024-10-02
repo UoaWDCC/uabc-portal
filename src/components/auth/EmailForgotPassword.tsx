@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -76,7 +77,7 @@ export const EmailForgotPassword = () => {
             receive an email with further instructions on how to reset your
             password. In case you didn&apos;t receive this email, you need
             to create a new account{" "}
-            <Link className="font-bold underline" href="/auth/sign-up">
+            <Link className="font-bold underline" href="/auth/signup">
               here
             </Link>
           </p>

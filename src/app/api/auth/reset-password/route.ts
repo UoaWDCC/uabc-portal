@@ -4,7 +4,6 @@ import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { forgotPasswordTokens, users } from "@/lib/db/schema";
-import { deobfuscateSqid } from "@/lib/sqid";
 import { hash } from "bcrypt";
 
 const searchParamSchema = z.object({
@@ -24,6 +23,7 @@ const postRequestSchema = z.object({
     .regex(/\d/, { message: "Password must contain a number" })
     .regex(/[a-z]/, { message: "Password must contain a lowercase letter" })
     .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" }),
+  resetPasswordToken: z.string()
 });
 
 export async function GET(req: NextRequest) {
@@ -58,36 +58,32 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const searchParams = searchParamSchema.parse(
-      Object.fromEntries(req.nextUrl.searchParams)
-    );
+    const body = await req.json();
+    const { newPassword, confirmPassword, resetPasswordToken } = postRequestSchema.parse(body);
 
-    const token = searchParams.resetPasswordToken;
-    const resetPasswordToken = await db.query.forgotPasswordTokens.findFirst({
+    const matchingResetPasswordToken = await db.query.forgotPasswordTokens.findFirst({
       where: and(
-        eq(forgotPasswordTokens.token, token.toString()),
+        eq(forgotPasswordTokens.token, resetPasswordToken.toString()),
         gt(forgotPasswordTokens.expires, new Date())
       ),
     });
 
-    if (!resetPasswordToken) {
+    if (!matchingResetPasswordToken) {
       return NextResponse.json("ResetPasswordToken is invalid", {
         status: 403,
       });
     }
     
     const user = await db.query.users.findFirst({
-      where: eq(users.email, resetPasswordToken!.identifier)
+      where: eq(users.email, matchingResetPasswordToken!.identifier)
     });
 
-    if (!users) {
+    if (!user) {
       return NextResponse.json("User does not exist", {
         status: 403,
       });
     } else {
       //change the password of the user
-      const body = await req.json();
-      const { newPassword, confirmPassword } = postRequestSchema.parse(body);
 
       if (newPassword !== confirmPassword) {
         return NextResponse.json("Passwords do not match", {
@@ -101,7 +97,7 @@ export async function POST(req: NextRequest) {
       await db.transaction(async (tx) => {
         await tx.update(users).set({
           password: hashedPassword,
-        }).where(eq(users.email, resetPasswordToken!.identifier));
+      }).where(eq(users.email, matchingResetPasswordToken!.identifier));
       });
 
       return NextResponse.json("Password changed successfully", {

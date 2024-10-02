@@ -10,12 +10,13 @@ export const useResetPasswordMutation = (resetPasswordToken: string) => {
       confirmPassword: string;
     }) => {
       const res = await fetch(
-        `/api/auth/reset-password?resetPasswordToken=${resetPasswordToken}`,
+        `/api/auth/reset-password`,
         {
           method: "POST",
           body: JSON.stringify({
             newPassword,
             confirmPassword,
+            resetPasswordToken
           }),
           headers: {
             "Content-Type": "application/json",
