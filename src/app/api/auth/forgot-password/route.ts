@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
+import { and, eq, isNotNull } from "drizzle-orm";
 import { z } from "zod";
 
 import { sendForgotPasswordEmail } from "@/emails";
@@ -19,11 +19,12 @@ export const POST = routeWrapper(
     //validate email
     const { email } = postRequestSchema.parse(body);
 
+    //to check if email exists and if user has a password (no password = Oauth user)
     const user = await db.query.users.findFirst({
-      where: eq(users.email, email),
+      where: and(eq(users.email, email), isNotNull(users.password)),
     });
 
-      if (user) { 
+    if (user) { 
       const token = await insertForgotPasswordToken(email);
       await sendForgotPasswordEmail(user, token);
     }

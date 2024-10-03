@@ -1,6 +1,6 @@
 import "server-only";
 
-import { createHash } from "crypto";
+import { createHash, randomBytes } from "crypto";
 import { and, eq } from "drizzle-orm";
 
 import { FORGOT_PASSWORD_TOKEN_EXPIRY_TIME } from "@/lib/constants";
@@ -16,7 +16,7 @@ export const insertForgotPasswordToken = async (email: string) => {
     .delete(forgotPasswordTokens)
     .where(and(eq(forgotPasswordTokens.identifier, email)));
 
-  const hashedToken = createHash('sha256').update(email + (new Date()).toString()).digest('hex');
+  const hashedToken = createHash('sha256').update(email + randomBytes(128).toString("hex")).digest('hex');
 
   await db.insert(forgotPasswordTokens).values({
     identifier: email,

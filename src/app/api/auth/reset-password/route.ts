@@ -22,6 +22,7 @@ const postRequestSchema = z.object({
   resetPasswordToken: z.string()
 });
 
+// GET request to check if there exists a matching valid reset-password token in the DB
 export const GET = routeWrapper(
   async (req: NextRequest) => {
     const searchParams = searchParamSchema.parse(
@@ -39,7 +40,7 @@ export const GET = routeWrapper(
     if (!resetPasswordToken) {
       return responses.forbidden();
     } else {
-      return NextResponse.json({ email: resetPasswordToken.identifier}, { status: 200 });
+      return NextResponse.json(true, { status: 200 });
     }
   } 
 );
@@ -70,13 +71,16 @@ export const POST = routeWrapper(
       //change the password of the user
       const costFactor = 12;
       const hashedPassword = await hash(newPassword, costFactor); 
-
-      await db.update(users)
-        .set({password: hashedPassword})
-        .where(eq(users.email, matchingResetPasswordToken!.identifier));
-
-      await db.delete(forgotPasswordTokens)
-        .where(eq(forgotPasswordTokens.identifier, matchingResetPasswordToken!.identifier));
+      
+      //transaction to update the user's password and delete the reset password token
+      await db.transaction(async (tx) => {
+        await tx.update(users).set({
+          password: hashedPassword,
+        }).where(eq(users.email, matchingResetPasswordToken!.identifier));
+        await tx.delete(forgotPasswordTokens).where(
+          eq(forgotPasswordTokens.identifier, matchingResetPasswordToken!.identifier)
+        );
+      });
 
       return NextResponse.json("Password changed successfully", {
         status: 200,

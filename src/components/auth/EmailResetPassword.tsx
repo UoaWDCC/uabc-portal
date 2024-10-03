@@ -14,20 +14,11 @@ import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
 import { Card } from "../Card";
 import { SkeletonEmailResetPassword } from "./SkeletonEmailResetPassword";
+import { passwordSchema } from "./formSchema"
 
 const formSchema = z.object({
-  newPassword: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" })
-    .regex(/\d/, { message: "Password must contain a number" })
-    .regex(/[a-z]/, { message: "Password must contain a lowercase letter" })
-    .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" }),
-  confirmPassword: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" })
-    .regex(/\d/, { message: "Password must contain a number" })
-    .regex(/[a-z]/, { message: "Password must contain a lowercase letter" })
-    .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" })
+  newPassword: passwordSchema,
+  confirmPassword: passwordSchema,
 }).refine((data) => data.newPassword === data.confirmPassword, {
   message: "Passwords do not match",
   path: ["confirmPassword"],
@@ -71,12 +62,12 @@ export const EmailResetPassword = () => {
       },
     });
   };
-  
+
   let form
   if (isLoading === true) {
     form = <SkeletonEmailResetPassword />
   } else {
-    if (!!data?.email === true && formState === false) {
+    if (data === true && formState === false) {
       form = <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
           <span className="text-center text-foreground">Reset Password</span>
@@ -101,7 +92,7 @@ export const EmailResetPassword = () => {
           </Button>
         </div>
       </form>
-    } else if (!!data?.email === true && formState === true) {
+    } else if (data === true && formState === true) {
       form = <>
         <span className="text-center text-foreground">
           Password Reset Successful
