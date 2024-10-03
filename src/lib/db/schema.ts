@@ -39,6 +39,7 @@ export const users = pgTable("user", {
   member: boolean("member"),
   verified: boolean("verified").default(false).notNull(),
   prepaidSessions: integer("prepaidSessions").default(0).notNull(),
+  playLevel: playLevelEnum("playLevel"),
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   pro: boolean("pro").default(false).notNull(),

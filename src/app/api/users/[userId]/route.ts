@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { userRouteWrapper } from "@/lib/wrappers";
@@ -11,13 +12,16 @@ export const GET = userRouteWrapper(
     const { userId } = params;
 
     if (currentUser.role !== "admin" && currentUser.id !== userId) {
-      return new Response("ERROR: No valid permissions", { status: 403 });
+      return responses.forbidden();
     }
 
     const user = await getUserFromId(userId);
 
     if (!user) {
-      return new Response(`No User found for id: ${userId}`, { status: 404 });
+      return responses.notFound({
+        resourceType: "user",
+        resourceId: userId,
+      });
     }
 
     return NextResponse.json(user);
@@ -29,15 +33,18 @@ export const DELETE = userRouteWrapper(
     const { userId } = params;
 
     if (currentUser.role !== "admin" && currentUser.id !== userId) {
-      return new Response("ERROR: No valid permissions", { status: 403 });
+      return responses.forbidden();
     }
 
     const user = await db.delete(users).where(eq(users.id, userId));
 
     if (!user) {
-      return new Response(`No User found for id: ${userId}`, { status: 404 });
+      return responses.notFound({
+        resourceType: "user",
+        resourceId: userId,
+      });
     }
 
-    return new Response(null, { status: 204 });
+    return responses.success();
   }
 );

@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { getCurrentUser } from "@/lib/session";
 import type { User } from "@/types/next-auth";
+import { responses } from "./api/responses";
 import { StatusError } from "./exceptions";
 
 type EndpointOptions = {
@@ -38,29 +39,30 @@ export function routeWrapper(
       const user = await getCurrentUser();
 
       if ((options.protected || options.admin) && !user)
-        return new Response("ERROR: Unauthorized request", { status: 401 });
+        return responses.unauthorized();
 
-      if (options.admin && user?.role !== "admin")
-        return new Response("ERROR: No valid permissions", { status: 403 });
+      if (options.admin && user?.role !== "admin") return responses.forbidden();
 
       // return the route handler
       return await handler(req, ctx, user);
     } catch (error) {
       if (error instanceof StatusError) {
         return NextResponse.json(
-          { message: error.message },
+          { message: error.message, code: error.code },
           { status: error.status }
         );
       }
       if (error instanceof z.ZodError) {
-        return NextResponse.json({ errors: error.issues }, { status: 400 });
+        return responses.badRequest({
+          message: error.issues[0].message,
+          details: error.issues,
+        });
       }
       // catch all errors
       console.error("Error:", error);
-      return NextResponse.json(
-        { message: "Internal Server Error" },
-        { status: 500 }
-      );
+      return responses.internalServerError({
+        message: "Internal Server Error.",
+      });
     }
   };
 }

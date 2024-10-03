@@ -4,6 +4,7 @@ import { stringify } from "csv-stringify";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { bookingDetails, bookings, gameSessions, users } from "@/lib/db/schema";
 import { adminRouteWrapper } from "@/lib/wrappers";
@@ -15,24 +16,19 @@ const routeContextSchema = z.object({
 });
 
 export const GET = adminRouteWrapper(
-  async (_req: NextRequest, context: z.infer<typeof routeContextSchema>) => {
-    const result = routeContextSchema.safeParse(context);
-    if (!result.success)
-      return new Response("Invalid id provided in the request", {
-        status: 400,
-      });
-
+  async (_req: NextRequest, ctx: z.infer<typeof routeContextSchema>) => {
     const {
       params: { gameSessionId },
-    } = result.data;
+    } = routeContextSchema.parse(ctx);
 
     const session = await db.query.gameSessions.findFirst({
       where: eq(gameSessions.id, gameSessionId),
     });
 
     if (!session)
-      return new Response(`No Game Session found with id: ${gameSessionId}`, {
-        status: 404,
+      return responses.notFound({
+        resourceType: "gameSession",
+        resourceId: gameSessionId,
       });
 
     const players = await db

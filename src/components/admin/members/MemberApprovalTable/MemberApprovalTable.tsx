@@ -64,7 +64,7 @@ export function MemberApprovalTable({ className }: { className?: string }) {
   }
 
   return (
-    <div className="rounded border">
+    <div className="mb-10 rounded border">
       <Table className={className}>
         <TableHeader>
           <TableRow>

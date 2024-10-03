@@ -2,6 +2,7 @@ import { CalendarClock, CalendarDays } from "lucide-react";
 import { BsPersonFillCheck } from "react-icons/bs";
 
 import { DashboardButton } from "@/components/admin/DashboardButton";
+import { MemberApprovalPing } from "@/components/admin/members/MemberApprovalPing";
 import { Heading } from "@/components/Heading";
 
 export const metadata = {
@@ -23,7 +24,8 @@ export default async function AdminDashboardPage() {
           <CalendarClock size={24} className="min-w-6" />
           Edit Semester Schedules
         </DashboardButton>
-        <DashboardButton href="admin/members">
+        <DashboardButton href="admin/members" className="relative">
+          <MemberApprovalPing />
           <BsPersonFillCheck size={24} className="min-w-6" /> Members
         </DashboardButton>
       </div>

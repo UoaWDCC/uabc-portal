@@ -32,7 +32,7 @@ export const createUserFixture = (user: User, page: Page) => {
   return {
     ...user,
     login: async () => {
-      await login(user.email, user.password!, page);
+      await login(user.email, user.password ?? "", page);
     },
   };
 };

@@ -23,8 +23,8 @@ export const updateGameSessionSchema = z.object({
   endTime: z.string().time(),
   locationName: z.string(),
   locationAddress: z.string(),
-  memberCapacity: z.number(),
-  casualCapacity: z.number(),
+  memberCapacity: z.number().nonnegative(),
+  casualCapacity: z.number().nonnegative(),
 });
 
 export const insertSemesterSchema = createInsertSchema(semesters, {
@@ -67,8 +67,8 @@ export const updateGameSessionScheduleSchema = z.object({
   endTime: z.string().time(),
   locationName: z.string(),
   locationAddress: z.string(),
-  memberCapacity: z.number(),
-  casualCapacity: z.number(),
+  memberCapacity: z.number().nonnegative(),
+  casualCapacity: z.number().nonnegative(),
 });
 
 export const insertGameSessionExceptionSchema = createInsertSchema(
@@ -86,8 +86,8 @@ export const insertNonNullGameSessionExceptionSchema = z.object({
   endTime: z.string().time(),
   locationName: z.string(),
   locationAddress: z.string(),
-  memberCapacity: z.number(),
-  casualCapacity: z.number(),
+  memberCapacity: z.number().nonnegative(),
+  casualCapacity: z.number().nonnegative(),
   isDeleted: z.boolean(),
 });
 

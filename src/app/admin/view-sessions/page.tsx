@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { NavigationBar } from "@/components/NavigationBar";
+import { BackNavigationBar } from "@/components/BackNavigationBar";
 import ClientViewSessionsPage from "./client-page";
 
 export const metadata = {
@@ -10,7 +10,10 @@ export const metadata = {
 export default function ViewSessionsPage() {
   return (
     <div className="mx-4 mt-0 flex min-h-dvh flex-col">
-      <NavigationBar title="View Sessions" pathName="/admin"></NavigationBar>
+      <BackNavigationBar
+        title="View Sessions"
+        pathName="/admin"
+      ></BackNavigationBar>
       <Suspense>
         <ClientViewSessionsPage />
       </Suspense>

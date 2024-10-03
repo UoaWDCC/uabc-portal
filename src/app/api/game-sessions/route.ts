@@ -320,96 +320,6 @@ export const POST = adminRouteWrapper(async (req: NextRequest) => {
   return NextResponse.json(gameSessionExceptionToInsert, { status: 201 });
 });
 
-export const PUT = adminRouteWrapper(async (req: NextRequest) => {
-  const date = req.nextUrl.searchParams.get("date");
-  const gameSessionDate = z.string().date().parse(date);
-
-  const gameSessionToUpdate = updateGameSessionSchema.parse(await req.json());
-
-  // Check the game session to update is valid
-  if (gameSessionToUpdate.startTime > gameSessionToUpdate.endTime) {
-    return new Response("Start time must be less than end time", {
-      status: 400,
-    });
-  }
-
-  // If the game session exists, update it and return
-  const [updatedGameSession] = await db
-    .update(gameSessions)
-    .set(gameSessionToUpdate)
-    .where(eq(gameSessions.date, gameSessionDate))
-    .returning();
-
-  if (updatedGameSession) {
-    return new Response(null, { status: 204 });
-  }
-
-  // Find the semester that the date is in
-  const semester = await db.query.semesters.findFirst({
-    with: {
-      gameSessionSchedules: {
-        where: eq(gameSessionSchedules.weekday, getWeekday(gameSessionDate)),
-      },
-    },
-    where: or(
-      and(
-        lte(semesters.startDate, gameSessionDate),
-        gt(semesters.breakStart, gameSessionDate)
-      ),
-      and(
-        lt(semesters.breakEnd, gameSessionDate),
-        gte(semesters.endDate, gameSessionDate)
-      )
-    ),
-  });
-
-  if (!semester) {
-    return new Response("No semester found for this date", { status: 404 });
-  }
-
-  const gameSessionSchedule = semester.gameSessionSchedules[0];
-
-  const gameSessionException = await db.query.gameSessionExceptions.findFirst({
-    where: eq(gameSessionExceptions.date, gameSessionDate),
-  });
-
-  // If a delete exception exists
-  if (!!gameSessionException?.isDeleted) {
-    return new Response("A gameSession does not exist for this date", {
-      status: 404,
-    });
-  }
-
-  // Now either gameSessionException doesn't exist, or it exists and isn't a delete exception
-
-  // If a schedule doesn't exist and (no exception or exception is a delete exception)
-  if (
-    !gameSessionSchedule &&
-    (!gameSessionException || gameSessionException.isDeleted)
-  ) {
-    return new Response("A gameSession does not exist for this date", {
-      status: 404,
-    });
-  }
-
-  const gameSessionExceptionToInsert = insertGameSessionExceptionSchema.parse({
-    ...gameSessionToUpdate,
-    date: gameSessionDate,
-    semesterId: semester.id,
-  });
-
-  // Insert the gameSessionException record
-  await db
-    .insert(gameSessionExceptions)
-    .values(gameSessionExceptionToInsert)
-    .onConflictDoUpdate({
-      target: [gameSessionExceptions.date],
-      set: gameSessionExceptionToInsert,
-    });
-
-  return new Response(null, { status: 204 });
-});
-
 export const DELETE = adminRouteWrapper(async (req: NextRequest) => {
   const date = req.nextUrl.searchParams.get("date");
   const gameSessionDate = z.string().date().parse(date);
@@ -499,6 +409,96 @@ export const DELETE = adminRouteWrapper(async (req: NextRequest) => {
     semesterId: semester.id,
   });
 
+  await db
+    .insert(gameSessionExceptions)
+    .values(gameSessionExceptionToInsert)
+    .onConflictDoUpdate({
+      target: [gameSessionExceptions.date],
+      set: gameSessionExceptionToInsert,
+    });
+
+  return new Response(null, { status: 204 });
+});
+
+export const PUT = adminRouteWrapper(async (req: NextRequest) => {
+  const date = req.nextUrl.searchParams.get("date");
+  const gameSessionDate = z.string().date().parse(date);
+
+  const gameSessionToUpdate = updateGameSessionSchema.parse(await req.json());
+
+  // Check the game session to update is valid
+  if (gameSessionToUpdate.startTime > gameSessionToUpdate.endTime) {
+    return new Response("Start time must be less than end time", {
+      status: 400,
+    });
+  }
+
+  // If the game session exists, update it and return
+  const [updatedGameSession] = await db
+    .update(gameSessions)
+    .set(gameSessionToUpdate)
+    .where(eq(gameSessions.date, gameSessionDate))
+    .returning();
+
+  if (updatedGameSession) {
+    return new Response(null, { status: 204 });
+  }
+
+  // Find the semester that the date is in
+  const semester = await db.query.semesters.findFirst({
+    with: {
+      gameSessionSchedules: {
+        where: eq(gameSessionSchedules.weekday, getWeekday(gameSessionDate)),
+      },
+    },
+    where: or(
+      and(
+        lte(semesters.startDate, gameSessionDate),
+        gt(semesters.breakStart, gameSessionDate)
+      ),
+      and(
+        lt(semesters.breakEnd, gameSessionDate),
+        gte(semesters.endDate, gameSessionDate)
+      )
+    ),
+  });
+
+  if (!semester) {
+    return new Response("No semester found for this date", { status: 404 });
+  }
+
+  const gameSessionSchedule = semester.gameSessionSchedules[0];
+
+  const gameSessionException = await db.query.gameSessionExceptions.findFirst({
+    where: eq(gameSessionExceptions.date, gameSessionDate),
+  });
+
+  // If a delete exception exists
+  if (!!gameSessionException?.isDeleted) {
+    return new Response("A gameSession does not exist for this date", {
+      status: 404,
+    });
+  }
+
+  // Now either gameSessionException doesn't exist, or it exists and isn't a delete exception
+
+  // If a schedule doesn't exist and (no exception or exception is a delete exception)
+  if (
+    !gameSessionSchedule &&
+    (!gameSessionException || gameSessionException.isDeleted)
+  ) {
+    return new Response("A gameSession does not exist for this date", {
+      status: 404,
+    });
+  }
+
+  const gameSessionExceptionToInsert = insertGameSessionExceptionSchema.parse({
+    ...gameSessionToUpdate,
+    date: gameSessionDate,
+    semesterId: semester.id,
+  });
+
+  // Insert the gameSessionException record
   await db
     .insert(gameSessionExceptions)
     .values(gameSessionExceptionToInsert)

@@ -8,12 +8,10 @@ export const gameSessionFormSchema = z
     locationAddress: z.string().min(1, "Field is required"),
     memberCapacity: z.coerce
       .number({ message: "Capacity must be a number" })
-      .nonnegative("Capacity must be positive")
-      .refine((value) => value !== 0, { message: "Field is required" }),
+      .nonnegative("Capacity must be positive"),
     casualCapacity: z.coerce
       .number({ message: "Capacity must be a number" })
-      .nonnegative("Capacity must be positive")
-      .refine((value) => value !== 0, { message: "Field is required" }),
+      .nonnegative("Capacity must be positive"),
   })
   .refine(
     (data) => {

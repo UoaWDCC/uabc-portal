@@ -24,7 +24,8 @@ export default function NoMoreSessionsRemainingEmail({
       <Text>
         If you would like to rejoin us as a member, you can purchase the 6
         session package by emailing{" "}
-        <CodeInline>badminton.au@gmail.com</CodeInline>.
+        <CodeInline>badminton.au@gmail.com</CodeInline> or replying to this
+        email.
       </Text>
 
       <Text>

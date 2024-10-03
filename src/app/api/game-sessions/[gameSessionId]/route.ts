@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { gameSessions } from "@/lib/db/schema";
 import { updateGameSessionSchema } from "@/lib/validators";
@@ -15,23 +16,18 @@ const routeContextSchema = z.object({
 
 export const GET = adminRouteWrapper(
   async (_req, ctx: z.infer<typeof routeContextSchema>) => {
-    const result = routeContextSchema.safeParse(ctx);
-    if (!result.success)
-      return new Response("Invalid id provided in the request", {
-        status: 400,
-      });
-
     const {
       params: { gameSessionId },
-    } = result.data;
+    } = routeContextSchema.parse(ctx);
 
     const session = await db.query.gameSessions.findFirst({
       where: eq(gameSessions.id, gameSessionId),
     });
 
     if (!session)
-      return new Response(`No Game Session found with id: ${gameSessionId}`, {
-        status: 404,
+      return responses.notFound({
+        resourceType: "gameSession",
+        resourceId: gameSessionId,
       });
 
     return NextResponse.json(session);
@@ -40,24 +36,17 @@ export const GET = adminRouteWrapper(
 
 export const PUT = adminRouteWrapper(
   async (req, ctx: z.infer<typeof routeContextSchema>) => {
-    const result = routeContextSchema.safeParse(ctx);
-
-    if (!result.success)
-      return new Response("Invalid id provided in the request", {
-        status: 400,
-      });
-
     const {
       params: { gameSessionId },
-    } = result.data;
+    } = routeContextSchema.parse(ctx);
 
     const json = await req.json();
 
     const body = updateGameSessionSchema.parse(json);
 
     if (body.startTime > body.endTime) {
-      return new Response("Start time must be less than end time", {
-        status: 400,
+      return responses.badRequest({
+        message: "Start time must be less than end time",
       });
     }
 
@@ -68,8 +57,9 @@ export const PUT = adminRouteWrapper(
       .returning();
 
     if (!updatedSession.length) {
-      return new Response(`No Game Session found with id: ${gameSessionId}`, {
-        status: 404,
+      return responses.notFound({
+        resourceType: "gameSession",
+        resourceId: gameSessionId,
       });
     }
 
@@ -79,17 +69,9 @@ export const PUT = adminRouteWrapper(
 
 export const DELETE = adminRouteWrapper(
   async (_req, ctx: z.infer<typeof routeContextSchema>) => {
-    const result = routeContextSchema.safeParse(ctx);
-
-    if (!result.success) {
-      return new Response("Invalid id provided in the request", {
-        status: 400,
-      });
-    }
-
     const {
       params: { gameSessionId },
-    } = result.data;
+    } = routeContextSchema.parse(ctx);
 
     const session = await db
       .delete(gameSessions)
@@ -97,12 +79,10 @@ export const DELETE = adminRouteWrapper(
       .returning();
 
     if (session.length === 0) {
-      return new Response(
-        `Game session with id ${gameSessionId} does not exist.`,
-        {
-          status: 404,
-        }
-      );
+      return responses.notFound({
+        resourceType: "gameSession",
+        resourceId: gameSessionId,
+      });
     }
 
     return new Response(null, { status: 204 });

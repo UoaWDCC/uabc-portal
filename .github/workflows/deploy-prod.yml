@@ -1,9 +1,7 @@
 name: Deploy Production
 on:
-  push:
-    tags:
-      - "v*"
   workflow_dispatch:
+  workflow_call:
 
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_WEB_PRODUCTION_API_TOKEN }}
@@ -15,12 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: deploy-group # optional: ensure only one action runs at a time
     steps:
-      - name: Tag release
-        uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-
       - name: Checkout code
         uses: actions/checkout@v4
 

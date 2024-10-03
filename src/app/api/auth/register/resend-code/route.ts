@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { sendVerificationCodeEmail } from "@/emails";
+import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { routeWrapper } from "@/lib/wrappers";
@@ -20,7 +21,10 @@ export const POST = routeWrapper(async (req) => {
     where: eq(users.email, email),
   });
 
-  if (user) return new Response("Email already in use", { status: 400 });
+  if (user)
+    return responses.badRequest({
+      message: "Email already in use.",
+    });
 
   const token = await insertVerificationToken(email);
 
