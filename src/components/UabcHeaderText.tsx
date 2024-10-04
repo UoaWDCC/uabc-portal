@@ -13,7 +13,7 @@ export const UabcHeaderText = ({
 }: UabcHeaderTextProps) => (
   <div
     className={cn(
-      "text-center font-proxima font-bold leading-none text-primary dark:text-white",
+      "text-center font-bold leading-none text-primary dark:text-white",
       className
     )}
   >
