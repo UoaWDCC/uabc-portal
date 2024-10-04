@@ -173,7 +173,6 @@ export const EditSemesterFormDialog = () => {
           <TextInput
             label="Booking open time"
             type="time"
-            className="min-w-0"
             {...register("bookingOpenTime")}
             isError={!!errors.bookingOpenTime?.message}
             errorMessage={errors.bookingOpenTime?.message}

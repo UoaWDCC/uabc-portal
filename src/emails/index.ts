@@ -1,4 +1,4 @@
-import { SendEmailCommand, SES } from "@aws-sdk/client-ses";
+import { MessageRejected, SendEmailCommand, SES } from "@aws-sdk/client-ses";
 
 import { env } from "@/env";
 
@@ -64,7 +64,26 @@ export const sendEmail = async ({
     Source: env.MAIL_FROM,
   });
 
-  await client.send(sendEmailCommand);
+  const MAX_RETRIES = 5;
+  let retries = 0;
+  while (retries < MAX_RETRIES) {
+    try {
+      await client.send(sendEmailCommand);
+      break;
+    } catch (error) {
+      console.error("Error sending email:", error);
+      if (!(error instanceof MessageRejected)) break;
+      const waitTime = (Math.pow(2, retries) + 1 * Math.random()) * 1000;
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
+      retries++;
+    }
+  }
+  if (retries === MAX_RETRIES) {
+    console.error(
+      "Max retries exceeded. Email send failed for user emails:",
+      toAddresses
+    );
+  }
 };
 
 export const sendBookingConfirmationEmail = async (
