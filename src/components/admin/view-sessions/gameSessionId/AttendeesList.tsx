@@ -33,7 +33,10 @@ import {
   useAttendees,
   type AttendeesListResponse,
 } from "@/hooks/query/useAttendees";
-import SkeletonAttendeeList from "./EmptySkeletonAttendeeList";
+import {
+  SkeletonAccordianAttendeeList,
+  SkeletonTableAttendeeList,
+} from "./EmptySkeletonAttendeeList";
 
 const sortByMember = (a: AttendeesListResponse) => (a.member ? -1 : 1);
 
@@ -147,7 +150,7 @@ export const AttendeesTable = ({
       <div className="mb-32 overflow-hidden rounded border md:relative">
         <Table className="hidden md:table">
           <TableHeader>
-            <TableRow>
+            <TableRow className="whitespace-nowrap">
               <TableHead>
                 <button
                   className="flex items-center gap-1"
@@ -184,7 +187,7 @@ export const AttendeesTable = ({
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <SkeletonAttendeeList />
+              <SkeletonTableAttendeeList />
             ) : (
               sortedPlayers.attendees?.map((attendee, i) => (
                 <TableRow key={i} className="hidden md:table-row">
@@ -207,37 +210,41 @@ export const AttendeesTable = ({
           </TableBody>
         </Table>
 
-        {sortedPlayers.attendees?.map((attendee, i) => (
-          <Accordion
-            key={`accordian-${i}`}
-            type="single"
-            collapsible
-            className="md:hidden"
-          >
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="p-4">
-                <div>
-                  {attendee.name}
-                  {attendee.pro && <Badge className="ml-2">Pro</Badge>}
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="flex w-full truncate p-4">
-                <div className="mr-1 flex flex-col">
-                  <strong>Email:</strong>
-                  <strong>Member:</strong>
-                  <strong>Play Level:</strong>
-                </div>
-                <div>
-                  <p className="max-w-[200px] truncate xs:max-w-max">
-                    {attendee.email}{" "}
-                  </p>
-                  <p>{attendee.member ? "Yes" : "No"}</p>
-                  <p className="capitalize">{attendee.playLevel}</p>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        ))}
+        {isLoading ? (
+          <SkeletonAccordianAttendeeList className="md:hidden" />
+        ) : (
+          sortedPlayers.attendees?.map((attendee, i) => (
+            <Accordion
+              key={`accordian-${i}`}
+              type="single"
+              collapsible
+              className="md:hidden"
+            >
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="p-4">
+                  <div>
+                    {attendee.name}
+                    {attendee.pro && <Badge className="ml-2">Pro</Badge>}
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="flex w-full truncate p-4">
+                  <div className="mr-1 flex flex-col">
+                    <strong>Email:</strong>
+                    <strong>Member:</strong>
+                    <strong>Play Level:</strong>
+                  </div>
+                  <div>
+                    <p className="max-w-[200px] truncate xs:max-w-max">
+                      {attendee.email}{" "}
+                    </p>
+                    <p>{attendee.member ? "Yes" : "No"}</p>
+                    <p className="capitalize">{attendee.playLevel}</p>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          ))
+        )}
       </div>
     </>
   );
