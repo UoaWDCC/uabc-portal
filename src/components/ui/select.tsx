@@ -17,30 +17,28 @@ const SelectTrigger = React.forwardRef<
   }
 >(({ className, children, label, ...props }, ref) => {
   return (
-    <div className="relative w-full">
-      <SelectPrimitive.Trigger
-        ref={ref}
-        className={cn(
-          "group relative flex h-10 w-full items-center justify-between rounded-md bg-background px-3 py-2 text-sm ring-1 ring-inset ring-tertiary/70 placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:ring-2 data-[state=open]:ring-primary [&>span]:line-clamp-1",
-          className
-        )}
-        {...props}
-      >
-        {label && (
-          <span
-            className={cn(
-              "absolute left-3 top-[-8px] bg-background px-1 text-xs text-black duration-200 group-data-[state=open]:text-primary"
-            )}
-          >
-            {label}
-          </span>
-        )}
-        {children}
-        <SelectPrimitive.Icon asChild>
-          <ChevronDown className="h-4 w-4 opacity-50" />
-        </SelectPrimitive.Icon>
-      </SelectPrimitive.Trigger>
-    </div>
+    <SelectPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "group relative flex h-10 w-full items-center justify-between rounded-md bg-background px-3 py-2 text-sm ring-1 ring-inset ring-tertiary/70 placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:ring-2 data-[state=open]:ring-primary [&>span]:line-clamp-1",
+        className
+      )}
+      {...props}
+    >
+      {label && (
+        <span
+          className={cn(
+            "absolute left-3 top-[-8px] bg-background px-1 text-xs text-black duration-200 group-data-[state=open]:text-primary"
+          )}
+        >
+          {label}
+        </span>
+      )}
+      {children}
+      <SelectPrimitive.Icon asChild>
+        <ChevronDown className="h-4 w-4 opacity-50" />
+      </SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
   );
 });
 
