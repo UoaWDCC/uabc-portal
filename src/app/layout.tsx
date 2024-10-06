@@ -34,23 +34,6 @@ export const metadata: Metadata = {
   },
 };
 
-const ProximaNova = localFont({
-  src: [
-    {
-      path: "../../public/fonts/proximanova_regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/proximanova_bold.otf",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-  display: "swap",
-  variable: "--font-proxima",
-});
-
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -67,10 +50,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${ProximaNova.variable} ${inter.variable} font-sans`}
-    >
+    <html lang="en" className={`${inter.variable} font-sans`}>
       <body>
         <QueryClientProvider>
           <SessionProvider>
