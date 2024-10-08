@@ -31,6 +31,7 @@ export const POST = routeWrapper(async (req: NextRequest) => {
     return responses.tooManyRequests({
       message: "Rate limit exceeded, try again in 1 hour.",
     });
+
   const body = await req.json();
   const { newPassword, resetPasswordToken } = postRequestSchema.parse(body);
 
@@ -48,6 +49,7 @@ export const POST = routeWrapper(async (req: NextRequest) => {
 
   if (!matchingResetPasswordToken) {
     return responses.badRequest({
+      code: "INVALID_CODE",
       message: "Invalid reset token provided",
     });
   }

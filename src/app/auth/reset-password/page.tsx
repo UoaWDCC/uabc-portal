@@ -34,12 +34,11 @@ export default async function ResetPasswordPage({
   }
 
   return (
-    <div className="mx-4 mt-0 flex min-h-dvh flex-col">
-      <BackNavigationBar
-        title="Reset Your Passwords"
-        pathName="/auth/login"
-      ></BackNavigationBar>
-      <ResetPasswordForm token={token} />
+    <div className="mx-4 flex min-h-dvh flex-col">
+      <BackNavigationBar title="Reset Your Password" pathName="/auth/login" />
+      <div className="grid grow place-items-center">
+        <ResetPasswordForm token={token} />
+      </div>
     </div>
   );
 }

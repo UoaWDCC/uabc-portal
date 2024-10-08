@@ -51,5 +51,6 @@ export const config = {
     "/onboarding/:path*",
     "/auth/login",
     "/auth/signup",
+    "/auth/reset-password",
   ],
 };
