@@ -223,8 +223,13 @@ const success = (
     "Cache-Control": cache,
   };
 
+  if (!data) {
+    return new NextResponse(null, {
+      status: 204,
+    });
+  }
+
   return NextResponse.json(data, {
-    status: !!data ? 200 : 204,
     headers,
   });
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { redirect, useRouter } from "next/navigation";
 
 import { BackNavigationBar } from "@/components/BackNavigationBar";

@@ -16,15 +16,15 @@ export default async function AdminDashboardPage() {
         <Heading>Dashboard</Heading>
       </div>
       <div className="flex flex-col gap-4 px-4">
-        <DashboardButton href="admin/view-sessions">
+        <DashboardButton href="/admin/view-sessions">
           <CalendarDays size={24} className="min-w-6" />
           View Sessions
         </DashboardButton>
-        <DashboardButton href="admin/semesters">
+        <DashboardButton href="/admin/semesters">
           <CalendarClock size={24} className="min-w-6" />
           Edit Semester Schedules
         </DashboardButton>
-        <DashboardButton href="admin/members" className="relative">
+        <DashboardButton href="/admin/members" className="relative">
           <MemberApprovalPing />
           <BsPersonFillCheck size={24} className="min-w-6" /> Members
         </DashboardButton>

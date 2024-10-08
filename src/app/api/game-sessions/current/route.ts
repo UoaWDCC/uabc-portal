@@ -11,7 +11,6 @@ import {
   bookings,
   gameSessions,
 } from "@/lib/db/schema";
-import { rateLimit } from "@/lib/rate-limit";
 import { routeWrapper } from "@/lib/wrappers";
 
 interface Session {

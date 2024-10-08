@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -11,12 +10,12 @@ import { useValidateEmailMutation } from "@/hooks/mutations/registration";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
+import { emailSchema, passwordSchema } from "./formSchema";
 import { OTPFormAlertDialog } from "./OTPFormAlertDialog";
-import { passwordSchema, emailSchema } from "./formSchema";
 
 const formSchema = z.object({
   email: emailSchema,
-  password: passwordSchema
+  password: passwordSchema,
 });
 
 export const EmailSignUpForm = () => {

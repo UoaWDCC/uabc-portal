@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { PlayLevel } from "@/types/types";
+import type { PlayLevel } from "@/types/types";
 
 type Booking = {
   gameSessionId: number;

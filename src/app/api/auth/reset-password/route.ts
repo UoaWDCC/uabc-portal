@@ -1,5 +1,5 @@
 import { createHash } from "crypto";
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import { hash } from "bcrypt";
 import { and, eq, gt } from "drizzle-orm";
 import { z } from "zod";

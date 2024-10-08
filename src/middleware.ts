@@ -49,8 +49,6 @@ export const config = {
     "/sessions/:path*",
     "/booking-confirmation/:path*",
     "/onboarding/:path*",
-    "/auth/login",
-    "/auth/signup",
-    "/auth/reset-password",
+    "/auth/:path*",
   ],
 };

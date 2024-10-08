@@ -15,7 +15,6 @@ import {
   gameSessions,
   semesters,
 } from "@/lib/db/schema";
-import { getCurrentUser } from "@/lib/session";
 import { getWeekday } from "@/lib/utils";
 import { clampInterval } from "@/lib/utils/dates";
 import { adminRouteWrapper } from "@/lib/wrappers";

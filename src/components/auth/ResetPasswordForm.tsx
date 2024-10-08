@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -10,6 +9,7 @@ import { useResetPasswordMutation } from "@/hooks/mutations/reset-password";
 import { Card } from "../Card";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
+import { ToastAction } from "../ui/toast";
 import { useToast } from "../ui/use-toast";
 import { passwordSchema } from "./formSchema";
 
@@ -65,6 +65,15 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             title: "Invalid or expired token",
             description:
               "The reset token is invalid or has expired. Please request a new password reset.",
+            action: (
+              <ToastAction
+                altText="Request"
+                onClick={() => router.push("/auth/forgot-password")}
+              >
+                Request
+              </ToastAction>
+            ),
+
             variant: "destructive",
           });
         } else {

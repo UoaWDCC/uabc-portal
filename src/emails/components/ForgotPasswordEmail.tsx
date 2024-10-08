@@ -21,7 +21,7 @@ export default function ForgotPasswordEmail({
         click the link below:
       </Text>
 
-      <Link href={`${env.APP_URL}/reset-password?token=${token}`}>
+      <Link href={`${env.APP_URL}/auth/reset-password?token=${token}`}>
         Reset Password
       </Link>
 

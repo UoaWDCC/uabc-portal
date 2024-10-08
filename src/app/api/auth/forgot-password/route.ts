@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 import { and, eq, isNotNull } from "drizzle-orm";
 import { z } from "zod";
 
@@ -41,7 +41,5 @@ export const POST = routeWrapper(async function (req: NextRequest) {
     await sendForgotPasswordEmail(user, token);
   }
 
-  return new Response(null, {
-    status: 204,
-  });
+  return responses.success();
 });

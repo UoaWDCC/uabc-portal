@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-export const useForgotPasswordEmailMutation = () => {
+export const useForgotPasswordMutation = () => {
   const mutation = useMutation({
     mutationFn: async (email: string) => {
       const res = await fetch("/api/auth/forgot-password", {
@@ -12,7 +12,10 @@ export const useForgotPasswordEmailMutation = () => {
           "Content-Type": "application/json",
         },
       });
-      if (!res.ok) throw new Error(res.status.toString());
+      if (!res.ok) {
+        const { code } = await res.json();
+        throw new Error(code);
+      }
     },
   });
   return mutation;
