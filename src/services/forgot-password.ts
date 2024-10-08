@@ -8,15 +8,15 @@ import { db } from "@/lib/db";
 import { forgotPasswordTokens } from "@/lib/db/schema";
 
 /**
- * creates and inserts a 6-digit verification token into the database
- *
+ * creates and inserts a password token into the database
  */
 export const insertForgotPasswordToken = async (email: string) => {
   await db
     .delete(forgotPasswordTokens)
     .where(and(eq(forgotPasswordTokens.identifier, email)));
 
-  const hashedToken = createHash('sha256').update(email + randomBytes(128).toString("hex")).digest('hex');
+  const token = randomBytes(32).toString("hex");
+  const hashedToken = createHash("sha256").update(token).digest("hex");
 
   await db.insert(forgotPasswordTokens).values({
     identifier: email,
@@ -24,5 +24,5 @@ export const insertForgotPasswordToken = async (email: string) => {
     expires: new Date(Date.now() + FORGOT_PASSWORD_TOKEN_EXPIRY_TIME * 1000),
   });
 
-  return hashedToken;
+  return token;
 };

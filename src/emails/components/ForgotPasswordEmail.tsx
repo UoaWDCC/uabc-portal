@@ -1,8 +1,7 @@
 import { Link, Text } from "@react-email/components";
 
-import { EmailLayout } from "./common/EmailLayout";
-
 import { env } from "@/env";
+import { EmailLayout } from "./common/EmailLayout";
 
 interface ForgotPasswordEmailProps {
   firstName: string;
@@ -18,20 +17,23 @@ export default function ForgotPasswordEmail({
       <Text>Hi {firstName},</Text>
 
       <Text>
-        As you have requested for reset password instructions, here they are,
-        please follow the URL:
+        Thanks for requesting a password reset. To create a new password, please
+        click the link below:
       </Text>
 
-      <Link
-        href={`${env.APP_URL}/reset-password?resetPasswordToken=${token}`}
-      >
+      <Link href={`${env.APP_URL}/reset-password?token=${token}`}>
         Reset Password
       </Link>
 
-      <Text>Alternatively, open the following url in your browser</Text>
+      <Text>
+        If you didn&apos;t make this request, you can ignore this email and
+        carry on as usual.
+      </Text>
 
       <Text>
-        <pre>{env.APP_URL}/reset-password?resetPasswordToken={token}</pre>
+        Best Regards,
+        <br />
+        The UABC Team
       </Text>
     </EmailLayout>
   );
