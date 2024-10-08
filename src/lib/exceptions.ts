@@ -18,10 +18,10 @@ export class StatusError extends Error {
 }
 
 export class RateLimitError extends StatusError {
-  constructor() {
+  constructor(message?: string) {
     super({
       status: 429,
-      message: "Rate limit exceeded",
+      message: message || "Rate limit exceeded",
       code: "RATE_LIMIT_EXCEEDED",
     });
   }

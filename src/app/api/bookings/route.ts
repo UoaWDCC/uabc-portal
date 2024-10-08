@@ -18,15 +18,16 @@ import {
   users,
 } from "@/lib/db/schema";
 import { StatusError } from "@/lib/exceptions";
+import { rateLimit } from "@/lib/rate-limit";
 import { obfuscateId } from "@/lib/sqid";
 import { nzstParse } from "@/lib/utils/dates";
 import { userRouteWrapper } from "@/lib/wrappers";
 import { userCache } from "@/services/user";
 import type { User } from "@/types/next-auth";
 
-/**
- * Creates a booking for the current user
- */
+const limiter = rateLimit({
+  interval: 5 * 60 * 1000, // 60 seconds
+});
 
 const bookingSchema = z.array(
   z.object({
@@ -44,6 +45,13 @@ export const POST = userRouteWrapper(
     if (currentUser.member && !currentUser.verified) {
       return responses.forbidden();
     }
+
+    const isRateLimited = limiter.check(5); // max 5 requests per 5 minutes per IP
+
+    if (isRateLimited)
+      return responses.tooManyRequests({
+        message: "Rate limit exceeded, try again in 5 minutes.",
+      });
 
     // parse the input array of objects and check if the user has enough sessions
     const body = bookingSchema.parse(await request.json());

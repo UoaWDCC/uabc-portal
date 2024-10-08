@@ -7,7 +7,12 @@ import { z } from "zod";
 import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { forgotPasswordTokens, users } from "@/lib/db/schema";
+import { rateLimit } from "@/lib/rate-limit";
 import { routeWrapper } from "@/lib/wrappers";
+
+const limiter = rateLimit({
+  interval: 60 * 60 * 1000, // 1 hour
+});
 
 const postRequestSchema = z.object({
   newPassword: z
@@ -20,6 +25,12 @@ const postRequestSchema = z.object({
 });
 
 export const POST = routeWrapper(async (req: NextRequest) => {
+  const isRateLimited = limiter.check(5);
+
+  if (isRateLimited)
+    return responses.tooManyRequests({
+      message: "Rate limit exceeded, try again in 1 hour.",
+    });
   const body = await req.json();
   const { newPassword, resetPasswordToken } = postRequestSchema.parse(body);
 
