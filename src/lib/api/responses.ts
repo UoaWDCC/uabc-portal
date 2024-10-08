@@ -182,6 +182,33 @@ const internalServerError = ({
   );
 };
 
+const tooManyRequests = ({
+  message,
+  cors = false,
+  cache = "private, no-store",
+}: {
+  message: string;
+  cors?: boolean;
+  cache?: string;
+}) => {
+  const headers = {
+    ...(cors && corsHeaders),
+    "Cache-Control": cache,
+  };
+
+  return NextResponse.json(
+    {
+      code: "TOO_MANY_REQUESTS",
+      message,
+      details: {},
+    } as ApiErrorResponse,
+    {
+      status: 429,
+      headers,
+    }
+  );
+};
+
 const success = (
   data?: object,
   options?: {
@@ -196,8 +223,13 @@ const success = (
     "Cache-Control": cache,
   };
 
+  if (!data) {
+    return new NextResponse(null, {
+      status: 204,
+    });
+  }
+
   return NextResponse.json(data, {
-    status: !!data ? 200 : 204,
     headers,
   });
 };
@@ -209,5 +241,6 @@ export const responses = {
   unauthorized,
   notFound,
   forbidden,
+  tooManyRequests,
   success,
 };

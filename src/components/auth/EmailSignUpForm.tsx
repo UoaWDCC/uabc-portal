@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -10,16 +10,12 @@ import { useValidateEmailMutation } from "@/hooks/mutations/registration";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
+import { emailSchema, passwordSchema } from "./formSchema";
 import { OTPFormAlertDialog } from "./OTPFormAlertDialog";
 
 const formSchema = z.object({
-  email: z.string().email(),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" })
-    .regex(/\d/, { message: "Password must contain a number" })
-    .regex(/[a-z]/, { message: "Password must contain a lowercase letter" })
-    .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" }),
+  email: emailSchema,
+  password: passwordSchema,
 });
 
 export const EmailSignUpForm = () => {

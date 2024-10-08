@@ -9,6 +9,7 @@ import { render } from "@react-email/components";
 import { getBookingBySqid } from "@/services/booking";
 import type { User } from "@/types/next-auth";
 import CasualBookingConfirmationEmail from "./components/CasualBookingConfirmationEmail";
+import ForgotPasswordEmail from "./components/ForgotPasswordEmail";
 import MemberApprovalEmail from "./components/MemberApprovalEmail";
 import MemberBookingConfirmationEmail from "./components/MemberBookingConfirmationEmail";
 import MemberRejectionEmail from "./components/MemberRejectionEmail";
@@ -84,6 +85,19 @@ export const sendEmail = async ({
       toAddresses
     );
   }
+};
+
+export const sendForgotPasswordEmail = async (user: User, token: string) => {
+  await sendEmail({
+    toAddresses: [user.email],
+    subject: "UABC password reset",
+    html: render(
+      ForgotPasswordEmail({
+        firstName: user.firstName!,
+        token: token,
+      })
+    ),
+  });
 };
 
 export const sendBookingConfirmationEmail = async (

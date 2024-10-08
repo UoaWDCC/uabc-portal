@@ -4,18 +4,17 @@ import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { cn } from "@/lib/utils";
 import { TextInput } from "../TextInput";
 import { Button } from "../ui/button";
+import { emailSchema } from "./formSchema";
 
 interface SignUpFormData {
   email: string;
   password: string;
 }
 
-const emailSchema = z.string().email();
 
 export const EmailLoginForm = () => {
   const searchParams = useSearchParams();
