@@ -24,6 +24,7 @@ export async function getUserFromId(userId: string) {
       member: true,
       verified: true,
       prepaidSessions: true,
+      playLevel: true,
     },
   });
 }
