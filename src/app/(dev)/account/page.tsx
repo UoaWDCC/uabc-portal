@@ -1,4 +1,5 @@
 import React from "react";
+import { redirect } from "next/navigation";
 
 import type { CurrentUserProps } from "@/lib/hoc/withCurrentUser";
 import withCurrentUser from "@/lib/hoc/withCurrentUser";
@@ -12,6 +13,13 @@ export const metadata = {
 
 async function AccountPage({ currentUser }: CurrentUserProps) {
   const user = await getUserFromId(currentUser.id);
+
+  // Check if the user or any required fields are missing
+  if (!user || !user.firstName || !user.lastName || !user.email) {
+    // Redirect to login if any required fields are missing
+    redirect("/auth/login");
+  }
+
   const playLevel: PlayLevel = user?.playLevel ?? "beginner";
 
   return (
@@ -20,7 +28,7 @@ async function AccountPage({ currentUser }: CurrentUserProps) {
         firstName={user?.firstName || ""}
         lastName={user?.lastName || ""}
         email={user?.email || ""}
-        playLevel={playLevel || "beginner"}
+        playLevel={playLevel}
         member={user?.member || false}
       />
     </div>
