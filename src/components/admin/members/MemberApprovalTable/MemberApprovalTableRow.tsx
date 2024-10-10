@@ -78,11 +78,8 @@ export function MemberApprovalTableRow({
         <TableCell className="min-w-[100px] max-w-[150px] truncate xs:table-cell sm:max-w-full">
           {email}
         </TableCell>
-        <TableCell>
-          <form
-            onSubmit={handleSubmit(handleApproveClick)}
-            className="hidden lg:table-cell"
-          >
+        <TableCell className="hidden lg:table-cell">
+          <form onSubmit={handleSubmit(handleApproveClick)}>
             <TextInput
               type="number"
               className="h-10 w-[200px]"

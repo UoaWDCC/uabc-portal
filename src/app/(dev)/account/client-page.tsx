@@ -17,7 +17,6 @@ interface ClientAccountPageProps {
   selectedLevel?: PlayLevel;
   member: boolean;
 }
-
 const PLAY_LEVELS: PlayLevel[] = ["beginner", "intermediate", "advanced"];
 
 export default function ClientAccountPage({
