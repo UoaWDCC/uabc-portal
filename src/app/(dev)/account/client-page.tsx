@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { BackNavigationBar } from "@/components/BackNavigationBar";
 import { TextInput } from "@/components/TextInput";
@@ -20,6 +23,16 @@ interface ClientAccountPageProps {
 
 const PLAY_LEVELS: PlayLevel[] = ["beginner", "intermediate", "advanced"];
 
+const formSchema = z.object({
+  firstName: z.string().min(1, "Field is required"),
+  lastName: z.string().min(1, "Field is required"),
+  playLevel: z.union([
+    z.literal("beginner"),
+    z.literal("intermediate"),
+    z.literal("advanced"),
+  ]),
+});
+
 export default function ClientAccountPage({
   firstName: initialFirstName,
   lastName: initialLastName,
@@ -27,25 +40,30 @@ export default function ClientAccountPage({
   playLevel: initialPlayLevel,
   member,
 }: ClientAccountPageProps) {
-  const [firstName, setFirstName] = useState(initialFirstName);
-  const [lastName, setLastName] = useState(initialLastName);
-  const [email, setEmail] = useState(initialEmail);
-  const [playLevel, setPlayLevel] = useState<PlayLevel>(initialPlayLevel);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isDirty },
+    watch,
+  } = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: initialFirstName,
+      lastName: initialLastName,
+      playLevel: initialPlayLevel,
+    },
+  });
 
-  const handleSave = () => {
+  const [email, setEmail] = useState(initialEmail);
+
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
     // Handle save functionality
-    console.log("Saving user data:", {
-      firstName,
-      lastName,
-      email,
-      playLevel,
-      member,
-    });
+    console.log("Saving user data:", data);
   };
 
   return (
     <div className="mx-4 flex h-dvh flex-col gap-y-4">
-      <BackNavigationBar title="Account" pathName="/onboarding/name" />
+      <BackNavigationBar title="Account" pathName="/sessions" />
 
       <div className="absolute right-4 top-4 flex h-6 items-center justify-center rounded-full bg-tertiary px-4">
         <span className="text-center text-sm font-medium text-tertiary-foreground">
@@ -55,48 +73,54 @@ export default function ClientAccountPage({
 
       <div className="flex flex-grow flex-col items-center justify-center">
         {/* Profile Settings Tab */}
+
         <div className="mb-4 w-full max-w-[460px] rounded-lg border p-6">
           <h2 className="mb-2 text-lg font-bold">Full Name</h2>
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <TextInput
               label="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
               type="text"
+              {...register("firstName")}
+              isError={!!errors.firstName?.message}
+              errorMessage={errors.firstName?.message}
             />
             <TextInput
               label="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
               type="text"
+              {...register("lastName")}
+              isError={!!errors.lastName?.message}
+              errorMessage={errors.lastName?.message}
             />
 
             {/* Play Level Selector */}
             <h2 className="mb-2 text-lg font-bold">Play Level</h2>
             <div className="grid grid-cols-3 gap-2 rounded-md border border-tertiary p-2">
               {PLAY_LEVELS.map((level) => (
-                <button
-                  key={level}
-                  className={cn(
-                    "h-12 rounded-md text-sm font-semibold capitalize",
-                    playLevel === level
-                      ? "bg-primary text-primary-foreground"
-                      : "border-none bg-background text-foreground"
-                  )}
-                  onClick={() => setPlayLevel(level)}
-                  type="button" // Prevents form submission
-                >
-                  {level}
-                </button>
+                <label key={level} className="flex items-center">
+                  <input
+                    type="radio"
+                    value={level}
+                    className="hidden"
+                    {...register("playLevel")}
+                  />
+                  <span
+                    className={cn(
+                      "flex h-12 w-full cursor-pointer items-center justify-center rounded-md text-sm font-semibold capitalize",
+                      watch("playLevel") === level
+                        ? "bg-primary text-primary-foreground"
+                        : "border-none bg-background text-foreground"
+                    )}
+                  >
+                    {level}
+                  </span>
+                </label>
               ))}
             </div>
 
             <Button
+              type="submit"
               className="mt-4 rounded px-4 py-2"
-              onClick={handleSave}
-              // disabled=...?
+              disabled={!isDirty}
             >
               Save Changes
             </Button>
@@ -104,12 +128,14 @@ export default function ClientAccountPage({
         </div>
 
         {/* Email Address Tab */}
-        <div className="mb-4 flex w-full max-w-[460px] items-center justify-between rounded-lg border p-6">
-          <div>
-            <h2 className="mb-2 text-lg font-bold">Email Address</h2>
+        <div className="mb-4 flex w-full max-w-[460px] flex-col items-start justify-between rounded-lg border p-6">
+          <h2 className="mb-2 text-lg font-bold">Email Address</h2>
+          <div className="flex w-full flex-col gap-2 break-words md:flex-row md:items-center md:justify-between">
             <p>{email}</p>
+            <div>
+              <Button variant={"outline"}>Change Email</Button>
+            </div>
           </div>
-          <Button variant={"outline"}>Change Email</Button>
         </div>
 
         {/* Password Tab */}
