@@ -1,6 +1,8 @@
 import { headers } from "next/headers";
 import { LRUCache } from "lru-cache";
 
+import { env } from "@/env";
+
 type Options = {
   uniqueTokenPerInterval?: number;
   interval?: number;
@@ -25,6 +27,7 @@ export function rateLimit(options?: Options) {
 
   return {
     check: (limit: number, token?: string) => {
+      if (env.ENVIRONMENT === "DEVELOPMENT") return false;
       const resolvedToken = token || IP();
       const tokenCount = (tokenCache.get(resolvedToken) as number[]) || [0];
       if (tokenCount[0] === 0) {

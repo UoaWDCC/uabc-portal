@@ -71,6 +71,13 @@ export default function ClientSelectPlayLevelPage() {
             description: `You have already reached the session booking limit for this week.`,
             variant: "destructive",
           });
+        } else if (code === "TOO_MANY_REQUESTS") {
+          toast({
+            title: "Too Many Requests",
+            description:
+              "You have made too many booking requests in a short period. Please wait a moment and try again.",
+            variant: "destructive",
+          });
         } else {
           toast({
             title: "Something went wrong.",

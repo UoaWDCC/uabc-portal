@@ -26,7 +26,7 @@ import { userCache } from "@/services/user";
 import type { User } from "@/types/next-auth";
 
 const limiter = rateLimit({
-  interval: 5 * 60 * 1000, // 60 seconds
+  interval: 10 * 60 * 1000,
 });
 
 const bookingSchema = z.array(
@@ -46,7 +46,7 @@ export const POST = userRouteWrapper(
       return responses.forbidden();
     }
 
-    const isRateLimited = limiter.check(5); // max 5 requests per 5 minutes per IP
+    const isRateLimited = limiter.check(10); // max 10 requests per 10 minutes per IP
 
     if (isRateLimited)
       return responses.tooManyRequests({
