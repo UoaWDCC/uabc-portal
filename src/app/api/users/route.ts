@@ -79,6 +79,7 @@ export const GET = adminRouteWrapper(async (req) => {
       firstName: true,
       lastName: true,
       email: true,
+      prepaidSessions: true,
     },
     limit: paginationParams.limit,
     offset: paginationParams.offset,
