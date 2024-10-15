@@ -13,7 +13,7 @@ declare global {
 
 let db: PostgresJsDatabase<typeof schema & typeof relations>;
 
-if (env.ENVIRONMENT === "PRODUCTION") {
+if (process.env.NODE_ENV === "production") {
   db = drizzle(postgres(env.DATABASE_URL), {
     schema: {
       ...schema,
