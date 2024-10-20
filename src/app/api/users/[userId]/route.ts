@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { userRouteWrapper } from "@/lib/wrappers";
 import { getUserFromId } from "@/services/user";
+import { updateUserSchema } from "@/lib/validators";
 
 export const GET = userRouteWrapper(
   async (_req, { params }: { params: { userId: string } }, currentUser) => {
@@ -46,5 +47,39 @@ export const DELETE = userRouteWrapper(
     }
 
     return responses.success();
+  }
+);
+
+export const PATCH = userRouteWrapper(
+  async (req, { params }: { params: { userId: string } }, currentUser) => {
+
+    const { userId } = params;
+
+    if (currentUser.role !== "admin" && currentUser.id !== userId) {
+      return responses.forbidden();
+    }
+
+    const body = await req.json();
+
+    const { firstName, lastName, playLevel } = updateUserSchema.parse(body);
+
+    const [user] = await db
+      .update(users)
+      .set({
+        firstName: firstName,
+        lastName: lastName,
+        playLevel: playLevel,
+      })
+      .where(eq(users.id, userId))
+      .returning();
+
+    if (!user) {
+      return responses.notFound({
+        resourceType: "user",
+        resourceId: userId,
+      });
+    }
+
+    return NextResponse.json(user);
   }
 );

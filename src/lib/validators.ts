@@ -6,6 +6,7 @@ import {
   gameSessionExceptions,
   gameSessions,
   gameSessionSchedules,
+  playLevelEnum,
   semesters,
   weekdayEnum,
 } from "./db/schema";
@@ -46,9 +47,10 @@ export const updateSemesterSchema = z.object({
 });
 
 export const updateUserSchema = z.object({
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  member: z.boolean(),
+  firstName: z.string().min(1).optional(),
+  lastName: z.string().min(1).optional(),
+  member: z.boolean().optional(),
+  playLevel: z.enum(playLevelEnum.enumValues).optional(),
 });
 
 export const insertGameSessionScheduleSchema = createInsertSchema(
