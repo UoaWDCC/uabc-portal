@@ -58,10 +58,10 @@ export function MemberManagementTable({ className }: { className?: string }) {
           <TableRow>
             <TableHead className="w-[200px]">Name</TableHead>
             <TableHead className="lg:table-cell">Email</TableHead>
-            <TableHead className="w-[200px] lg:table-cell">
+            <TableHead className="w-[200px] lg:table-cell text-center">
               Prepaid Sessions
             </TableHead>
-            <TableHead className="w-[200px] lg:table-cell">
+            <TableHead className="w-[200px] lg:table-cell text-center">
               Actions
             </TableHead>
           </TableRow>
@@ -89,19 +89,6 @@ export function MemberManagementTable({ className }: { className?: string }) {
           )}
         </TableBody>
       </Table>
-      {/* {table.getPageCount() > 1 && (
-        <div className="border-t border-border py-2">
-          <MemberManagementTablePagination
-            hasPreviousPage={table.getCanPreviousPage()}
-            hasNextPage={table.getCanNextPage()}
-            pageIndex={pagination.pageIndex}
-            pageCount={table.getPageCount()}
-            previousPage={table.previousPage}
-            nextPage={table.nextPage}
-            setPageIndex={table.setPageIndex}
-          />
-        </div>
-      )} */}
     </div>
   );
 }

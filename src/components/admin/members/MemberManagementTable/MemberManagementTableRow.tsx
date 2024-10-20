@@ -46,13 +46,13 @@ export function MemberManagementTableRow({
       <TableCell className="min-w-[100px] max-w-[150px] truncate xs:table-cell sm:max-w-full">
         {email}
       </TableCell>
-      <TableCell className="min-w-[100px] max-w-[150px] text-left">
+      <TableCell className="min-w-[100px] max-w-[150px] text-center">
         {prepaidSessions}
       </TableCell>
       <TableCell className="p-4 text-center">
-        <div className="flex h-10 items-center justify-left">
-          <Button className="h-6 w-8" variant="outline">
-            <Ellipsis className="absolute w-4 stroke-tertiary" />
+        <div className="flex h-10 items-center justify-center">
+          <Button className="h-6 w-12" variant="outline">
+            Edit
           </Button>
         </div>
       </TableCell>
