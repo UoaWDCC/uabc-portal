@@ -6,8 +6,8 @@ import type { Row } from "@tanstack/react-table";
 import { Ellipsis } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
+import { TableCell, TableRow } from "@/components/ui/table";
 import type { Member } from "./columns";
 
 interface MemberManagementTableRowProps {
