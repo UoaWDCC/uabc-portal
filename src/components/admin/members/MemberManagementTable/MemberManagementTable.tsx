@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   getCoreRowModel,
   getPaginationRowModel,
@@ -58,10 +58,10 @@ export function MemberManagementTable({ className }: { className?: string }) {
           <TableRow>
             <TableHead className="w-[200px]">Name</TableHead>
             <TableHead className="lg:table-cell">Email</TableHead>
-            <TableHead className="w-[200px] lg:table-cell text-center">
+            <TableHead className="w-[200px] text-center lg:table-cell">
               Prepaid Sessions
             </TableHead>
-            <TableHead className="w-[200px] lg:table-cell text-center">
+            <TableHead className="w-[200px] text-center lg:table-cell">
               Actions
             </TableHead>
           </TableRow>

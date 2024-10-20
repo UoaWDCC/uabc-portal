@@ -1,11 +1,7 @@
 "use client";
 
-import React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { Row } from "@tanstack/react-table";
-import { Ellipsis } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { Member } from "./columns";
@@ -15,25 +11,9 @@ interface MemberManagementTableRowProps {
   userId: string;
 }
 
-const formSchema = z.object({
-  prepaidSessions: z
-    .string()
-    .min(1, "Field is required")
-    .pipe(z.coerce.number().positive()),
-});
-
 export function MemberManagementTableRow({
   row,
-  userId,
 }: MemberManagementTableRowProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, touchedFields },
-  } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
-
   const name: string = row.getValue("name");
   const email: string = row.getValue("email");
   const prepaidSessions: string = row.getValue("prepaidSessions");
