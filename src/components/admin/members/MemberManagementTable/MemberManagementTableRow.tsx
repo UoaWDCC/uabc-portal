@@ -2,29 +2,12 @@
 
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
 import type { Row } from "@tanstack/react-table";
 import { Ellipsis } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Card } from "@/components/Card";
-import { TextInput } from "@/components/TextInput";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { TableCell, TableRow } from "@/components/ui/table";
-import {
-  useApproveUserMutation,
-  useRejectUserMutation,
-} from "@/hooks/mutations/user";
 import type { Member } from "./columns";
 
 interface MemberManagementTableRowProps {
