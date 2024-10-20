@@ -7,6 +7,8 @@ import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { adminRouteWrapper } from "@/lib/wrappers";
 
+export const dynamic = "force-dynamic";
+
 const getSearchParamsSchema = z.object({
   verified: z
     .string()

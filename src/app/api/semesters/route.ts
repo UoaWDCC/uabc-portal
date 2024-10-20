@@ -7,6 +7,8 @@ import { semesters } from "@/lib/db/schema";
 import { insertSemesterSchema } from "@/lib/validators";
 import { adminRouteWrapper } from "@/lib/wrappers";
 
+export const dynamic = "force-dynamic";
+
 export const GET = adminRouteWrapper(async () => {
   const semesters = await db.query.semesters.findMany({
     orderBy: (semesters, { asc }) => asc(semesters.createdAt),

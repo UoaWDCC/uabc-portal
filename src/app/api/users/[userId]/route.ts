@@ -4,9 +4,11 @@ import { eq } from "drizzle-orm";
 import { responses } from "@/lib/api/responses";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
+import { updateUserSchema } from "@/lib/validators";
 import { userRouteWrapper } from "@/lib/wrappers";
 import { getUserFromId } from "@/services/user";
-import { updateUserSchema } from "@/lib/validators";
+
+export const dynamic = "force-dynamic";
 
 export const GET = userRouteWrapper(
   async (_req, { params }: { params: { userId: string } }, currentUser) => {
@@ -52,7 +54,6 @@ export const DELETE = userRouteWrapper(
 
 export const PATCH = userRouteWrapper(
   async (req, { params }: { params: { userId: string } }, currentUser) => {
-
     const { userId } = params;
 
     if (currentUser.role !== "admin" && currentUser.id !== userId) {

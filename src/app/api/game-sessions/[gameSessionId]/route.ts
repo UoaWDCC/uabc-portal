@@ -8,6 +8,8 @@ import { gameSessions } from "@/lib/db/schema";
 import { updateGameSessionSchema } from "@/lib/validators";
 import { adminRouteWrapper } from "@/lib/wrappers";
 
+export const dynamic = "force-dynamic";
+
 const routeContextSchema = z.object({
   params: z.object({
     gameSessionId: z.coerce.number(),

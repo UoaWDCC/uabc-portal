@@ -9,6 +9,8 @@ import { users } from "@/lib/db/schema";
 import { adminRouteWrapper } from "@/lib/wrappers";
 import { userCache } from "@/services/user";
 
+export const dynamic = "force-dynamic";
+
 const approveUserSchema = z.object({
   prepaidSessions: z.number(),
 });

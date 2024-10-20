@@ -7,6 +7,8 @@ import { db } from "@/lib/db";
 import { users, verificationTokens } from "@/lib/db/schema";
 import { routeWrapper } from "@/lib/wrappers";
 
+export const dynamic = "force-dynamic";
+
 const postRequestSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8).regex(/\d/).regex(/[a-z]/).regex(/[A-Z]/),

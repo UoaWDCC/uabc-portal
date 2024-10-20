@@ -7,6 +7,8 @@ import { updateUserSchema } from "@/lib/validators";
 import { userRouteWrapper } from "@/lib/wrappers";
 import { userCache } from "@/services/user";
 
+export const dynamic = "force-dynamic";
+
 /**
  * PATCH function that updates a user's details
  */

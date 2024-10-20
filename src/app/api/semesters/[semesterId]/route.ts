@@ -9,6 +9,8 @@ import { getZonedBookingOpenTime } from "@/lib/utils/game-sessions";
 import { updateSemesterSchema } from "@/lib/validators";
 import { adminRouteWrapper } from "@/lib/wrappers";
 
+export const dynamic = "force-dynamic";
+
 const routeContextSchema = z.object({
   params: z.object({
     semesterId: z.coerce.number(),

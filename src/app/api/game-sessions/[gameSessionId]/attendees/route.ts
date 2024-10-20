@@ -7,6 +7,8 @@ import { db } from "@/lib/db";
 import { bookingDetails, bookings, gameSessions, users } from "@/lib/db/schema";
 import { adminRouteWrapper } from "@/lib/wrappers";
 
+export const dynamic = "force-dynamic";
+
 const routeContextSchema = z.object({
   params: z.object({
     gameSessionId: z.coerce.number(),

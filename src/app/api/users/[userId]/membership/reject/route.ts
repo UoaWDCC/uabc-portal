@@ -8,6 +8,8 @@ import { users } from "@/lib/db/schema";
 import { adminRouteWrapper } from "@/lib/wrappers";
 import { userCache } from "@/services/user";
 
+export const dynamic = "force-dynamic";
+
 export const PATCH = adminRouteWrapper(
   async (_req: NextRequest, { params }: { params: { userId: string } }) => {
     const { userId } = params;

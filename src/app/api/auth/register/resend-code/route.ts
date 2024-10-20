@@ -8,6 +8,8 @@ import { users } from "@/lib/db/schema";
 import { routeWrapper } from "@/lib/wrappers";
 import { insertVerificationToken } from "@/services/user";
 
+export const dynamic = "force-dynamic";
+
 const postRequestSchema = z.object({
   email: z.string().email(),
 });

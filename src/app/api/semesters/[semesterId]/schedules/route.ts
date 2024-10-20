@@ -8,6 +8,8 @@ import { gameSessionSchedules } from "@/lib/db/schema";
 import { insertGameSessionScheduleSchema } from "@/lib/validators";
 import { adminRouteWrapper } from "@/lib/wrappers";
 
+export const dynamic = "force-dynamic";
+
 const routeContextSchema = z.object({
   params: z.object({
     semesterId: z.coerce.number(),

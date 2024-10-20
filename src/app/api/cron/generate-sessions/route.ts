@@ -29,6 +29,8 @@ import { insertGameSessionSchema } from "@/lib/validators";
 import { routeWrapper } from "@/lib/wrappers";
 import { getOrCreateBookingPeriod } from "@/services/game-sessions";
 
+export const dynamic = "force-dynamic";
+
 export const POST = routeWrapper(async () => {
   const headersList = headers();
   const apiKey = headersList.get("x-api-key");

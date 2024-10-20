@@ -4,6 +4,8 @@ import { responses } from "@/lib/api/responses";
 import { userRouteWrapper } from "@/lib/wrappers";
 import { getBookingBySqid } from "@/services/booking";
 
+export const dynamic = "force-dynamic";
+
 export const GET = userRouteWrapper(
   async (_req, { params }: { params: { bookingId: string } }, currentUser) => {
     const userBooking = await getBookingBySqid(params.bookingId);

@@ -37,6 +37,8 @@ import {
 import { adminRouteWrapper } from "@/lib/wrappers";
 import { getOrCreateBookingPeriod } from "@/services/game-sessions";
 
+export const dynamic = "force-dynamic";
+
 export const GET = adminRouteWrapper(async (req: NextRequest) => {
   const date = req.nextUrl.searchParams.get("date");
   const gameSessionDate = z.string().date().parse(date);

@@ -13,6 +13,8 @@ import {
 } from "@/lib/db/schema";
 import { routeWrapper } from "@/lib/wrappers";
 
+export const dynamic = "force-dynamic";
+
 interface Session {
   id: number;
   date: string;
@@ -25,8 +27,6 @@ interface Session {
   memberBookingCount: number;
   casualBookingCount: number;
 }
-
-export const dynamic = "force-dynamic";
 
 const pgDialect = new PgDialect();
 

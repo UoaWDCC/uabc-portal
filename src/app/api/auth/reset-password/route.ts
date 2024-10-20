@@ -10,6 +10,8 @@ import { forgotPasswordTokens, users } from "@/lib/db/schema";
 import { rateLimit } from "@/lib/rate-limit";
 import { routeWrapper } from "@/lib/wrappers";
 
+export const dynamic = "force-dynamic";
+
 const limiter = rateLimit({
   interval: 60 * 60 * 1000, // 1 hour
 });

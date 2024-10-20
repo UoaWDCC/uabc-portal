@@ -25,6 +25,8 @@ import { userRouteWrapper } from "@/lib/wrappers";
 import { userCache } from "@/services/user";
 import type { User } from "@/types/next-auth";
 
+export const dynamic = "force-dynamic";
+
 const limiter = rateLimit({
   interval: 10 * 60 * 1000,
 });

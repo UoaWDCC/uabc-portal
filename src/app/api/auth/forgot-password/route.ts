@@ -10,6 +10,8 @@ import { rateLimit } from "@/lib/rate-limit";
 import { routeWrapper } from "@/lib/wrappers";
 import { insertForgotPasswordToken } from "@/services/forgot-password";
 
+export const dynamic = "force-dynamic";
+
 const postRequestSchema = z.object({
   email: z.string().email(),
 });
