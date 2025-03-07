@@ -10,7 +10,7 @@ export type PendingMemberResponse = {
 };
 
 const fetchPendingMembers = async (): Promise<PendingMemberResponse[]> => {
-  const response = await fetch(`/api/users?member=true&verified=false`, {
+  const response = await fetch(`/api/users?member=false`, {
     cache: "no-store",
   });
   return response.json();
@@ -24,4 +24,3 @@ export const usePendingMembers = () => {
 
   return query;
 };
-
