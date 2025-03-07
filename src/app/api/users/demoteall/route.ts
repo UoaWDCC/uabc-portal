@@ -10,7 +10,7 @@ export const PATCH = adminRouteWrapper(async (_req: NextRequest) => {
   // We only want to update the membership field to keep their verification status(returning).
   await db
     .update(users)
-    .set({ member: false })
+    .set({ member: false, prepaidSessions: 0 })
     .where(ne(users.role, roleEnum.enumValues[0]))
     // .where(and(eq(users.member, true), ne(users.role, roleEnum.enumValues[0])))
     .catch((error) => {

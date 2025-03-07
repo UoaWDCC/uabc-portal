@@ -25,7 +25,7 @@ export const PATCH = adminRouteWrapper(
 
     const [user] = await db
       .update(users)
-      .set({ verified: true, prepaidSessions })
+      .set({ verified: true, prepaidSessions, member: true })
       .where(eq(users.id, userId))
       .returning();
 
