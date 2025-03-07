@@ -2,10 +2,13 @@ import { randomInt } from "crypto";
 import { exit } from "process";
 import { faker } from "@faker-js/faker";
 import { addMonths, format } from "date-fns";
+import dotenv from "dotenv";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
 import * as schema from "@/lib/db/schema";
+
+dotenv.config();
 
 if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is not set");

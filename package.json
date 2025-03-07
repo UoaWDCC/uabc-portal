@@ -14,7 +14,7 @@
     "lint": "next lint",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "node --env-file=.env -r esbuild-register ./src/lib/db/seed.ts",
+    "db:seed": "node -r esbuild-register ./src/lib/db/seed.ts",
     "storybook": "storybook dev -p 6006"
   },
   "pnpm": {
