@@ -51,7 +51,7 @@ export default function NamePage() {
               large
               className="w-full"
               type="submit"
-              disabled={firstName === "" || lastName === "" ? true : false}
+              disabled={!firstName || !lastName}
             >
               Continue
             </Button>
