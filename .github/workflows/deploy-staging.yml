@@ -23,7 +23,7 @@ jobs:
 
       - name: Check node version
         run: |
-          node --v
+          node -v
 
       - name: Use Latest Corepack
         run: |
