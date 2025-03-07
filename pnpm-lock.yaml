@@ -17536,7 +17536,7 @@ packages:
       queue-tick: 1.0.1
       text-decoder: 1.2.0
     optionalDependencies:
-      bare-events: 2.2.2
+      bare-events: 2.5.0
     dev: true
     optional: true
 
