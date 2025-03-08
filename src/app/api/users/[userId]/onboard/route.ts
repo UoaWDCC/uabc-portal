@@ -38,7 +38,10 @@ export const PATCH = userRouteWrapper(
 
     await db
       .update(users)
-      .set({ firstName, lastName, member })
+      // Currently set all new joined users membership to false as will just require admins to
+      // look for payment
+      .set({ firstName, lastName, member: false })
+      // .set({ firstName, lastName, member })
       .where(eq(users.id, currentUser.id));
 
     userCache.revalidate(currentUser.email);
