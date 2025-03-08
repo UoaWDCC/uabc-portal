@@ -23,7 +23,8 @@ export const PATCH = userRouteWrapper(
 
     const body = await req.json();
 
-    const { firstName, lastName, member } = updateUserSchema.parse(body);
+    const { firstName, lastName } = updateUserSchema.parse(body);
+    // const { firstName, lastName, member } = updateUserSchema.parse(body);
 
     const user = await db.query.users.findFirst({
       where: eq(users.id, userId),
