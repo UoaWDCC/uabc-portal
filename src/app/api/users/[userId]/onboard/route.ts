@@ -23,7 +23,8 @@ export const PATCH = userRouteWrapper(
 
     const body = await req.json();
 
-    const { firstName, lastName, member } = updateUserSchema.parse(body);
+    const { firstName, lastName } = updateUserSchema.parse(body);
+    // const { firstName, lastName, member } = updateUserSchema.parse(body);
 
     const user = await db.query.users.findFirst({
       where: eq(users.id, userId),
@@ -38,7 +39,10 @@ export const PATCH = userRouteWrapper(
 
     await db
       .update(users)
-      .set({ firstName, lastName, member })
+      // Currently set all new joined users membership to false as will just require admins to
+      // look for payment
+      .set({ firstName, lastName, member: false })
+      // .set({ firstName, lastName, member })
       .where(eq(users.id, currentUser.id));
 
     userCache.revalidate(currentUser.email);
