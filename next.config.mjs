@@ -1,6 +1,8 @@
+import { withPayload } from '@payloadcms/next/withPayload'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: process.env.BUILD_STANDALONE === "true" ? "standalone" : undefined,
-};
+  // Your Next.js config here
+}
 
-export default nextConfig;
+export default withPayload(nextConfig, { devBundleServerPackages: false })

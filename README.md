@@ -10,6 +10,21 @@ The goal of this project is to build an Event Registration and Payment Portal fo
 
 Refer to the [Onboarding](https://github.com/UoaWDCC/uabc-portal/wiki/Onboarding) page on the wiki to get started.
 
+It is recommended to use `volta` to manage your node version. You can install it by running the following command:
+
+```bash
+curl https://get.volta.sh | bash
+```
+_Alternatively_ you may use `nvm` and corepack to manage your node version.
+
+```bash
+corepack enable
+```
+Then you can get started developing using the following commands:
+```bash
+yarn
+```
+
 ---
 
 ## 2024 Team
