@@ -5446,6 +5446,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"graphql@npm:^16.10.0":
+  version: 16.10.0
+  resolution: "graphql@npm:16.10.0::__archiveUrl=https%3A%2F%2Fpackages.atlassian.com%2Fapi%2Fnpm%2Fnpm-remote%2Fgraphql%2F-%2Fgraphql-16.10.0.tgz"
+  checksum: 10c0/303730675538c8bd6c76b447dc6f03e61242e2d2596b408c34759666ec4877409e5593a7a0467d590ac5407b8c663b093b599556a77f24f281abea69ddc53de6
+  languageName: node
+  linkType: hard
+
 "has-bigints@npm:^1.0.2":
   version: 1.1.0
   resolution: "has-bigints@npm:1.1.0::__archiveUrl=https%3A%2F%2Fpackages.atlassian.com%2Fapi%2Fnpm%2Fnpm-remote%2Fhas-bigints%2F-%2Fhas-bigints-1.1.0.tgz"
@@ -8945,6 +8952,7 @@ __metadata:
     cross-env: "npm:^7.0.3"
     eslint: "npm:^9.16.0"
     eslint-config-next: "npm:15.2.3"
+    graphql: "npm:^16.10.0"
     next: "npm:15.2.3"
     payload: "npm:latest"
     prettier: "npm:^3.4.2"

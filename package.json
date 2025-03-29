@@ -20,6 +20,7 @@
     "@payloadcms/payload-cloud": "latest",
     "@payloadcms/richtext-lexical": "latest",
     "cross-env": "^7.0.3",
+    "graphql": "^16.10.0",
     "next": "15.2.3",
     "payload": "latest",
     "react": "19.0.0",
